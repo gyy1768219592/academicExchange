@@ -1,109 +1,109 @@
 <template>
   <div>
-    <div class="content">
-     
-      <div class="title">
-        陨 石 文 档
+    <topNav></topNav>
+    <div class="home-content">
+      <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
+        <a-popover trigger="click" placement="bottomLeft">
+          <template slot="content">
+            <div class="home-searchCard">选项</div>
+          </template>
+          <a-button
+            class="home-searchButton"
+            type="link"
+            @click="selected"
+            @blur="undoSelected"
+            >高级检索</a-button
+          >
+        </a-popover>
+        <a-input-search
+          class="home-searchBox"
+          placeholder="搜论文、专利、国家项目、学者"
+          @search="onSearch"
+          @focus="selected"
+          @blur="undoSelected"
+        />
       </div>
-      <p class="intro">
-        在线编辑 协作无间
-      </p>
-      <div class="myButton" @click="toLogin">开 始 使 用</div>
     </div>
   </div>
 </template>
 
 <script>
+import topNav from "@/components/nav.vue";
+
 export default {
+  components: {
+    topNav,
+  },
   data() {
-    return {};
+    return {
+      isSelected: false,
+    };
   },
   methods: {
-    toLogin() {
-      this.$router.push({
-        name: "Login",
-      });
+    selected() {
+      this.isSelected = true;
+    },
+    undoSelected() {
+      this.isSelected = false;
     },
   },
 };
 </script>
-<style lang="scss" scoped>
-.content {
-  width: 100%;
-  height: 800px;
-  /*background: url("../assets/bg.jpeg") no-repeat center bottom;*/
-  background-size: cover;
-}
-.footer {
-  height: 200px;
-  background-image: linear-gradient(-186deg, #fce2c1 0%, #98623c 100%);
-}
-.title {
-  font-family: 华文新宋;
-  font-size: 40px;
-  color: #000;
-  text-align: center;
-  padding-top: 20px;
-  background-color: #deb068;
-  opacity: 0.8;
-  margin-left: 520px;
-  margin-top: 100px;
-  width: 300px;
-  height: 100px;
-}
-.intro {
-  line-height: 50px;
-  text-align: center;
-  font-size: 24px;
-  color: white;
-  background-color: #deb068;
-  opacity: 0.8;
-  width: 300px;
-  height: 60px;
-  margin-left: 520px;
-}
-.startBtn {
-  display: block;
+
+<style>
+.home-content {
+  width: 1280px;
   margin: 0 auto;
 }
-.aboutUs {
-  cursor: pointer;
-  width: 100px;
-  display: block;
-  margin: 0 auto;
-  padding-top: 30px;
-  font-size: 20px;
-  color: white;
+
+.home-search {
+  border-radius: 10px;
+  margin: 100px auto;
+  border: solid 2px rgba(0, 0, 0, 0.3);
+  width: 700px;
+  height: 50px;
 }
-.bottomTitle {
-  width: 230px;
-  color: white;
-  margin: 80px auto 0 auto;
-  display: block;
+
+.home-search:hover {
+  border: solid 2px rgba(0, 0, 0, 0.5);
 }
-.myButton {
-  box-shadow: inset 0px 1px 0px 0px #fce2c1;
-  background-color: #deb068;
-  border-radius: 7px;
+
+.home-search-on {
+  border-radius: 10px;
+  margin: 100px auto;
+  border: solid 2px #1890ff;
+  width: 700px;
+  height: 50px;
+}
+.home-searchBox {
+  width: 605px;
+}
+.home-searchButton {
+  font-size: 14px;
+  margin-top: 7px;
+  height: 32px;
+  border: 0;
+  border-right: 2px solid #e3e3e3;
+}
+.home-searchButton:hover {
+  border-right: 2px solid #e3e3e3;
+}
+.home-searchButton:focus {
+  border-right: 2px solid #e3e3e3;
+}
+
+.home-searchBox .ant-input {
+  margin-top: 1px;
+  border-radius: 0 10px 10px 0;
+  border: none;
   display: inline-block;
-  cursor: pointer;
-  color: #ffffff;
-  font-family: Arial;
-  font-size: 17px;
-  font-weight: bold;
-  padding: 6px 23px;
-  text-decoration: none;
-  text-shadow: 0px 1px 0px #000;
-  width: 150px;
-  text-align: center;
-  margin-left: 595px;
-  height: 40px;
 }
-.myButton:hover {
-  background-color: #c38743;
+.home-searchBox .ant-input:focus {
+  border: none;
+  box-shadow: none;
 }
-.myButton:active {
-  position: relative;
-  top: 1px;
+
+.home-searchCard {
+  width: 663px;
 }
 </style>
