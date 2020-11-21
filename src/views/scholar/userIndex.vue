@@ -3,12 +3,39 @@
     <!-- <personNav></personNav> -->
     <div class="main-block">
       <div class="up-block">
-        <div class="user-info"></div>
-        <div class="actions"></div>
+        <div class="user-info">
+          <div class="avatar">
+            <a-avatar class="img" :size="100" icon="user" />
+            <h1 class="info-content-name">{{ user.username }}</h1>
+            <h4 class="info-content-ins">{{ user.ins }}</h4>
+            <!-- 指数展示待优化 -->
+            <h3 class="info-content-index">
+              H指数:{{ user.hindex + "    " }} G指数:{{ user.gindex + "    " }} 成果数:{{ count }}
+            </h3>
+          </div>
+        </div>
+        <div class="actions">
+          <a-button class="btn">修改个人信息</a-button>
+          <a-button class="btn" type="primary">添加个人经历</a-button>
+        </div>
       </div>
       <div class="down-block">
-        <div class="selections"></div>
-        <div class="results"></div>
+        <a-tabs default-active-key="1" @change="callback">
+          <a-tab-pane key="1" tab="主页" force-render>
+            <div class="intro">Content of Tab Pane 1</div>
+          </a-tab-pane>
+          <a-tab-pane key="2" tab="项目">
+            <div class="selections"></div>
+            <div class="results">Content of Tab Pane 2</div>
+          </a-tab-pane>
+          <a-tab-pane key="3" tab="成果">
+            <div class="selections"></div>
+            <div class="results">Content of Tab Pane 3</div>
+          </a-tab-pane>
+          <a-tab-pane key="4" tab="影响力">
+            <div class="influence">Content of Tab Pane 4</div>
+          </a-tab-pane>
+        </a-tabs>
       </div>
     </div>
   </div>
@@ -25,9 +52,19 @@ export default {
     return {
       loginid: 0,
       pageid: 0,
+      user: {
+        username: "陈志刚",
+        ins: "中南大学",
+        hindex: 1,
+        gindex: 2,
+      },
+      count: 10,
     };
   },
   methods: {
+    callback(key) {
+      console.log(key);
+    },
     toPro() {
       //跳转到项目展示页面，带参数
       // this.$router.push("/Pro");
@@ -49,36 +86,63 @@ export default {
 <style scoped>
 .main-block {
   width: 1200px;
-  height: 1000px;
+  height: 1400px;
   margin: auto;
   border: solid 1px grey;
 }
 .up-block {
   border: solid 1px red;
-  width: 1000px;
-  height: 300px;
+  width: 1100px;
+  height: 250px;
   margin: auto;
+  background-color: #f0f0f0f0;
 }
 .down-block {
   border: solid 1px blue;
-  width: 1000px;
-  height: 650px;
+  width: 1100px;
+  height: 900px;
   margin: auto;
 }
 
 .user-info {
   border: solid 1px black;
-  width: 300px;
-  height: 250px;
+  width: 550px;
+  height: 200px;
   margin: 10px;
 }
-.actions {
-  border: solid 1px black;
+.avatar {
+  height: 120px;
+  width: 500px;
+  margin: 20px;
+  /* border: solid 5px white; */
+}
+.img {
+  margin: auto;
+  /* border: solid 1px red; */
+}
+.info-content-name {
+  width: 200px;
+  /* border: solid 1px black; */
+  margin: -100px auto 0 120px;
+}
+.info-content-ins {
+  width: 100px;
+  /* border: solid 1px red; */
+  margin: -5px auto 10px 120px;
+}
+.info-content-index {
   width: 250px;
-  height: 250px;
+  /* border: solid 1px purple; */
+  margin: 20px auto 10px 120px;
+}
+.actions {
+  padding-top: 10px;
+  border: solid 1px black;
+  width: 150px;
+  height: 200px;
   display: block;
   float: right;
-  margin: -260px 10px 10px 10px;
+  margin: -210px 10px 10px 10px;
 }
 .selections {
   border: solid 1px black;
@@ -88,9 +152,27 @@ export default {
 }
 .results {
   border: solid 1px black;
-  width: 700px;
+  width: 800px;
   height: 600px;
-  display: inline-block;
+  display: block;
+  float: right;
   margin: -610px 10px 35px 280px;
+}
+.btn {
+  width: 120px;
+  border: solid 1px black;
+  margin: 15px;
+}
+.intro {
+  border: solid 1px black;
+  width: 750px;
+  height: 800px;
+  margin: 10px;
+}
+.influence {
+  border: solid 1px black;
+  width: 1080px;
+  height: 800px;
+  margin: 10px;
 }
 </style>
