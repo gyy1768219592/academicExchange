@@ -21,15 +21,167 @@
       <div class="down-block">
         <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="主页" force-render>
-            <div class="intro">Content of Tab Pane 1</div>
+            <div class="intro">
+              <div class="self-intro">
+                <h2>个人简介</h2>
+              </div>
+              <a-divider></a-divider>
+              <div class="echart">
+                <h2>Echarts生成图</h2>
+              </div>
+            </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="项目">
-            <div class="selections"></div>
-            <div class="results">Content of Tab Pane 2</div>
+            <div class="selections">
+              <a-menu
+                style="width: 248px"
+                :default-selected-keys="['1']"
+                :open-keys.sync="openKeys"
+                mode="inline"
+                @click="handleClick"
+              >
+                <a-sub-menu key="sub1" @titleClick="titleClick">
+                  <span slot="title"><span>Navigation One</span></span>
+                  <a-menu-item-group key="g1">
+                    <template slot="title"><span>Item 1</span> </template>
+                    <a-menu-item key="1">
+                      Option 1
+                    </a-menu-item>
+                    <a-menu-item key="2">
+                      Option 2
+                    </a-menu-item>
+                  </a-menu-item-group>
+                  <a-menu-item-group key="g2" title="Item 2">
+                    <a-menu-item key="3">
+                      Option 3
+                    </a-menu-item>
+                    <a-menu-item key="4">
+                      Option 4
+                    </a-menu-item>
+                  </a-menu-item-group>
+                </a-sub-menu>
+                <a-sub-menu key="sub2" @titleClick="titleClick">
+                  <span slot="title"><span>Navigation Two</span></span>
+                  <a-menu-item key="5">
+                    Option 5
+                  </a-menu-item>
+                  <a-menu-item key="6">
+                    Option 6
+                  </a-menu-item>
+                  <a-sub-menu key="sub3" title="Submenu">
+                    <a-menu-item key="7">
+                      Option 7
+                    </a-menu-item>
+                    <a-menu-item key="8">
+                      Option 8
+                    </a-menu-item>
+                  </a-sub-menu>
+                </a-sub-menu>
+                <a-sub-menu key="sub4">
+                  <span slot="title"><span>Navigation Three</span></span>
+                  <a-menu-item key="9">
+                    Option 9
+                  </a-menu-item>
+                  <a-menu-item key="10">
+                    Option 10
+                  </a-menu-item>
+                  <a-menu-item key="11">
+                    Option 11
+                  </a-menu-item>
+                  <a-menu-item key="12">
+                    Option 12
+                  </a-menu-item>
+                </a-sub-menu>
+              </a-menu>
+            </div>
+           <div class="results">
+              <h3>发表项目</h3>
+              <a-divider></a-divider>
+              <a-list item-layout="horizontal" :data-source="data">
+                <a-list-item slot="renderItem" slot-scope="item">
+                  <a-list-item-meta :description="item.description">
+                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
+                    <img style="height:50px;width:55px" slot="avatar" :src="item.src"></img>
+                  </a-list-item-meta>
+                </a-list-item>
+              </a-list>
+            </div>
           </a-tab-pane>
           <a-tab-pane key="3" tab="成果">
-            <div class="selections"></div>
-            <div class="results">Content of Tab Pane 3</div>
+            <div class="selections">
+              <a-menu
+                style="width: 248px"
+                :default-selected-keys="['1']"
+                :open-keys.sync="openKeys"
+                mode="inline"
+                @click="handleClick"
+              >
+                <a-sub-menu key="sub1" @titleClick="titleClick">
+                  <span slot="title"><span>Navigation One</span></span>
+                  <a-menu-item-group key="g1">
+                    <template slot="title"><span>Item 1</span> </template>
+                    <a-menu-item key="1">
+                      Option 1
+                    </a-menu-item>
+                    <a-menu-item key="2">
+                      Option 2
+                    </a-menu-item>
+                  </a-menu-item-group>
+                  <a-menu-item-group key="g2" title="Item 2">
+                    <a-menu-item key="3">
+                      Option 3
+                    </a-menu-item>
+                    <a-menu-item key="4">
+                      Option 4
+                    </a-menu-item>
+                  </a-menu-item-group>
+                </a-sub-menu>
+                <a-sub-menu key="sub2" @titleClick="titleClick">
+                  <span slot="title"><span>Navigation Two</span></span>
+                  <a-menu-item key="5">
+                    Option 5
+                  </a-menu-item>
+                  <a-menu-item key="6">
+                    Option 6
+                  </a-menu-item>
+                  <a-sub-menu key="sub3" title="Submenu">
+                    <a-menu-item key="7">
+                      Option 7
+                    </a-menu-item>
+                    <a-menu-item key="8">
+                      Option 8
+                    </a-menu-item>
+                  </a-sub-menu>
+                </a-sub-menu>
+                <a-sub-menu key="sub4">
+                  <span slot="title"><span>Navigation Three</span></span>
+                  <a-menu-item key="9">
+                    Option 9
+                  </a-menu-item>
+                  <a-menu-item key="10">
+                    Option 10
+                  </a-menu-item>
+                  <a-menu-item key="11">
+                    Option 11
+                  </a-menu-item>
+                  <a-menu-item key="12">
+                    Option 12
+                  </a-menu-item>
+                </a-sub-menu>
+              </a-menu>
+            </div>
+            <div class="results">
+              <h3>发表成果</h3>
+              <a-divider></a-divider>
+              <a-list item-layout="horizontal" :data-source="data">
+                <a-list-item slot="renderItem" slot-scope="item">
+                  <a-list-item-meta :description="item.description">
+                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
+                    <img style="height:50px;width:55px" slot="avatar" :src="item.src"></img>
+                  </a-list-item-meta>
+                </a-list-item>
+              </a-list>
+            </div>
           </a-tab-pane>
         </a-tabs>
       </div>
@@ -40,14 +192,39 @@
 <script>
 //引入导航栏
 //import personNav from "@/components/personNav";
+const data = [
+  {
+    title: "成果 1",
+    description: "学术成果的摘要可以放在这里",
+    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+  },
+  {
+    title: "成果 2",
+    description: "学术成果的摘要可以放在这里",
+    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+  },
+  {
+    title: "成果 3",
+    description: "学术成果的摘要可以放在这里",
+    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+  },
+  {
+    title: "成果 4",
+    description: "学术成果的摘要可以放在这里",
+    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+  },
+];
 export default {
   components: {
     // personNav,
   },
   data() {
     return {
+      data,
       loginid: 0,
       pageid: 0,
+      current: ["mail"],
+      openKeys: ["sub1"],
       user: {
         username: "陈志刚",
         ins: "中南大学",
@@ -57,7 +234,18 @@ export default {
       count: 10,
     };
   },
+  watch: {
+    openKeys(val) {
+      console.log("openKeys", val);
+    },
+  },
   methods: {
+    handleClick(e) {
+      console.log("click", e);
+    },
+    titleClick(e) {
+      console.log("titleClick", e);
+    },
     callback(key) {
       console.log(key);
     },
@@ -143,16 +331,17 @@ export default {
 .selections {
   border: solid 1px black;
   width: 250px;
-  height: 600px;
+  height: 800px;
   margin: 10px 10px 10px 10px;
 }
 .results {
+  padding: 10px 15px 10px 15px;
   border: solid 1px black;
   width: 800px;
-  height: 600px;
+  height: 800px;
   display: block;
   float: right;
-  margin: -610px 10px 35px 280px;
+  margin: -810px 10px 35px 280px;
 }
 .btn {
   width: 100px;
@@ -163,6 +352,18 @@ export default {
   border: solid 1px black;
   width: 750px;
   height: 800px;
+  margin: 10px;
+}
+.self-intro {
+  border: solid 1px green;
+  width: 700px;
+  height: 300px;
+  margin: 10px;
+}
+.echart {
+  border: solid 1px blue;
+  width: 700px;
+  height: 300px;
   margin: 10px;
 }
 </style>
