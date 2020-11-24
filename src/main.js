@@ -6,6 +6,8 @@ import Antd from "ant-design-vue";
 import "ant-design-vue/dist/antd.less";
 import api from "./api/index.js";
 import path from "./api/path.js";
+import echarts from "echarts";
+Vue.prototype.$echarts = echarts;
 Vue.config.productionTip = false;
 Vue.use(Antd);
 Vue.prototype.$api = api;
