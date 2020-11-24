@@ -46,6 +46,12 @@ const routes = [
     name: "scholarIndex",
     component: () => import("../views/scholar/scholarIndex.vue"),
   },
+  {
+    //文章内容展示
+    path: "/artcleDisplay",
+    name: "artcleDisplay",
+    component: () => import("../views/artcle/artcleDisplay.vue"),
+  },
 ];
 
 const router = new VueRouter({
