@@ -31,10 +31,34 @@
         <div class="down-left-block" >
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
-            
+            <div class="base-info">
+              <!-- <h1>{{data.abstract}}</h1> -->
+              <a-descriptions title="摘要">
+                <a-descriptions-item >
+                  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构"重基本建设、轻人力资本投资扣公共服务"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府"为增长而竞争"的同时,与之伴随的成本可能正在上升。
+                </a-descriptions-item >
+              </a-descriptions>
+              <a-descriptions title="关键词">
+                <a-descriptions-item >
+                财政支出结构 中国式分权 政府竞争
+                </a-descriptions-item>
+              </a-descriptions>
+              <a-descriptions title="DOI">
+                <a-descriptions-item >
+                CNKI:SUN:GLSJ.0.2007-03-001
+                </a-descriptions-item>
+              </a-descriptions>
+            </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文来源">
-                
+            <a-descriptions title="全文链接">
+              <a-descriptions-item >
+                <a href="http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm">知网</a>
+              </a-descriptions-item>
+              <a-descriptions-item >
+                <a href="http://www.cqvip.com/QK/71135X/201107/24066042.html">维普</a>
+              </a-descriptions-item>
+            </a-descriptions>
           </a-tab-pane>
           <a-tab-pane key="3" tab="引用助手">
                
@@ -42,6 +66,7 @@
           </a-tabs>
         </div>
         <div class="down-right-block">
+          <span>引用走势</span>
           <div id="myChart" class="myChart"></div>
         </div>
       </div>
@@ -96,91 +121,98 @@ export default {
   methods: {
     initCharts () {
       // 基于准备好的dom，初始化echarts实例
-                let myChart = this.$echarts.init(document.getElementById('myChart'));
-                // 绘制图表
-                myChart.setOption({
-                    title: {
-                        text: '',
-                        subtext: ''
-                    },
-                    tooltip: {
-                        trigger: 'axis'
-                    },
-                    legend: {
-                        data:['最高','最低']
-                    },
-                    toolbox: {
-                        show: true,
-                        feature: {
-                            dataZoom: {
-                                yAxisIndex: 'none'
-                            },
-                            dataView: {readOnly: false},
-                            magicType: {type: ['line', 'bar']},
-                            restore: {},
-                            saveAsImage: {}
-                        }
-                    },
-                    xAxis:  {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: ['2019-02-25','2019-03-04','2019-03-18','2019-03-26','2019-04-16','2019-04-26','2019-05-04']
-                    },
-                    yAxis: {
-                        type: 'value',
-                        axisLabel: {
-                            formatter: '{value}'
-                        }
-                    },
-                    series: [
-                        {
-                            name:'最高',
-                            type:'line',
-                            data:[11, 11, 15, 13, 12, 13, 10],
-                            markPoint: {
-                                data: [
-                                    {type: 'max', name: '最大值'},
-                                    {type: 'min', name: '最小值'}
-                                ]
-                            },
-                            markLine: {
-                                data: [
-                                    {type: 'average', name: '平均值'}
-                                ]
-                            }
-                        },
-                        {
-                            name:'最低',
-                            type:'line',
-                            data:[1, -2, 2, 5, 3, 2, 0],
-                            markPoint: {
-                                data: [
-                                    {name: '周最低', value: 2, xAxis: 1, yAxis: 1.5}
-                                ]
-                            },
-                            markLine: {
-                                data: [
-                                    {type: 'average', name: '平均值'},
-                                    [{
-                                        symbol: 'none',
-                                        x: '90%',
-                                        yAxis: 'max'
-                                    }, {
-                                        symbol: 'circle',
-                                        label: {
-                                            normal: {
-                                                position: 'start',
-                                                formatter: '最大值'
-                                            }
-                                        },
-                                        type: 'max',
-                                        name: '最高点'
-                                    }]
-                                ]
-                            }
-                        }
-                    ]
-                });
+      let myChart = this.$echarts.init(document.getElementById('myChart'));
+      // 绘制图表
+      myChart.setOption({
+        title: {
+            text: '',
+            subtext: ''
+        },
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data:['最高','最低']
+        },
+        splitLine:{//去掉网格线
+          show: false
+        },
+        toolbox: {
+            show: true,
+            feature: {
+                dataZoom: {
+                    yAxisIndex: 'none'
+                },
+                dataView: {readOnly: false},
+                magicType: {type: ['line', 'bar']},
+                saveAsImage: {}
+            }
+        },
+        xAxis:  {
+            type: 'category',
+            boundaryGap: false,
+            axisLabel: {
+                formatter: '{value}'
+            },
+            data: ['1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021']
+        },
+        yAxis: {
+            show: false,
+            type: 'value',
+            axisLabel: {
+                formatter: '{value}'
+            }
+        },
+        
+        series: [
+          {
+            name:'',
+            type:'line',
+            data:[0, 0, 1, 2, 4, 8, 9, 12, 14, 15, 19, 20, 21, 22, 23, 24, 26, 34, 46, 52, 60, 67],
+            markPoint: {
+              data: [
+                {type: 'max', name: '最大值'},
+                {type: 'min', name: '最小值'}
+              ]
+            },
+            markLine: {
+              data: [
+                // {type: 'average', name: '平均值'}
+              ]
+            }
+          },
+          // {
+          //   name:'最低',
+          //   type:'line',
+          //   data:[1, -2, 2, 5, 3, 2, 0],
+          //   markPoint: {
+          //       data: [
+          //           {name: '周最低', value: 2, xAxis: 1, yAxis: 1.5}
+          //       ]
+          //   },
+          //   markLine: {
+          //     data: [
+          //       {type: 'average', name: '平均值'},
+          //       [{
+          //         symbol: 'none',
+          //         x: '90%',
+          //         yAxis: 'max'
+          //       }, {
+          //         symbol: 'circle',
+          //         label: {
+          //           normal: {
+          //             position: 'start',
+          //             formatter: '最大值'
+          //           }
+          //         },
+          //         type: 'max',
+          //         name: '最高点'
+          //       }]
+          //     ]
+          //   }
+          // }
+        ]
+      });
     },
     handleClick(e) {
       console.log("click", e);
@@ -299,7 +331,7 @@ export default {
 .myChart {
   border: solid 1px blue;
   width: 320px;
-  height: 320px;
+  height: 300px;
   margin: 10px;
 }
 
