@@ -23,7 +23,8 @@
         </div>
         <div class="tool">
             <div class="collect">
-                <a-icon type="star" :style="{ fontSize: '30px', color: '#08c' }" class="star"/>收藏
+                <a-icon type="star" :style="{ fontSize: '30px', color: '#08c' }" class="star"/>
+                <span class="collect-word">收藏</span>
             </div>
         </div>
       </div>
@@ -35,17 +36,17 @@
               <!-- <h1>{{data.abstract}}</h1> -->
               <a-descriptions title="摘要">
                 <a-descriptions-item >
-                  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构"重基本建设、轻人力资本投资扣公共服务"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府"为增长而竞争"的同时,与之伴随的成本可能正在上升。
+                  <span class="abstract" >{{abstract}}</span>
                 </a-descriptions-item >
               </a-descriptions>
               <a-descriptions title="关键词">
                 <a-descriptions-item >
-                财政支出结构 中国式分权 政府竞争
+                  <span class="keyword" >{{keyword}}</span>
                 </a-descriptions-item>
               </a-descriptions>
               <a-descriptions title="DOI">
                 <a-descriptions-item >
-                CNKI:SUN:GLSJ.0.2007-03-001
+                  <span class="DOI" >{{DOI}}</span>
                 </a-descriptions-item>
               </a-descriptions>
             </div>
@@ -53,10 +54,10 @@
           <a-tab-pane key="2" tab="原文来源">
             <a-descriptions title="全文链接">
               <a-descriptions-item >
-                <a href="http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm">知网</a>
+                <a :href="zhiwang">知网</a>
               </a-descriptions-item>
               <a-descriptions-item >
-                <a href="http://www.cqvip.com/QK/71135X/201107/24066042.html">维普</a>
+                <a :href="weipu">维普</a>
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
@@ -104,10 +105,12 @@ export default {
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
       ],
-      abstract : "经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构\"重基本建设、轻人力资本投资扣公共服务\"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府\"为增长而竞争\"的同时,与之伴随的成本可能正在上升.",
+      abstract : "  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构\"重基本建设、轻人力资本投资扣公共服务\"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府\"为增长而竞争\"的同时,与之伴随的成本可能正在上升.",
       keyword : "财政支出结构 中国式分权 政府竞争",
       DOI : "CNKI:SUN:GLSJ.0.2007-03-001",
       year : "2007",
+      zhiwang : "http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
+      weipu: "http://www.cqvip.com/QK/71135X/201107/24066042.html",
     };
   },
   watch: {
@@ -288,6 +291,13 @@ export default {
   width: 100px;
   height: 40px;
   margin: 0px;
+}
+.collect-word{
+  border: solid 1px black;
+  width: 100px;
+  height: 35px;
+  margin: 0px;
+  font-size: x-large;
 }
 .star{
   /*border: solid 1px black;*/
