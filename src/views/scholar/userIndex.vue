@@ -9,9 +9,20 @@
             <h1 class="info-content-name">{{ user.username }}</h1>
             <h4 class="info-content-ins">{{ user.ins }}</h4>
             <!-- 指数展示待优化 -->
-            <h3 class="info-content-index">
-              H指数:{{ user.hindex + "    " }} G指数:{{ user.gindex + "    " }} 成果数:{{ count }}
-            </h3>
+            <ul class="index-table">
+              <li class="index-item">
+                <p class="top-word">H指数</p>
+                <p class="index-number">{{ user.hindex }}</p>
+              </li>
+              <li class="index-item">
+                <p class="top-word">G指数</p>
+                <p class="index-number">{{ user.gindex }}</p>
+              </li>
+              <li class="index-item">
+                <p class="top-word">成果数</p>
+                <p class="index-number">{{ count }}</p>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="actions">
@@ -344,5 +355,31 @@ export default {
   width: 1080px;
   height: 800px;
   margin: 10px;
+}
+ul,
+li {
+  list-style: none;
+}
+.index-table {
+  /* border: solid 1px brown; */
+  width: 310px;
+  display: inline-block;
+  height: 80px;
+  margin: 10px 0px 18px 82px;
+  overflow: hidden;
+}
+.index-item {
+  float: left;
+  margin-right: 10px;
+  font-size: 20px;
+  width: 78px;
+  border-right: 1px solid rgb(239, 239, 239);
+}
+.top-word {
+  font-size: 12px;
+}
+.index-number {
+  font-size: 20px;
+  color: black;
 }
 </style>

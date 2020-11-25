@@ -8,9 +8,20 @@
             <a-avatar class="img" :size="100" icon="user" />
             <h1 class="info-content-name">{{ user.username }}</h1>
             <h4 class="info-content-ins">{{ user.ins }}</h4>
-            <h3 class="info-content-index">
-              H指数:{{ user.hindex + "    " }} G指数:{{ user.gindex + "    " }} 成果数:{{ count }}
-            </h3>
+            <ul class="index-table">
+              <li class="index-item">
+                <p class="top-word">H指数</p>
+                <p class="index-number">{{ user.hindex }}</p>
+              </li>
+              <li class="index-item">
+                <p class="top-word">G指数</p>
+                <p class="index-number">{{ user.gindex }}</p>
+              </li>
+              <li class="index-item">
+                <p class="top-word">成果数</p>
+                <p class="index-number">{{ count }}</p>
+              </li>
+            </ul>
           </div>
         </div>
         <div class="actions">
@@ -193,7 +204,7 @@
 //引入导航栏
 //import personNav from "@/components/personNav";
 
-import imgSrc from "../../assets/avatar_lqy.jpg";
+import imgSrc from "../../assets/user.png";
 const data = [
   {
     title: "成果 1",
@@ -427,7 +438,7 @@ export default {
   width: 1100px;
   height: 250px;
   margin: auto;
-  background-color: #f0f0f0f0;
+  background-color: #fafafa;
 }
 .down-block {
   border: solid 1px blue;
@@ -518,5 +529,31 @@ export default {
   border: solid 1px brown;
   width: 700px;
   height: 500px;
+}
+ul,
+li {
+  list-style: none;
+}
+.index-table {
+  /* border: solid 1px brown; */
+  width: 310px;
+  display: inline-block;
+  height: 80px;
+  margin: 10px 0px 18px 82px;
+  overflow: hidden;
+}
+.index-item {
+  float: left;
+  margin-right: 10px;
+  font-size: 20px;
+  width: 78px;
+  border-right: 1px solid rgb(239, 239, 239);
+}
+.top-word {
+  font-size: 12px;
+}
+.index-number {
+  font-size: 20px;
+  color: black;
 }
 </style>
