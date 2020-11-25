@@ -34,6 +34,18 @@ const routes = [
     name: "findPwd",
     component: () => import("../views/personalWorkplace/findPwd.vue"),
   },
+  {
+    //用户个人学者门户
+    path: "/userIndex",
+    name: "userIndex",
+    component: () => import("../views/scholar/userIndex.vue"),
+  },
+  {
+    //其他学者门户
+    path: "/scholarIndex",
+    name: "scholarIndex",
+    component: () => import("../views/scholar/scholarIndex.vue"),
+  },
 ];
 
 const router = new VueRouter({
