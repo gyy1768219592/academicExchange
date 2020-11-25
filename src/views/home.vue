@@ -29,7 +29,6 @@
 
 <script>
 import topNav from "@/components/nav.vue";
-
 export default {
   components: {
     topNav,
@@ -46,6 +45,9 @@ export default {
     undoSelected() {
       this.isSelected = false;
     },
+    onSearch(value) {
+      this.$router.push({ path: "/searchResult", query: { word: value } });
+    },
   },
 };
 </script>
@@ -58,7 +60,7 @@ export default {
 
 .home-search {
   border-radius: 10px;
-  margin: 100px auto;
+  margin: 50px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
   width: 700px;
   height: 50px;
@@ -70,7 +72,7 @@ export default {
 
 .home-search-on {
   border-radius: 10px;
-  margin: 100px auto;
+  margin: 50px auto;
   border: solid 2px #1890ff;
   width: 700px;
   height: 50px;

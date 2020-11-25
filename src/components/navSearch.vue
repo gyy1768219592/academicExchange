@@ -2,7 +2,7 @@
   <div class="topNav">
     <div class="topNav-box">
       <div class="topNav-logo">
-        <img src="../assets/logo.png" />
+        <img src="../assets/logo.png" @click="toHome" />
       </div>
       <div v-bind:class="isSelected ? 'topNav-search-on' : 'topNav-search'">
         <a-popover trigger="click" placement="bottomLeft">
@@ -61,11 +61,17 @@ export default {
     };
   },
   methods: {
+    onSearch(value) {
+      this.$router.push({ path: "/searchResult", query: { word: value } });
+    },
     selected() {
       this.isSelected = true;
     },
     undoSelected() {
       this.isSelected = false;
+    },
+    toHome() {
+      this.$router.push({ name: "Home" });
     },
   },
 };

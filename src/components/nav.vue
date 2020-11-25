@@ -2,7 +2,7 @@
   <div class="topNav">
     <div class="topNav-box">
       <div class="topNav-logo">
-        <img src="../assets/logo.png" />
+        <img src="../assets/logo.png" @click="toHome" />
       </div>
       <a-dropdown class="topNav-dropDown">
         <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
@@ -38,7 +38,11 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    toHome() {
+      this.$router.push({ name: "Home" });
+    },
+  },
 };
 </script>
 

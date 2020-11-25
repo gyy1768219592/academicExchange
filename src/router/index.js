@@ -35,6 +35,11 @@ const routes = [
     component: () => import("../views/personalWorkplace/findPwd.vue"),
   },
   {
+    path: "/searchResult",
+    name: "searchResult",
+    component: () => import("../views/homes/searchResult.vue"),
+  },
+  {
     //用户个人学者门户
     path: "/userIndex",
     name: "userIndex",
