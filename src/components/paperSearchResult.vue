@@ -43,6 +43,7 @@
           <a-icon slot="suffixIcon" type="swap" rotate="90" />
           <a-select-option value="1"> 相关性 </a-select-option>
           <a-select-option value="2"> 发表年份 </a-select-option>
+          <a-select-option value="3"> 被引量 </a-select-option>
         </a-select>
       </div>
       <div class="result-list">
@@ -284,6 +285,13 @@ export default {
 .result-main .result-list .result-list-button {
   margin-right: 5px;
   padding: 0;
+}
+.result-main .result-list .ant-list-item {
+  padding-left: 10px;
+}
+.result-main .result-list .ant-list-item:hover {
+  background-color: #fafafa;
+  transition: all 0.5s;
 }
 .highlight {
   color: #de5f0d;
