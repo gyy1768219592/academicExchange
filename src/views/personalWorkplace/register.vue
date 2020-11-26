@@ -187,10 +187,12 @@ export default {
       postData(url, params).then(res => {
         console.log(res);
         if (res.code === "0") {
-          this.$message.success("注册成功");
+          this.$message.success("注册成功,请及时点击发送到邮箱中的链接激活账号");
           this.$router.push("/login");
         } else if (res.code === "1") {
-          this.$message.error("用户名重复，请更换");
+          this.$message.error("用户名重复，请更换"); //这里涉及到一个问题，即用户名可否重复,另外，关于用户名重复的检测应该也可以放到填入时？
+        } else if (res.code === "2") {
+          this.$message.error("邮件发送失败，请检查邮箱地址");
         } else {
           console.log(res.code);
           this.$message.error("服务器返回出错");
@@ -254,7 +256,6 @@ export default {
   width: 100%;
   height: 1000px;
   background-size: cover;
-  background-color: #f7f7f7f7;
 }
 .register_container {
   width: 550px;
