@@ -226,18 +226,14 @@ export default {
     callback(key) {
       console.log(key);
     },
-    toPro() {
-      //跳转到项目展示页面，带参数
-      // this.$router.push("/Pro");
-    },
-    toPaper() {
-      //跳转到项目文献页面，带参数
-      // this.$router.push("/Paper");
-    },
-    toPatent() {
-      //跳转到专利展示页面，带参数
-      // this.$router.push("/Patent");
-    },
+    getPaper(){
+      import { postData } from "@/api/webpost";
+      let params = new URLSearchParams();
+      params.append("PaperId",values);
+      postData(url, param).then(res=>{
+        
+      })
+    }
 
   },
 };
