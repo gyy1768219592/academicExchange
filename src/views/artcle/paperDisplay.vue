@@ -5,10 +5,13 @@
       <div class="up-block">
         <div class="artcle-info">
             <div class="refer-num">
-                <h3>0被引</h3>
+                <span class="refer-num-dis">{{CitationCount}}被引</span>
+            </div>
+            <div class="date">
+                <span class="date-num">发表时间： {{date}}</span>
             </div>
             <div class="title">
-                <h3>陈志刚教授辨病论治周围神经病经验</h3>
+              <span class="title-name">{{PaperTitle}}</span>
             </div>
             <div class="authors">
                 <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="author_data">
@@ -33,31 +36,41 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <!-- <h1>{{data.abstract}}</h1> -->
+              <!-- <h1>{{data.Abstract}}</h1> -->
               <a-descriptions title="摘要">
                 <a-descriptions-item >
-                  <span class="abstract" >{{abstract}}</span>
+                  <div class="Abstract-frame">
+                    <span class="Abstract" >{{Abstract}}</span>
+                  </div>
                 </a-descriptions-item >
               </a-descriptions>
               <a-descriptions title="关键词">
                 <a-descriptions-item >
-                  <span class="keyword" >{{keyword}}</span>
+                  <div class="Keyword-frame">
+                   <span class="Keyword" >{{keyword}}</span>
+                  </div>
                 </a-descriptions-item>
               </a-descriptions>
               <a-descriptions title="DOI">
                 <a-descriptions-item >
-                  <span class="DOI" >{{DOI}}</span>
+                  <div class="DOI-frame">
+                    <span class="DOI" >{{DOI}}</span>
+                  </div>
                 </a-descriptions-item>
               </a-descriptions>
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文来源">
+            <a-descriptions title="原文出处">
+              <a-descriptions-item >
+                <div class="source-frame">
+                    <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span>
+                  </div>
+              </a-descriptions-item>
+            </a-descriptions>
             <a-descriptions title="全文链接">
               <a-descriptions-item >
-                <a :href="zhiwang">知网</a>
-              </a-descriptions-item>
-              <a-descriptions-item >
-                <a :href="weipu">维普</a>
+                <a :href="SourceUrl">链接</a>
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
@@ -78,6 +91,7 @@
 <script>
 //引入导航栏
 //import personNav from "@/components/personNav";
+// import { postData } from "@/api/webpost";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
@@ -105,12 +119,20 @@ export default {
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
       ],
-      abstract : "  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构\"重基本建设、轻人力资本投资扣公共服务\"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府\"为增长而竞争\"的同时,与之伴随的成本可能正在上升.",
+      PaperTitle : "陈志刚教授辨病论治周围神经病经验",
+      Abstract : "  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构\"重基本建设、轻人力资本投资扣公共服务\"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府\"为增长而竞争\"的同时,与之伴随的成本可能正在上升.",
       keyword : "财政支出结构 中国式分权 政府竞争",
       DOI : "CNKI:SUN:GLSJ.0.2007-03-001",
-      year : "2007",
-      zhiwang : "http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
-      weipu: "http://www.cqvip.com/QK/71135X/201107/24066042.html",
+      DocType : "会议",
+      CitationCount	:	123,
+      date : "2001-01-09",
+      Journal	: "SCI",          //期刊名	
+      Conference :	"高级会议", //会议名
+      Volume :	"23",          //卷号
+      Issue :	"2001-23",       //期号
+      FirstPage :	"213",       //开始页
+      LastPage :	"223",       //结束页
+      SourceUrl :"http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
     };
   },
   watch: {
@@ -141,7 +163,7 @@ export default {
           show: false
         },
         toolbox: {
-            show: true,
+            show: false,
             feature: {
                 dataZoom: {
                     yAxisIndex: 'none'
@@ -227,12 +249,11 @@ export default {
       console.log(key);
     },
     getPaper(){
-      import { postData } from "@/api/webpost";
-      let params = new URLSearchParams();
-      params.append("PaperId",values);
-      postData(url, param).then(res=>{
+      // let params = new URLSearchParams();
+      // params.append("PaperId",values);
+      // postData(url, param).then(res=>{
         
-      })
+      // })
     }
 
   },
@@ -308,12 +329,37 @@ export default {
   margin: 10px;
   font-size: small;
 }
+.refer-num-dis{
+  width: 85px;
+  height: 25px;
+  margin: 10px;
+  font-size: medium;
+}
+.date{
+  border: solid 1px black;
+  width: 200px;
+  height: 25px;
+  margin: -35px 0px 0px 750px;
+  font-size: small;
+}
+.date-num{
+  width: 200px;
+  height: 25px;
+  margin: 10px;
+  font-size: medium;
+}
 .title{
   border: solid 1px black;
   width: 800px;
   height: 50px;
   margin: 10px;
   font-size: x-large;
+}
+.title-name{
+  width: 800px;
+  height: 50px;
+  margin: 10px;
+  font-size: xx-large;
 }
 .authors{
   border: solid 1px black;
@@ -342,6 +388,54 @@ export default {
 }
 
 
+.Abstract-frame{
+  width: 700px;
+  border: solid 1px black;
+  margin: 0px 0px 0px 20px;
+}
+.Abstract{
+  width: 600px;
+  /* border: solid 1px black; */
+  margin: 0px 0px 0px 20px;
+  height: 30px;
+  font-size: medium;
+}
+.Keyword-frame{
+  width: 700px;
+  border: solid 1px black;
+  margin: 0px 0px 0px 0px;
+}
+.Keyword{
+  width: 600px;
+  /* border: solid 1px black; */
+  margin: 0px 0px 0px 20px;
+  height: 30px;
+  font-size: medium;
+}
+.DOI-frame{
+  width: 700px;
+  border: solid 1px black;
+  margin: 0px 0px 0px 0px;
+}
+.DOI{
+  width: 600px;
+  /* border: solid 1px black; */
+  margin: 0px 0px 0px 20px;
+  height: 30px;
+  font-size: medium;
+}
+.source-frame{
+  width: 700px;
+  border: solid 1px black;
+  margin: 0px 0px 0px 0px;
+}
+.source{
+  width: 600px;
+  /* border: solid 1px black; */
+  margin: 0px 0px 0px 20px;
+  height: 30px;
+  font-size: medium;
+}
 .img {
   margin: auto;
   /* border: solid 1px red; */

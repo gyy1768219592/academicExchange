@@ -47,10 +47,22 @@ const routes = [
     component: () => import("../views/scholar/scholarIndex.vue"),
   },
   {
-    //文章内容展示
-    path: "/artcleDisplay",
-    name: "artcleDisplay",
-    component: () => import("../views/artcle/artcleDisplay.vue"),
+    //论文内容展示
+    path: "/paperDisplay",
+    name: "paperDisplay",
+    component: () => import("../views/artcle/paperDisplay.vue"),
+  },
+  {
+    //国家项目内容展示
+    path: "/progDisplay",
+    name: "progDisplay",
+    component: () => import("../views/artcle/progDisplay.vue"),
+  },
+  {
+    //专利内容展示
+    path: "/patentDisplay",
+    name: "patentDisplay",
+    component: () => import("../views/artcle/patentDisplay.vue"),
   },
 ];
 
