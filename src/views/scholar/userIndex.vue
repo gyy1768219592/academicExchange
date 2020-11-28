@@ -258,7 +258,7 @@ export default {
       let myChart = this.$echarts.init(document.getElementById("relation"));
       let option = {
         title: {
-          text: "间隔两年展示发表情况",
+          text: "按年份展示发表情况",
         },
         tooltip: {
           trigger: "axis",
@@ -561,5 +561,6 @@ li {
   border: solid 1px brown;
   width: 700px;
   height: 500px;
+  margin: 10px;
 }
 </style>

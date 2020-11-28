@@ -530,6 +530,7 @@ export default {
   border: solid 1px brown;
   width: 700px;
   height: 500px;
+  margin: 10px;
 }
 ul,
 li {
