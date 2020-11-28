@@ -64,13 +64,15 @@
             <a-descriptions title="原文出处">
               <a-descriptions-item >
                 <div class="source-frame">
-                    <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span>
-                  </div>
+                  <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span>
+                </div>
               </a-descriptions-item>
             </a-descriptions>
             <a-descriptions title="全文链接">
               <a-descriptions-item >
-                <a :href="SourceUrl">链接</a>
+                <div class="url-frame">
+                  <a :href="SourceUrl">链接</a>
+                </div>
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
@@ -436,6 +438,12 @@ export default {
   height: 30px;
   font-size: medium;
 }
+.url-frame{
+  width: 700px;
+  border: solid 1px black;
+  margin: 0px 0px 0px 20px;
+}
+
 .img {
   margin: auto;
   /* border: solid 1px red; */
