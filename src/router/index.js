@@ -35,6 +35,11 @@ const routes = [
     component: () => import("../views/personalWorkplace/findPwd.vue"),
   },
   {
+    path: "/searchResult",
+    name: "searchResult",
+    component: () => import("../views/homes/searchResult.vue"),
+  },
+  {
     //用户个人学者门户
     path: "/userIndex",
     name: "userIndex",
@@ -45,6 +50,24 @@ const routes = [
     path: "/scholarIndex",
     name: "scholarIndex",
     component: () => import("../views/scholar/scholarIndex.vue"),
+  },
+  {
+    //论文内容展示
+    path: "/paperDisplay",
+    name: "paperDisplay",
+    component: () => import("../views/artcle/paperDisplay.vue"),
+  },
+  {
+    //国家项目内容展示
+    path: "/progDisplay",
+    name: "progDisplay",
+    component: () => import("../views/artcle/progDisplay.vue"),
+  },
+  {
+    //专利内容展示
+    path: "/patentDisplay",
+    name: "patentDisplay",
+    component: () => import("../views/artcle/patentDisplay.vue"),
   },
 ];
 
