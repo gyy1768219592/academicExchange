@@ -51,6 +51,24 @@ const routes = [
     name: "scholarIndex",
     component: () => import("../views/scholar/scholarIndex.vue"),
   },
+  {
+    //论文内容展示
+    path: "/paperDisplay",
+    name: "paperDisplay",
+    component: () => import("../views/artcle/paperDisplay.vue"),
+  },
+  {
+    //国家项目内容展示
+    path: "/progDisplay",
+    name: "progDisplay",
+    component: () => import("../views/artcle/progDisplay.vue"),
+  },
+  {
+    //专利内容展示
+    path: "/patentDisplay",
+    name: "patentDisplay",
+    component: () => import("../views/artcle/patentDisplay.vue"),
+  },
 ];
 
 const router = new VueRouter({
