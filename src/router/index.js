@@ -63,6 +63,12 @@ const routes = [
     name: "concern",
     component: () => import("../views/message/concern.vue"),
   },
+  {
+    //我的消息
+    path: "/message",
+    name: "message",
+    component: () => import("../views/message/message.vue"),
+  },
 ];
 
 const router = new VueRouter({
