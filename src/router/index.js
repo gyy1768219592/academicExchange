@@ -51,6 +51,18 @@ const routes = [
     name: "scholarIndex",
     component: () => import("../views/scholar/scholarIndex.vue"),
   },
+  {
+    //我的收藏
+    path: "/collect",
+    name: "collect",
+    component: () => import("../views/message/collect.vue"),
+  },
+  {
+    //我的关注
+    path: "/concern",
+    name: "concern",
+    component: () => import("../views/message/concern.vue"),
+  },
 ];
 
 const router = new VueRouter({
