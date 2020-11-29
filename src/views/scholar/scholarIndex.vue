@@ -25,6 +25,7 @@
           </div>
         </div>
         <div class="actions">
+          <a-button class="btn">我要认证</a-button>
           <a-button class="btn">关注</a-button>
           <a-button class="btn" type="primary">发送私信</a-button>
         </div>
@@ -529,6 +530,7 @@ export default {
   border: solid 1px brown;
   width: 700px;
   height: 500px;
+  margin: 10px;
 }
 ul,
 li {

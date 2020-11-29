@@ -33,9 +33,13 @@
       <div class="down-block">
         <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="主页" force-render>
-            <div class="intro">Content of Tab Pane 1</div>
+            <div class="intro">
+              <div class="echart" id="main"></div>
+              <a-divider></a-divider>
+              <div class="relation-echart" id="relation"></div>
+            </div>
           </a-tab-pane>
-         <a-tab-pane key="2" tab="项目">
+          <a-tab-pane key="2" tab="项目">
             <div class="selections">
               <a-menu
                 style="width: 248px"
@@ -98,14 +102,14 @@
                 </a-sub-menu>
               </a-menu>
             </div>
-           <div class="results">
+            <div class="results">
               <h3>发表项目</h3>
               <a-divider></a-divider>
               <a-list item-layout="horizontal" :data-source="data">
                 <a-list-item slot="renderItem" slot-scope="item">
                   <a-list-item-meta :description="item.description">
                     <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src"></img>
+                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
                   </a-list-item-meta>
                 </a-list-item>
               </a-list>
@@ -181,7 +185,7 @@
                 <a-list-item slot="renderItem" slot-scope="item">
                   <a-list-item-meta :description="item.description">
                     <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src"></img>
+                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
                   </a-list-item-meta>
                 </a-list-item>
               </a-list>
@@ -203,22 +207,26 @@ const data = [
   {
     title: "成果 1",
     description: "学术成果的摘要可以放在这里",
-    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    src:
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
   },
   {
     title: "成果 2",
     description: "学术成果的摘要可以放在这里",
-    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    src:
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
   },
   {
     title: "成果 3",
     description: "学术成果的摘要可以放在这里",
-    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    src:
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
   },
   {
     title: "成果 4",
     description: "学术成果的摘要可以放在这里",
-    src: "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    src:
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
   },
 ];
 export default {
@@ -241,7 +249,168 @@ export default {
       count: 10,
     };
   },
+  mounted() {
+    this.initEchart();
+    this.drawLine();
+  },
   methods: {
+    initEchart() {
+      let myChart = this.$echarts.init(document.getElementById("relation"));
+      let option = {
+        title: {
+          text: "按年份展示发表情况",
+        },
+        tooltip: {
+          trigger: "axis",
+        },
+        dataZoom: [
+          {
+            type: "slider",
+            xAxisIndex: 0,
+            start: 0,
+            end: 20,
+          },
+          {
+            type: "inside",
+            xAxisIndex: 0,
+            start: 0,
+            end: 20,
+          },
+          {
+            type: "slider",
+            yAxisIndex: 0,
+            start: 0,
+            end: 50,
+          },
+          {
+            type: "inside",
+            yAxisIndex: 0,
+            start: 0,
+            end: 50,
+          },
+        ],
+        legend: {
+          data: ["项目", "专利", "文献"],
+        },
+        grid: {
+          left: "3%",
+          right: "4%",
+          bottom: "3%",
+          containLabel: true,
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {},
+          },
+        },
+        xAxis: {
+          type: "category",
+          boundaryGap: false,
+          data: [
+            "2008年",
+            "2009年",
+            "2010年",
+            "2011年",
+            "2012年",
+            "2013年",
+            "2014年",
+            "2015年",
+            "2016年",
+            "2017年",
+            "2018年",
+            "2019年",
+            "2020年",
+          ],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            name: "项目",
+            type: "line",
+            stack: "总量",
+            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0],
+          },
+          {
+            name: "专利",
+            type: "line",
+            stack: "总量",
+            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0],
+          },
+          {
+            name: "文献",
+            type: "line",
+            stack: "总量",
+            data: [150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410],
+          },
+        ],
+      };
+      myChart.setOption(option);
+    },
+    drawLine() {
+      let myChart = this.$echarts.init(document.getElementById("main"));
+      let option = {
+        title: {
+          text: "发表成果情况",
+          left: "center",
+        },
+        tooltip: {
+          trigger: "item",
+          formatter: "{a} <br/>{b} : {c} ({d}%)",
+        },
+        legend: {
+          orient: "vertical",
+          left: "left",
+          data: ["项目", "专利", "文献"],
+        },
+        series: [
+          {
+            name: "访问来源",
+            type: "pie",
+            radius: "55%",
+            center: ["50%", "60%"],
+            data: [
+              { value: 2, name: "项目" },
+              { value: 14, name: "专利" },
+              { value: 547, name: "文献" },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: "rgba(0, 0, 0, 0.5)",
+              },
+            },
+          },
+        ],
+      };
+      myChart.setOption(option);
+      let currentIndex = -1;
+      setInterval(function() {
+        var dataLen = option.series[0].data.length;
+        // 取消之前高亮的图形
+        myChart.dispatchAction({
+          type: "downplay",
+          seriesIndex: 0,
+          dataIndex: currentIndex,
+        });
+        currentIndex = (currentIndex + 1) % dataLen;
+        // 高亮当前图形
+        myChart.dispatchAction({
+          type: "highlight",
+          seriesIndex: 0,
+          dataIndex: currentIndex,
+        });
+        // 显示 tooltip
+        myChart.dispatchAction({
+          type: "showTip",
+          seriesIndex: 0,
+          dataIndex: currentIndex,
+        });
+      }, 1500);
+    },
+
     callback(key) {
       console.log(key);
     },
@@ -266,7 +435,7 @@ export default {
 <style scoped>
 .main-block {
   width: 1200px;
-  height: 1400px;
+  height: 2500px;
   margin: auto;
   border: solid 1px grey;
 }
@@ -280,7 +449,7 @@ export default {
 .down-block {
   border: solid 1px blue;
   width: 1100px;
-  height: 900px;
+  height: 1300px;
   margin: auto;
 }
 
@@ -347,7 +516,7 @@ export default {
 .intro {
   border: solid 1px black;
   width: 750px;
-  height: 800px;
+  height: 1200px;
   margin: 10px;
 }
 .influence {
@@ -381,5 +550,17 @@ li {
 .index-number {
   font-size: 20px;
   color: black;
+}
+.echart {
+  border: solid 1px blue;
+  width: 700px;
+  height: 300px;
+  margin: 10px;
+}
+.relation-echart {
+  border: solid 1px brown;
+  width: 700px;
+  height: 500px;
+  margin: 10px;
 }
 </style>
