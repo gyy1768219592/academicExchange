@@ -1,124 +1,158 @@
 <template>
-  <div style="background-color:#f7f7f7f7">
-    <div class="Info_container">
-      <a-breadcrumb separator=">">
-        <a-breadcrumb-item><span @click="toLast" style="cursor:pointer">返回</span></a-breadcrumb-item>
-        <a-breadcrumb-item>个人信息</a-breadcrumb-item>
-      </a-breadcrumb>
-      <div>
-        <a-card style="width: 40em; height: 26em;box-shadow:0 1px 4px rgba(0,0,0,0.3);margin-top: 1em">
-          <!--分割线左侧，包括头像和学者认证按钮-->
-          <div style="width:10em;float:left;padding:2em">
-            <div style="margin-bottom:0.5em">
-              <uploadPhoto></uploadPhoto>
+  <div>
+    <div style="height: 100vh; overflow: hidden; background-color: #f7f7f7f7">
+      <div class="Info_container">
+        <a-breadcrumb separator=">">
+          <a-breadcrumb-item
+            ><span @click="toLast" style="cursor: pointer"
+              >返回</span
+            ></a-breadcrumb-item
+          >
+          <a-breadcrumb-item>个人信息</a-breadcrumb-item>
+        </a-breadcrumb>
+        <div>
+          <a-card
+            style="
+              width: 40em;
+              height: 26em;
+              box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+              margin-top: 1em;
+            "
+          >
+            <!--分割线左侧，包括头像和学者认证按钮-->
+            <div style="width: 10em; float: left; padding: 2em">
+              <div style="margin-bottom: 0.5em">
+                <uploadPhoto></uploadPhoto>
+              </div>
+              <div style="margin-left: -0.55em" v-show="!this.info.isScholar">
+                <a-button type="primary" @click="() => setModalVisible(true)">
+                  学者认证
+                </a-button>
+                <a-modal
+                  title="请输入认证信息"
+                  ok-text="确定"
+                  cancel-text="取消"
+                  :visible="modalVisible"
+                  @ok="handleOk"
+                  @cancel="handleCancel"
+                >
+                  <a-form :form="form">
+                    <a-form-item has-feedback>
+                      <a-input
+                        placeholder="请输入真实姓名"
+                        v-decorator="[
+                          'realname',
+                          {
+                            rules: [
+                              {
+                                required: true,
+                                message: '真实姓名不能为空!',
+                              },
+                            ],
+                          },
+                        ]"
+                      >
+                        <a-icon slot="prefix" type="user" />
+                        <a-tooltip slot="suffix" title="Extra information">
+                        </a-tooltip>
+                      </a-input>
+                    </a-form-item>
+                    <a-form-item has-feedback>
+                      <!--此处有个大问题，怎么确认是机构邮箱，不是普通邮箱-->
+                      <a-input
+                        type="email"
+                        placeholder="请输入您的机构邮箱"
+                        v-decorator="[
+                          'email',
+                          {
+                            rules: [
+                              {
+                                required: true,
+                                message: '机构邮箱不能为空!',
+                              },
+                              {
+                                type: 'email',
+                                message: '输入不是有效的邮箱!',
+                              },
+                            ],
+                          },
+                        ]"
+                      >
+                        <a-icon slot="prefix" type="mail" />
+                        <a-tooltip
+                          slot="suffix"
+                          title="Extra information"
+                        ></a-tooltip>
+                      </a-input>
+                    </a-form-item>
+                  </a-form>
+                </a-modal>
+              </div>
             </div>
-            <div style="margin-left:-0.55em" v-show="!this.info.isScholar">
-              <a-button type="primary" @click="() => setModalVisible(true)"> 学者认证 </a-button>
-              <a-modal
-                title="请输入认证信息"
-                ok-text="确定"
-                cancel-text="取消"
-                :visible="modalVisible"
-                @ok="handleOk"
-                @cancel="handleCancel"
-              >
-                <a-form :form="form">
-                  <a-form-item has-feedback>
-                    <a-input
-                      placeholder="请输入真实姓名"
-                      v-decorator="[
-                        'realname',
-                        {
-                          rules: [
-                            {
-                              required: true,
-                              message: '真实姓名不能为空!'
-                            }
-                          ]
-                        }
-                      ]"
-                    >
-                      <a-icon slot="prefix" type="user" />
-                      <a-tooltip slot="suffix" title="Extra information">
-                      </a-tooltip>
-                    </a-input>
-                  </a-form-item>
-                  <a-form-item has-feedback>
-                    <!--此处有个大问题，怎么确认是机构邮箱，不是普通邮箱-->
-                    <a-input
-                      type="email"
-                      placeholder="请输入您的机构邮箱"
-                      v-decorator="[
-                        'email',
-                        {
-                          rules:[
-                            {
-                              required: true,
-                              message: '机构邮箱不能为空!'
-                            },
-                            {
-                              type: 'email',
-                              message: '输入不是有效的邮箱!'
-                            }
-                          ]
-                        }
-                      ]"
-                    >
-                      <a-icon slot="prefix" type="mail" />
-                      <a-tooltip slot="suffix" title="Extra information"></a-tooltip>
-                    </a-input>
-                  </a-form-item>
-                  
-                </a-form>
-                
-              </a-modal>
-            </div>
-          </div>
-          <!--分割线-->
-          <div style="
-            float:left;
-            width:1px;
-            height:20em;
-            background:#f0f0f0f0;
-            margin-right:1em;
-            "></div>
-          <!--右边内容-->
-          <a-list size="large" style="width:23em;float:left">
-            <!--这里还有那个问题，用户名可变吗-->
-            <div style="height:2em;width:23em;margin-top:2em">
-              <a-icon type="user" style="margin-right: 0.7em;"/>
-              <span style="width: 7em;display:inline-block">用户名:</span>
-              <span style="width: 10em;display:inline-block">{{ info.username }}</span>
-            </div>
-            <div style="height:2em;margin-top:1em">
-              <a-icon type="contacts" style="margin-right: 0.7em;"/>
-              <span style="width: 7em;display:inline-block">账号ID:</span>
-              <span style="width: 10em;display:inline-block">{{ info.userid }}</span>
-            </div>
-            <div style="height:2em;margin-top:1em">
-              <a-icon type="lock" style="margin-right: 0.7em;"/>
-              <span style="width: 7em;display:inline-block">密码:</span>
-              <span style="width: 10em;display:inline-block">{{ info.password }}</span>
-              <a-button @click="toPwd" type="link" style="height:2em;">修改</a-button>
-              <inputPwd
-                ref="choosePwd"
-                v-show="showPwd"
-                v-on:closePwd="closePwd"
-              ></inputPwd>
-            </div>
-            <div style="height:2em;margin-top:1em">
-              <a-icon type="mail" style="margin-right: 0.7em;"/>
-              <span style="width: 7em;display:inline-block">邮箱:</span> 
-              <span style="width: 10em;display:inline-block">{{ info.email }}</span>
-              <a-button @click="toEmail" type="link" style="height:2em" v-show="!showPwd">修改</a-button>
-              <inputEmail
-                ref="chooseE"
-                v-show="showEmail"
-                v-on:closeEmail="closeEmail"
-              ></inputEmail>
-            </div>
-          </a-list>
-        </a-card>
+            <!--分割线-->
+            <div
+              style="
+                float: left;
+                width: 1px;
+                height: 20em;
+                background: #f0f0f0f0;
+                margin-right: 1em;
+              "
+            ></div>
+            <!--右边内容-->
+            <a-list size="large" style="width: 23em; float: left">
+              <!--这里还有那个问题，用户名可变吗-->
+              <div style="height: 2em; width: 23em; margin-top: 2em">
+                <a-icon type="user" style="margin-right: 0.7em" />
+                <span style="width: 7em; display: inline-block">用户名:</span>
+                <span style="width: 10em; display: inline-block">{{
+                  info.username
+                }}</span>
+              </div>
+              <div style="height: 2em; margin-top: 1em">
+                <a-icon type="contacts" style="margin-right: 0.7em" />
+                <span style="width: 7em; display: inline-block">账号ID:</span>
+                <span style="width: 10em; display: inline-block">{{
+                  info.userid
+                }}</span>
+              </div>
+              <div style="height: 2em; margin-top: 1em">
+                <a-icon type="lock" style="margin-right: 0.7em" />
+                <span style="width: 7em; display: inline-block">密码:</span>
+                <span style="width: 10em; display: inline-block">{{
+                  info.password
+                }}</span>
+                <a-button @click="toPwd" type="link" style="height: 2em"
+                  >修改</a-button
+                >
+                <inputPwd
+                  ref="choosePwd"
+                  v-show="showPwd"
+                  v-on:closePwd="closePwd"
+                ></inputPwd>
+              </div>
+              <div style="height: 2em; margin-top: 1em">
+                <a-icon type="mail" style="margin-right: 0.7em" />
+                <span style="width: 7em; display: inline-block">邮箱:</span>
+                <span style="width: 10em; display: inline-block">{{
+                  info.email
+                }}</span>
+                <a-button
+                  @click="toEmail"
+                  type="link"
+                  style="height: 2em"
+                  v-show="!showPwd"
+                  >修改</a-button
+                >
+                <inputEmail
+                  ref="chooseE"
+                  v-show="showEmail"
+                  v-on:closeEmail="closeEmail"
+                ></inputEmail>
+              </div>
+            </a-list>
+          </a-card>
+        </div>
       </div>
     </div>
   </div>
@@ -155,12 +189,12 @@ export default {
     handleOk() {
       const form = this.form;
       form.validateFields((err) => {
-        if(err) {
+        if (err) {
           return;
         }
         form.resetFields();
         this.modalVisible = false;
-      })
+      });
     },
     toLast() {
       console.log(this.$route.path);
@@ -204,7 +238,7 @@ export default {
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "scholarIdentify" });
-  }
+  },
 };
 </script>
 

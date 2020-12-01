@@ -251,12 +251,12 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .total {
   /*background: url("../../assets/bg.jpeg");*/
   width: 100%;
   height: 1000px;
-  background-size: cover;
+  /*background-size: cover;*/
   /*background-color:#f7f7f7f7;*/
 }
 .register_container {

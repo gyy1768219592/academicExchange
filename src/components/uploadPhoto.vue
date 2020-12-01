@@ -1,7 +1,7 @@
 <template>
   <div class="photo">
     <div
-      style="width:5em;height:5em;border:1px solid;text-align:center;border-radius:50%;cursor:pointer"
+      style="width:5em;height:5em;text-align:center;border-radius:50%;cursor:pointer"
       @click="openImg"
     >
       <input
@@ -16,8 +16,8 @@
         v-if="imgUrl != ''"
         :src="imgUrl"
       />
-      
-    </div>
+      <a-avatar v-if="imgUrl === '' " icon="user" :size=70 />
+    </div> 
   </div>
 </template>
 <script>
