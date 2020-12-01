@@ -11,14 +11,14 @@
                 rules: [
                   {
                     type: 'email',
-                    message: 'The input is not valid E-mail!',
+                    message: 'The input is not valid E-mail!'
                   },
                   {
                     required: true,
-                    message: 'Please input your E-mail!',
-                  },
-                ],
-              },
+                    message: 'Please input your E-mail!'
+                  }
+                ]
+              }
             ]"
           />
         </a-form-item>
@@ -29,9 +29,9 @@
               {
                 rules: [
                   { required: true, message: 'Username is required!' },
-                  { min: 2, message: '用户名长度最小为2', trigger: 'blur' },
-                ],
-              },
+                  { min: 2, message: '用户名长度最小为2', trigger: 'blur' }
+                ]
+              }
             ]"
           />
         </a-form-item>
@@ -43,14 +43,14 @@
                 rules: [
                   {
                     required: true,
-                    message: 'Please input your password!',
+                    message: 'Please input your password!'
                   },
                   {
-                    validator: validateToNextPassword,
+                    validator: validateToNextPassword
                   },
-                  { min: 8, message: '密码不少于8位', trigger: 'blur' },
-                ],
-              },
+                  { min: 8, message: '密码不少于8位', trigger: 'blur' }
+                ]
+              }
             ]"
             type="password"
           />
@@ -63,13 +63,13 @@
                 rules: [
                   {
                     required: true,
-                    message: 'Please confirm your password!',
+                    message: 'Please confirm your password!'
                   },
                   {
-                    validator: compareToFirstPassword,
-                  },
-                ],
-              },
+                    validator: compareToFirstPassword
+                  }
+                ]
+              }
             ]"
             type="password"
             @blur="handleConfirmBlur"
@@ -146,25 +146,25 @@ export default {
       formItemLayout: {
         labelCol: {
           xs: { span: 24 },
-          sm: { span: 8 },
+          sm: { span: 8 }
         },
         wrapperCol: {
           xs: { span: 24 },
-          sm: { span: 16 },
-        },
+          sm: { span: 16 }
+        }
       },
       tailFormItemLayout: {
         wrapperCol: {
           xs: {
             span: 24,
-            offset: 0,
+            offset: 0
           },
           sm: {
             span: 16,
-            offset: 8,
-          },
-        },
-      },
+            offset: 8
+          }
+        }
+      }
     };
   },
   beforeCreate() {
@@ -187,7 +187,9 @@ export default {
       postData(url, params).then(res => {
         console.log(res);
         if (res.code === "0") {
-          this.$message.success("注册成功,请及时点击发送到邮箱中的链接激活账号");
+          this.$message.success(
+            "注册成功,请及时点击发送到邮箱中的链接激活账号"
+          );
           this.$router.push("/login");
         } else if (res.code === "1") {
           this.$message.error("用户名重复，请更换"); //这里涉及到一个问题，即用户名可否重复,另外，关于用户名重复的检测应该也可以放到填入时？
@@ -226,28 +228,27 @@ export default {
     validateToNextPassword(rule, value, callback) {
       const form = this.form;
       //按照需求规格说明书中，密码需要大于8位且至少包含数字和英文字母
-      const password = form.getFieldValue("password");
+      var password = form.getFieldValue("password");
+      if (password === undefined) password = "";
       var i = 0;
       var hasNumber = false;
       var hasLetter = false;
-      while (i<password.length&&(!hasNumber||!hasLetter)){
+      while (i < password.length && (!hasNumber || !hasLetter)) {
         var c = password.charAt(i);
-        if((c>='a'&&c<='z')||(c>='A'&&c<='Z'))
-          hasLetter = true;
-        else if(c>='0'&&c<='9')
-          hasNumber = true;
+        if ((c >= "a" && c <= "z") || (c >= "A" && c <= "Z")) hasLetter = true;
+        else if (c >= "0" && c <= "9") hasNumber = true;
         i++;
       }
-      if (!hasNumber&&password){
+      if (!hasNumber && password) {
         callback("密码应含有至少一个数字");
-      }else if (!hasLetter&&password){
+      } else if (!hasLetter && password) {
         callback("密码应含有至少一个字母");
-      }else if (value && this.confirmDirty) {
+      } else if (value && this.confirmDirty) {
         form.validateFields(["confirm"], { force: true });
       }
       callback();
-    },
-  },
+    }
+  }
 };
 </script>
 <style>
@@ -256,6 +257,7 @@ export default {
   width: 100%;
   height: 1000px;
   background-size: cover;
+  /*background-color:#f7f7f7f7;*/
 }
 .register_container {
   width: 550px;

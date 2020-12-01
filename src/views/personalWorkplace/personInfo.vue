@@ -1,111 +1,167 @@
 <template>
-  <div class="total">
+  <div style="background-color:#f7f7f7f7">
     <div class="Info_container">
-      <a-button class="btn" @click="toLast">
-        <a-icon type="left" />
-      </a-button>
-      <p>个 人 信 息</p>
-      <div class="Info_box">
-        <div style="float:left;">
-          <uploadPhoto></uploadPhoto>
-        </div>
-        <br />
-        <!--分割线-->
-        <div
-          :class="{loginusermode:judgement}"
-          style="float:left;width: 2px;height: 300px; background: #000;margin-right: 40px;margin-left: 20px;"
-        ></div>
-        <!--右边内容-->
-        <a-list size="large">
-          <div>
-            <a-icon type="user" style="margin-right: 10px" />
-            <span>用户名：{{info.username}}</span>
+      <a-breadcrumb separator=">">
+        <a-breadcrumb-item><span @click="toLast" style="cursor:pointer">返回</span></a-breadcrumb-item>
+        <a-breadcrumb-item>个人信息</a-breadcrumb-item>
+      </a-breadcrumb>
+      <div>
+        <a-card style="width: 40em; height: 26em;box-shadow:0 1px 4px rgba(0,0,0,0.3);margin-top: 1em">
+          <!--分割线左侧，包括头像和学者认证按钮-->
+          <div style="width:10em;float:left;padding:2em">
+            <div style="margin-bottom:0.5em">
+              <uploadPhoto></uploadPhoto>
+            </div>
+            <div style="margin-left:-0.55em" v-show="!this.info.isScholar">
+              <a-button type="primary" @click="() => setModalVisible(true)"> 学者认证 </a-button>
+              <a-modal
+                title="请输入认证信息"
+                ok-text="确定"
+                cancel-text="取消"
+                :visible="modalVisible"
+                @ok="handleOk"
+                @cancel="handleCancel"
+              >
+                <a-form :form="form">
+                  <a-form-item has-feedback>
+                    <a-input
+                      placeholder="请输入真实姓名"
+                      v-decorator="[
+                        'realname',
+                        {
+                          rules: [
+                            {
+                              required: true,
+                              message: '真实姓名不能为空!'
+                            }
+                          ]
+                        }
+                      ]"
+                    >
+                      <a-icon slot="prefix" type="user" />
+                      <a-tooltip slot="suffix" title="Extra information">
+                      </a-tooltip>
+                    </a-input>
+                  </a-form-item>
+                  <a-form-item has-feedback>
+                    <!--此处有个大问题，怎么确认是机构邮箱，不是普通邮箱-->
+                    <a-input
+                      type="email"
+                      placeholder="请输入您的机构邮箱"
+                      v-decorator="[
+                        'email',
+                        {
+                          rules:[
+                            {
+                              required: true,
+                              message: '机构邮箱不能为空!'
+                            },
+                            {
+                              type: 'email',
+                              message: '输入不是有效的邮箱!'
+                            }
+                          ]
+                        }
+                      ]"
+                    >
+                      <a-icon slot="prefix" type="mail" />
+                      <a-tooltip slot="suffix" title="Extra information"></a-tooltip>
+                    </a-input>
+                  </a-form-item>
+                  
+                </a-form>
+                
+              </a-modal>
+            </div>
           </div>
-          <br />
-          <br />
-          <div>
-            <a-icon type="contacts" style="margin-right: 10px ;float: center" />
-            <span>账号ID：{{info.userid}}</span>
-          </div>
-          <br v-if="judgement" />
-          <br v-if="judgement" />
-          <div v-if="judgement">
-            <a-icon type="lock" style="margin-right: 10px" />
-            <span>密码：{{info.password}}</span>
-            <a-button v-show="judgement" @click="toPwd" type="link" style="float: right;">修改</a-button>
-            <inputPwd ref="choosePwd" v-show="showPwd" v-on:closePwd="closePwd"></inputPwd>
-          </div>
-          <br />
-          <br />
-          <div>
-            <a-icon type="wechat" style="margin-right: 10px" />
-            <span>微信：{{info.wechat}}</span>
-            <a-button v-show="judgement" @click="toWechat" type="link" style="float: right;">修改</a-button>
-            <inputBox ref="chooseButton" v-show="showWechat" v-on:closeme="closeme"></inputBox>
-          </div>
-          <br />
-          <br />
-          <div>
-            <a-icon type="mail" style="margin-right: 10px" />
-            <span>邮箱：{{info.email}}</span>
-            <a-button v-show="judgement" @click="toEmail" type="link" style="float: right;">修改</a-button>
-            <inputEmail ref="chooseE" v-show="showEmail" v-on:closeEmail="closeEmail"></inputEmail>
-          </div>
-          <br />
-          <br />
-          <div>
-            <a-icon type="smile" style="margin-right: 10px" />
-            <span>个性签名：{{info.intro}}</span>
-            <a-button v-show="judgement" @click="toIntro" type="link" style="float: right;">修改</a-button>
-            <inputIntro ref="chooseIntro" v-show="showIntro" v-on:closeEmail="closeIntro"></inputIntro>
-          </div>
-          <br v-if="judgement" />
-          <br v-if="judgement" />
-          <div v-if="judgement">
-            <a-icon type="question-circle" style="margin-right: 10px" />
-            <span>密保问题：{{info.question}}</span>
-            <br />
-            <br />
-            <span style="margin-left: 28px">问题答案：{{info.answer}}</span>
-            <a-button v-show="judgement" @click="toQnA" type="link" style="float: right;">修改</a-button>
-            <inputQnA ref="chooseQnA" v-show="showQnA" v-on:closeEmail="closeQnA"></inputQnA>
-          </div>
-        </a-list>
+          <!--分割线-->
+          <div style="
+            float:left;
+            width:1px;
+            height:20em;
+            background:#f0f0f0f0;
+            margin-right:1em;
+            "></div>
+          <!--右边内容-->
+          <a-list size="large" style="width:23em;float:left">
+            <!--这里还有那个问题，用户名可变吗-->
+            <div style="height:2em;width:23em;margin-top:2em">
+              <a-icon type="user" style="margin-right: 0.7em;"/>
+              <span style="width: 7em;display:inline-block">用户名:</span>
+              <span style="width: 10em;display:inline-block">{{ info.username }}</span>
+            </div>
+            <div style="height:2em;margin-top:1em">
+              <a-icon type="contacts" style="margin-right: 0.7em;"/>
+              <span style="width: 7em;display:inline-block">账号ID:</span>
+              <span style="width: 10em;display:inline-block">{{ info.userid }}</span>
+            </div>
+            <div style="height:2em;margin-top:1em">
+              <a-icon type="lock" style="margin-right: 0.7em;"/>
+              <span style="width: 7em;display:inline-block">密码:</span>
+              <span style="width: 10em;display:inline-block">{{ info.password }}</span>
+              <a-button @click="toPwd" type="link" style="height:2em;">修改</a-button>
+              <inputPwd
+                ref="choosePwd"
+                v-show="showPwd"
+                v-on:closePwd="closePwd"
+              ></inputPwd>
+            </div>
+            <div style="height:2em;margin-top:1em">
+              <a-icon type="mail" style="margin-right: 0.7em;"/>
+              <span style="width: 7em;display:inline-block">邮箱:</span> 
+              <span style="width: 10em;display:inline-block">{{ info.email }}</span>
+              <a-button @click="toEmail" type="link" style="height:2em" v-show="!showPwd">修改</a-button>
+              <inputEmail
+                ref="chooseE"
+                v-show="showEmail"
+                v-on:closeEmail="closeEmail"
+              ></inputEmail>
+            </div>
+          </a-list>
+        </a-card>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { getData } from "@/api/webget";
-import { putData } from "@/api/webput";
+//import { getData } from "@/api/webget";
+//import { putData } from "@/api/webput";
+// 还没写完，包括上传数据，和获取数据
 import uploadPhoto from "@/components/uploadPhoto";
-import inputBox from "@/components/inputBox";
 import inputEmail from "@/components/inputEmail";
 import inputPwd from "@/components/inputPwd";
-import inputIntro from "@/components/inputIntro";
-import inputQnA from "@/components/inputQnA";
 export default {
   components: {
     uploadPhoto,
-    inputBox,
     inputEmail,
     inputPwd,
-    inputIntro,
-    inputQnA
   },
   data() {
     return {
       info: [],
-      showWechat: false,
       showEmail: false,
       showPwd: false,
-      showIntro: false,
-      showQnA: false,
-      judgement: false
+      modalVisible: false,
     };
   },
   methods: {
+    setModalVisible(modalVisible) {
+      this.modalVisible = modalVisible;
+    },
+    handleCancel() {
+      this.modalVisible = false;
+    },
+    handleOk() {
+      const form = this.form;
+      form.validateFields((err) => {
+        if(err) {
+          return;
+        }
+        form.resetFields();
+        this.modalVisible = false;
+      })
+    },
     toLast() {
       console.log(this.$route.path);
       let userid = parseInt(window.sessionStorage.getItem("UserId"));
@@ -113,212 +169,52 @@ export default {
         this.$router.push("/used");
       } else if (this.$route.query.userid != userid) {
         this.$router.go(-1);
-        this.$router.go(-1);
       }
-    },
-    email_blur(e) {
-      var verify = /^\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
-      if (!verify.test(e)) {
-        return false;
-      } else {
-        return true;
-      }
-    },
-    toWechat() {
-      this.showWechat = !this.showWechat;
     },
     toEmail() {
       this.showEmail = !this.showEmail;
     },
     toPwd() {
-      this.showPwd = !this.showPwd;
-    },
-    toIntro() {
-      this.showIntro = !this.showIntro;
-    },
-    toQnA() {
-      this.showQnA = !this.showQnA;
-    },
-    closeQnA() {
-      let res = this.$refs.chooseQnA.getChoose();
-      this.showQnA = !this.showQnA;
-      console.log(res.flag);
-      if (res.flag == 1 && (res.ques.length == 0 || res.ans.length == 0)) {
-        this.$message.error("请输入修改后的结果");
-        //console.log("正常关闭");
-      } else if (res.flag == 1) {
-        this.info.question = res.ques;
-        this.info.answer = res.ans;
-        console.log(this.info.question);
-        console.log(this.info.answer);
-        this.changeWE();
-      }
-    },
-    closeIntro() {
-      let res = this.$refs.chooseIntro.getChoose();
-      this.showIntro = !this.showIntro;
-      console.log(res.flag);
-      if (res.flag == 1 && res.intro.length == 0) {
-        this.$message.error("请输入修改后的结果");
-        //console.log("正常关闭");
-      } else if (res.flag == 1) {
-        this.info.intro = res.intro;
-        console.log(this.info.intro);
-        this.changeWE();
-      }
+      this.showPwd = !this.Pwd;
     },
     closePwd() {
       let res = this.$refs.choosePwd.getChoose();
       this.showPwd = !this.showPwd;
       console.log(res);
       if (res.flag === 0) {
-        if (res.new !== res.confirm) {
-          this.$message.error("请检查新密码和确认密码是否一致");
-        } else if (res.confirm.length < 3) {
-          this.$message.error("密码必须大于三位");
-        } else {
-          // console.log(res.confirm.length);
-          this.changePa(res.old, res.new);
-        }
-      } else {
-        if (res[3] === 1) this.$message.error("请输入完全");
+        this.changePa(res.old, res.new);
       }
     },
     closeEmail() {
       let res = this.$refs.chooseE.getChoose();
       this.showEmail = !this.showEmail;
-      let select = this.email_blur(res);
       console.log(res);
-      if (!select && res !== "dis") {
-        this.$message.error("请检查邮箱输入格式");
-      } else if (res !== "dis") {
-        this.info.email = res;
-        console.log(this.info.email);
-        this.changeWE();
-      }
-    },
-    closeme() {
-      let res = this.$refs.chooseButton.getChoose();
-      this.showWechat = !this.showWechat;
-      if (res) {
-        this.info.wechat = res;
-        console.log(this.info.wechat);
-        this.changeWE();
-      }
+      if (res.email != "") this.changeEmail();
     },
     getInfo() {
-      let params = new URLSearchParams();
-      let userId = this.$route.query.userid;
-      params.append("userid", userId);
-      let url = this.$urlPath.website.getUserInfo;
-      getData(url, params).then(res => {
-        console.log(res.data);
-        if (res.code === "0") {
-          this.info = res.data;
-          this.info.password = "●●●●●●●●●●●●";
-        } else if (res.code === "1") {
-          this.$message.error("未登录");
-        } else {
-          console.log(res.code);
-          this.$message.error("服务器返回时间间隔过长");
-        }
-      });
+      this.info.password = "●●●●●●";
+      this.info.username = "tianzhen";
+      this.info.email = "1030010026@qq.com";
+      this.info.userid = "123455555";
+      this.info.isScholar = false;
     },
-    changeWE() {
-      let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem("UserId"));
-      params.append("userid", userId);
-      params.append("wechat", this.info.wechat);
-      params.append("email", this.info.email);
-
-      params.append("intro", this.info.intro);
-      params.append("question", this.info.question);
-      params.append("answer", this.info.answer);
-      let url = this.$urlPath.website.updateUserInfo;
-      putData(url, params).then(res => {
-        console.log(res.code);
-        if (res.code === "0") {
-          this.$message.success("修改成功");
-          this.info.wechat = res.data.wechat;
-          this.change = "";
-        } else if (res.code === "1") {
-          this.$message.error("原密码输入错误");
-        } else {
-          console.log(res.code);
-          this.$message.error("服务器返回时间间隔过长");
-        }
-      });
-    },
-    changePa(oldpwd, newpwd) {
-      let params = new URLSearchParams();
-      let userId = parseInt(window.sessionStorage.getItem("UserId"));
-      params.append("userid", userId);
-      params.append("oldpwd", oldpwd);
-      params.append("newpwd", newpwd);
-      let url = this.$urlPath.website.alterPassword;
-      putData(url, params).then(res => {
-        console.log(res.code);
-        if (res.code === "0") {
-          this.$message.success("修改成功");
-        } else if (res.code === "1") {
-          this.$message.error("原密码错误");
-        } else {
-          console.log(res.code);
-          this.$message.error("服务器返回时间间隔过长");
-        }
-      });
-    }
   },
   created() {
     this.getInfo();
   },
-  mounted() {
-    let loginuserid = parseInt(window.sessionStorage.getItem("UserId"));
-    console.log(loginuserid);
-    console.log(this.$route.query.userid);
-    if (this.$route.query.userid == loginuserid) {
-      this.judgement = true;
-    } else {
-      this.judgement = false;
-    }
-    console.log(this.judgement);
+  beforeCreate() {
+    this.form = this.$form.createForm(this, { name: "scholarIdentify" });
   }
 };
 </script>
 
 <style>
-.total {
- /* background: url("../../assets/bg.jpeg");*/
-  width: 100%;
-  height: 1000px;
-  background-size: cover;
-}
 .Info_container {
-  width: 530px;
+  width: 40em;
   border-radius: 3px;
   position: absolute;
   left: 30%;
   right: 30%;
   top: 10%;
-  font-size: 30px;
-}
-.Info_box {
-  /* border:3px solid #000;*/
-  height: 600px;
-  width: 600px;
-  padding: 50px 30px;
-  margin-bottom: 50px;
-  background-color: #fff;
-  opacity: 0.9;
-}
-.btn {
-  margin: 10px 15px 0 -65px;
-  float: left;
-}
-.loginusermode {
-  height: 470px !important;
-}
-.loginuserbox {
-  height: 600px;
 }
 </style>
