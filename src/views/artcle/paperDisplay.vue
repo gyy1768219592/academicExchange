@@ -1,6 +1,6 @@
 <template>
   <div>
-    <topNav></topNav><!-- <personNav></personNav> -->
+    <navSearch></navSearch>
     <div class="main-block">
       <div class="up-block">
         <div class="artcle-info">
@@ -157,13 +157,13 @@
 //引入导航栏
 //import personNav from "@/components/personNav";
 // import { postData } from "@/api/webpost";
-import topNav from "@/components/nav.vue";
+import navSearch from "@/components/navSearch";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
 export default {
   components: {
-    topNav,
+    navSearch,
   },
   data() {
     return {
