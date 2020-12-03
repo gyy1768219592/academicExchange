@@ -468,27 +468,27 @@ export default {
   width: 1200px;
   height: 2000px;
   margin: auto;
-  border: solid 1px grey;
+  /* border: solid 1px grey; */
 }
 .up-block {
-  border: solid 1px red;
+  /* border: solid 1px red; */
   width: 1100px;
-  height: 250px;
+  height: 230px;
   margin: auto;
   background-color: #fafafa;
 }
 .down-block {
-  border: solid 1px blue;
+  /* border: solid 1px blue; */
   width: 1100px;
   height: 1500px;
   margin: auto;
 }
 
 .user-info {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 550px;
   height: 200px;
-  margin: 10px;
+  padding: 20px;
 }
 .avatar {
   height: 120px;
@@ -516,8 +516,8 @@ export default {
   margin: 20px auto 10px 120px;
 }
 .actions {
-  padding-top: 10px;
-  border: solid 1px black;
+  padding-top: 30px;
+  /* border: solid 1px black; */
   width: 130px;
   height: 200px;
   display: block;
@@ -525,14 +525,14 @@ export default {
   margin: -210px 10px 10px 10px;
 }
 .selections {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 250px;
   height: 800px;
   margin: 10px 10px 10px 10px;
 }
 .results {
   padding: 10px 15px 10px 15px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 800px;
   height: 800px;
   display: block;
@@ -541,29 +541,29 @@ export default {
 }
 .btn {
   width: 100px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: 15px;
 }
 .intro {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 750px;
   height: 1300px;
   margin: 10px;
 }
 .self-intro {
-  border: solid 1px green;
+  /* border: solid 1px green; */
   width: 700px;
   height: 300px;
   margin: 10px;
 }
 .echart {
-  border: solid 1px blue;
+  /* border: solid 1px blue; */
   width: 700px;
   height: 300px;
   margin: 10px;
 }
 .relation-echart {
-  border: solid 1px brown;
+  /* border: solid 1px brown; */
   width: 700px;
   height: 500px;
   margin: 10px;
@@ -597,7 +597,7 @@ li {
 .experience {
   padding: 20px;
   width: 250px;
-  border: solid 1px brown;
+  /* border: solid 1px brown; */
   display: block;
   float: right;
   margin: -1310px 0 20px 0;

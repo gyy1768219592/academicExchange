@@ -8,7 +8,6 @@
             <a-avatar class="img" :size="100" icon="user" />
             <h1 class="info-content-name">{{ user.username }}</h1>
             <h4 class="info-content-ins">{{ user.ins }}</h4>
-            <!-- 指数展示待优化 -->
             <ul class="index-table">
               <li class="index-item">
                 <p class="top-word">H指数</p>
@@ -27,7 +26,36 @@
         </div>
         <div class="actions">
           <a-button class="btn">修改个人信息</a-button>
-          <a-button class="btn" type="primary">添加个人经历</a-button>
+          <div class="pop-modal">
+            <a-button class="btn" type="primary" @click="showModal">添加个人经历</a-button>
+            <a-modal
+              title="添加个人经历"
+              :visible="visible"
+              @ok="handleOk"
+              @cancel="handleCancel"
+              cancelText="取消"
+              okText="提交"
+            >
+              <div class="input-list">
+                <div class="ex-input">
+                  <label>单位名称：</label>
+                  <a-input style="width:100px;" v-model="crtexperience.organization"> </a-input>
+                </div>
+                <div class="ex-input">
+                  <label>职务/身份：</label>
+                  <a-input style="width:100px;" v-model="crtexperience.position"> </a-input>
+                </div>
+                <div class="ex-input">
+                  <label>起始时间：</label>
+                  <a-input style="width:100px;" v-model="crtexperience.startyear"> </a-input>
+                </div>
+                <div class="ex-input">
+                  <label>结束时间：</label>
+                  <a-input style="width:100px;" v-model="crtexperience.endyear"> </a-input>
+                </div>
+              </div>
+            </a-modal>
+          </div>
         </div>
       </div>
       <div class="down-block">
@@ -243,6 +271,7 @@ export default {
   data() {
     return {
       data,
+      visible: false,
       loginid: 0,
       pageid: 0,
       current: ["mail"],
@@ -278,6 +307,12 @@ export default {
             endyear: "1983",
           },
         ],
+      },
+      crtexperience: {
+        position: "",
+        organization: "",
+        startyear: "",
+        endyear: "",
       },
       count: 10,
     };
@@ -443,6 +478,15 @@ export default {
         });
       }, 1500);
     },
+    showModal() {
+      this.visible = true;
+    },
+    handleOk() {
+      this.visible = false;
+    },
+    handleCancel() {
+      this.visible = false;
+    },
 
     callback(key) {
       console.log(key);
@@ -470,27 +514,27 @@ export default {
   width: 1200px;
   height: 2500px;
   margin: auto;
-  border: solid 1px grey;
+  /* border: solid 1px grey; */
 }
 .up-block {
-  border: solid 1px red;
+  /* border: solid 1px red; */
   width: 1100px;
-  height: 250px;
+  height: 230px;
   margin: auto;
-  background-color: #f0f0f0f0;
+  background-color: #fafafa;
 }
 .down-block {
-  border: solid 1px blue;
+  /* border: solid 1px blue; */
   width: 1100px;
   height: 1300px;
   margin: auto;
 }
 
 .user-info {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 550px;
   height: 200px;
-  margin: 10px;
+  padding: 20px;
 }
 .avatar {
   height: 120px;
@@ -518,8 +562,8 @@ export default {
   margin: 20px auto 10px 120px;
 }
 .actions {
-  padding-top: 10px;
-  border: solid 1px black;
+  padding-top: 40px;
+  /* border: solid 1px black; */
   width: 150px;
   height: 200px;
   display: block;
@@ -527,14 +571,14 @@ export default {
   margin: -210px 10px 10px 10px;
 }
 .selections {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 250px;
   height: 800px;
   margin: 10px 10px 10px 10px;
 }
 .results {
   padding: 10px 15px 10px 15px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 800px;
   height: 800px;
   display: block;
@@ -543,17 +587,17 @@ export default {
 }
 .btn {
   width: 120px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: 15px;
 }
 .intro {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 750px;
   height: 1200px;
   margin: 10px;
 }
 .influence {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 1080px;
   height: 800px;
   margin: 10px;
@@ -585,13 +629,13 @@ li {
   color: black;
 }
 .echart {
-  border: solid 1px blue;
+  /* border: solid 1px blue; */
   width: 700px;
   height: 300px;
   margin: 10px;
 }
 .relation-echart {
-  border: solid 1px brown;
+  /* border: solid 1px brown; */
   width: 700px;
   height: 500px;
   margin: 10px;
@@ -599,9 +643,19 @@ li {
 .experience {
   padding: 20px;
   width: 250px;
-  border: solid 1px brown;
+  /* border: solid 1px brown; */
   display: block;
   float: right;
   margin: -1210px 0 20px 0;
+}
+
+.ex-input {
+  display: block;
+  width: 200px;
+  float: left;
+  margin: 10px;
+}
+.input-list {
+  height: 100px;
 }
 </style>
