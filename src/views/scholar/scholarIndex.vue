@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <personNav></personNav> -->
+    <navSearch></navSearch>
     <div class="main-block">
       <div class="up-block">
         <div class="user-info">
@@ -41,6 +41,16 @@
               <div class="echart" id="main"></div>
               <a-divider></a-divider>
               <div class="relation-echart" id="relation"></div>
+            </div>
+            <div class="experience">
+              <a-timeline>
+                <a-timeline-item v-for="(item, i) in user.experience" :key="i" :color="i == 0 ? 'blue' : 'gray'">
+                  <div>
+                    <p>{{ item.startyear }} - {{ item.endyear }}</p>
+                    <p>{{ item.organization }} - {{ item.position }}</p>
+                  </div>
+                </a-timeline-item>
+              </a-timeline>
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="项目">
@@ -203,7 +213,7 @@
 
 <script>
 //引入导航栏
-//import personNav from "@/components/personNav";
+import navSearch from "@/components/navSearch";
 
 import imgSrc from "../../assets/user.png";
 const data = [
@@ -235,7 +245,7 @@ const data = [
 
 export default {
   components: {
-    // personNav,
+    navSearch,
   },
   data() {
     return {
@@ -252,6 +262,32 @@ export default {
         ins: "中南大学",
         hindex: 1,
         gindex: 2,
+        experience: [
+          {
+            position: "副教授",
+            organization: "中科院",
+            startyear: "2019",
+            endyear: "2020",
+          },
+          {
+            position: "研究员",
+            organization: "中科院",
+            startyear: "1998",
+            endyear: "2019",
+          },
+          {
+            position: "研究生",
+            organization: "中科大",
+            startyear: "1983",
+            endyear: "1986",
+          },
+          {
+            position: "本科生",
+            organization: "中科大",
+            startyear: "1979",
+            endyear: "1983",
+          },
+        ],
       },
       count: 10,
     };
@@ -557,5 +593,13 @@ li {
 .index-number {
   font-size: 20px;
   color: black;
+}
+.experience {
+  padding: 20px;
+  width: 250px;
+  border: solid 1px brown;
+  display: block;
+  float: right;
+  margin: -1310px 0 20px 0;
 }
 </style>
