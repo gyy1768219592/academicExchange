@@ -23,15 +23,29 @@
                             </a>
                             <a-menu slot="overlay">
                               <a-menu-item>
-                                <div class="author">
+                                <div class="author" @click="gotoUser">
                                   <a-avatar class="img" :size="38" icon="user" />
                                   <h1 class="author-name2">{{ item.username }}</h1>
                                 </div>
                               </a-menu-item>
                               <a-menu-item>
-                                <a-button type="primary" class="addLink">
+                                <div class="detail-pub__cognize-toast_body">
+                                  <div class="detail-pub__cognize-toast_body-item">
+                                    <span class="detail-pub__cognize-toast_body-item_cnt">{{ item.prognum }}</span> 
+                                    <span class="detail-pub__cognize-toast_body-item_cnt">项目</span>
+                                  </div>
+                                  <div class="detail-pub__cognize-toast_body-item">
+                                    <span class="detail-pub__cognize-toast_body-item_cnt">{{ item.outnum }}</span> 
+                                    <span class="detail-pub__cognize-toast_body-item_cnt">成果</span>
+                                  </div>
+                                  <div class="detail-pub__cognize-toast_body-item">
+                                    <span class="detail-pub__cognize-toast_body-item_cnt">{{ item.Hindex }}</span> 
+                                    <span class="detail-pub__cognize-toast_body-item_cnt">H指数</span>
+                                  </div>
+                                </div>
+                                <!-- <a-button type="primary" class="addLink" @click="goto">
                                   发私信
-                                </a-button>
+                                </a-button> -->
                               </a-menu-item>
                             </a-menu>
                           </a-dropdown>
@@ -41,9 +55,9 @@
             </div>
         </div>
         <div class="tool">
-            <a-button class="collect">
+            <a-button class="collect" @click="changeCollect">
                 <a-icon type="star" class="star"/>
-                <span class="collect-word">收藏</span>
+                <span class="collect-word" >收藏</span>
             </a-button>
         </div>
       </div>
@@ -128,18 +142,30 @@ export default {
       author_data : [
         {
             username: "谭火彬",
+            prognum: 15,
+            outnum: 456,
+            Hindex: 14,
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
             username: "宋友",
+            prognum: 5,
+            outnum: 56,
+            Hindex: 48,
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
             username: "贾经冬",
+            prognum: 46,
+            outnum: 895,
+            Hindex: 5,
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
             username: "原仓周",
+            prognum: 7,
+            outnum: 566,
+            Hindex: 6,
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
       ],
@@ -242,6 +268,13 @@ export default {
     callback(key) {
       console.log(key);
     },
+    gotoUser(){
+      //去此人的主页
+      // this.$router.push("/Patent");
+    },
+    changeCollect(){
+      
+    },
     getPaper(){
       // let params = new URLSearchParams();
       // params.append("PaperId",values);
@@ -258,47 +291,47 @@ export default {
   width: 1200px;
   height: 1400px;
   margin: auto;
-  border: solid 1px black;
+  /* border: solid 1px black; */
 }
 .up-block {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 1100px;
   height: 250px;
   margin: auto;
   background-color: #f0f0f0f0;
 }
 .down-block {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 1100px;
   height: 900px;
   margin: auto;
 }
 .down-left-block {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 750px;
   height: 900px;
   margin: 0px 0px 0px 0px;
 }
 .down-right-block {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 350px;
   height: 900px;
   margin: -900px 10px 10px 750px;
 }
 .artcle-info {
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 950px;
   height: 180px;
   margin: 10px;
 }
 .tool{
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 950px;
   height: 40px;
   margin: 10px;
 }
 .collect{
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 100px;
   height: 40px;
   margin: 0px;
@@ -319,7 +352,7 @@ export default {
   font-size: x-large;
 }
 .refer-num{
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 85px;
   height: 25px;
   margin: 10px;
@@ -332,7 +365,7 @@ export default {
   font-size: medium;
 }
 .date{
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 200px;
   height: 25px;
   margin: -35px 0px 0px 750px;
@@ -345,7 +378,7 @@ export default {
   font-size: medium;
 }
 .title{
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 800px;
   height: 50px;
   margin: 10px;
@@ -358,7 +391,7 @@ export default {
   font-size: xx-large;
 }
 .authors{
-  border: solid 1px black;
+  /* border: solid 1px black; */
   width: 900px;
   height: 50px;
   margin: 10px;
@@ -389,7 +422,7 @@ export default {
   margin: -50px auto 0 40px;
 }
 .myChart {
-  border: solid 1px blue;
+  /* border: solid 1px blue; */
   width: 320px;
   height: 300px;
   margin: 10px;
@@ -398,7 +431,7 @@ export default {
 
 .Abstract-frame{
   width: 700px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .Abstract{
@@ -410,7 +443,7 @@ export default {
 }
 .Keyword-frame{
   width: 700px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .Keyword{
@@ -422,7 +455,7 @@ export default {
 }
 .DOI-frame{
   width: 700px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .DOI{
@@ -434,7 +467,7 @@ export default {
 }
 .source-frame{
   width: 700px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .source{
@@ -446,8 +479,25 @@ export default {
 }
 .url-frame{
   width: 700px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
+}
+.detail-pub__cognize-toast_body {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 12px 0px;
+}
+.detail-pub__cognize-toast_body-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.detail-pub__cognize-toast_body-item_cnt {
+    color: #999;
+    font-size: 14px;
 }
 
 .img {
