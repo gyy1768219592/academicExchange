@@ -60,6 +60,10 @@
                 <a-icon type="star" class="star"/>
                 <span class="collect-word" >收藏</span>
             </a-button>
+            <a-button class="collect" @click="share">
+                <a-icon type="share-alt" class="star"/>
+                <span class="collect-word" >分享</span>
+            </a-button>
         </div>
       </div>
       <div class="down-block">
@@ -257,7 +261,7 @@ export default {
             axisLabel: {
                 formatter: '{value}'
             },
-            data: ['1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021']
+            data: ['1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020']
         },
         yAxis: {
             show: false,
@@ -300,6 +304,15 @@ export default {
               num+=op.series[0].data[i];
           }
           this.mounian=month;
+          if(isNaN(num)){
+            num=0;
+          }
+          if(typeof(this.mounianbeiyinliang) == undefined){
+            this.mounianbeiyinliang = 0;
+          }
+          if(typeof(this.mounian) == undefined){
+            this.mounian = "0000";
+          }
           this.mounianbeiyinliang = value;
           var span = document.getElementById("leijialiang");
           span.innerHTML = num;
@@ -327,6 +340,9 @@ export default {
     },
     changeCollect(){
       
+    },
+    share(){
+
     },
     getPaper(){
       // let params = new URLSearchParams();
