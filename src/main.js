@@ -10,11 +10,12 @@ import echarts from "echarts";
 Vue.prototype.$echarts = echarts;
 Vue.config.productionTip = false;
 Vue.use(Antd);
+Vue.use(echarts);
 Vue.prototype.$api = api;
 Vue.prototype.$urlPath = path;
 
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  render: h => h(App)
 }).$mount("#app");
