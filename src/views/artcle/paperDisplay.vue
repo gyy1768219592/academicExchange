@@ -27,7 +27,7 @@
                                 <div class="author" @click="gotoUser">
                                   <a-avatar class="img" :size="38" icon="user" />
                                   <h1 class="author-name2">{{ item.username }}</h1>
-                                  <div class="detail-pub__cognize-toast_header-work" :title=item.infor>
+                                  <div class="author-from" :title=item.infor>
                                     {{item.infor}}
                                   </div>
                                 </div>
@@ -173,7 +173,7 @@ export default {
             prognum: 15,
             outnum: 456,
             Hindex: 14,
-            infor: "北航软件学院 副教授",
+            infor: "北京航空航天大学软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
@@ -181,7 +181,7 @@ export default {
             prognum: 5,
             outnum: 56,
             Hindex: 48,
-            infor: "北航软件学院 副教授",
+            infor: "北京航空航天大学软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
@@ -189,7 +189,7 @@ export default {
             prognum: 46,
             outnum: 895,
             Hindex: 5,
-            infor: "北航软件学院 副教授",
+            infor: "北京航空航天大学软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
@@ -197,7 +197,7 @@ export default {
             prognum: 7,
             outnum: 566,
             Hindex: 6,
-            infor: "北航软件学院 副教授",
+            infor: "北京航空航天大学软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
       ],
@@ -493,7 +493,7 @@ export default {
 .author-name2 {
   width: 95px;
   /*border: solid 1px black; */
-  margin: -30px auto 0 40px;
+  margin: -35px auto 0 40px;
   height: 50px;
   font-size: x-large;
 }
@@ -615,13 +615,14 @@ export default {
   margin: auto;
   /* border: solid 1px red; */
 }
-.detail-pub__cognize-toast_header-work {
+.author-from {
     color: #999;
+    /* border: solid 1px red; */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    width: 150px;
-    margin: -10px 0px 0px 0px;
+    width: 100%;
+    margin: -30px 0px 0px 35px;
 }
 
 .info-content-ins {
