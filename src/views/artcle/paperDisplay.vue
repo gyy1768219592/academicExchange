@@ -1,5 +1,6 @@
 <template>
-  <div><topNav></topNav><!-- <personNav></personNav> -->
+  <div>
+    <topNav></topNav><!-- <personNav></personNav> -->
     <div class="main-block">
       <div class="up-block">
         <div class="artcle-info">
@@ -29,18 +30,18 @@
                                 </div>
                               </a-menu-item>
                               <a-menu-item>
-                                <div class="detail-pub__cognize-toast_body">
-                                  <div class="detail-pub__cognize-toast_body-item">
-                                    <span class="detail-pub__cognize-toast_body-item_cnt">{{ item.prognum }}</span> 
-                                    <span class="detail-pub__cognize-toast_body-item_cnt">项目</span>
+                                <div class="author-infor">
+                                  <div class="author-infor-item">
+                                    <span class="author-infor-item_cnt">{{ item.prognum }}</span> 
+                                    <span class="author-infor-item_cnt">项目</span>
                                   </div>
-                                  <div class="detail-pub__cognize-toast_body-item">
-                                    <span class="detail-pub__cognize-toast_body-item_cnt">{{ item.outnum }}</span> 
-                                    <span class="detail-pub__cognize-toast_body-item_cnt">成果</span>
+                                  <div class="author-infor-item">
+                                    <span class="author-infor-item_cnt">{{ item.outnum }}</span> 
+                                    <span class="author-infor-item_cnt">成果</span>
                                   </div>
-                                  <div class="detail-pub__cognize-toast_body-item">
-                                    <span class="detail-pub__cognize-toast_body-item_cnt">{{ item.Hindex }}</span> 
-                                    <span class="detail-pub__cognize-toast_body-item_cnt">H指数</span>
+                                  <div class="author-infor-item">
+                                    <span class="author-infor-item_cnt">{{ item.Hindex }}</span> 
+                                    <span class="author-infor-item_cnt">H指数</span>
                                   </div>
                                 </div>
                                 <!-- <a-button type="primary" class="addLink" @click="goto">
@@ -111,14 +112,37 @@
             </a-descriptions>
           </a-tab-pane>
           <a-tab-pane key="3" tab="引用助手" style="margin: 10px">
-               
+            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
+              <a-descriptions-item >
+                <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
+                  <span class="yinyong" onclick="oCopy(this)">
+                    {{yinyong}}
+                  </span>
+                </div>
+              </a-descriptions-item>
+            </a-descriptions>
           </a-tab-pane>
           </a-tabs>
         </div>
         <div class="down-right-block">
           <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
-          <span>引用走势</span>
-          <div id="myChart" class="myChart"></div>
+          <span class = "title-echart">引用走势</span>
+          <!-- style="z-index:999;float:left;position:absolute" -->
+          <div class="echarts-infor-frame">
+            <div class="echarts-infor">
+              <div class="echarts-infor-item">
+                <span class="echarts-infor-item_cnt" id="leijialiang">{{leijiliang}}</span> 
+                <span class="echarts-infor-item_cnt">累加量</span>
+              </div>
+              <div class="echarts-infor-item">
+                <span class="echarts-infor-item_cnt" id="mounianbeiyinliang">{{mounianbeiyinliang}}</span> 
+                <span class="echarts-infor-item_cnt" id="mounian">{{mounian}}年被引量</span>
+              </div>
+            </div>
+          </div>
+          <div id="myChart" class="myChart">
+          </div>
         </div>
       </div>
     </div>
@@ -183,6 +207,10 @@ export default {
       FirstPage :	"213",       //开始页
       LastPage :	"223",       //结束页
       SourceUrl :"http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
+      yinyong: "杨玲,  陈志刚. 陈志刚教授辨病论治周围神经病经验[J]. 中国当代医药. 2018,(12):112-115. ",
+      leijiliang : 0,
+      mounian : 2000,
+      mounianbeiyinliang : 2,
     };
   },
   watch: {
@@ -258,7 +286,32 @@ export default {
           },
         ]
       });
+      myChart.getZr().on('mousemove', function (params) { 
+      var pointInPixel= [params.offsetX, params.offsetY];
+        if (myChart.containPixel('grid',pointInPixel)) {
+          this.leijiliang = 10;
+          var pointInGrid=myChart.convertFromPixel({seriesIndex:0},pointInPixel);
+          var xIndex=pointInGrid[0];
+          var op=myChart.getOption();
+          var month = op.xAxis[0].data[xIndex];
+          var value = op.series[0].data[xIndex];
+          var num=0;
+          for (var i=0; i<=xIndex; i++){
+              num+=op.series[0].data[i];
+          }
+          this.mounian=month;
+          this.mounianbeiyinliang = value;
+          var span = document.getElementById("leijialiang");
+          span.innerHTML = num;
+          span = document.getElementById("mounianbeiyinliang");
+          span.innerHTML = this.mounianbeiyinliang;
+          span = document.getElementById("mounian");
+          span.innerHTML = this.mounian+"年被引量";
+        }
+      });
+      
     },
+    
     handleClick(e) {
       console.log("click", e);
     },
@@ -281,6 +334,9 @@ export default {
       // postData(url, param).then(res=>{
         
       // })
+    },
+    oCopy(obj){
+        obj.select();    // 选中输入框中的内容
     }
 
   },
@@ -425,9 +481,18 @@ export default {
   /* border: solid 1px blue; */
   width: 320px;
   height: 300px;
-  margin: 10px;
+  margin: -60px 0px 0px 0px;
 }
-
+.yinyong {
+    width: 80%;
+    color: #333 !important;
+    font-size: 14px;
+    line-height: 20px;
+    font-size: large;
+}
+.title-echart{
+  font-size: medium;
+}
 
 .Abstract-frame{
   width: 700px;
@@ -482,24 +547,45 @@ export default {
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
 }
-.detail-pub__cognize-toast_body {
+.author-infor {
     display: flex;
     justify-content: space-around;
     align-items: center;
     width: 100%;
     margin: 12px 0px;
 }
-.detail-pub__cognize-toast_body-item {
+.author-infor-item {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.detail-pub__cognize-toast_body-item_cnt {
+.author-infor-item_cnt {
     color: #999;
     font-size: 14px;
 }
 
+.echarts-infor-frame{
+  width: 45%;
+  margin: 0px 0px 0px 0px;
+}
+.echarts-infor {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin: 12px 0px;
+}
+.echarts-infor-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.echarts-infor-item_cnt {
+    color: #999;
+    font-size: 14px;
+}
 .img {
   margin: auto;
   /* border: solid 1px red; */
