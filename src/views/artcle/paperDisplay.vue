@@ -35,22 +35,24 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon type="pic-left" />
-              <a-descriptions title="摘要" style="margin: 10px">
+              <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
                     <span class="Abstract" >{{Abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-descriptions title="关键词" style="margin: 10px">
+              <a-icon type="key" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-descriptions title="关键词" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Keyword-frame">
                    <span class="Keyword" >{{keyword}}</span>
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
-              <a-descriptions title="DOI" style="margin: 10px">
+              <a-icon type="snippets" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-descriptions title="DOI" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="DOI-frame">
                     <span class="DOI" >{{DOI}}</span>
@@ -60,14 +62,16 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文来源">
-            <a-descriptions title="原文出处" style="margin: 10px">
+            <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-descriptions title="原文出处" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
                   <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-descriptions title="全文链接" style="margin: 10px">
+            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
                   <a :href="SourceUrl">链接</a>
@@ -81,7 +85,7 @@
           </a-tabs>
         </div>
         <div class="down-right-block">
-          <a-icon type="area-chart" />
+          <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
           <span>引用走势</span>
           <div id="myChart" class="myChart"></div>
         </div>
@@ -209,36 +213,6 @@ export default {
               ]
             }
           },
-          // {
-          //   name:'最低',
-          //   type:'line',
-          //   data:[1, -2, 2, 5, 3, 2, 0],
-          //   markPoint: {
-          //       data: [
-          //           {name: '周最低', value: 2, xAxis: 1, yAxis: 1.5}
-          //       ]
-          //   },
-          //   markLine: {
-          //     data: [
-          //       {type: 'average', name: '平均值'},
-          //       [{
-          //         symbol: 'none',
-          //         x: '90%',
-          //         yAxis: 'max'
-          //       }, {
-          //         symbol: 'circle',
-          //         label: {
-          //           normal: {
-          //             position: 'start',
-          //             formatter: '最大值'
-          //           }
-          //         },
-          //         type: 'max',
-          //         name: '最高点'
-          //       }]
-          //     ]
-          //   }
-          // }
         ]
       });
     },
@@ -394,7 +368,7 @@ export default {
 .Abstract-frame{
   width: 700px;
   border: solid 1px black;
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
 }
 .Abstract{
   width: 600px;
