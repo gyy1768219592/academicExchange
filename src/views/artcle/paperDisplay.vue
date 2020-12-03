@@ -294,6 +294,14 @@ export default {
             tooltip: {
               show: true,
               trigger: 'axis',
+            },
+            itemStyle: {
+              normal: {
+                color: "#386db3",//折线点的颜色
+                lineStyle: {
+                color: "#386db3"//折线的颜色
+                }
+              }
             }
           },
           
