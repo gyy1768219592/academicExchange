@@ -345,7 +345,7 @@ export default {
     },
     gotoUser(){
       //去此人的主页
-      // this.$router.push("/Patent");
+      this.$router.push("/Patent");
     },
     changeCollect(){
       
