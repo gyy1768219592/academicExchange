@@ -69,6 +69,12 @@ const routes = [
     name: "patentDisplay",
     component: () => import("../views/artcle/patentDisplay.vue"),
   },
+  {
+    //管理员
+    path: "/Manager",
+    name: "manager",
+    component: () => import("../views/managerMent/Manager.vue"),
+  },
 ];
 
 const router = new VueRouter({

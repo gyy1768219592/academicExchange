@@ -1,6 +1,5 @@
 <template>
-  <div>
-    <!-- <personNav></personNav> -->
+  <div><topNav></topNav><!-- <personNav></personNav> -->
     <div class="main-block">
       <div class="up-block">
         <div class="artcle-info">
@@ -36,22 +35,22 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <!-- <h1>{{data.Abstract}}</h1> -->
-              <a-descriptions title="摘要">
+              <a-icon type="pic-left" />
+              <a-descriptions title="摘要" style="margin: 10px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
                     <span class="Abstract" >{{Abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-descriptions title="关键词">
+              <a-descriptions title="关键词" style="margin: 10px">
                 <a-descriptions-item >
                   <div class="Keyword-frame">
                    <span class="Keyword" >{{keyword}}</span>
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
-              <a-descriptions title="DOI">
+              <a-descriptions title="DOI" style="margin: 10px">
                 <a-descriptions-item >
                   <div class="DOI-frame">
                     <span class="DOI" >{{DOI}}</span>
@@ -61,14 +60,14 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文来源">
-            <a-descriptions title="原文出处">
+            <a-descriptions title="原文出处" style="margin: 10px">
               <a-descriptions-item >
                 <div class="source-frame">
                   <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-descriptions title="全文链接">
+            <a-descriptions title="全文链接" style="margin: 10px">
               <a-descriptions-item >
                 <div class="url-frame">
                   <a :href="SourceUrl">链接</a>
@@ -76,12 +75,13 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <a-tab-pane key="3" tab="引用助手">
+          <a-tab-pane key="3" tab="引用助手" style="margin: 10px">
                
           </a-tab-pane>
           </a-tabs>
         </div>
         <div class="down-right-block">
+          <a-icon type="area-chart" />
           <span>引用走势</span>
           <div id="myChart" class="myChart"></div>
         </div>
@@ -94,12 +94,13 @@
 //引入导航栏
 //import personNav from "@/components/personNav";
 // import { postData } from "@/api/webpost";
+import topNav from "@/components/nav.vue";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
 export default {
   components: {
-    
+    topNav,
   },
   data() {
     return {
