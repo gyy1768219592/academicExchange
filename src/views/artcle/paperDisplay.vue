@@ -27,6 +27,9 @@
                                 <div class="author" @click="gotoUser">
                                   <a-avatar class="img" :size="38" icon="user" />
                                   <h1 class="author-name2">{{ item.username }}</h1>
+                                  <div class="detail-pub__cognize-toast_header-work" :title=item.infor>
+                                    {{item.infor}}
+                                  </div>
                                 </div>
                               </a-menu-item>
                               <a-menu-item>
@@ -44,9 +47,6 @@
                                     <span class="author-infor-item_cnt">H指数</span>
                                   </div>
                                 </div>
-                                <!-- <a-button type="primary" class="addLink" @click="goto">
-                                  发私信
-                                </a-button> -->
                               </a-menu-item>
                             </a-menu>
                           </a-dropdown>
@@ -137,7 +137,7 @@
             <div class="echarts-infor">
               <div class="echarts-infor-item">
                 <span class="echarts-infor-item_cnt" id="leijialiang">{{leijiliang}}</span> 
-                <span class="echarts-infor-item_cnt">累加量</span>
+                <span class="echarts-infor-item_cnt">累计被引量</span>
               </div>
               <div class="echarts-infor-item">
                 <span class="echarts-infor-item_cnt" id="mounianbeiyinliang">{{mounianbeiyinliang}}</span> 
@@ -173,6 +173,7 @@ export default {
             prognum: 15,
             outnum: 456,
             Hindex: 14,
+            infor: "北航软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
@@ -180,6 +181,7 @@ export default {
             prognum: 5,
             outnum: 56,
             Hindex: 48,
+            infor: "北航软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
@@ -187,6 +189,7 @@ export default {
             prognum: 46,
             outnum: 895,
             Hindex: 5,
+            infor: "北航软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
         {
@@ -194,6 +197,7 @@ export default {
             prognum: 7,
             outnum: 566,
             Hindex: 6,
+            infor: "北航软件学院 副教授",
             src: "https:///resmod/smate-pc/img/logo_psndefault.png",
         },
       ],
@@ -286,8 +290,13 @@ export default {
               data: [
                 // {type: 'average', name: '平均值'}
               ]
+            },
+            tooltip: {
+              show: true,
+              trigger: 'axis',
             }
           },
+          
         ]
       });
       myChart.getZr().on('mousemove', function (params) { 
@@ -582,7 +591,7 @@ export default {
 }
 
 .echarts-infor-frame{
-  width: 45%;
+  width: 50%;
   margin: 0px 0px 0px 0px;
 }
 .echarts-infor {
@@ -605,6 +614,14 @@ export default {
 .img {
   margin: auto;
   /* border: solid 1px red; */
+}
+.detail-pub__cognize-toast_header-work {
+    color: #999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 150px;
+    margin: -10px 0px 0px 0px;
 }
 
 .info-content-ins {
