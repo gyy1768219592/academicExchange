@@ -16,18 +16,35 @@
                 <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="author_data">
                     <a-list-item slot="renderItem" slot-scope="item">
                         <div class="author">
-                            <a-avatar class="img" :size="35" icon="user" />
-                            <h1 class="author-name">{{ item.username }}</h1>
+                          <a-dropdown>
+                            <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                              <a-avatar class="img" :size="35" icon="user" />
+                              <h1 class="author-name">{{ item.username }}</h1>
+                            </a>
+                            <a-menu slot="overlay">
+                              <a-menu-item>
+                                <div class="author">
+                                  <a-avatar class="img" :size="38" icon="user" />
+                                  <h1 class="author-name2">{{ item.username }}</h1>
+                                </div>
+                              </a-menu-item>
+                              <a-menu-item>
+                                <a-button type="primary" class="addLink">
+                                  发私信
+                                </a-button>
+                              </a-menu-item>
+                            </a-menu>
+                          </a-dropdown>
                         </div>
                     </a-list-item>
                 </a-list>
             </div>
         </div>
         <div class="tool">
-            <div class="collect">
-                <a-icon type="star" :style="{ fontSize: '30px', color: '#08c' }" class="star"/>
+            <a-button class="collect">
+                <a-icon type="star" class="star"/>
                 <span class="collect-word">收藏</span>
-            </div>
+            </a-button>
         </div>
       </div>
       <div class="down-block">
@@ -287,17 +304,19 @@ export default {
   margin: 0px;
 }
 .collect-word{
-  border: solid 1px black;
-  width: 100px;
+  /* border: solid 1px black; */
+  width: 50px;
   height: 35px;
-  margin: 0px;
+  margin: 0px 0px 0px -30px;
   font-size: x-large;
 }
 .star{
-  /*border: solid 1px black;*/
+  /* border: solid 1px black; */
+  color: #08c;
   width: 40px;
   height: 40px;
-  margin: 5px 0px 0px 0px;
+  margin: 0px 0px 0px -20px;
+  font-size: x-large;
 }
 .refer-num{
   border: solid 1px black;
@@ -356,6 +375,18 @@ export default {
   margin: -37px auto 0 35px;
   height: 40px;
   font-size: x-large;
+}
+.author-name2 {
+  width: 95px;
+  /*border: solid 1px black; */
+  margin: -30px auto 0 40px;
+  height: 50px;
+  font-size: x-large;
+}
+.addLink{
+  width: 100px;
+  /*border: solid 1px black; */
+  margin: -50px auto 0 40px;
 }
 .myChart {
   border: solid 1px blue;
