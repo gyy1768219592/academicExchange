@@ -14,6 +14,8 @@ let path = {
     updateUserInfo: Ip.productIP + "updateUserInfo",
     getUserQuestionByUsername: Ip.productIP + "getUserQuestionByUsername",
     setPassword: Ip.productIP + "setPassword",
+    isEmailUsed: Ip.productIP + "user/emailUsed",
+    isNameUsed: Ip.productIP + "user/nameUsed"
   },
 };
 export default path;

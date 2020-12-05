@@ -3,7 +3,7 @@
     <div class="register_container">
       <p>注 册</p>
       <a-form :form="form" @submit="handleSubmit">
-        <a-form-item v-bind="formItemLayout" label="输入邮箱">
+        <a-form-item v-bind="formItemLayout" label="输入邮箱" has-feedback>
           <a-input
             v-decorator="[
               'email',
@@ -29,7 +29,10 @@
               {
                 rules: [
                   { required: true, message: 'Username is required!' },
-                  { min: 2, message: '用户名长度最小为2', trigger: 'blur' }
+                  { min: 2, message: '用户名长度最小为2', trigger: 'blur' },
+                  {
+                    validator: validateUsername
+                  }
                 ]
               }
             ]"
@@ -247,7 +250,18 @@ export default {
         form.validateFields(["confirm"], { force: true });
       }
       callback();
-    }
+    },
+    /*validateUsername(rule, value, callback) {
+      const form = this.form;
+      var username = form.getFieldValue("username");
+      if(username === undefined) username="";
+      let params = new URLSearchParams();
+      params.append("username", username);
+      let url = this.$urlPath.website.isNameUsed;
+      postData(url, params).then(res => {
+        console.log(res);
+      });
+    }*/
   }
 };
 </script>

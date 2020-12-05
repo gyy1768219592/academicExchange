@@ -74,6 +74,9 @@
                                 type: 'email',
                                 message: '输入不是有效的邮箱!',
                               },
+                              {
+                                validator: validateScholarEmail
+                              }
                             ],
                           },
                         ]"
@@ -109,14 +112,14 @@
                   info.username
                 }}</span>
               </div>
-              <div style="height: 2em; margin-top: 1em">
+              <div style="height: 2em; margin-top: 2.5em">
                 <a-icon type="contacts" style="margin-right: 0.7em" />
                 <span style="width: 7em; display: inline-block">账号ID:</span>
                 <span style="width: 10em; display: inline-block">{{
                   info.userid
                 }}</span>
               </div>
-              <div style="height: 2em; margin-top: 1em">
+              <div style="height: 2em; margin-top: 2.5em">
                 <a-icon type="lock" style="margin-right: 0.7em" />
                 <span style="width: 7em; display: inline-block">密码:</span>
                 <span style="width: 10em; display: inline-block">{{
@@ -131,7 +134,7 @@
                   v-on:closePwd="closePwd"
                 ></inputPwd>
               </div>
-              <div style="height: 2em; margin-top: 1em">
+              <div style="height: 2em; margin-top: 2.5em">
                 <a-icon type="mail" style="margin-right: 0.7em" />
                 <span style="width: 7em; display: inline-block">邮箱:</span>
                 <span style="width: 10em; display: inline-block">{{
@@ -182,6 +185,12 @@ export default {
   methods: {
     setModalVisible(modalVisible) {
       this.modalVisible = modalVisible;
+      console.log(this.info.email.match(/@\S+edu/));
+      console.log(this.info.email);
+      if(this.info.email.match(/@\S+edu/) != null && this.form.getFieldValue("email") === undefined)
+      this.form.setFieldsValue({
+        email: this.info.email 
+      });
     },
     handleCancel() {
       this.modalVisible = false;
@@ -232,16 +241,25 @@ export default {
       this.info.userid = "123455555";
       this.info.isScholar = false;
     },
+    validateScholarEmail(rule, value, callback) {
+    const form = this.form;
+    //这里我们采用一个简单的方式，即寻找域名中有无edu，放宽范围，因为我们最终是需要用户点击链接的，如果输入不正确的邮箱是无法验证成功的
+    var email = form.getFieldValue("email");
+    if(email === undefined) email = "";
+    if(email.match(/@\S+edu/) === null){
+      callback("请输入机构邮箱,而非普通邮箱");
+    }
+    callback();
+  }
   },
   created() {
     this.getInfo();
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "scholarIdentify" });
-  },
+  }
 };
 </script>
-
 <style>
 .Info_container {
   width: 40em;
