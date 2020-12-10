@@ -133,6 +133,30 @@ export default {
       FirstPage :	"213",       //开始页
       LastPage :	"223",       //结束页
       SourceUrl :"http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
+      /*
+ProjectId	项目ID
+Organization	组织
+FundProjectCode	资助项目代码
+Source	来源
+Doi	Doi号
+FieldName	领域名
+DoiUrl	Doi路由
+ZhAbstract	中文摘要
+FundProject	资助项目
+ProjectAuthors	项目作者
+FieldCode	领域编码
+OrganizationID	组织ID
+SupportTypeName	资助类型名
+ChineseTitle	中文标题
+PublishDate	公布日期
+FundProjectNo	资助项目编号
+SupportType	资助类型
+AchievementID	成果ID
+Journal	期刊名
+ProductType	产品类型
+ZhKeyword	中文关键字
+
+      */
     };
   },
   watch: {
