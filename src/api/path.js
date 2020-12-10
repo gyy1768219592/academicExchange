@@ -1,6 +1,6 @@
-var LOADIP = "http://123.56.145.79:8090";
+var LOADIP = "http://182.92.223.226/";
 let Ip = {
-  productIP: LOADIP + "/",
+  productIP: LOADIP + "scholarship/",
 };
 let path = {
   website: {
@@ -14,6 +14,7 @@ let path = {
     updateUserInfo: Ip.productIP + "updateUserInfo",
     getUserQuestionByUsername: Ip.productIP + "getUserQuestionByUsername",
     setPassword: Ip.productIP + "setPassword",
+    getProjectById: Ip.productIP + "getProjectById",
   },
 };
 export default path;

@@ -161,8 +161,8 @@
 <script>
 //引入导航栏
 //import personNav from "@/components/personNav";
-// import { postData } from "@/api/webpost";
 import navSearch from "@/components/navSearch";
+import { getData } from "@/api/webget";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
@@ -172,6 +172,7 @@ export default {
   },
   data() {
     return {
+      progID: 1,
       author_data : [
         {
             username: "谭火彬",
@@ -233,6 +234,7 @@ export default {
   },
   mounted(){
     this.initCharts();
+    this.getProg();
   },
   methods: {
     initCharts () {
@@ -346,7 +348,32 @@ export default {
       });
       
     },
-    
+    getProg(){
+      let params = new URLSearchParams();
+      params.append("projectId", this.progID);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = "http://182.92.223.226/scholarship/getProjectById/";//this.$urlPath.website.getProjectById;
+      getData(url, params).then(res => {
+        console.log(res.code);
+        if (res.code === "0") {
+          this.$message.success("登录成功");
+          window.sessionStorage.setItem("UserId", res.data.userid);
+          const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          if (webAdrs) {
+            console.log("that way" + webAdrs);
+            this.$router.push(webAdrs.substr(27));
+          } else if (!webAdrs) {
+            console.log("this way");
+            this.$router.push("/used");
+          }
+        } else if (res.code === "1" || res.code === "2") {
+          this.$message.error("用户名或密码错误");
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回时间间隔过长");
+        }
+      });
+    },
     handleClick(e) {
       console.log("click", e);
     },
@@ -365,13 +392,6 @@ export default {
     },
     share(){
 
-    },
-    getPaper(){
-      // let params = new URLSearchParams();
-      // params.append("PaperId",values);
-      // postData(url, param).then(res=>{
-        
-      // })
     },
     oCopy(obj){
         obj.select();    // 选中输入框中的内容
