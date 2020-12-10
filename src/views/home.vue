@@ -5,7 +5,41 @@
       <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
         <a-popover trigger="click" placement="bottomLeft">
           <template slot="content">
-            <div class="home-searchCard">选项</div>
+            <div class="home-searchCard">
+              <a-form
+                :form="form"
+                :label-col="{ span: 5 }"
+                :wrapper-col="{ span: 15 }"
+                @submit="handleSubmit"
+              >
+                <a-form-item label="检索词">
+                  <a-input />
+                </a-form-item>
+                <a-form-item label="科研机构">
+                  <a-input />
+                </a-form-item>
+                <a-form-item label="作者">
+                  <a-input />
+                </a-form-item>
+                <a-form-item label="发表年份">
+                  <a-range-picker
+                    popupStyle="width:414.38px"
+                    allowClear
+                    :placeholder="['开始年份', '结束年份']"
+                    format="YYYY"
+                    :value="yearValue"
+                    :mode="['month', 'month']"
+                    @panelChange="handlePanelChange2"
+                    @change="handleChange"
+                  />
+                </a-form-item>
+                <a-form-item :wrapper-col="{ span: 15, offset: 5 }">
+                  <a-button type="primary" html-type="submit" block>
+                    检索
+                  </a-button>
+                </a-form-item>
+              </a-form>
+            </div>
           </template>
           <a-button
             class="home-searchButton"
@@ -55,6 +89,8 @@ export default {
   data() {
     return {
       isSelected: false,
+      form: this.$form.createForm(this, { name: "advancedSearch" }),
+      yearValue: [],
     };
   },
   methods: {
@@ -66,6 +102,22 @@ export default {
     },
     onSearch(value) {
       this.$router.push({ path: "/searchResult", query: { word: value } });
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+        }
+      });
+    },
+    handleChange(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
+    },
+    handlePanelChange2(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
     },
   },
 };

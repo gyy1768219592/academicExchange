@@ -7,7 +7,50 @@
       <div v-bind:class="isSelected ? 'topNav-search-on' : 'topNav-search'">
         <a-popover trigger="click" placement="bottomLeft">
           <template slot="content">
-            <div class="topNav-searchCard">选项</div>
+            <div class="topNav-searchCard">
+              <a-form
+                :form="form"
+                :label-col="{ span: 5 }"
+                :wrapper-col="{ span: 18 }"
+                @submit="handleSubmit"
+              >
+                <a-form-item style="margin: 0; padding: 0" label="检索词">
+                  <a-input size="small" />
+                </a-form-item>
+                <a-form-item style="margin: 0; padding: 0" label="科研机构">
+                  <a-input size="small" />
+                </a-form-item>
+                <a-form-item style="margin: 0; padding: 0" label="作者">
+                  <a-input size="small" />
+                </a-form-item>
+                <a-form-item style="margin: 0; padding: 0" label="发表年份">
+                  <a-range-picker
+                    popupStyle="width:272.25px"
+                    size="small"
+                    allowClear
+                    :placeholder="['开始年份', '结束年份']"
+                    format="YYYY"
+                    :value="yearValue"
+                    :mode="['month', 'month']"
+                    @panelChange="handlePanelChange2"
+                    @change="handleChange"
+                  />
+                </a-form-item>
+                <a-form-item
+                  style="margin: 0; padding: 0"
+                  :wrapper-col="{ span: 18, offset: 5 }"
+                >
+                  <a-button
+                    type="primary"
+                    html-type="submit"
+                    block
+                    size="small"
+                  >
+                    检索
+                  </a-button>
+                </a-form-item>
+              </a-form>
+            </div>
           </template>
           <a-button
             class="topNav-searchButton"
@@ -58,6 +101,8 @@ export default {
   data() {
     return {
       isSelected: false,
+      form: this.$form.createForm(this, { name: "advancedSearch" }),
+      yearValue: [],
     };
   },
   methods: {
@@ -72,6 +117,22 @@ export default {
     },
     toHome() {
       this.$router.push({ name: "Home" });
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+        }
+      });
+    },
+    handleChange(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
+    },
+    handlePanelChange2(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
     },
   },
 };
