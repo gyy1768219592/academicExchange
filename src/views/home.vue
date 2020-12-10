@@ -23,15 +23,34 @@
           @blur="undoSelected"
         />
       </div>
+      <div class="home-display">
+        <div class="institution-rank">
+          <div class="research-hotpots-title">科研机构排名</div>
+          <institutionRank></institutionRank>
+        </div>
+        <div class="research-hotpots">
+          <div class="research-hotpots-title">科研热点领域</div>
+          <research-hotpots></research-hotpots>
+        </div>
+      </div>
+    </div>
+    <div class="home-footer">
+      <a-layout-footer style="text-align: center">
+        Ant Design ©2018 Created by Ant UED
+      </a-layout-footer>
     </div>
   </div>
 </template>
 
 <script>
 import topNav from "@/components/nav.vue";
+import researchHotpots from "@/components/researchHotpots.vue";
+import institutionRank from "@/components/institutionRank.vue";
 export default {
   components: {
     topNav,
+    researchHotpots,
+    institutionRank,
   },
   data() {
     return {
@@ -60,7 +79,7 @@ export default {
 
 .home-search {
   border-radius: 10px;
-  margin: 50px auto;
+  margin: 100px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
   width: 700px;
   height: 50px;
@@ -72,7 +91,7 @@ export default {
 
 .home-search-on {
   border-radius: 10px;
-  margin: 50px auto;
+  margin: 100px auto;
   border: solid 2px #1890ff;
   width: 700px;
   height: 50px;
@@ -104,8 +123,21 @@ export default {
   border: none;
   box-shadow: none;
 }
-
 .home-searchCard {
   width: 663px;
+}
+.institution-rank {
+  float: left;
+  padding-left: 20px;
+}
+.research-hotpots {
+  float: right;
+}
+.research-hotpots-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+.home-display {
+  height: 700px;
 }
 </style>
