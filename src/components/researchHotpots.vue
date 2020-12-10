@@ -114,7 +114,7 @@ export default {
       }
       let option2 = {
         tooltip: {
-          trigger: "item",
+          trigger: "axis",
           axisPointer: {
             type: "line",
             lineStyle: {
