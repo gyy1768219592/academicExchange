@@ -25,10 +25,46 @@
           </div>
         </div>
         <div class="actions">
-          <a-button class="btn">修改个人信息</a-button>
-          <div class="pop-modal">
-            <a-button class="btn" type="primary" @click="showModal">添加个人经历</a-button>
+          <div class="info-modal">
+            <a-button class="btn" @click="showEditInfoModal"><a-icon type="edit" />修改个人信息</a-button>
             <a-modal
+              style="z-index:100000000;position:relative;"
+              title="修改门户信息"
+              @cancel="handleInfoCancel"
+              :visible="editInfoVisi"
+              :footer="null"
+            >
+              <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
+                <a-form-model-item label="学者姓名" prop="scholarname">
+                  <a-input v-model="form.scholarname" />
+                </a-form-model-item>
+                <a-form-model-item v-model="form.email" label="邮箱" prop="email">
+                  <a-input />
+                </a-form-model-item>
+                <a-form-model-item label="工作机构" prop="instituition">
+                  <a-input v-model="form.instituition" />
+                </a-form-model-item>
+                <a-form-model-item label="职务/身份" prop="position">
+                  <a-input v-model="form.position" />
+                </a-form-model-item>
+                <a-form-model-item label="微信号" prop="wechatNumber">
+                  <a-input v-model="form.wechatNumber" />
+                </a-form-model-item>
+                <a-form-item label="个人简介" prop="intro">
+                  <a-textarea v-model="form.intro" placeholder :rows="4" />
+                </a-form-item>
+                <a-form-model-item :wrapper-col="{ span: 14, offset: 10 }">
+                  <a-button type="primary" @click="onSubmit">
+                    保存
+                  </a-button>
+                </a-form-model-item>
+              </a-form-model>
+            </a-modal>
+          </div>
+          <div class="pop-modal">
+            <a-button class="btn" type="primary" @click="showModal"><a-icon type="plus-circle" />添加个人经历</a-button>
+            <a-modal
+              style="z-index:100000000"
               title="添加个人经历"
               :visible="visible"
               @ok="handleOk"
@@ -157,7 +193,7 @@
             <div class="selections">
               <a-menu
                 style="width: 248px"
-                :default-selected-keys="['1']"
+                :default-selected-keys="['3']"
                 :open-keys.sync="openKeys"
                 mode="inline"
                 @click="handleClick"
@@ -218,11 +254,33 @@
             </div>
             <div class="results">
               <h3>发表成果</h3>
+              <a-button type="default" @click="showManageModal" class="manage-btn">管理学术成果</a-button>
+              <a-modal
+                width="800px"
+                v-model="manageVisible"
+                title="管理学术成果"
+                ok-text="确认"
+                cancel-text="取消"
+                @ok="hideManageModal"
+              >
+                <a-list item-layout="horizontal" :data-source="authors">
+                  <a-list-item slot="renderItem" slot-scope="item, index">
+                    <a slot="actions" @click="saveScholar(index)" v-if="item.con">认领</a>
+                    <a slot="actions" @click="deleteScholar(index)" v-if="!item.con">退领</a>
+                    <a-list-item-meta :description="item.lastKnownAffiliationId">
+                      <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
+
+                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                    </a-list-item-meta>
+                  </a-list-item>
+                </a-list>
+              </a-modal>
+
               <a-divider></a-divider>
               <a-list item-layout="horizontal" :data-source="data">
                 <a-list-item slot="renderItem" slot-scope="item">
                   <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
+                    <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
                     <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
                   </a-list-item-meta>
                 </a-list-item>
@@ -264,6 +322,50 @@ const data = [
       "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
   },
 ];
+const authors = [
+  {
+    displayName: "陈志刚",
+    lastKnownAffiliationId: "中南大学",
+    paperCount: 25,
+    citationCount: 100,
+    con: 0,
+  },
+  {
+    displayName: "陈志刚",
+    lastKnownAffiliationId: "中南大学",
+    paperCount: 25,
+    citationCount: 100,
+    con: 1,
+  },
+  {
+    displayName: "陈志刚",
+    lastKnownAffiliationId: "中南大学",
+    paperCount: 25,
+    citationCount: 100,
+    con: 0,
+  },
+  {
+    displayName: "陈志刚",
+    lastKnownAffiliationId: "中南大学",
+    paperCount: 25,
+    citationCount: 100,
+    con: 0,
+  },
+  {
+    displayName: "陈志刚",
+    lastKnownAffiliationId: "中南大学",
+    paperCount: 25,
+    citationCount: 100,
+    con: 0,
+  },
+  {
+    displayName: "陈志刚",
+    lastKnownAffiliationId: "中南大学",
+    paperCount: 25,
+    citationCount: 100,
+    con: 0,
+  },
+];
 export default {
   components: {
     navSearch,
@@ -271,6 +373,9 @@ export default {
   data() {
     return {
       data,
+      authors,
+      editInfoVisi: false,
+      manageVisible: false,
       visible: false,
       loginid: 0,
       pageid: 0,
@@ -279,6 +384,7 @@ export default {
       user: {
         username: "陈志刚",
         ins: "中南大学",
+        posi: "教授",
         hindex: 1,
         gindex: 2,
         experience: [
@@ -314,7 +420,36 @@ export default {
         startyear: "",
         endyear: "",
       },
+
       count: 10,
+      labelCol: { span: 8 },
+      wrapperCol: { span: 14 },
+      form: {
+        email: "470935458@qq.com",
+        wechatNumber: "13611793768",
+        position: "教授",
+        scholarname: "陈志刚",
+        instituition: "中南大学",
+        intro: "哈哈哈哈哈",
+      },
+      rules: {
+        intro: [{ required: true, message: "Introduce is required!", trigger: "blur" }],
+        scholarname: [
+          { required: true, message: "Username is required!" },
+          { min: 2, message: "学者姓名长度大于2", trigger: "blur" },
+        ],
+        email: [
+          {
+            type: "email",
+            message: "The input is not valid E-mail!",
+          },
+          {
+            required: true,
+            message: "Please input your E-mail!",
+          },
+        ],
+        wechatNumber: [{ required: true, message: "wechatNumber is required!", trigger: "change" }],
+      },
     };
   },
   mounted() {
@@ -322,6 +457,18 @@ export default {
     this.drawLine();
   },
   methods: {
+    saveScholar(index) {
+      this.postScholar(index);
+    },
+    deleteScholar(index) {
+      this.eraseScholar(index);
+    },
+    postScholar() {
+      console.log("post");
+    },
+    eraseScholar() {
+      console.log("erase");
+    },
     initEchart() {
       let myChart = this.$echarts.init(document.getElementById("relation"));
       let option = {
@@ -481,13 +628,30 @@ export default {
     showModal() {
       this.visible = true;
     },
+    showManageModal() {
+      this.manageVisible = true;
+    },
+    showEditInfoModal() {
+      this.editInfoVisi = true;
+    },
+    hideManageModal() {
+      this.manageVisible = false;
+    },
     handleOk() {
       this.visible = false;
     },
     handleCancel() {
       this.visible = false;
     },
-
+    handleInfoCancel() {
+      this.editInfoVisi = false;
+    },
+    handleClick(e) {
+      console.log("click", e);
+    },
+    titleClick(e) {
+      console.log("titleClick", e);
+    },
     callback(key) {
       console.log(key);
     },
@@ -503,7 +667,16 @@ export default {
       //跳转到专利展示页面，带参数
       // this.$router.push("/Patent");
     },
-
+    onSubmit() {
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
   },
@@ -511,21 +684,21 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1200px;
+  width: 1400px;
   height: 2500px;
   margin: auto;
   /* border: solid 1px grey; */
 }
 .up-block {
   /* border: solid 1px red; */
-  width: 1100px;
+  width: 1200px;
   height: 230px;
   margin: auto;
   background-color: #fafafa;
 }
 .down-block {
   /* border: solid 1px blue; */
-  width: 1100px;
+  width: 1200px;
   height: 1300px;
   margin: auto;
 }
@@ -568,7 +741,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -210px 10px 10px 10px;
+  margin: -210px 20px 10px 10px;
 }
 .selections {
   /* border: solid 1px black; */
@@ -579,14 +752,14 @@ export default {
 .results {
   padding: 10px 15px 10px 15px;
   /* border: solid 1px black; */
-  width: 800px;
+  width: 900px;
   height: 800px;
   display: block;
   float: right;
   margin: -810px 10px 35px 280px;
 }
 .btn {
-  width: 120px;
+  width: 140px;
   /* border: solid 1px black; */
   margin: 15px;
 }
@@ -657,5 +830,9 @@ li {
 }
 .input-list {
   height: 100px;
+}
+.manage-btn {
+  float: right;
+  margin: -35px 0 10px 0;
 }
 </style>
