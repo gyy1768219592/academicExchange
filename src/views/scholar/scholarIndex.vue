@@ -26,8 +26,8 @@
         </div>
         <div class="actions">
           <a-button class="btn">我要认证<a-icon type="user"/></a-button>
-          <a-button v-if="isFollow" class="btn" @click="changeFollow">关注<a-icon type="star"/></a-button>
-          <a-button v-else class="btn" @click="changeFollow">取消关注<a-icon type="star" theme="filled"/></a-button>
+          <a-button v-if="!isFollow" class="btn" @click="subscribe">关注<a-icon type="star"/></a-button>
+          <a-button v-else class="btn" @click="undoSubscribe">取消关注<a-icon type="star" theme="filled"/></a-button>
           <a-button class="btn" type="primary">发送私信<a-icon type="message"/></a-button>
         </div>
       </div>
@@ -55,155 +55,13 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="项目">
-            <div class="selections">
-              <a-menu
-                style="width: 248px"
-                :default-selected-keys="['1']"
-                :open-keys.sync="openKeys"
-                mode="inline"
-                @click="handleClick"
-              >
-                <a-sub-menu key="sub1" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation One</span></span>
-                  <a-menu-item-group key="g1">
-                    <template slot="title"><span>Item 1</span> </template>
-                    <a-menu-item key="1">
-                      Option 1
-                    </a-menu-item>
-                    <a-menu-item key="2">
-                      Option 2
-                    </a-menu-item>
-                  </a-menu-item-group>
-                  <a-menu-item-group key="g2" title="Item 2">
-                    <a-menu-item key="3">
-                      Option 3
-                    </a-menu-item>
-                    <a-menu-item key="4">
-                      Option 4
-                    </a-menu-item>
-                  </a-menu-item-group>
-                </a-sub-menu>
-                <a-sub-menu key="sub2" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation Two</span></span>
-                  <a-menu-item key="5">
-                    Option 5
-                  </a-menu-item>
-                  <a-menu-item key="6">
-                    Option 6
-                  </a-menu-item>
-                  <a-sub-menu key="sub3" title="Submenu">
-                    <a-menu-item key="7">
-                      Option 7
-                    </a-menu-item>
-                    <a-menu-item key="8">
-                      Option 8
-                    </a-menu-item>
-                  </a-sub-menu>
-                </a-sub-menu>
-                <a-sub-menu key="sub4">
-                  <span slot="title"><span>Navigation Three</span></span>
-                  <a-menu-item key="9">
-                    Option 9
-                  </a-menu-item>
-                  <a-menu-item key="10">
-                    Option 10
-                  </a-menu-item>
-                  <a-menu-item key="11">
-                    Option 11
-                  </a-menu-item>
-                  <a-menu-item key="12">
-                    Option 12
-                  </a-menu-item>
-                </a-sub-menu>
-              </a-menu>
-            </div>
-            <div class="results">
-              <h3>发表项目</h3>
-              <a-divider></a-divider>
-              <a-list item-layout="horizontal" :data-source="data">
-                <a-list-item slot="renderItem" slot-scope="item">
-                  <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
-                  </a-list-item-meta>
-                </a-list-item>
-              </a-list>
+            <div class="project-list">
+              <scholarProject :scholarid="scholarid"></scholarProject>
             </div>
           </a-tab-pane>
           <a-tab-pane key="3" tab="成果">
-            <div class="selections">
-              <a-menu
-                style="width: 248px"
-                :default-selected-keys="['1']"
-                :open-keys.sync="openKeys"
-                mode="inline"
-                @click="handleClick"
-              >
-                <a-sub-menu key="sub1" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation One</span></span>
-                  <a-menu-item-group key="g1">
-                    <template slot="title"><span>Item 1</span> </template>
-                    <a-menu-item key="1">
-                      Option 1
-                    </a-menu-item>
-                    <a-menu-item key="2">
-                      Option 2
-                    </a-menu-item>
-                  </a-menu-item-group>
-                  <a-menu-item-group key="g2" title="Item 2">
-                    <a-menu-item key="3">
-                      Option 3
-                    </a-menu-item>
-                    <a-menu-item key="4">
-                      Option 4
-                    </a-menu-item>
-                  </a-menu-item-group>
-                </a-sub-menu>
-                <a-sub-menu key="sub2" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation Two</span></span>
-                  <a-menu-item key="5">
-                    Option 5
-                  </a-menu-item>
-                  <a-menu-item key="6">
-                    Option 6
-                  </a-menu-item>
-                  <a-sub-menu key="sub3" title="Submenu">
-                    <a-menu-item key="7">
-                      Option 7
-                    </a-menu-item>
-                    <a-menu-item key="8">
-                      Option 8
-                    </a-menu-item>
-                  </a-sub-menu>
-                </a-sub-menu>
-                <a-sub-menu key="sub4">
-                  <span slot="title"><span>Navigation Three</span></span>
-                  <a-menu-item key="9">
-                    Option 9
-                  </a-menu-item>
-                  <a-menu-item key="10">
-                    Option 10
-                  </a-menu-item>
-                  <a-menu-item key="11">
-                    Option 11
-                  </a-menu-item>
-                  <a-menu-item key="12">
-                    Option 12
-                  </a-menu-item>
-                </a-sub-menu>
-              </a-menu>
-            </div>
-            <div class="results">
-              <h3>发表成果</h3>
-              <a-divider></a-divider>
-              <a-list item-layout="horizontal" :data-source="data">
-                <a-list-item slot="renderItem" slot-scope="item">
-                  <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
-                  </a-list-item-meta>
-                </a-list-item>
-              </a-list>
+            <div class="paper-list">
+              <scholarPaper :scholarid="scholarid"></scholarPaper>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -215,7 +73,13 @@
 <script>
 //引入导航栏
 import navSearch from "@/components/navSearch";
+import { postData } from "@/api/webpost";
+// import { getData } from "@/api/webget";
+// import { putData } from "@/api/webput";
 
+import scholarPaper from "@/components/scholarPaper.vue";
+import scholarProject from "@/components/scholarProject.vue";
+import { deleteData } from "@/api/webdelete";
 import imgSrc from "../../assets/user.png";
 const data = [
   {
@@ -247,6 +111,8 @@ const data = [
 export default {
   components: {
     navSearch,
+    scholarProject,
+    scholarPaper,
   },
   data() {
     return {
@@ -258,7 +124,8 @@ export default {
       pageid: 0,
       current: ["mail"],
       openKeys: ["sub1"],
-      isFollow: false,
+      isFollow: true,
+      scholarid: 1,
       user: {
         username: "陈志刚",
         ins: "中南大学",
@@ -300,9 +167,6 @@ export default {
     },
   },
   methods: {
-    changeFollow() {
-      this.isFollow = !this.isFollow;
-    },
     initEchart() {
       let dom = document.getElementById("relation");
       this.myChart = this.$echarts.init(dom);
@@ -461,6 +325,39 @@ export default {
 
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
+
+    //关注学者
+    subscribe() {
+      let url = this.$urlPath.website.subscribe;
+      postData(url + "/2/1").then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.isFollow = true;
+          console.log(this.isFollow);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //取消关注学者
+    undoSubscribe() {
+      let params = new URLSearchParams();
+      params.append("UserId", 2);
+      params.append("ScholarId", 1);
+      let url = this.$urlPath.website.undoSubscribe;
+      deleteData(url + "/2/1").then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.isFollow = false;
+          console.log(this.isFollow);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
   },
   mounted() {
     this.initEchart();
@@ -606,5 +503,15 @@ li {
   display: block;
   float: right;
   margin: -1310px 0 20px 0;
+}
+.paper-list {
+  width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.project-list {
+  width: 1200px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 </style>
