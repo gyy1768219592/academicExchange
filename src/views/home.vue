@@ -5,7 +5,41 @@
       <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
         <a-popover trigger="click" placement="bottomLeft">
           <template slot="content">
-            <div class="home-searchCard">选项</div>
+            <div class="home-searchCard">
+              <a-form
+                :form="form"
+                :label-col="{ span: 5 }"
+                :wrapper-col="{ span: 15 }"
+                @submit="handleSubmit"
+              >
+                <a-form-item label="检索词">
+                  <a-input />
+                </a-form-item>
+                <a-form-item label="科研机构">
+                  <a-input />
+                </a-form-item>
+                <a-form-item label="作者">
+                  <a-input />
+                </a-form-item>
+                <a-form-item label="发表年份">
+                  <a-range-picker
+                    popupStyle="width:414.38px"
+                    allowClear
+                    :placeholder="['开始年份', '结束年份']"
+                    format="YYYY"
+                    :value="yearValue"
+                    :mode="['month', 'month']"
+                    @panelChange="handlePanelChange2"
+                    @change="handleChange"
+                  />
+                </a-form-item>
+                <a-form-item :wrapper-col="{ span: 15, offset: 5 }">
+                  <a-button type="primary" html-type="submit" block>
+                    检索
+                  </a-button>
+                </a-form-item>
+              </a-form>
+            </div>
           </template>
           <a-button
             class="home-searchButton"
@@ -23,19 +57,40 @@
           @blur="undoSelected"
         />
       </div>
+      <div class="home-display">
+        <div class="institution-rank">
+          <div class="research-hotpots-title">科研机构排名</div>
+          <institutionRank></institutionRank>
+        </div>
+        <div class="research-hotpots">
+          <div class="research-hotpots-title">科研热点领域</div>
+          <research-hotpots></research-hotpots>
+        </div>
+      </div>
+    </div>
+    <div class="home-footer">
+      <a-layout-footer style="text-align: center">
+        Ant Design ©2018 Created by Ant UED
+      </a-layout-footer>
     </div>
   </div>
 </template>
 
 <script>
 import topNav from "@/components/nav.vue";
+import researchHotpots from "@/components/researchHotpots.vue";
+import institutionRank from "@/components/institutionRank.vue";
 export default {
   components: {
     topNav,
+    researchHotpots,
+    institutionRank,
   },
   data() {
     return {
       isSelected: false,
+      form: this.$form.createForm(this, { name: "advancedSearch" }),
+      yearValue: [],
     };
   },
   methods: {
@@ -47,6 +102,22 @@ export default {
     },
     onSearch(value) {
       this.$router.push({ path: "/searchResult", query: { word: value } });
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+        }
+      });
+    },
+    handleChange(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
+    },
+    handlePanelChange2(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
     },
   },
 };
@@ -60,7 +131,7 @@ export default {
 
 .home-search {
   border-radius: 10px;
-  margin: 50px auto;
+  margin: 100px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
   width: 700px;
   height: 50px;
@@ -72,7 +143,7 @@ export default {
 
 .home-search-on {
   border-radius: 10px;
-  margin: 50px auto;
+  margin: 100px auto;
   border: solid 2px #1890ff;
   width: 700px;
   height: 50px;
@@ -104,8 +175,21 @@ export default {
   border: none;
   box-shadow: none;
 }
-
 .home-searchCard {
   width: 663px;
+}
+.institution-rank {
+  float: left;
+  padding-left: 20px;
+}
+.research-hotpots {
+  float: right;
+}
+.research-hotpots-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+.home-display {
+  height: 700px;
 }
 </style>

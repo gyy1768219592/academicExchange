@@ -1,4 +1,4 @@
-var LOADIP = "http://123.56.145.79:8090";
+var LOADIP = "http://182.92.223.226";
 let Ip = {
   productIP: LOADIP + "/",
 };
@@ -14,6 +14,9 @@ let path = {
     updateUserInfo: Ip.productIP + "updateUserInfo",
     getUserQuestionByUsername: Ip.productIP + "getUserQuestionByUsername",
     setPassword: Ip.productIP + "setPassword",
+
+    //检索
+    searchProject: Ip.productIP + "scholarship/getProjectListByKeyword",
   },
 };
 export default path;
