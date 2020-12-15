@@ -25,11 +25,6 @@ const routes = [
     component: () => import("../views/personalWorkplace/personInfo.vue"),
   },
   {
-    path: "/register",
-    name: "Register",
-    component: () => import("../views/personalWorkplace/register.vue"),
-  },
-  {
     path: "/findPwd",
     name: "findPwd",
     component: () => import("../views/personalWorkplace/findPwd.vue"),
@@ -69,11 +64,19 @@ const routes = [
     name: "patentDisplay",
     component: () => import("../views/artcle/patentDisplay.vue"),
   },
+  {
+    //认证,可以没有页面直接跳转吗
+    path: "/user/verify/:CODE",
+    name: "userVerify",
+    component: () => import("../views/personalWorkplace/userVerify.vue")
+  }
 ];
 
 const router = new VueRouter({
   routes,
 });
+
+
 //控制访问权限
 /*router.beforeEach((to, from, next) => {
   if (
@@ -94,4 +97,6 @@ const router = new VueRouter({
     next();
   }
 });*/
+
+
 export default router;

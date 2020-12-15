@@ -16,13 +16,16 @@
                   {
                     required: true,
                     message: 'Please input your E-mail!'
+                  },
+                  {
+                    validator: validateEmail
                   }
                 ]
               }
             ]"
           />
         </a-form-item>
-        <a-form-item v-bind="formItemLayout" label="输入用户名">
+        <a-form-item v-bind="formItemLayout" label="输入用户名" has-feedback>
           <a-input
             v-decorator="[
               'username',
@@ -177,9 +180,9 @@ export default {
     //注册验证模块
     register(values) {
       let params = new URLSearchParams();
-      params.append("username", values.username);
-      params.append("password", values.password);
-      params.append("email", values.email);
+      params.append("Name", values.username);
+      params.append("Email", values.email);
+      params.append("Password", this.$md5(values.password));
       //params.append("wechat", values.wechatNumber);
 
       //params.append("intro", values.intro);
@@ -189,18 +192,25 @@ export default {
       let url = this.$urlPath.website.register;
       postData(url, params).then(res => {
         console.log(res);
-        if (res.code === "0") {
-          this.$message.success(
-            "注册成功,请及时点击发送到邮箱中的链接激活账号"
-          );
+        if(res.code == 1001) {
+          this.$message.success({
+            message:res.message,
+            duration: 1000,
+            showClose: true
+          });
           this.$router.push("/login");
-        } else if (res.code === "1") {
-          this.$message.error("用户名重复，请更换"); //这里涉及到一个问题，即用户名可否重复,另外，关于用户名重复的检测应该也可以放到填入时？
-        } else if (res.code === "2") {
-          this.$message.error("邮件发送失败，请检查邮箱地址");
+          /*let verifyparams = new URLSearchParams();
+          verifyparams.append("Code","signUPComplete/"+this.$md5(values.email));
+          let verifyurl = this.$urlPath.website.userVerify;
+          postData(verifyurl, verifyparams).then(res =>{
+            console.log(res);
+          });*/
         } else {
-          console.log(res.code);
-          this.$message.error("服务器返回出错");
+          this.$message.error({
+            message: res.message,
+            duration: 1000,
+            showClose: true
+          });
         }
       });
     },
@@ -209,7 +219,7 @@ export default {
       e.preventDefault();
       this.form.validateFieldsAndScroll((err, values) => {
         if (!err) {
-          console.log("Received values of form: ", values);
+          //console.log("Received values of form: ", values);
           this.register(values);
         } else {
           this.$message.error("请检查输入格式");
@@ -251,17 +261,38 @@ export default {
       }
       callback();
     },
-    /*validateUsername(rule, value, callback) {
+    validateUsername(rule, value, callback) {
       const form = this.form;
       var username = form.getFieldValue("username");
       if(username === undefined) username="";
       let params = new URLSearchParams();
-      params.append("username", username);
+      params.append("Username", username);
       let url = this.$urlPath.website.isNameUsed;
       postData(url, params).then(res => {
         console.log(res);
+        if(res.data.Used) {
+          callback("该用户名已被使用，请更改");
+        } else {
+          callback();
+        }
       });
-    }*/
+    },
+    validateEmail(rule, value, callback) {
+      const form = this.form;
+      var email = form.getFieldValue("email");
+      if(email === undefined) email="";
+      let params = new URLSearchParams();
+      params.append("Email",email);
+      let url = this.$urlPath.website.isEmailUsed;
+      postData(url, params).then(res =>{
+        console.log(res);
+        if(res.data.Used) {
+          callback("该邮箱已被使用，请更换邮箱");
+        } else {
+          callback();
+        } 
+      });
+    }
   }
 };
 </script>
