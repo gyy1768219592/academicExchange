@@ -11,11 +11,13 @@
                 rules: [
                   {
                     type: 'email',
-                    message: 'The input is not valid E-mail!'
+                    //message: 'The input is not valid E-mail!'
+                    message: '请输入有效的邮箱！'
                   },
                   {
                     required: true,
-                    message: 'Please input your E-mail!'
+                    //message: 'Please input your E-mail!'
+                    message: '请输入您的邮箱！'
                   },
                   {
                     validator: validateEmail
@@ -31,8 +33,12 @@
               'username',
               {
                 rules: [
-                  { required: true, message: 'Username is required!' },
-                  { min: 2, message: '用户名长度最小为2', trigger: 'blur' },
+                  { 
+                    required: true, 
+                  //message: 'Username is required!' 
+                    message: '请输入用户名！'
+                  },
+                  { min: 2, message: '用户名长度最小为2！', trigger: 'blur' },
                   {
                     validator: validateUsername
                   }
@@ -49,12 +55,13 @@
                 rules: [
                   {
                     required: true,
-                    message: 'Please input your password!'
+                    //message: 'Please input your password!'
+                    message: '请输入您的密码！'
                   },
                   {
                     validator: validateToNextPassword
                   },
-                  { min: 8, message: '密码不少于8位', trigger: 'blur' }
+                  { min: 8, message: '密码不少于8位！', trigger: 'blur' }
                 ]
               }
             ]"
@@ -69,7 +76,8 @@
                 rules: [
                   {
                     required: true,
-                    message: 'Please confirm your password!'
+                    //message: 'Please confirm your password!'
+                    message: '请确认密码'
                   },
                   {
                     validator: compareToFirstPassword
@@ -194,7 +202,7 @@ export default {
         console.log(res);
         if(res.code == 1001) {
           this.$message.success({
-            message:res.message,
+            message:"请求成功",
             duration: 1000,
             showClose: true
           });
@@ -233,7 +241,8 @@ export default {
     compareToFirstPassword(rule, value, callback) {
       const form = this.form;
       if (value && value !== form.getFieldValue("password")) {
-        callback("Two passwords that you enter is inconsistent!");
+        //callback("Two passwords that you enter is inconsistent!");
+        callback("两次输入密码不一致！");
       } else {
         callback();
       }

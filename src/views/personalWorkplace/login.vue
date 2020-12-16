@@ -17,8 +17,8 @@
                   'email',
                   {
                     rules: [
-                      { required: true, message: '请输入您的邮箱' },
-                      {type: 'email', message:'请输入有效的邮箱'}
+                      { required: true, message: '请输入您的邮箱!' },
+                      {type: 'email', message:'请输入有效的邮箱!'}
                     ]
                   }
                 ]"
@@ -37,7 +37,7 @@
                   'password',
                   {
                     rules: [
-                      { required: true, message: '请输入密码' }
+                      { required: true, message: '请输入密码!' }
                     ]
                   }
                 ]"
@@ -85,8 +85,6 @@ export default {
   data() {
     return {
       loginForm: {
-        username: "",
-        password: "",
       }
     };
   },
@@ -99,9 +97,8 @@ export default {
       //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.login;
       postData(url, params).then(res => {
-        console.log(res);
+        //console.log(res);
         if (res.code === 1001) {
-          //window.sessionStorage.setItem("token",res.header.authorization);
           this.$message.success("登录成功");
           //window.sessionStorage.setItem("UserId", res.data.userid);
           //const webAdrs = window.sessionStorage.getItem("WebAdrs");
@@ -124,7 +121,6 @@ export default {
     //表单验证函数
     handleSubmit(e) {
       e.preventDefault();
-      this.$router.push("/");
       this.form.validateFields(async (err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
