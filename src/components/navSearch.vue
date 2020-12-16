@@ -18,16 +18,25 @@
                   style="margin: 0; padding: 0"
                   label="检索词/检索学者"
                 >
-                  <a-input size="small" placeholder="学术成果关键词/学者姓名" />
+                  <a-input
+                    size="small"
+                    placeholder="学术成果关键词/学者姓名"
+                    v-decorator="['word']"
+                  />
                 </a-form-item>
                 <a-form-item style="margin: 0; padding: 0" label="科研机构">
                   <a-input
                     size="small"
-                    placeholder="项目专利完成单位/学者工作单位"
+                    placeholder="项目和专利的完成单位"
+                    v-decorator="['institution']"
                   />
                 </a-form-item>
                 <a-form-item style="margin: 0; padding: 0" label="学术成果作者">
-                  <a-input size="small" placeholder="项目和专利的作者" />
+                  <a-input
+                    size="small"
+                    placeholder="项目和专利的作者"
+                    v-decorator="['author']"
+                  />
                 </a-form-item>
                 <a-form-item style="margin: 0; padding: 0" label="发表日期">
                   <a-range-picker
@@ -115,11 +124,12 @@
   </div>
 </template>
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
       isSelected: false,
-      form: this.$form.createForm(this, { name: "advancedSearch" }),
+      form: this.$form.createForm(this, { name: "advancedSearchTop" }),
       yearValue: [],
       isLogin: false,
     };
@@ -129,7 +139,16 @@ export default {
       if (value.length == 0) {
         this.$message.error("请输入检索内容");
       } else {
-        this.$router.push({ path: "/searchResult", query: { word: value } });
+        this.$router.push({
+          path: "/searchResult",
+          query: {
+            word: value,
+            institution: "",
+            author: "",
+            startDate: "",
+            endDate: "",
+          },
+        });
       }
     },
     selected() {
@@ -144,8 +163,37 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
-        if (!err) {
-          console.log("Received values of form: ", values);
+        let word = values.word === undefined ? "" : values.word;
+        let institution =
+          values.institution === undefined ? "" : values.institution;
+        let author = values.author === undefined ? "" : values.author;
+        let startDate =
+          this.yearValue[0] === undefined
+            ? ""
+            : moment(this.yearValue[0]).format("YYYYMMDD");
+        let endDate =
+          this.yearValue[1] === undefined
+            ? ""
+            : moment(this.yearValue[1]).format("YYYYMMDD");
+        if (
+          word.length == 0 &&
+          institution.length == 0 &&
+          author.length == 0 &&
+          startDate.length == 0 &&
+          endDate.length == 0
+        ) {
+          this.$message.error("请输入检索内容");
+        } else {
+          this.$router.push({
+            path: "/searchResult",
+            query: {
+              word: word,
+              institution: institution,
+              author: author,
+              startDate: startDate,
+              endDate: endDate,
+            },
+          });
         }
       });
     },

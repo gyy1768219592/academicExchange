@@ -20,7 +20,7 @@
                 </a-form-item>
                 <a-form-item label="科研机构">
                   <a-input
-                    placeholder="检索项目、专利的完成单位 / 检索学者的工作单位"
+                    placeholder="检索项目、专利的完成单位"
                     v-decorator="['institution']"
                   />
                 </a-form-item>
