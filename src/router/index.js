@@ -52,6 +52,12 @@ const routes = [
     component: () => import("../views/scholar/scholarIndex.vue"),
   },
   {
+    //数据库门户
+    path: "/authorIndex",
+    name: "authorIndex",
+    component: () => import("../views/scholar/authorIndex.vue"),
+  },
+  {
     //论文内容展示
     path: "/paperDisplay",
     name: "paperDisplay",
