@@ -1,6 +1,6 @@
-var LOADIP = "http://182.92.223.226/";
+var LOADIP = "http://182.92.223.226";
 let Ip = {
-  productIP: LOADIP + "scholarship/",
+  productIP: LOADIP + "/scholarship/",
 };
 let path = {
   website: {

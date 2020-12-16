@@ -4,7 +4,7 @@
       <div class="home-content">
         <div class = "left-block">
           <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <a-popover trigger="click" placement="bottomLeft">
+            <!-- <a-popover trigger="click" placement="bottomLeft">
               <template slot="content">
                 <div class="home-searchCard">选项</div>
               </template>
@@ -15,10 +15,10 @@
                 @blur="undoSelected"
                 >高级检索</a-button
               >
-            </a-popover>
+            </a-popover> -->
             <a-input-search
               class="home-searchBox"
-              placeholder="搜索学者门户"
+              placeholder="通过ID搜索学者门户"
               @search="onSearch"
               @focus="selected"
               @blur="undoSelected"
@@ -167,7 +167,7 @@
         </div>
         <div class = "right-block">
           <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <a-popover trigger="click" placement="bottomLeft">
+            <!-- <a-popover trigger="click" placement="bottomLeft">
               <template slot="content">
                 <div class="home-searchCard">选项</div>
               </template>
@@ -178,10 +178,10 @@
                 @blur="undoSelected"
                 >高级检索</a-button
               >
-            </a-popover>
+            </a-popover> -->
             <a-input-search
               class="home-searchBox"
-              placeholder="搜索数据库门户"
+              placeholder="通过ID搜索数据库门户"
               @search="onSearch"
               @focus="selected"
               @blur="undoSelected"

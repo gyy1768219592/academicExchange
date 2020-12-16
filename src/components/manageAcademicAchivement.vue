@@ -4,7 +4,7 @@
       <div class="home-content">
         <div class = "left-block">
           <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <a-popover trigger="click" placement="bottomLeft">
+            <!-- <a-popover trigger="click" placement="bottomLeft">
               <template slot="content">
                 <div class="home-searchCard">选项</div>
               </template>
@@ -15,10 +15,10 @@
                 @blur="undoSelected"
                 >高级检索</a-button
               >
-            </a-popover>
+            </a-popover> -->
             <a-input-search
               class="home-searchBox"
-              placeholder="搜索学术成果"
+              placeholder="通过ID搜索学术成果"
               @search="onSearch"
               @focus="selected"
               @blur="undoSelected"
@@ -139,7 +139,7 @@
         </div>
         <div class = "right-block">
           <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <a-popover trigger="click" placement="bottomLeft">
+            <!-- <a-popover trigger="click" placement="bottomLeft">
               <template slot="content">
                 <div class="home-searchCard">选项</div>
               </template>
@@ -150,10 +150,10 @@
                 @blur="undoSelected"
                 >高级检索</a-button
               >
-            </a-popover>
+            </a-popover> -->
             <a-input-search
               class="home-searchBox"
-              placeholder="搜索学者门户"
+              placeholder="通过ID查询搜索学者门户"
               @search="onSearch"
               @focus="selected"
               @blur="undoSelected"
@@ -450,7 +450,7 @@ small-card-list{
   margin: 20px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
   width: 100%;
-  height: 50px;
+  height: 40px;
 }
 
 .home-search:hover {
@@ -462,10 +462,12 @@ small-card-list{
   margin: 20px auto;
   border: solid 2px #1890ff;
   width: 100%;
-  height: 50px;
+  height: 40px;
 }
 .home-searchBox {
-  width: 77%;
+  width: 99%;
+  margin-left: 1%;
+  height: 100%;
 }
 .home-searchButton {
   font-size: 14px;
