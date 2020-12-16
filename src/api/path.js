@@ -16,7 +16,19 @@ let path = {
     setPassword: Ip.productIP + "setPassword",
     isEmailUsed: Ip.productIP + "user/emailUsed",
     isNameUsed: Ip.productIP + "user/nameUsed",
-    userVerify: Ip.productIP + "user/verify"
+    userVerify: Ip.productIP + "user/verify",
+    //检索
+    searchProject: Ip.productIP + "scholarship/getProjectListByKeyword",
+    getProjectById: Ip.productIP + "scholarship/getProjectById/",
+
+    //学者
+    getSameNameScholar: Ip.productIP + "scholar/sameName",
+    subscribe: Ip.productIP + "scholar/subscribe",
+    undoSubscribe: Ip.productIP + "scholar/subscribe",
+    getScholarInfo: Ip.productIP + "scholar",
+    editScholarInfo: Ip.productIP + "scholar",
+    claimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
+    undoClaimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
   },
 };
 export default path;

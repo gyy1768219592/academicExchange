@@ -47,29 +47,42 @@ const routes = [
     component: () => import("../views/scholar/scholarIndex.vue"),
   },
   {
+    //数据库门户
+    path: "/authorIndex",
+    name: "authorIndex",
+    component: () => import("../views/scholar/authorIndex.vue"),
+  },
+  {
     //论文内容展示
-    path: "/paperDisplay",
+    path: "/paperDisplay/:id",
     name: "paperDisplay",
     component: () => import("../views/artcle/paperDisplay.vue"),
   },
   {
     //国家项目内容展示
-    path: "/progDisplay",
+    path: "/progDisplay/:id",
     name: "progDisplay",
     component: () => import("../views/artcle/progDisplay.vue"),
   },
   {
     //专利内容展示
-    path: "/patentDisplay",
+    path: "/patentDisplay/:id",
     name: "patentDisplay",
     component: () => import("../views/artcle/patentDisplay.vue"),
   },
   {
-    //认证,可以没有页面直接跳转吗
+    //管理员
+    path: "/Manager",
+    name: "manager",
+    component: () => import("../views/managerMent/Manager.vue"),
+  },
+  {
+    //认证
     path: "/user/verify/:CODE",
     name: "userVerify",
     component: () => import("../views/personalWorkplace/userVerify.vue")
   }
+
 ];
 
 const router = new VueRouter({
