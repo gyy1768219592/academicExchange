@@ -73,9 +73,9 @@
                 <span class = "appeal_self">{{item.msgtitle}}</span>
               </a>
             </a-list-item-meta>
-            <div>
-              <a-collapse accordion>
-                <a-collapse-panel key="1" header= "打开查看申诉具体信息" >
+            <div @click="Seek(item)">
+              <a-collapse accordion >
+                <a-collapse-panel key="1" header= "打开查看申诉具体信息">
                   <div class="appealText">{{ item.msgcontent }}</div>
                   <img :src="item.complaintMaterialUrl" style="width:100%; height:100%"/>
                 </a-collapse-panel>
@@ -132,14 +132,16 @@ export default {
     },
     appealAgree(item){
       if(item.msgstatus!=3){
-        this.updateAppealStatus(item.msgid,3);
+        item.msgstatus = 3;
+        this.updateAppealStatus(item.msgid,item.msgstatus);
         this.$message.success("申诉已通过");
       }
       item.msgstatus = 3
     },
     appealDisagree(item){
       if(item.msgstatus!=4){
-        this.updateAppealStatus(item.msgid,4);
+        item.msgstatus = 4;
+        this.updateAppealStatus(item.msgid,item.msgstatus);
         this.$message.success("申诉已驳回");
       }
       item.msgstatus = 4
@@ -152,9 +154,9 @@ export default {
       let url = this.$urlPath.website.updateAppeal;
       // putData(url + params).then((res) => {
       putData(url, params).then(res => {
-        console.log(res.code);
+        // console.log(res.code);
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
@@ -182,6 +184,25 @@ export default {
         }
       });
     },
+    Seek(item){
+      let params = new URLSearchParams();
+      params.append("messageId", item.msgid);
+      params.append("messageStatus", 1);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.updateAppeal;
+      // putData(url + params).then((res) => {
+      putData(url, params).then(res => {
+        // console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success(res.message);
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+    }
   },
 };
 </script>
