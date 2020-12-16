@@ -12,27 +12,27 @@ export default {
   name: "editor",
   props: {
     content: {
-      type: String,
-    },
+      type: String
+    }
   },
   data() {
     return {
-      editorContent: "",
+      editorContent: ""
     };
   },
   methods: {
-    getContent: function () {
+    getContent: function() {
       this.$emit("Edit", this.editorContent);
-    },
+    }
   },
   watch: {
-    content: function (newVal) {
+    content: function(newVal) {
       this.editorContent = newVal;
-    },
+    }
   },
   mounted() {
     var editor = new E(this.$refs.editor);
-    editor.customConfig.onchange = (html) => {
+    editor.customConfig.onchange = html => {
       this.editorContent = html;
     };
     editor.customConfig.debug = true;
@@ -40,13 +40,13 @@ export default {
     editor.customConfig.uploadImgShowBase64 = false;
     editor.customConfig.uploadFileName = "image";
     editor.customConfig.uploadImgHeaders = {
-      "Content-Type": "multipart/form-data",
+      "Content-Type": "multipart/form-data"
     };
     editor.customConfig.pasteIgnoreImg = true;
     // 配置服务器端地址 upload:上传图片地址
 
     var that = this;
-    editor.customConfig.customUploadImg = function (files, insert) {
+    editor.customConfig.customUploadImg = function(files, insert) {
       // files 是 input 中选中的文件列表
       // insert 是获取图片 url 后，插入到编辑器的方法
       console.log(files, insert);
@@ -54,7 +54,7 @@ export default {
         let formData = new FormData();
         formData.append("image", files[i]);
         let url = that.$urlPath.website.uploadUserImage;
-        postData(url, formData).then((res) => {
+        postData(url, formData).then(res => {
           if (res.code === "0") {
             insert(res.data.userimgpath);
           } else if (res.code === "1") {
@@ -73,7 +73,7 @@ export default {
       editor.create();
       editor.txt.html(this.editorContent);
     }, 1000);
-  },
+  }
 };
 </script>
 

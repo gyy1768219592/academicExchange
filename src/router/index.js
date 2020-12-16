@@ -7,72 +7,72 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: () => import("../views/home.vue"),
+    component: () => import("../views/home.vue")
   },
   {
     path: "/login",
     name: "Login",
-    component: () => import("../views/personalWorkplace/login.vue"),
+    component: () => import("../views/personalWorkplace/login.vue")
   },
   {
     path: "/register",
     name: "Register",
-    component: () => import("../views/personalWorkplace/register.vue"),
+    component: () => import("../views/personalWorkplace/register.vue")
   },
   {
     path: "/personInfo",
     name: "PersonInfo",
-    component: () => import("../views/personalWorkplace/personInfo.vue"),
+    component: () => import("../views/personalWorkplace/personInfo.vue")
   },
   {
     path: "/register",
     name: "Register",
-    component: () => import("../views/personalWorkplace/register.vue"),
+    component: () => import("../views/personalWorkplace/register.vue")
   },
   {
     path: "/findPwd",
     name: "findPwd",
-    component: () => import("../views/personalWorkplace/findPwd.vue"),
+    component: () => import("../views/personalWorkplace/findPwd.vue")
   },
   {
     path: "/searchResult",
     name: "searchResult",
-    component: () => import("../views/homes/searchResult.vue"),
+    component: () => import("../views/homes/searchResult.vue")
   },
   {
     //用户个人学者门户
     path: "/userIndex",
     name: "userIndex",
-    component: () => import("../views/scholar/userIndex.vue"),
+    component: () => import("../views/scholar/userIndex.vue")
   },
   {
     //其他学者门户
     path: "/scholarIndex",
     name: "scholarIndex",
-    component: () => import("../views/scholar/scholarIndex.vue"),
+    component: () => import("../views/scholar/scholarIndex.vue")
   },
   {
     //我的收藏
     path: "/collect",
     name: "collect",
-    component: () => import("../views/message/collect.vue"),
+    component: () => import("../views/message/collect.vue")
   },
   {
     //我的关注
     path: "/concern",
     name: "concern",
-    component: () => import("../views/message/concern.vue"),
+    component: () => import("../views/message/concern.vue")
   },
   {
     //我的消息
     path: "/message",
     name: "message",
-    component: () => import("../views/message/message.vue"),
-  },
+    component: () => import("../views/message/message.vue")
+  }
 ];
 
 const router = new VueRouter({
-  routes,
+  routes
 });
 //控制访问权限
 /*router.beforeEach((to, from, next) => {

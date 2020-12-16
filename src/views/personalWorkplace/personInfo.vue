@@ -12,63 +12,113 @@
         <br />
         <!--分割线-->
         <div
-          :class="{loginusermode:judgement}"
+          :class="{ loginusermode: judgement }"
           style="float:left;width: 2px;height: 300px; background: #000;margin-right: 40px;margin-left: 20px;"
         ></div>
         <!--右边内容-->
         <a-list size="large">
           <div>
             <a-icon type="user" style="margin-right: 10px" />
-            <span>用户名：{{info.username}}</span>
+            <span>用户名：{{ info.username }}</span>
           </div>
           <br />
           <br />
           <div>
             <a-icon type="contacts" style="margin-right: 10px ;float: center" />
-            <span>账号ID：{{info.userid}}</span>
+            <span>账号ID：{{ info.userid }}</span>
           </div>
           <br v-if="judgement" />
           <br v-if="judgement" />
           <div v-if="judgement">
             <a-icon type="lock" style="margin-right: 10px" />
-            <span>密码：{{info.password}}</span>
-            <a-button v-show="judgement" @click="toPwd" type="link" style="float: right;">修改</a-button>
-            <inputPwd ref="choosePwd" v-show="showPwd" v-on:closePwd="closePwd"></inputPwd>
+            <span>密码：{{ info.password }}</span>
+            <a-button
+              v-show="judgement"
+              @click="toPwd"
+              type="link"
+              style="float: right;"
+              >修改</a-button
+            >
+            <inputPwd
+              ref="choosePwd"
+              v-show="showPwd"
+              v-on:closePwd="closePwd"
+            ></inputPwd>
           </div>
           <br />
           <br />
           <div>
             <a-icon type="wechat" style="margin-right: 10px" />
-            <span>微信：{{info.wechat}}</span>
-            <a-button v-show="judgement" @click="toWechat" type="link" style="float: right;">修改</a-button>
-            <inputBox ref="chooseButton" v-show="showWechat" v-on:closeme="closeme"></inputBox>
+            <span>微信：{{ info.wechat }}</span>
+            <a-button
+              v-show="judgement"
+              @click="toWechat"
+              type="link"
+              style="float: right;"
+              >修改</a-button
+            >
+            <inputBox
+              ref="chooseButton"
+              v-show="showWechat"
+              v-on:closeme="closeme"
+            ></inputBox>
           </div>
           <br />
           <br />
           <div>
             <a-icon type="mail" style="margin-right: 10px" />
-            <span>邮箱：{{info.email}}</span>
-            <a-button v-show="judgement" @click="toEmail" type="link" style="float: right;">修改</a-button>
-            <inputEmail ref="chooseE" v-show="showEmail" v-on:closeEmail="closeEmail"></inputEmail>
+            <span>邮箱：{{ info.email }}</span>
+            <a-button
+              v-show="judgement"
+              @click="toEmail"
+              type="link"
+              style="float: right;"
+              >修改</a-button
+            >
+            <inputEmail
+              ref="chooseE"
+              v-show="showEmail"
+              v-on:closeEmail="closeEmail"
+            ></inputEmail>
           </div>
           <br />
           <br />
           <div>
             <a-icon type="smile" style="margin-right: 10px" />
-            <span>个性签名：{{info.intro}}</span>
-            <a-button v-show="judgement" @click="toIntro" type="link" style="float: right;">修改</a-button>
-            <inputIntro ref="chooseIntro" v-show="showIntro" v-on:closeEmail="closeIntro"></inputIntro>
+            <span>个性签名：{{ info.intro }}</span>
+            <a-button
+              v-show="judgement"
+              @click="toIntro"
+              type="link"
+              style="float: right;"
+              >修改</a-button
+            >
+            <inputIntro
+              ref="chooseIntro"
+              v-show="showIntro"
+              v-on:closeEmail="closeIntro"
+            ></inputIntro>
           </div>
           <br v-if="judgement" />
           <br v-if="judgement" />
           <div v-if="judgement">
             <a-icon type="question-circle" style="margin-right: 10px" />
-            <span>密保问题：{{info.question}}</span>
+            <span>密保问题：{{ info.question }}</span>
             <br />
             <br />
-            <span style="margin-left: 28px">问题答案：{{info.answer}}</span>
-            <a-button v-show="judgement" @click="toQnA" type="link" style="float: right;">修改</a-button>
-            <inputQnA ref="chooseQnA" v-show="showQnA" v-on:closeEmail="closeQnA"></inputQnA>
+            <span style="margin-left: 28px">问题答案：{{ info.answer }}</span>
+            <a-button
+              v-show="judgement"
+              @click="toQnA"
+              type="link"
+              style="float: right;"
+              >修改</a-button
+            >
+            <inputQnA
+              ref="chooseQnA"
+              v-show="showQnA"
+              v-on:closeEmail="closeQnA"
+            ></inputQnA>
           </div>
         </a-list>
       </div>
@@ -288,7 +338,7 @@ export default {
 
 <style>
 .total {
- /* background: url("../../assets/bg.jpeg");*/
+  /* background: url("../../assets/bg.jpeg");*/
   width: 100%;
   height: 1000px;
   background-size: cover;

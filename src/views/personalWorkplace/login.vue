@@ -18,13 +18,17 @@
                   {
                     rules: [
                       { required: true, message: '请输入用户名' },
-                      { min: 3, message: '用户名长度大于3', trigger: 'blur' },
-                    ],
-                  },
+                      { min: 3, message: '用户名长度大于3', trigger: 'blur' }
+                    ]
+                  }
                 ]"
                 placeholder="Username"
               >
-                <a-icon slot="prefix" type="user" style="color: rgba(0, 0, 0, 0.25);" />
+                <a-icon
+                  slot="prefix"
+                  type="user"
+                  style="color: rgba(0, 0, 0, 0.25);"
+                />
               </a-input>
             </a-form-item>
             <a-form-item>
@@ -34,14 +38,18 @@
                   {
                     rules: [
                       { required: true, message: '请输入密码' },
-                      { min: 3, message: '密码长度大于3', trigger: 'blur' },
-                    ],
-                  },
+                      { min: 3, message: '密码长度大于3', trigger: 'blur' }
+                    ]
+                  }
                 ]"
                 placeholder="Password"
                 type="password"
               >
-                <a-icon slot="prefix" type="lock" style="color: rgba(0, 0, 0, 0.25);" />
+                <a-icon
+                  slot="prefix"
+                  type="lock"
+                  style="color: rgba(0, 0, 0, 0.25);"
+                />
               </a-input>
             </a-form-item>
             <a-form-model-item>
@@ -50,12 +58,15 @@
                   'remember',
                   {
                     valuePropName: 'checked',
-                    initialValue: true,
-                  },
+                    initialValue: true
+                  }
                 ]"
-              >记住密码</a-checkbox>
+                >记住密码</a-checkbox
+              >
               <a class="login-form-forgot" href="#/findPwd">忘记密码？</a>
-              <a-button html-type="submit" class="login-form-button">登 录</a-button>没有账号？
+              <a-button html-type="submit" class="login-form-button"
+                >登 录</a-button
+              >没有账号？
               <a href="#/register">去注册！</a>
             </a-form-model-item>
           </a-form>

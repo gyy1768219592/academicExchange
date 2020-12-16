@@ -7,10 +7,10 @@ export function deleteData(url, params) {
       url,
       null,
       params,
-      (successRes) => {
+      successRes => {
         resolve(successRes);
       },
-      (failureRes) => {
+      failureRes => {
         reject(failureRes);
       }
     );

@@ -5,7 +5,7 @@
         <img src="../assets/logo.png" @click="toHome" />
       </div>
       <a-dropdown class="topNav-dropDown">
-        <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+        <a class="ant-dropdown-link" @click="e => e.preventDefault()">
           <a-avatar :size="50" icon="user" class="topNav-avatar" />
         </a>
         <a-menu slot="overlay">
@@ -41,8 +41,8 @@ export default {
   methods: {
     toHome() {
       this.$router.push({ name: "Home" });
-    },
-  },
+    }
+  }
 };
 </script>
 

@@ -6,49 +6,51 @@
         <a-form-item v-bind="formItemLayout" label="输入邮箱">
           <a-input
             v-decorator="[
-            'email',
-            {
+              'email',
+              {
                 rules: [
-                {
+                  {
                     type: 'email',
-                    message: 'The input is not valid E-mail!',
-                },
-                {
+                    message: 'The input is not valid E-mail!'
+                  },
+                  {
                     required: true,
-                    message: 'Please input your E-mail!',
-                },
-                ],
-            },
+                    message: 'Please input your E-mail!'
+                  }
+                ]
+              }
             ]"
           />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="输入用户名">
           <a-input
             v-decorator="[
-            'username',
-            {
-              rules: [{ required: true, message: 'Username is required!' },
-              { min: 3, message: '用户名长度大于3', trigger: 'blur' },],
-            },
-          ]"
+              'username',
+              {
+                rules: [
+                  { required: true, message: 'Username is required!' },
+                  { min: 3, message: '用户名长度大于3', trigger: 'blur' }
+                ]
+              }
+            ]"
           />
         </a-form-item>
         <a-form-item v-bind="formItemLayout" label="设置密码" has-feedback>
           <a-input
             v-decorator="[
-            'password',
-            {
+              'password',
+              {
                 rules: [
-                {
+                  {
                     required: true,
-                    message: 'Please input your password!',
-                },
-                {
-                    validator: validateToNextPassword,
-                },
-                { min: 3, message: '密码长度大于3', trigger: 'blur' },
-                ],
-            },
+                    message: 'Please input your password!'
+                  },
+                  {
+                    validator: validateToNextPassword
+                  },
+                  { min: 3, message: '密码长度大于3', trigger: 'blur' }
+                ]
+              }
             ]"
             type="password"
           />
@@ -56,18 +58,18 @@
         <a-form-item v-bind="formItemLayout" label="确认密码" has-feedback>
           <a-input
             v-decorator="[
-            'confirm',
-            {
+              'confirm',
+              {
                 rules: [
-                {
+                  {
                     required: true,
-                    message: 'Please confirm your password!',
-                },
-                {
-                    validator: compareToFirstPassword,
-                },
-                ],
-            },
+                    message: 'Please confirm your password!'
+                  },
+                  {
+                    validator: compareToFirstPassword
+                  }
+                ]
+              }
             ]"
             type="password"
             @blur="handleConfirmBlur"
@@ -77,33 +79,35 @@
         <a-form-item v-bind="formItemLayout" label="微信号">
           <a-input
             v-decorator="[
-            'wechatNumber',
-            {
-              rules: [{ required: true, message: 'wechatNumber is required!' }],
-            },
-          ]"
+              'wechatNumber',
+              {
+                rules: [
+                  { required: true, message: 'wechatNumber is required!' }
+                ]
+              }
+            ]"
           />
         </a-form-item>
 
         <a-form-item v-bind="formItemLayout" label="安全问题">
           <a-input
             v-decorator="[
-            'question',
-            {
-              rules: [{ required: true, message: 'question is required!' }],
-            },
-          ]"
+              'question',
+              {
+                rules: [{ required: true, message: 'question is required!' }]
+              }
+            ]"
           />
         </a-form-item>
 
         <a-form-item v-bind="formItemLayout" label="答案">
           <a-input
             v-decorator="[
-            'answer',
-            {
-              rules: [{ required: true, message: 'answer is required!' }],
-            },
-          ]"
+              'answer',
+              {
+                rules: [{ required: true, message: 'answer is required!' }]
+              }
+            ]"
           />
         </a-form-item>
 
@@ -112,11 +116,11 @@
             placeholder
             :rows="4"
             v-decorator="[
-            'intro',
-            {
-              rules: [{ required: true, message: 'Introduce is required!' }],
-            },
-          ]"
+              'intro',
+              {
+                rules: [{ required: true, message: 'Introduce is required!' }]
+              }
+            ]"
           />
         </a-form-item>
 
@@ -125,7 +129,9 @@
           <a href="#/login">去登录！</a>
           <br />
           <br />
-          <a-button type="primary" html-type="submit" style="width: 80%">注 册</a-button>
+          <a-button type="primary" html-type="submit" style="width: 80%"
+            >注 册</a-button
+          >
         </div>
       </a-form>
     </div>

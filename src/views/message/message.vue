@@ -1,71 +1,70 @@
 <template>
-    <div>
-        <Nav></Nav>
-        <JwChat :taleList="list" scrollType="norell" :config="config" @enter="bindEnter" v-model="inputMsg" :toolConfig="tool" style="width: 1000px ! important;" >
-        </JwChat>
-    </div>
+  <div>
+    <Nav></Nav>
+    <Sider-nav></Sider-nav>
+    <template>
+      <h2 style="margin-left: 250px;margin-top:1%">我的消息</h2>
+      <a-list item-layout="horizontal" :data-source="data">
+        <a-list-item slot="renderItem" slot-scope="item">
+          <a-button type="danger" slot="actions" ghost>删除</a-button>
+          <a-button type="primary" slot="actions" ghost @click="showModal">回复</a-button>
+          <a-list-item-meta description="学者名">
+            <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
+            <a-avatar
+              slot="avatar"
+              src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+            />
+          </a-list-item-meta>
+        </a-list-item>
+      </a-list>
+    </template>
+
+  </div>
 </template>
-
 <script>
-import Nav from '../../components/nav.vue';
-export default {
-  data () {
-    return {
-      inputMsg: '',
-      list: [
-        {
-          "date": "2020/04/25 21:19:07",
-          "text": { "text": "1223231" },
-          "mine": false,
-          "name": "聊天者1",
-          "img": "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        },
-        {
-          "date": "2020/04/16 21:19:07",
-          "text": { "text": "<video data-src='https://www.w3school.com.cn/i/movie.mp4' controls='controls' />" },
-          "mine": true,
-          "name": "回复者1",
-          "img": "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-        },
+import Nav from "../../components/nav.vue";
+import SiderNav from "../../components/siderNav.vue";
+const data = [
+  {
+    title: '邮件名称',
+  },
+  {
+    title: 'Ant Design Title 2',
+  },
+  {
+    title: 'Ant Design Title 3',
+  },
+  {
+    title: 'Ant Design Title 4',
+  },
+];
 
-      ],
-      tool: {
-        show: ['file', 'img'],
-        callback: this.toolEvent,
-        showEmoji: true,
-      },
+export default {
+ data() {
+    return {
+      visible: false,
+      data,
     }
   },
   components: {
-      Nav,
+    Nav,
+    SiderNav
   },
   methods: {
-    bindEnter () {
-      const msg = this.inputMsg
-      if (!msg) return;
-      const msgObj = {
-        "date": "2020/05/20 23:19:07",
-        "text": { "text": msg },
-        "mine": true,
-        "name": "JwChat",
-        "img": "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-      }
-      this.list.push(msgObj)
+    showModal() {
+      this.visible = true;
     },
-    toolEvent (type) {
-      console.log('tools', type)
+    handleOk(e) {
+      console.log(e);
+      this.visible = false;
     },
-  }
-}
+  },
+};
 </script>
 <style scoped>
-.chatPage {
-    width: 1000px ! important;
-    float: right;
-    margin: 1%;
-}
-
-div.wrapper {
-  width: 1000px ! important;
+.ant-list.ant-list-split {
+  margin-left: 250px;
+  margin-right: 2%;
+  margin-top: 1%;
 }
 </style>

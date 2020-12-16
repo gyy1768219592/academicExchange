@@ -31,11 +31,11 @@
 import topNav from "@/components/nav.vue";
 export default {
   components: {
-    topNav,
+    topNav
   },
   data() {
     return {
-      isSelected: false,
+      isSelected: false
     };
   },
   methods: {
@@ -47,8 +47,8 @@ export default {
     },
     onSearch(value) {
       this.$router.push({ path: "/searchResult", query: { word: value } });
-    },
-  },
+    }
+  }
 };
 </script>
 

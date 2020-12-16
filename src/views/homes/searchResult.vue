@@ -28,18 +28,18 @@ import paperSearchResult from "@/components/paperSearchResult.vue";
 export default {
   components: {
     navSearch,
-    paperSearchResult,
+    paperSearchResult
   },
   data() {
     return {
-      word: this.$route.query.word,
+      word: this.$route.query.word
     };
   },
   methods: {
     good() {
       alert(1);
-    },
-  },
+    }
+  }
 };
 </script>
 

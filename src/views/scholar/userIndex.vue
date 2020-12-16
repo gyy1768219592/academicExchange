@@ -108,8 +108,14 @@
               <a-list item-layout="horizontal" :data-source="data">
                 <a-list-item slot="renderItem" slot-scope="item">
                   <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
+                    <a slot="title" href="https://www.antdv.com/">{{
+                      item.title
+                    }}</a>
+                    <img
+                      style="height:50px;width:55px"
+                      slot="avatar"
+                      :src="item.src"
+                    />
                   </a-list-item-meta>
                 </a-list-item>
               </a-list>
@@ -184,8 +190,14 @@
               <a-list item-layout="horizontal" :data-source="data">
                 <a-list-item slot="renderItem" slot-scope="item">
                   <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
+                    <a slot="title" href="https://www.antdv.com/">{{
+                      item.title
+                    }}</a>
+                    <img
+                      style="height:50px;width:55px"
+                      slot="avatar"
+                      :src="item.src"
+                    />
                   </a-list-item-meta>
                 </a-list-item>
               </a-list>
@@ -208,26 +220,26 @@ const data = [
     title: "成果 1",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
   },
   {
     title: "成果 2",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
   },
   {
     title: "成果 3",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
   },
   {
     title: "成果 4",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
-  },
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
+  }
 ];
 export default {
   components: {
@@ -244,9 +256,9 @@ export default {
         username: "陈志刚",
         ins: "中南大学",
         hindex: 1,
-        gindex: 2,
+        gindex: 2
       },
-      count: 10,
+      count: 10
     };
   },
   mounted() {
@@ -258,50 +270,50 @@ export default {
       let myChart = this.$echarts.init(document.getElementById("relation"));
       let option = {
         title: {
-          text: "按年份展示发表情况",
+          text: "按年份展示发表情况"
         },
         tooltip: {
-          trigger: "axis",
+          trigger: "axis"
         },
         dataZoom: [
           {
             type: "slider",
             xAxisIndex: 0,
             start: 0,
-            end: 20,
+            end: 20
           },
           {
             type: "inside",
             xAxisIndex: 0,
             start: 0,
-            end: 20,
+            end: 20
           },
           {
             type: "slider",
             yAxisIndex: 0,
             start: 0,
-            end: 50,
+            end: 50
           },
           {
             type: "inside",
             yAxisIndex: 0,
             start: 0,
-            end: 50,
-          },
+            end: 50
+          }
         ],
         legend: {
-          data: ["项目", "专利", "文献"],
+          data: ["项目", "专利", "文献"]
         },
         grid: {
           left: "3%",
           right: "4%",
           bottom: "3%",
-          containLabel: true,
+          containLabel: true
         },
         toolbox: {
           feature: {
-            saveAsImage: {},
-          },
+            saveAsImage: {}
+          }
         },
         xAxis: {
           type: "category",
@@ -319,32 +331,47 @@ export default {
             "2017年",
             "2018年",
             "2019年",
-            "2020年",
-          ],
+            "2020年"
+          ]
         },
         yAxis: {
-          type: "value",
+          type: "value"
         },
         series: [
           {
             name: "项目",
             type: "line",
             stack: "总量",
-            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0],
+            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0]
           },
           {
             name: "专利",
             type: "line",
             stack: "总量",
-            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0],
+            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0]
           },
           {
             name: "文献",
             type: "line",
             stack: "总量",
-            data: [150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410],
-          },
-        ],
+            data: [
+              150,
+              232,
+              201,
+              154,
+              190,
+              330,
+              410,
+              150,
+              232,
+              201,
+              154,
+              190,
+              330,
+              410
+            ]
+          }
+        ]
       };
       myChart.setOption(option);
     },
@@ -353,16 +380,16 @@ export default {
       let option = {
         title: {
           text: "发表成果情况",
-          left: "center",
+          left: "center"
         },
         tooltip: {
           trigger: "item",
-          formatter: "{a} <br/>{b} : {c} ({d}%)",
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
         legend: {
           orient: "vertical",
           left: "left",
-          data: ["项目", "专利", "文献"],
+          data: ["项目", "专利", "文献"]
         },
         series: [
           {
@@ -373,17 +400,17 @@ export default {
             data: [
               { value: 2, name: "项目" },
               { value: 14, name: "专利" },
-              { value: 547, name: "文献" },
+              { value: 547, name: "文献" }
             ],
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: "rgba(0, 0, 0, 0.5)",
-              },
-            },
-          },
-        ],
+                shadowColor: "rgba(0, 0, 0, 0.5)"
+              }
+            }
+          }
+        ]
       };
       myChart.setOption(option);
       let currentIndex = -1;
@@ -393,20 +420,20 @@ export default {
         myChart.dispatchAction({
           type: "downplay",
           seriesIndex: 0,
-          dataIndex: currentIndex,
+          dataIndex: currentIndex
         });
         currentIndex = (currentIndex + 1) % dataLen;
         // 高亮当前图形
         myChart.dispatchAction({
           type: "highlight",
           seriesIndex: 0,
-          dataIndex: currentIndex,
+          dataIndex: currentIndex
         });
         // 显示 tooltip
         myChart.dispatchAction({
           type: "showTip",
           seriesIndex: 0,
-          dataIndex: currentIndex,
+          dataIndex: currentIndex
         });
       }, 1500);
     },
@@ -425,11 +452,11 @@ export default {
     toPatent() {
       //跳转到专利展示页面，带参数
       // this.$router.push("/Patent");
-    },
+    }
 
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
-  },
+  }
 };
 </script>
 <style scoped>

@@ -25,7 +25,7 @@
         />
       </div>
       <a-dropdown class="topNav-dropDown">
-        <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+        <a class="ant-dropdown-link" @click="e => e.preventDefault()">
           <a-avatar :size="50" icon="user" class="topNav-avatar" />
         </a>
         <a-menu slot="overlay">
@@ -57,7 +57,7 @@
 export default {
   data() {
     return {
-      isSelected: false,
+      isSelected: false
     };
   },
   methods: {
@@ -72,8 +72,8 @@ export default {
     },
     toHome() {
       this.$router.push({ name: "Home" });
-    },
-  },
+    }
+  }
 };
 </script>
 

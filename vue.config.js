@@ -4,11 +4,19 @@ module.exports = {
     loaderOptions: {
       less: {
         lessOptions: {
-          modifyVars: {
-          },
-          javascriptEnabled: true,
-        },
-      },
-    },
+          modifyVars: {},
+          javascriptEnabled: true
+        }
+      }
+    }
   },
+
+  pluginOptions: {
+    quasar: {
+      importStrategy: "kebab",
+      rtlSupport: false
+    }
+  },
+
+  transpileDependencies: ["quasar"]
 };

@@ -112,8 +112,14 @@
               <a-list item-layout="horizontal" :data-source="data">
                 <a-list-item slot="renderItem" slot-scope="item">
                   <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
+                    <a slot="title" href="https://www.antdv.com/">{{
+                      item.title
+                    }}</a>
+                    <img
+                      style="height:50px;width:55px"
+                      slot="avatar"
+                      :src="item.src"
+                    />
                   </a-list-item-meta>
                 </a-list-item>
               </a-list>
@@ -188,8 +194,14 @@
               <a-list item-layout="horizontal" :data-source="data">
                 <a-list-item slot="renderItem" slot-scope="item">
                   <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
+                    <a slot="title" href="https://www.antdv.com/">{{
+                      item.title
+                    }}</a>
+                    <img
+                      style="height:50px;width:55px"
+                      slot="avatar"
+                      :src="item.src"
+                    />
                   </a-list-item-meta>
                 </a-list-item>
               </a-list>
@@ -211,26 +223,26 @@ const data = [
     title: "成果 1",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
   },
   {
     title: "成果 2",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
   },
   {
     title: "成果 3",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
   },
   {
     title: "成果 4",
     description: "学术成果的摘要可以放在这里",
     src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
-  },
+      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg"
+  }
 ];
 
 export default {
@@ -251,15 +263,15 @@ export default {
         username: "陈志刚",
         ins: "中南大学",
         hindex: 1,
-        gindex: 2,
+        gindex: 2
       },
-      count: 10,
+      count: 10
     };
   },
   watch: {
     openKeys(val) {
       console.log("openKeys", val);
-    },
+    }
   },
   methods: {
     initEchart() {
@@ -270,47 +282,47 @@ export default {
       let option = {
         title: { text: "合作学者图" },
         tooltip: {
-          show: false,
+          show: false
         },
         series: [
           {
             edgeLabel: {
               normal: {
                 formatter: "{c}",
-                show: true,
-              },
+                show: true
+              }
             },
             edgeSymbol: "circle",
             force: {
-              repulsion: 2000,
+              repulsion: 2000
             },
             layout: "force",
             roam: true,
             itemStyle: {
               normal: {
-                color: "#6495ED",
+                color: "#6495ED"
               },
               //鼠标放上去有阴影效果
               emphasis: {
                 shadowColor: "#3721db",
                 shadowOffsetX: 0,
                 shadowOffsetY: 0,
-                shadowBlur: 40,
-              },
+                shadowBlur: 40
+              }
             },
             label: {
               normal: {
-                show: true,
-              },
+                show: true
+              }
             },
             //头像
             symbol: `image://${imgSrc}`,
             symbolSize: 86,
             type: "graph",
             links: this.chartLink,
-            data: this.chartData,
-          },
-        ],
+            data: this.chartData
+          }
+        ]
       };
       this.myChart.setOption(option);
       this.myChart.on("click", function(params) {
@@ -325,39 +337,39 @@ export default {
         {
           name: "张1",
           symbolSize: 76,
-          id: "1",
+          id: "1"
         },
         {
           name: "张2",
           symbolSize: 86,
-          id: "2",
+          id: "2"
         },
         {
           name: "张3",
           symbolSize: 96,
-          id: "3",
+          id: "3"
         },
         {
           name: "张4",
           symbolSize: 136,
-          id: "4",
+          id: "4"
         },
         {
           name: "张5",
-          id: "5",
+          id: "5"
         },
         {
           name: "张6",
-          id: "6",
+          id: "6"
         },
         {
           name: "张7",
-          id: "7",
+          id: "7"
         },
         {
           name: "张6",
-          id: "8",
-        },
+          id: "8"
+        }
       ];
       return data;
     },
@@ -372,7 +384,7 @@ export default {
         { value: "合作学者", source: "1", target: "5" },
         { value: "合作学者", source: "1", target: "6" },
         { value: "合作学者", source: "1", target: "7" },
-        { value: "合作学者", source: "1", target: "8" },
+        { value: "合作学者", source: "1", target: "8" }
       ];
       return dataLink;
     },
@@ -384,16 +396,16 @@ export default {
         title: { text: "发表成果数" },
         tooltip: {},
         xAxis: {
-          data: ["专利", "项目", "文献"],
+          data: ["专利", "项目", "文献"]
         },
         yAxis: {},
         series: [
           {
             name: "发表数",
             type: "bar",
-            data: [1, 5, 4],
-          },
-        ],
+            data: [1, 5, 4]
+          }
+        ]
       });
     },
     handleClick(e) {
@@ -416,7 +428,7 @@ export default {
     toPatent() {
       //跳转到专利展示页面，带参数
       // this.$router.push("/Patent");
-    },
+    }
 
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
@@ -424,7 +436,7 @@ export default {
   mounted() {
     this.initEchart();
     this.drawLine();
-  },
+  }
 };
 </script>
 <style scoped>

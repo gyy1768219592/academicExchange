@@ -13,7 +13,10 @@
       </a-menu-item>
       <a-menu-item key="2" id="id2">
         <a-icon type="mail" />收件箱
-        <router-link to="/letter" style="color:#f8f4e6;background-color:#839b5c;"></router-link>
+        <router-link
+          to="/letter"
+          style="color:#f8f4e6;background-color:#839b5c;"
+        ></router-link>
       </a-menu-item>
       <a-sub-menu key="sub1" id="id3">
         <span slot="title">
@@ -26,7 +29,10 @@
           </router-link>
         </a-menu-item>
         <a-menu-item v-for="item in team" :key="item.teamid" @click="judge">
-          <router-link :to="{ path: '/team', query: { teamid: item.teamid } }">{{ item.teamname }}</router-link>
+          <router-link
+            :to="{ path: '/team', query: { teamid: item.teamid } }"
+            >{{ item.teamname }}</router-link
+          >
         </a-menu-item>
       </a-sub-menu>
       <a-menu-item key="5" id="id5">
