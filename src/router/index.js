@@ -75,12 +75,6 @@ const routes = [
     name: "manager",
     component: () => import("../views/managerMent/Manager.vue"),
   },
-  {
-    //管理员
-    path: "/Test",
-    name: "test",
-    component: () => import("../views/managerMent/Test.vue"),
-  },
 ];
 
 const router = new VueRouter({

@@ -61,7 +61,7 @@
                           <template slot="title">
                             管理学者门户
                           </template>
-                          <a-button shape="circle" icon="setting" />
+                          <a-button shape="circle" icon="setting" @click="changeMain(key)"/>
                         </a-tooltip>
                       </p>
                     </div>
@@ -82,31 +82,37 @@
           </div>
         </div>
         <div class = "middle-block">
-          <a-card>
-            <a-card-grid
-              style="width: 100%"
-            >
-              <div class="card-avatar">
-                <a-avatar :size="60" :src="src" />
-              </div>
-              <div class="card-info">
-                <span style="font-size: 16px; font-weight: 600"
-                  >小泽征尔 </span
-                ><br />
-                <span>东京大学</span
-                ><br />
-                <span>
-                  <a-col :span="10"> 发表论文：12 </a-col></span
-                ><br />
-                <span
-                  ><a-col :span="10">被引量：32</a-col></span
-                ><br />
-                <span>
-                  <a-col :span="10">研究领域：34</a-col></span
+          <div class="result-list-scholar">
+            <div class="card-list">
+              <a-card>
+                <a-card-grid
+                  style="width: 100%"
+                  v-for="(item, key) in scholarListMain"
+                  :key="key"
                 >
-              </div>
-            </a-card-grid>
-          </a-card>
+                  <div class="card-avatar">
+                    <a-avatar :size="80" :src="item.src" />
+                  </div>
+                  <div class="card-info">
+                    <span style="font-size: 16px; font-weight: 600"
+                      >{{ item.name }} </span
+                    ><br />
+                    <span>{{ item.institution }}</span
+                    ><br />
+                    <span>
+                      <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
+                    ><br />
+                    <span
+                      ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
+                    ><br />
+                    <span>
+                      <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                    >
+                  </div>
+                </a-card-grid>
+              </a-card>
+            </div>
+          </div>
           <div class="result-list-scholar">
             <div class="card-list">
               <a-card>
@@ -253,6 +259,17 @@ export default {
       total: 203,
       src:
             "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+      scholarListMain:[
+        {
+          name: "张帆",
+          src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          institution: "华中科技大学同济医学院附属同济医院",
+          paper: 4349,
+          citation: 70957,
+          field: "肿瘤学",
+        },  
+      ],
       scholarList: [
         {
           name: "张帆",
@@ -314,6 +331,9 @@ export default {
   },
   props: ["word"],
   methods: {
+    changeMain(key){
+      this.$set(this.scholarListMain,0,this.scholarList[key]);
+    },
     changePage() {
       console.log(this.currentPage);
     },
@@ -372,10 +392,19 @@ export default {
   float: left;
   width: 20%;
 }
+.result-list-scholar .card-list .card-avatar-main {
+  float: left;
+  width: 20%;
+}
 .result-list-scholar .card-list .card-info {
   float: left;
   margin-left: 5%;
   width: 65%;
+}
+.result-list-scholar .card-list .card-info-main {
+  float: left;
+  margin-left: 5%;
+  width: 50%;
 }
 .result-list-scholar .card-list .card-info span {
   display: inline-block;
@@ -388,7 +417,11 @@ export default {
   float: right;
   width: 10%;
 }
-small-card-list{
+
+/* .main-scholar-name{
+  margin: -100px -100px -100px 100px;
+} */
+.small-card-list{
   border: solid 1px black;
   width: 600px;
   height: 1000px;

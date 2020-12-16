@@ -352,7 +352,8 @@ export default {
       let params = new URLSearchParams();
       params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
-      let url = "http://182.92.223.226/scholarship/getProjectById/";//this.$urlPath.website.getProjectById;
+      let url = this.$urlPath.website.getProjectById + this.progID;
+      console.log(url);
       getData(url, params).then(res => {
         console.log(res.code);
         if (res.code === "0") {

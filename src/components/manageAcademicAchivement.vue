@@ -36,6 +36,7 @@
                       icon="setting"  
                       slot="actions" 
                       class="result-list-button_r"
+                      @click="changeMain(item.title)"
                     >管理学术成果</a-button>
                     <a-list-item-meta
                     :description="
@@ -351,6 +352,10 @@ export default {
   },
   props: ["word"],
   methods: {
+    changeMain(title){
+      var key = this.paperList.findIndex(item => item.title === title)
+      this.$set(this.paperTopList,0,this.paperList[key]);
+    },
     changePage() {
       console.log(this.currentPage);
     },
