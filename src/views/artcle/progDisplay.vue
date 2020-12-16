@@ -14,39 +14,10 @@
                 <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="author_data">
                     <a-list-item slot="renderItem" slot-scope="item">
                         <div class="author">
-                          <a-dropdown>
-                            <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                              <a-avatar class="img" :size="35" icon="user" />
-                              <h1 class="author-name">{{ item.username }}</h1>
-                            </a>
-                            <a-menu slot="overlay">
-                              <a-menu-item>
-                                <div class="author" @click="gotoUser">
-                                  <a-avatar class="img" :size="38" icon="user" />
-                                  <h1 class="author-name2">{{ item.username }}</h1>
-                                  <div class="author-from" :title=item.infor>
-                                    {{item.infor}}
-                                  </div>
-                                </div>
-                              </a-menu-item>
-                              <a-menu-item>
-                                <div class="author-infor">
-                                  <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.prognum }}</span> 
-                                    <span class="author-infor-item_cnt">项目</span>
-                                  </div>
-                                  <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.outnum }}</span> 
-                                    <span class="author-infor-item_cnt">成果</span>
-                                  </div>
-                                  <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.Hindex }}</span> 
-                                    <span class="author-infor-item_cnt">H指数</span>
-                                  </div>
-                                </div>
-                              </a-menu-item>
-                            </a-menu>
-                          </a-dropdown>
+                          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                            <a-avatar class="img" :size="35" icon="user" />
+                            <h1 class="author-name">{{ item.username }}</h1>
+                          </a>
                         </div>
                     </a-list-item>
                 </a-list>
@@ -60,16 +31,6 @@
                 <span class="date-num">发表时间： {{date}}</span>
             </div>
         </div>
-        <!-- <div class="tool">
-            <a-button class="collect" @click="changeCollect">
-                <a-icon type="star" class="star"/>
-                <span class="collect-word" >收藏</span>
-            </a-button>
-            <a-button class="collect" @click="share">
-                <a-icon type="share-alt" class="star"/>
-                <span class="collect-word" >分享</span>
-            </a-button>
-        </div> -->
       </div>
       <div class="down-block">
         <div class="down-left-block" >
@@ -126,7 +87,25 @@
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
-                    {{yinyong}}
+                    {{progData.organization}}
+                {{progData.fundProjectCode}}
+                {{progData.source}}
+                {{progData.doi}}
+                {{progData.fieldName}}
+                {{progData.doiUrl}}
+                {{progData.zhAbstract}}
+                {{progData.fundProject}}
+                {{progData.authors}}
+                {{progData.fieldCode}}
+                {{progData.organizationID}}
+                {{progData.supportTypeName}}
+                {{progData.chineseTitle}}
+                {{progData.publishDate}}
+                {{progData.fundProjectNo}}
+                {{progData.achievementID}}
+                {{progData.journal}}
+                {{progData.productType}}
+                {{progData.zhKeyword}}
                   </span>
                 </div>
               </a-descriptions-item>
@@ -172,59 +151,8 @@ export default {
   },
   data() {
     return {
-      progID: 1,
-      author_data : [
-        {
-            username: "谭火彬",
-            prognum: 15,
-            outnum: 456,
-            Hindex: 14,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "宋友",
-            prognum: 5,
-            outnum: 56,
-            Hindex: 48,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "贾经冬",
-            prognum: 46,
-            outnum: 895,
-            Hindex: 5,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "原仓周",
-            prognum: 7,
-            outnum: 566,
-            Hindex: 6,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-      ],
-      PaperTitle : "陈志刚教授辨病论治周围神经病经验",
-      Abstract : "  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构\"重基本建设、轻人力资本投资扣公共服务\"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府\"为增长而竞争\"的同时,与之伴随的成本可能正在上升.",
-      keyword : "财政支出结构 中国式分权 政府竞争",
-      DOI : "CNKI:SUN:GLSJ.0.2007-03-001",
-      DocType : "会议",
-      CitationCount	:	123,
-      date : "2001-01-09",
-      Journal	: "SCI",          //期刊名	
-      Conference :	"高级会议", //会议名
-      Volume :	"23",          //卷号
-      Issue :	"2001-23",       //期号
-      FirstPage :	"213",       //开始页
-      LastPage :	"223",       //结束页
-      SourceUrl :"http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
-      yinyong: "杨玲,  陈志刚. 陈志刚教授辨病论治周围神经病经验[J]. 中国当代医药. 2018,(12):112-115. ",
-      leijiliang : 0,
-      mounian : 2000,
-      mounianbeiyinliang : 2,
+      progID : this.$route.params.id,
+      progData : {}
     };
   },
   watch: {
@@ -349,29 +277,50 @@ export default {
       
     },
     getProg(){
+      this.progData = {
+        "code": 1001,
+        "message": "请求成功！",
+        "data": {
+            "project": {
+                "projectId": 1,
+                "organization": "宁波大学",
+                "fundProjectCode": "1449979",
+                "source": "origin",
+                "doi": "10.1016/j.sigpro.2018.09.024",
+                "fieldName": null,
+                "doiUrl": "https://doi.org/10.1016/j.sigpro.2018.09.024",
+                "zhAbstract": "",
+                "fundProject": "云计算环境下基于立体视觉的3D高清视频信息隐藏研究",
+                "authors": "骆挺; 蒋刚毅; 郁梅; 徐海勇; 高巍",
+                "fieldCode": "F010801",
+                "organizationID": "100400",
+                "supportTypeName": "青年科学基金项目",
+                "chineseTitle": "Robust high dynamic range color image watermarking method based on feature map extraction",
+                "publishDate": "2019-3",
+                "fundProjectNo": "61501270",
+                "achievementID": "ZD21844766",
+                "journal": "Signal Processing",
+                "productType": "4",
+                "zhKeyword": ""
+            }
+        },
+        "time": "2020-12-16T05:44:45.101+00:00"
+    }
       let params = new URLSearchParams();
       params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getProjectById + this.progID;
       console.log(url);
       getData(url, params).then(res => {
+        this.progData = res.data.project;
         console.log(res.code);
-        if (res.code === "0") {
-          this.$message.success("登录成功");
-          window.sessionStorage.setItem("UserId", res.data.userid);
-          const webAdrs = window.sessionStorage.getItem("WebAdrs");
-          if (webAdrs) {
-            console.log("that way" + webAdrs);
-            this.$router.push(webAdrs.substr(27));
-          } else if (!webAdrs) {
-            console.log("this way");
-            this.$router.push("/used");
-          }
-        } else if (res.code === "1" || res.code === "2") {
-          this.$message.error("用户名或密码错误");
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
           console.log(res.code);
-          this.$message.error("服务器返回时间间隔过长");
+          this.$message.error(res.message);
         }
       });
     },

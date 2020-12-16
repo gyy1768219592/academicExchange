@@ -59,19 +59,19 @@ const routes = [
   },
   {
     //论文内容展示
-    path: "/paperDisplay",
+    path: "/paperDisplay/:id",
     name: "paperDisplay",
     component: () => import("../views/artcle/paperDisplay.vue"),
   },
   {
     //国家项目内容展示
-    path: "/progDisplay",
+    path: "/progDisplay/:id",
     name: "progDisplay",
     component: () => import("../views/artcle/progDisplay.vue"),
   },
   {
     //专利内容展示
-    path: "/patentDisplay",
+    path: "/patentDisplay/:id",
     name: "patentDisplay",
     component: () => import("../views/artcle/patentDisplay.vue"),
   },

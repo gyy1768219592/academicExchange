@@ -369,12 +369,12 @@ export default {
   width: 34%;
   height: 1350px;
   /* border: solid 1px black; */
-  margin: -1350px 0px 0px 33%;
+  /* margin: -1350px 0px 0px 33%; */
 }
 .right-block{
   width: 33%;
   height: 1350px;
-  margin: -1350px 0px 0px 67%;
+  /* margin: -1350px 0px 0px 67%; */
   /* border: solid 1px black; */
 }
 .result-main-scholar .topbar {
