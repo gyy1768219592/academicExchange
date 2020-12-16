@@ -10,35 +10,41 @@
             <div class="topNav-searchCard">
               <a-form
                 :form="form"
-                :label-col="{ span: 5 }"
-                :wrapper-col="{ span: 18 }"
+                :label-col="{ span: 8 }"
+                :wrapper-col="{ span: 15 }"
                 @submit="handleSubmit"
               >
-                <a-form-item style="margin: 0; padding: 0" label="检索词">
-                  <a-input size="small" />
+                <a-form-item
+                  style="margin: 0; padding: 0"
+                  label="检索词/检索学者"
+                >
+                  <a-input size="small" placeholder="学术成果关键词/学者姓名" />
                 </a-form-item>
                 <a-form-item style="margin: 0; padding: 0" label="科研机构">
-                  <a-input size="small" />
+                  <a-input
+                    size="small"
+                    placeholder="项目专利完成单位/学者工作单位"
+                  />
                 </a-form-item>
-                <a-form-item style="margin: 0; padding: 0" label="作者">
-                  <a-input size="small" />
+                <a-form-item style="margin: 0; padding: 0" label="学术成果作者">
+                  <a-input size="small" placeholder="项目和专利的作者" />
                 </a-form-item>
-                <a-form-item style="margin: 0; padding: 0" label="发表年份">
+                <a-form-item style="margin: 0; padding: 0" label="发表日期">
                   <a-range-picker
-                    popupStyle="width:272.25px"
+                    popupStyle="width:226.88px"
                     size="small"
                     allowClear
-                    :placeholder="['开始年份', '结束年份']"
-                    format="YYYY"
+                    :placeholder="['开始日期', '结束日期']"
+                    format="YYYY-MM-DD"
                     :value="yearValue"
-                    :mode="['month', 'month']"
+                    :mode="['date', 'date']"
                     @panelChange="handlePanelChange2"
                     @change="handleChange"
                   />
                 </a-form-item>
                 <a-form-item
                   style="margin: 0; padding: 0"
-                  :wrapper-col="{ span: 18, offset: 5 }"
+                  :wrapper-col="{ span: 23, offset: 0 }"
                 >
                   <a-button
                     type="primary"
@@ -67,32 +73,44 @@
           @blur="undoSelected"
         />
       </div>
-      <a-dropdown class="topNav-dropDown">
-        <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-          <a-avatar :size="50" icon="user" class="topNav-avatar" />
-        </a>
-        <a-menu slot="overlay">
-          <a-menu-item>
-            <a href="#">个人设置</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="#">我的主页</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="#">我的私信</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="#">我的收藏</a>
-          </a-menu-item>
-          <a-menu-item>
-            <a href="#">我的关注</a>
-          </a-menu-item>
-          <a-menu-divider />
-          <a-menu-item>
-            <a href="#/">退出登录</a>
-          </a-menu-item>
-        </a-menu>
-      </a-dropdown>
+      <div v-if="isLogin">
+        <a-dropdown class="topNav-dropDown">
+          <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
+            <a-avatar :size="50" icon="user" class="topNav-avatar" />
+          </a>
+          <a-menu slot="overlay">
+            <a-menu-item>
+              <a href="#">个人设置</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="#">我的主页</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="#">我的私信</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="#">我的收藏</a>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="#">我的关注</a>
+            </a-menu-item>
+            <a-menu-divider />
+            <a-menu-item>
+              <a href="#/">退出登录</a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
+      </div>
+      <div v-else>
+        <a-button
+          type="primary"
+          ghost
+          class="topNav-LoginButton"
+          @click="toLogin()"
+        >
+          登录
+        </a-button>
+      </div>
     </div>
   </div>
 </template>
@@ -103,11 +121,16 @@ export default {
       isSelected: false,
       form: this.$form.createForm(this, { name: "advancedSearch" }),
       yearValue: [],
+      isLogin: false,
     };
   },
   methods: {
     onSearch(value) {
-      this.$router.push({ path: "/searchResult", query: { word: value } });
+      if (value.length == 0) {
+        this.$message.error("请输入检索内容");
+      } else {
+        this.$router.push({ path: "/searchResult", query: { word: value } });
+      }
     },
     selected() {
       this.isSelected = true;
@@ -133,6 +156,9 @@ export default {
     handlePanelChange2(value) {
       this.yearValue = value;
       console.log(this.yearValue);
+    },
+    toLogin() {
+      this.$router.push("/login");
     },
   },
 };
@@ -213,5 +239,10 @@ export default {
 
 .topNav-avatar {
   margin: 5px 20px;
+}
+.topNav-LoginButton {
+  float: right;
+  font-size: 14px;
+  margin: 14px 10px;
 }
 </style>

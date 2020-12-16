@@ -17,6 +17,7 @@ let path = {
 
     //检索
     searchProject: Ip.productIP + "scholarship/getProjectListByKeyword",
+    getProjectById: Ip.productIP + "scholarship/getProjectById/",
 
     //学者
     getSameNameScholar: Ip.productIP + "scholar/sameName",

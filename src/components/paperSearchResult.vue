@@ -228,7 +228,7 @@ export default {
       ],
     };
   },
-  props: ["word"],
+  props: ["word", "institution", "author", "startDate", "endDate"],
   methods: {
     changePage() {
       console.log(this.currentPage);

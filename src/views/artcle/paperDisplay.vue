@@ -7,9 +7,6 @@
             <div class="refer-num">
                 <span class="refer-num-dis">{{CitationCount}}被引</span>
             </div>
-            <div class="date">
-                <span class="date-num">发表时间： {{date}}</span>
-            </div>
             <div class="title">
               <span class="title-name">{{PaperTitle}}</span>
             </div>
@@ -54,8 +51,16 @@
                     </a-list-item>
                 </a-list>
             </div>
+            <div class="actions">
+              <a-button class="btn">我要认领</a-button>
+              <a-button class="btn">收藏</a-button>
+              <a-button class="btn" type="primary">分享</a-button>
+            </div>
+            <div class="date">
+                <span class="date-num">发表时间： {{date}}</span>
+            </div>
         </div>
-        <div class="tool">
+        <!-- <div class="tool">
             <a-button class="collect" @click="changeCollect">
                 <a-icon type="star" class="star"/>
                 <span class="collect-word" >收藏</span>
@@ -64,7 +69,7 @@
                 <a-icon type="share-alt" class="star"/>
                 <span class="collect-word" >分享</span>
             </a-button>
-        </div>
+        </div> -->
       </div>
       <div class="down-block">
         <div class="down-left-block" >
@@ -353,7 +358,7 @@ export default {
     },
     gotoUser(){
       //去此人的主页
-      this.$router.push("/Patent");
+      this.$router.push("/scholarIndex");
     },
     changeCollect(){
       
@@ -385,7 +390,7 @@ export default {
 .up-block {
   /* border: solid 1px black; */
   width: 1100px;
-  height: 250px;
+  height: 220px;
   margin: auto;
   background-color: #f0f0f0f0;
 }
@@ -442,22 +447,23 @@ export default {
 }
 .refer-num{
   /* border: solid 1px black; */
-  width: 85px;
+  width: 100px;
   height: 25px;
-  margin: 10px;
+  margin: 10px 10px 10px 10px;
   font-size: small;
 }
 .refer-num-dis{
-  width: 85px;
+  /* border: solid 1px black; */
+  width: 100px;
   height: 25px;
-  margin: 10px;
+  margin: 10px 10px 10px 10px;
   font-size: medium;
 }
 .date{
   /* border: solid 1px black; */
   width: 200px;
   height: 25px;
-  margin: -35px 0px 0px 750px;
+  margin: 50px 0px 0px 0px;
   font-size: small;
 }
 .date-num{
@@ -631,6 +637,20 @@ export default {
     text-overflow: ellipsis;
     width: 80%;
     margin: -30px 0px 0px 35px;
+}
+.actions {
+  padding-top: 30px;
+  /* border: solid 1px black; */
+  width: 130px;
+  height: 200px;
+  display: block;
+  float: right;
+  margin: -170px -105px 10px 10px;
+}
+.btn {
+  width: 100px;
+  /* border: solid 1px black; */
+  margin: 15px;
 }
 
 .info-content-ins {
