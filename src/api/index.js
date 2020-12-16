@@ -49,6 +49,8 @@ function apiAxios (method, url,headers, params, success, failure) {
     withCredentials: false
   })
     .then(function (res) {
+      if(res.headers.authorization != undefined)
+        window.sessionStorage.setItem('token',res.headers.authorization);
       if (res.data) {
         if (success) {
 		//使用success(data)方法

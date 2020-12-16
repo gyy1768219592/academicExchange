@@ -5,8 +5,8 @@ let Ip = {
 let path = {
   website: {
     //个人工作台
-    login: Ip.productIP + "login",
-    register: Ip.productIP + "register",
+    login: Ip.productIP + "user/login",
+    register: Ip.productIP + "user/register",
     getUserInfo: Ip.productIP + "getUserInfo",
     alterPassword: Ip.productIP + "alterPassword",
     uploadUserImage: Ip.productIP + "uploadUserImage",
@@ -14,7 +14,9 @@ let path = {
     updateUserInfo: Ip.productIP + "updateUserInfo",
     getUserQuestionByUsername: Ip.productIP + "getUserQuestionByUsername",
     setPassword: Ip.productIP + "setPassword",
-
+    isEmailUsed: Ip.productIP + "user/emailUsed",
+    isNameUsed: Ip.productIP + "user/nameUsed",
+    userVerify: Ip.productIP + "user/verify",
     //检索
     searchProject: Ip.productIP + "scholarship/advancedSearchProject",
     searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",
@@ -23,6 +25,16 @@ let path = {
     searchPaper: Ip.productIP + "scholarship/advancedSearchPaper",
     searchPaperSortByDate: Ip.productIP + "scholarship/advancedSearchPaperSortByDate",
     searchPaperSortByCitation: Ip.productIP + "scholarship/advancedSearchPaperSortByCitationCount",
+    getProjectById: Ip.productIP + "scholarship/getProjectById/",
+
+    //学者
+    getSameNameScholar: Ip.productIP + "scholar/sameName",
+    subscribe: Ip.productIP + "scholar/subscribe",
+    undoSubscribe: Ip.productIP + "scholar/subscribe",
+    getScholarInfo: Ip.productIP + "scholar",
+    editScholarInfo: Ip.productIP + "scholar",
+    claimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
+    undoClaimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
   },
 };
 export default path;

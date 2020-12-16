@@ -23,6 +23,10 @@
           <template v-for="item in patentYearOptions">
             <a-menu-item :key="item.label" @click="selectYear(item)">
               {{ item.label }}
+              <a-icon
+                type="right"
+                style="float: right; margin-top: 16px; font-size: 8px"
+              />
             </a-menu-item>
           </template>
         </a-sub-menu>

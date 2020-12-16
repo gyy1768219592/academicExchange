@@ -23,6 +23,10 @@
           <template v-for="item in projectYearOptions">
             <a-menu-item :key="item.value" @click="selectYear(item.value)">
               {{ item.label }}
+              <a-icon
+                type="right"
+                style="float: right; margin-top: 16px; font-size: 8px"
+              />
             </a-menu-item>
           </template>
         </a-sub-menu>

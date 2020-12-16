@@ -2,7 +2,7 @@
   <div>
     <div>
       <div>
-        <router-view ></router-view>
+        <router-view></router-view>
         <personNav></personNav>
         <siderNav></siderNav>
       </div>
@@ -16,19 +16,19 @@ import siderNav from "@/components/siderNav";
 export default {
   components: {
     personNav,
-    siderNav,
+    siderNav
   },
   data() {
     return {
       docid: 0,
-      userid: parseInt(window.sessionStorage.getItem("UserId")),
+      userid: parseInt(window.sessionStorage.getItem("UserId"))
     };
   },
   methods: {
     toModel() {
       this.$router.push("/model");
-    },
-  },
+    }
+  }
 };
 </script>
 
