@@ -17,6 +17,9 @@ let path = {
     isEmailUsed: Ip.productIP + "user/emailUsed",
     isNameUsed: Ip.productIP + "user/nameUsed",
     userVerify: Ip.productIP + "user/verify",
+    scholarVerify: Ip.productIP + "user/toBeScholar",
+    getInfo: Ip.productIP + "user/getInfo",
+    
     //检索
     searchProject: Ip.productIP + "scholarship/advancedSearchProject",
     searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",
