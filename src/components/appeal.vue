@@ -44,6 +44,7 @@
               icon="check-circle" 
               slot="actions"
               v-if="item.appeal!=3"
+              @click="appealAgree(item)"
               :class = "{'result-list-button_l' : item.appeal==1 , 'result-list-button_l_1': item.appeal==2 , 'result-list-button_l_2': item.appeal==3 }"
               >申诉通过</a-button
             >
@@ -52,6 +53,7 @@
                 icon="close-circle"  
                 slot="actions" 
                 v-if="item.appeal!=2"
+                @click="appealDisagree(item)"
                 :class = "{'result-list-button_r' : item.appeal==1 , 'result-list-button_r_2': item.appeal==2 , 'result-list-button_r_1': item.appeal==3 }"
                 >申诉驳回</a-button
             >
@@ -280,6 +282,12 @@ export default {
     changePage() {
       console.log(this.currentPage);
     },
+    appealAgree(item){
+      item.appeal = 2
+    },
+    appealDisagree(item){
+      item.appeal = 3
+    }
   },
 };
 </script>
