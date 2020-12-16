@@ -25,10 +25,35 @@
           </div>
         </div>
         <div class="actions">
+          <div>
+            <a-button class="btn" type="default" @click="showManageModal"
+              ><a-icon type="folder-open" />管理学术成果</a-button
+            >
+            <a-modal
+              width="600px"
+              v-model="manageVisible"
+              title="管理学术成果"
+              ok-text="确认"
+              cancel-text="取消"
+              @ok="hideManageModal"
+            >
+              <a-list item-layout="horizontal" :data-source="authors">
+                <a-list-item slot="renderItem" slot-scope="item, index">
+                  <a slot="actions" @click="saveScholar(index)" v-if="item.con">认领</a>
+                  <a slot="actions" @click="deleteScholar(index)" v-if="!item.con">退领</a>
+                  <a-list-item-meta :description="item.lastKnownAffiliationId">
+                    <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
+
+                    <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                  </a-list-item-meta>
+                </a-list-item>
+              </a-list>
+            </a-modal>
+          </div>
           <div class="info-modal">
             <a-button class="btn" @click="showEditInfoModal"><a-icon type="edit" />修改个人信息</a-button>
             <a-modal
-              style="z-index:100000000;position:relative;"
+              style="z-index:100000000;position:relative"
               title="修改门户信息"
               @cancel="handleInfoCancel"
               :visible="editInfoVisi"
@@ -95,7 +120,7 @@
         </div>
       </div>
       <div class="down-block">
-        <a-tabs default-active-key="1" @change="callback">
+        <a-tabs default-active-key="3" @change="callback">
           <a-tab-pane key="1" tab="主页" force-render>
             <div class="intro">
               <div class="echart" id="main"></div>
@@ -114,177 +139,11 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="项目">
-            <div class="selections">
-              <a-menu
-                style="width: 248px"
-                :default-selected-keys="['1']"
-                :open-keys.sync="openKeys"
-                mode="inline"
-                @click="handleClick"
-              >
-                <a-sub-menu key="sub1" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation One</span></span>
-                  <a-menu-item-group key="g1">
-                    <template slot="title"><span>Item 1</span> </template>
-                    <a-menu-item key="1">
-                      Option 1
-                    </a-menu-item>
-                    <a-menu-item key="2">
-                      Option 2
-                    </a-menu-item>
-                  </a-menu-item-group>
-                  <a-menu-item-group key="g2" title="Item 2">
-                    <a-menu-item key="3">
-                      Option 3
-                    </a-menu-item>
-                    <a-menu-item key="4">
-                      Option 4
-                    </a-menu-item>
-                  </a-menu-item-group>
-                </a-sub-menu>
-                <a-sub-menu key="sub2" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation Two</span></span>
-                  <a-menu-item key="5">
-                    Option 5
-                  </a-menu-item>
-                  <a-menu-item key="6">
-                    Option 6
-                  </a-menu-item>
-                  <a-sub-menu key="sub3" title="Submenu">
-                    <a-menu-item key="7">
-                      Option 7
-                    </a-menu-item>
-                    <a-menu-item key="8">
-                      Option 8
-                    </a-menu-item>
-                  </a-sub-menu>
-                </a-sub-menu>
-                <a-sub-menu key="sub4">
-                  <span slot="title"><span>Navigation Three</span></span>
-                  <a-menu-item key="9">
-                    Option 9
-                  </a-menu-item>
-                  <a-menu-item key="10">
-                    Option 10
-                  </a-menu-item>
-                  <a-menu-item key="11">
-                    Option 11
-                  </a-menu-item>
-                  <a-menu-item key="12">
-                    Option 12
-                  </a-menu-item>
-                </a-sub-menu>
-              </a-menu>
-            </div>
-            <div class="results">
-              <h3>发表项目</h3>
-              <a-divider></a-divider>
-              <a-list item-layout="horizontal" :data-source="data">
-                <a-list-item slot="renderItem" slot-scope="item">
-                  <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.title }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
-                  </a-list-item-meta>
-                </a-list-item>
-              </a-list>
-            </div>
+            <scholarProject :scholarid="scholarid"></scholarProject>
           </a-tab-pane>
           <a-tab-pane key="3" tab="成果">
-            <div class="selections">
-              <a-menu
-                style="width: 248px"
-                :default-selected-keys="['3']"
-                :open-keys.sync="openKeys"
-                mode="inline"
-                @click="handleClick"
-              >
-                <a-sub-menu key="sub1" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation One</span></span>
-                  <a-menu-item-group key="g1">
-                    <template slot="title"><span>Item 1</span> </template>
-                    <a-menu-item key="1">
-                      Option 1
-                    </a-menu-item>
-                    <a-menu-item key="2">
-                      Option 2
-                    </a-menu-item>
-                  </a-menu-item-group>
-                  <a-menu-item-group key="g2" title="Item 2">
-                    <a-menu-item key="3">
-                      Option 3
-                    </a-menu-item>
-                    <a-menu-item key="4">
-                      Option 4
-                    </a-menu-item>
-                  </a-menu-item-group>
-                </a-sub-menu>
-                <a-sub-menu key="sub2" @titleClick="titleClick">
-                  <span slot="title"><span>Navigation Two</span></span>
-                  <a-menu-item key="5">
-                    Option 5
-                  </a-menu-item>
-                  <a-menu-item key="6">
-                    Option 6
-                  </a-menu-item>
-                  <a-sub-menu key="sub3" title="Submenu">
-                    <a-menu-item key="7">
-                      Option 7
-                    </a-menu-item>
-                    <a-menu-item key="8">
-                      Option 8
-                    </a-menu-item>
-                  </a-sub-menu>
-                </a-sub-menu>
-                <a-sub-menu key="sub4">
-                  <span slot="title"><span>Navigation Three</span></span>
-                  <a-menu-item key="9">
-                    Option 9
-                  </a-menu-item>
-                  <a-menu-item key="10">
-                    Option 10
-                  </a-menu-item>
-                  <a-menu-item key="11">
-                    Option 11
-                  </a-menu-item>
-                  <a-menu-item key="12">
-                    Option 12
-                  </a-menu-item>
-                </a-sub-menu>
-              </a-menu>
-            </div>
-            <div class="results">
-              <h3>发表成果</h3>
-              <a-button type="default" @click="showManageModal" class="manage-btn">管理学术成果</a-button>
-              <a-modal
-                width="800px"
-                v-model="manageVisible"
-                title="管理学术成果"
-                ok-text="确认"
-                cancel-text="取消"
-                @ok="hideManageModal"
-              >
-                <a-list item-layout="horizontal" :data-source="authors">
-                  <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a slot="actions" @click="saveScholar(index)" v-if="item.con">认领</a>
-                    <a slot="actions" @click="deleteScholar(index)" v-if="!item.con">退领</a>
-                    <a-list-item-meta :description="item.lastKnownAffiliationId">
-                      <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
-
-                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    </a-list-item-meta>
-                  </a-list-item>
-                </a-list>
-              </a-modal>
-
-              <a-divider></a-divider>
-              <a-list item-layout="horizontal" :data-source="data">
-                <a-list-item slot="renderItem" slot-scope="item">
-                  <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
-                  </a-list-item-meta>
-                </a-list-item>
-              </a-list>
+            <div>
+              <scholarPaper :scholarid="scholarid"></scholarPaper>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -295,7 +154,13 @@
 
 <script>
 //引入导航栏
+import { postData } from "@/api/webpost";
+import { getData } from "@/api/webget";
+import { putData } from "@/api/webput";
+import { deleteData } from "@/api/webdelete";
 import navSearch from "@/components/navSearch";
+import scholarPaper from "@/components/scholarPaper.vue";
+import scholarProject from "@/components/scholarProject.vue";
 const data = [
   {
     title: "成果 1",
@@ -369,6 +234,8 @@ const authors = [
 export default {
   components: {
     navSearch,
+    scholarPaper,
+    scholarProject,
   },
   data() {
     return {
@@ -414,16 +281,31 @@ export default {
           },
         ],
       },
+      scholarid: 1,
+      scholar: {
+        scholarid: 0,
+        name: "",
+        englishName: "",
+        title: "",
+        organization: "",
+        email: "",
+        phone: "",
+        fans: 0,
+        introduction: "",
+      },
+      coAuthors: {},
+      workExperience: [],
       crtexperience: {
         position: "",
         organization: "",
         startyear: "",
         endyear: "",
       },
-
+      sameNameSlist: [],
+      pos: 0, //从此处开始为同名已认领门户
       count: 10,
       labelCol: { span: 8 },
-      wrapperCol: { span: 14 },
+      wrapperCol: { span: 12 },
       form: {
         email: "470935458@qq.com",
         wechatNumber: "13611793768",
@@ -455,20 +337,10 @@ export default {
   mounted() {
     this.initEchart();
     this.drawLine();
+    this.getScholarInfo();
+    this.getSameNameScholar();
   },
   methods: {
-    saveScholar(index) {
-      this.postScholar(index);
-    },
-    deleteScholar(index) {
-      this.eraseScholar(index);
-    },
-    postScholar() {
-      console.log("post");
-    },
-    eraseScholar() {
-      console.log("erase");
-    },
     initEchart() {
       let myChart = this.$echarts.init(document.getElementById("relation"));
       let option = {
@@ -629,6 +501,7 @@ export default {
       this.visible = true;
     },
     showManageModal() {
+      this.getSameNameScholar();
       this.manageVisible = true;
     },
     showEditInfoModal() {
@@ -677,8 +550,112 @@ export default {
         }
       });
     },
+
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
+
+    saveScholar(index) {
+      this.postScholar(index);
+    },
+    deleteScholar(index) {
+      this.eraseScholar(index);
+    },
+    postScholar() {
+      console.log("post");
+    },
+    eraseScholar() {
+      console.log("erase");
+    },
+    //获取同名数据库门户
+    getSameNameScholar() {
+      let url = this.$urlPath.website.getSameNameScholar;
+      getData(url + "/ji gedi").then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.sameNameSlist = res.data.datascholars;
+          this.pos = res.data.pos;
+          console.log(this.sameNameSlist);
+          console.log(this.pos);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //认领数据库门户
+    claimDataPortal() {
+      let params = new URLSearchParams();
+      params.append("UserName", "ji gedi");
+      let url = this.$urlPath.website.claimDataPortal;
+      postData(url + params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.sameNameSlist = res.data.datascholars;
+          this.pos = res.data.pos;
+          console.log(this.sameNameSlist);
+          console.log(this.pos);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //退领数据库门户
+    undoClaimDataPortal() {
+      let params = new URLSearchParams();
+      params.append("UserName", "ji gedi");
+      let url = this.$urlPath.website.undoClaimDataPortal;
+      deleteData(url + params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.sameNameSlist = res.data.datascholars;
+          this.pos = res.data.pos;
+          console.log(this.sameNameSlist);
+          console.log(this.pos);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //修改学者信息
+    editScholarInfo() {
+      let params = new URLSearchParams();
+      params.append("UserName", "ji gedi");
+      let url = this.$urlPath.website.editScholarInfo;
+      putData(url + params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.sameNameSlist = res.data.datascholars;
+          this.pos = res.data.pos;
+          console.log(this.sameNameSlist);
+          console.log(this.pos);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //获取学者信息
+    getScholarInfo() {
+      let url = this.$urlPath.website.getScholarInfo;
+      getData(url + this.scholar.scholarid).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.scholar = res.data.scholar;
+          this.workExperience = res.data.workExperience;
+          console.log(this.scholar);
+          console.log(this.this.workExperience);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
   },
 };
 </script>
