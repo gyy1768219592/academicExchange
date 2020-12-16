@@ -385,19 +385,19 @@ export default {
 .left-block{
   width: 33%;
   height: 1350px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
 }
 .middle-block{
   width: 34%;
   height: 1350px;
-  border: solid 1px black;
+  /* border: solid 1px black; */
   margin: -1350px 0px 0px 33%;
 }
 .right-block{
   width: 33%;
   height: 1350px;
   margin: -1350px 0px 0px 67%;
-  border: solid 1px black;
+  /* border: solid 1px black; */
 }
 .result-main-scholar .topbar {
   width: 100%;
@@ -431,7 +431,7 @@ export default {
   width: 10%;
 }
 small-card-list{
-  border: solid 1px black;
+  border: solid 1px rgb(180, 174, 174);
   width: 600px;
   height: 1000px;
   /* margin: auto; */
