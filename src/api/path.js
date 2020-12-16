@@ -16,7 +16,8 @@ let path = {
     setPassword: Ip.productIP + "setPassword",
     isEmailUsed: Ip.productIP + "user/emailUsed",
     isNameUsed: Ip.productIP + "user/nameUsed",
-    userVerify: Ip.productIP + "user/verify"
+    userVerify: Ip.productIP + "user/verify",
+    scholarVerify: Ip.productIP + "user/toBeScholar",
   },
 };
 export default path;

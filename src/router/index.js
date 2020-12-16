@@ -69,6 +69,11 @@ const routes = [
     path: "/user/verify/:CODE",
     name: "userVerify",
     component: () => import("../views/personalWorkplace/userVerify.vue")
+  },
+  {
+    path: "/user/scholarVerify/:CODE",
+    name: "scholarVerify",
+    component: () => import("../views/personalWorkplace/scholarVerify,vue")
   }
 ];
 

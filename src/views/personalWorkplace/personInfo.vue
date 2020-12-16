@@ -58,7 +58,6 @@
                       </a-input>
                     </a-form-item>
                     <a-form-item has-feedback>
-                      <!--此处有个大问题，怎么确认是机构邮箱，不是普通邮箱-->
                       <a-input
                         type="email"
                         placeholder="请输入您的机构邮箱"
@@ -104,7 +103,6 @@
             ></div>
             <!--右边内容-->
             <a-list size="large" style="width: 23em; float: left">
-              <!--这里还有那个问题，用户名可变吗-->
               <div style="height: 2em; width: 23em; margin-top: 2em">
                 <a-icon type="user" style="margin-right: 0.7em" />
                 <span style="width: 7em; display: inline-block">用户名:</span>
@@ -164,6 +162,7 @@
 <script>
 //import { getData } from "@/api/webget";
 //import { putData } from "@/api/webput";
+import { postData } from "@/api/webpost";
 // 还没写完，包括上传数据，和获取数据
 import uploadPhoto from "@/components/uploadPhoto";
 import inputEmail from "@/components/inputEmail";
@@ -195,14 +194,46 @@ export default {
     handleCancel() {
       this.modalVisible = false;
     },
-    handleOk() {
+    handleOk(e) {
+      e.preventDefault();
       const form = this.form;
-      form.validateFields((err) => {
-        if (err) {
-          return;
+      form.validateFields((err,values) => {
+        if(!err){
+          this.verify(values);
+          form.resetFields();
+          this.modalVisible = false;
+        } else {
+          this.$message.error("请检查输入");
         }
-        form.resetFields();
-        this.modalVisible = false;
+        
+      });
+    },
+    verify(values) {
+      let params = new URLSearchParams();
+      params.append("RealName",realname);
+      params.append("OrgEmail",email);
+      let url = this.$urlPath.website.scholarVerify;
+      postData(url, params).then(res => {
+        if(res.code === 1001) {
+          this.$message.success({
+            message: "请求成功",
+            duration: 1000,
+            showClose: true
+          });
+        } else if(res.code === 1002) {
+          this.$message.success({
+            message: "认证成功,稍后为您跳转到认领门户界面",
+            duration: 1000,
+            showClose: true
+          });
+          this.goClaimScholar();
+        } else {
+          this.$message.error({
+            message: res.message,
+            duration: 1000,
+            showClose: true
+          });
+        }
       });
     },
     toLast() {
