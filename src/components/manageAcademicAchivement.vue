@@ -3,25 +3,13 @@
     <div class="result-main-scholar">
       <div class="home-content">
         <div class = "left-block">
-          <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <!-- <a-popover trigger="click" placement="bottomLeft">
-              <template slot="content">
-                <div class="home-searchCard">选项</div>
-              </template>
-              <a-button
-                class="home-searchButton"
-                type="link"
-                @click="selected"
-                @blur="undoSelected"
-                >高级检索</a-button
-              >
-            </a-popover> -->
+          <div v-bind:class="isSelected3 ? 'home-search-on' : 'home-search'">
             <a-input-search
-              class="home-searchBox"
+              class="home-searchBox3"
               placeholder="通过ID搜索学术成果"
-              @search="onSearch"
-              @focus="selected"
-              @blur="undoSelected"
+              @search="onSearch3"
+              @focus="selected3"
+              @blur="undoSelected3"
             />
           </div>
           <div class="result-main-scholar">
@@ -30,7 +18,7 @@
             </div>
             <div class="result-list">
                 <a-list item-layout="vertical" size="large" :data-source="paperList">
-                  <a-list-item slot="renderItem" key="item.title" slot-scope="item">
+                  <a-list-item slot="renderItem" key="item.title" slot-scope="item" class = "item-list-item">
                     <a-button
                       type="link" 
                       icon="setting"  
@@ -39,6 +27,7 @@
                       @click="changeMain(item.title)"
                     >管理学术成果</a-button>
                     <a-list-item-meta
+                    class = "a-list-item-meta"
                     :description="
                         item.author +
                         ' - ' +
@@ -47,7 +36,7 @@
                         item.citationCount
                     "
                     >
-                    <a slot="title" :href="item.href"
+                    <a slot="title" :href="item.href" class = "a-list-title"
                         ><span v-html="item.title"></span>
                     </a>
                     </a-list-item-meta>
@@ -68,7 +57,7 @@
         </div>
         <div class = "middle-block">
           <a-list item-layout="vertical" size="large" :data-source="paperTopList">
-            <a-list-item slot="renderItem" key="item.title" slot-scope="item">
+            <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="item-list-item">
                 <a-list-item-meta
                 :description="
                     item.author +
@@ -112,7 +101,7 @@
                       <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                     >
                   </div>
-                  <div class="card-button">
+                  <div class="card-button" @click="deleteAuthor">
                     <p style="margin-top: 42px">
                       <a-tooltip>
                         <template slot="title">
@@ -138,25 +127,13 @@
           </div>
         </div>
         <div class = "right-block">
-          <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <!-- <a-popover trigger="click" placement="bottomLeft">
-              <template slot="content">
-                <div class="home-searchCard">选项</div>
-              </template>
-              <a-button
-                class="home-searchButton"
-                type="link"
-                @click="selected"
-                @blur="undoSelected"
-                >高级检索</a-button
-              >
-            </a-popover> -->
+          <div v-bind:class="isSelected4 ? 'home-search-on' : 'home-search'">
             <a-input-search
-              class="home-searchBox"
+              class="home-searchBox4"
               placeholder="通过ID查询搜索学者门户"
-              @search="onSearch"
-              @focus="selected"
-              @blur="undoSelected"
+              @search="onSearch4"
+              @focus="selected4"
+              @blur="undoSelected4"
             />
           </div>
           <div class="result-main-scholar">
@@ -190,7 +167,7 @@
                         <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                       >
                     </div>
-                    <div class="card-button">
+                    <div class="card-button" @click="addAuthor">
                       <p style="margin-top: 42px">
                         <a-tooltip>
                           <template slot="title">
@@ -226,7 +203,8 @@ export default {
   data() {
     return {
       visible: false,
-      isSelected: false,
+      isSelected3: false,
+      isSelected4: false,
       currentPage: "1",
       total: 203,
       src:
@@ -359,14 +337,25 @@ export default {
     changePage() {
       console.log(this.currentPage);
     },
-    selected() {
-      this.isSelected = true;
+    selected3() {
+      this.isSelected3 = true;
     },
-    undoSelected() {
-      this.isSelected = false;
+    undoSelected3() {
+      this.isSelected3 = false;
     },
-    onSearch(value) {
-      this.$router.push({ path: "/searchResult", query: { word: value } });
+    selected4() {
+      this.isSelected4 = true;
+    },
+    undoSelected4() {
+      this.isSelected4 = false;
+    },
+    onSearch3(value) {
+      this.$message.success(value+"左查找");
+      // this.$router.push({ path: "/searchResult", query: { word: value } });
+    },
+    onSearch4(value) {
+      this.$message.success(value+"右查找");
+      // this.$router.push({ path: "/searchResult", query: { word: value } });
     },
     afterVisibleChange(val) {
       console.log('visible', val);
@@ -377,6 +366,12 @@ export default {
     onClose() {
       this.visible = false;
     },
+    deleteAuthor(){
+      this.$message.success("申诉已通过");
+    },
+    addAuthor(){
+      this.$message.success("申诉已通过");
+    }
   },
 };
 </script>
@@ -464,7 +459,12 @@ small-card-list{
   width: 100%;
   height: 40px;
 }
-.home-searchBox {
+.home-searchBox3 {
+  width: 99%;
+  margin-left: 1%;
+  height: 100%;
+}
+.home-searchBox4 {
   width: 99%;
   margin-left: 1%;
   height: 100%;
@@ -483,19 +483,34 @@ small-card-list{
   border-right: 2px solid #e3e3e3;
 }
 
-.home-searchBox .ant-input {
+.home-searchBox3 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox .ant-input:focus {
+.home-searchBox3 .ant-input:focus {
+  border: none;
+  box-shadow: none;
+}
+
+.home-searchBox4 .ant-input {
+  margin-top: 1px;
+  border-radius: 0 10px 10px 0;
+  border: none;
+  display: inline-block;
+}
+.home-searchBox4 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
 .home-searchCard {
   width: 663px;
+}
+.item-list-item{
+  margin-right: 5%;
+  margin-left: 5%;
 }
 .result-sider {
   float: left;
@@ -541,6 +556,10 @@ small-card-list{
 .result-main .ant-list-item-action {
   margin-top: 5px;
 }
+.result-list{
+  margin-right: 5px;
+  margin-left: 5px;
+}
 .result-main .result-list .result-list-button {
   margin-right: 5px;
   padding: 0;
@@ -558,6 +577,8 @@ small-card-list{
 .abstract {
   height: 40px;
   width: 100%;
+  /* margin-right: 5%;
+  margin-left: 5%; */
   line-height: 20px;
   display: -webkit-box;
   -webkit-box-orient: vertical;

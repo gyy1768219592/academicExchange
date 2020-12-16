@@ -3,25 +3,13 @@
     <div class="result-main-scholar">
       <div class="home-content">
         <div class = "left-block">
-          <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <!-- <a-popover trigger="click" placement="bottomLeft">
-              <template slot="content">
-                <div class="home-searchCard">选项</div>
-              </template>
-              <a-button
-                class="home-searchButton"
-                type="link"
-                @click="selected"
-                @blur="undoSelected"
-                >高级检索</a-button
-              >
-            </a-popover> -->
+          <div v-bind:class="isSelected1 ? 'home-search-on' : 'home-search'">
             <a-input-search
-              class="home-searchBox"
+              class="home-searchBox-1"
               placeholder="通过ID搜索学者门户"
-              @search="onSearch"
-              @focus="selected"
-              @blur="undoSelected"
+              @search="onSearch1"
+              @focus="selected1"
+              @blur="undoSelected1"
             />
           </div>
           <div class="result-main-scholar">
@@ -140,7 +128,7 @@
                       <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                     >
                   </div>
-                  <div class="card-button">
+                  <div class="card-button" @click="deleteScholar">
                     <p style="margin-top: 42px">
                       <a-tooltip>
                         <template slot="title">
@@ -166,25 +154,13 @@
           </div>
         </div>
         <div class = "right-block">
-          <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <!-- <a-popover trigger="click" placement="bottomLeft">
-              <template slot="content">
-                <div class="home-searchCard">选项</div>
-              </template>
-              <a-button
-                class="home-searchButton"
-                type="link"
-                @click="selected"
-                @blur="undoSelected"
-                >高级检索</a-button
-              >
-            </a-popover> -->
+          <div v-bind:class="isSelected2 ? 'home-search-on' : 'home-search'">
             <a-input-search
-              class="home-searchBox"
+              class="home-searchBox-2"
               placeholder="通过ID搜索数据库门户"
-              @search="onSearch"
-              @focus="selected"
-              @blur="undoSelected"
+              @search="onSearch2"
+              @focus="selected2"
+              @blur="undoSelected2"
             />
           </div>
           <div class="result-main-scholar">
@@ -218,7 +194,7 @@
                         <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                       >
                     </div>
-                    <div class="card-button">
+                    <div class="card-button" @click="addScholar">
                       <p style="margin-top: 42px">
                         <a-tooltip>
                           <template slot="title">
@@ -254,7 +230,8 @@ export default {
   data() {
     return {
       visible: false,
-      isSelected: false,
+      isSelected1: false,
+      isSelected2: false,
       currentPage: "1",
       total: 203,
       src:
@@ -337,14 +314,25 @@ export default {
     changePage() {
       console.log(this.currentPage);
     },
-    selected() {
-      this.isSelected = true;
+    selected1() {
+      this.isSelected1 = true;
     },
-    undoSelected() {
-      this.isSelected = false;
+    selected2() {
+      this.isSelected2 = true;
     },
-    onSearch(value) {
-      this.$router.push({ path: "/searchResult", query: { word: value } });
+    undoSelected1() {
+      this.isSelected1 = false;
+    },
+    undoSelected2() {
+      this.isSelected2 = false;
+    },
+    onSearch1(value) {//查找之后要结果
+      this.$message.success(value+"左查找");
+      // this.$router.push({ path: "/searchResult", query: { word: value } });
+    },
+    onSearch2(value) {//查找之后要结果
+      this.$message.success(value+"右查找");
+      // this.$router.push({ path: "/searchResult", query: { word: value } });
     },
     afterVisibleChange(val) {
       console.log('visible', val);
@@ -355,6 +343,12 @@ export default {
     onClose() {
       this.visible = false;
     },
+    deleteScholar(){
+      this.$message.success("申诉已通过");
+    },
+    addScholar(){
+      this.$message.success("申诉已通过");
+    }
   },
 };
 </script>
@@ -455,8 +449,13 @@ export default {
   width: 100%;
   height: 50px;
 }
-.home-searchBox {
-  width: 77%;
+.home-searchBox-1 {
+  margin-left: 2%;
+  width: 98%;
+}
+.home-searchBox-2 {
+  margin-left: 2%;
+  width: 98%;
 }
 .home-searchButton {
   font-size: 14px;
@@ -472,17 +471,27 @@ export default {
   border-right: 2px solid #e3e3e3;
 }
 
-.home-searchBox .ant-input {
+.home-searchBox-1 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox .ant-input:focus {
+.home-searchBox-1 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
+.home-searchBox-2 .ant-input {
+  margin-top: 1px;
+  border-radius: 0 10px 10px 0;
+  border: none;
+  display: inline-block;
+}
+.home-searchBox-2 .ant-input:focus {
+  border: none;
+  box-shadow: none;
+}
 .home-searchCard {
   width: 663px;
 }

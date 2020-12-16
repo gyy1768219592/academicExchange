@@ -23,9 +23,9 @@
                 </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn">我要认领</a-button>
-              <a-button class="btn">收藏</a-button>
-              <a-button class="btn" type="primary">分享</a-button>
+              <a-button class="btn" @click="renling">我要认领</a-button>
+              <a-button class="btn" @click="shoucang">收藏</a-button>
+              <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
             <div class="date">
                 <span class="date-num">发表时间： {{date}}</span>
@@ -88,24 +88,24 @@
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
                     {{progData.organization}}
-                {{progData.fundProjectCode}}
-                {{progData.source}}
-                {{progData.doi}}
-                {{progData.fieldName}}
-                {{progData.doiUrl}}
-                {{progData.zhAbstract}}
-                {{progData.fundProject}}
-                {{progData.authors}}
-                {{progData.fieldCode}}
-                {{progData.organizationID}}
-                {{progData.supportTypeName}}
-                {{progData.chineseTitle}}
-                {{progData.publishDate}}
-                {{progData.fundProjectNo}}
-                {{progData.achievementID}}
-                {{progData.journal}}
-                {{progData.productType}}
-                {{progData.zhKeyword}}
+                    {{progData.fundProjectCode}}
+                    {{progData.source}}
+                    {{progData.doi}}
+                    {{progData.fieldName}}
+                    {{progData.doiUrl}}
+                    {{progData.zhAbstract}}
+                    {{progData.fundProject}}
+                    {{progData.authors}}
+                    {{progData.fieldCode}}
+                    {{progData.organizationID}}
+                    {{progData.supportTypeName}}
+                    {{progData.chineseTitle}}
+                    {{progData.publishDate}}
+                    {{progData.fundProjectNo}}
+                    {{progData.achievementID}}
+                    {{progData.journal}}
+                    {{progData.productType}}
+                    {{progData.zhKeyword}}
                   </span>
                 </div>
               </a-descriptions-item>
@@ -277,35 +277,6 @@ export default {
       
     },
     getProg(){
-      this.progData = {
-        "code": 1001,
-        "message": "请求成功！",
-        "data": {
-            "project": {
-                "projectId": 1,
-                "organization": "宁波大学",
-                "fundProjectCode": "1449979",
-                "source": "origin",
-                "doi": "10.1016/j.sigpro.2018.09.024",
-                "fieldName": null,
-                "doiUrl": "https://doi.org/10.1016/j.sigpro.2018.09.024",
-                "zhAbstract": "",
-                "fundProject": "云计算环境下基于立体视觉的3D高清视频信息隐藏研究",
-                "authors": "骆挺; 蒋刚毅; 郁梅; 徐海勇; 高巍",
-                "fieldCode": "F010801",
-                "organizationID": "100400",
-                "supportTypeName": "青年科学基金项目",
-                "chineseTitle": "Robust high dynamic range color image watermarking method based on feature map extraction",
-                "publishDate": "2019-3",
-                "fundProjectNo": "61501270",
-                "achievementID": "ZD21844766",
-                "journal": "Signal Processing",
-                "productType": "4",
-                "zhKeyword": ""
-            }
-        },
-        "time": "2020-12-16T05:44:45.101+00:00"
-    }
       let params = new URLSearchParams();
       params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
@@ -315,7 +286,7 @@ export default {
         this.progData = res.data.project;
         console.log(res.code);
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
@@ -337,11 +308,23 @@ export default {
       //去此人的主页
       this.$router.push("/scholarIndex");
     },
-    changeCollect(){
-      
+    renling(){
+      this.$message.success("我要认领");
     },
-    share(){
-
+    shoucang(){
+      this.$message.success("已收藏");
+      this.$message.success("已取消收藏");
+    },
+    fenxiang(){
+      var domUrl = document.createElement("input");
+      domUrl.value = window.location.href;
+      domUrl.id = "creatDom";
+      document.body.appendChild(domUrl);
+      domUrl.select(); // 选择对象
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      let creatDom = document.getElementById("creatDom");
+      creatDom.parentNode.removeChild(creatDom);
+      this.$message.success("分享链接已复制");
     },
     oCopy(obj){
         obj.select();    // 选中输入框中的内容

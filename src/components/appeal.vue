@@ -84,15 +84,6 @@
             </div>
           </a-list-item>
         </a-list>
-        <div class="result-list-pagination">
-          <a-pagination
-            simple
-            :default-current="2"
-            :total="total"
-            v-model="currentPage"
-            @change="changePage"
-          />
-        </div>
       </div>
     </div>
     <a-back-top></a-back-top>
@@ -283,11 +274,17 @@ export default {
       console.log(this.currentPage);
     },
     appealAgree(item){
+      if(item.appeal!=2){
+        this.$message.success("申诉已通过");
+      }
       item.appeal = 2
     },
     appealDisagree(item){
+      if(item.appeal!=3){
+        this.$message.success("申诉已驳回");
+      }
       item.appeal = 3
-    }
+    },
   },
 };
 </script>
