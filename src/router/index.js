@@ -81,8 +81,17 @@ const routes = [
     path: "/user/verify/:CODE",
     name: "userVerify",
     component: () => import("../views/personalWorkplace/userVerify.vue")
+  },
+  {
+    path: "/user/scholarVerify/:CODE",
+    name: "scholarVerify",
+    component: () => import("../views/personalWorkplace/scholarVerify.vue")
+  },
+  {
+    path: "/user/claimScholar",
+    name: "claimScholar",
+    component: () => import("../views/personalWorkplace/ClaimScholar.vue")
   }
-
 ];
 
 const router = new VueRouter({

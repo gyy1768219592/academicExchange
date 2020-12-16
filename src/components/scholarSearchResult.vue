@@ -1,68 +1,140 @@
 <template>
   <div>
     <div class="result-main-scholar">
-      <div class="topbar">
-        <span style="margin-left: 60px"> 检索到{{ total }}名学者</span>
-        <a-select
-          default-value="1"
-          @change="handleChange"
-          class="topbar-select"
+      <div>
+        <a-tabs
+          default-active-key="2"
+          tab-position="top"
+          tabBarStyle="margin-left:10px"
         >
-          <a-icon slot="suffixIcon" type="swap" rotate="90" />
-          <a-select-option value="1"> 最新发表 </a-select-option>
-          <a-select-option value="2"> H-index </a-select-option>
-          <a-select-option value="3"> 论文数 </a-select-option>
-          <a-select-option value="4"> 被引量 </a-select-option>
-        </a-select>
-      </div>
-      <div class="result-list-scholar">
-        <div class="card-list">
-          <a-card>
-            <a-card-grid
-              style="width: 50%"
-              v-for="(item, key) in scholarList"
-              :key="key"
-            >
-              <div class="card-avatar">
-                <a-avatar :size="80" :src="item.src" />
+          <a-tab-pane key="1" tab="已认证学者">
+            <div class="result-list-scholar">
+              <div class="card-list">
+                <a-card>
+                  <a-card-grid
+                    style="width: 50%"
+                    v-for="(item, index) in scholarList"
+                    :key="index"
+                  >
+                    <div class="card-avatar">
+                      <a-avatar :size="80" :src="item.src" />
+                    </div>
+                    <div class="card-info">
+                      <span style="font-size: 16px; font-weight: 600"
+                        >{{ item.name }} </span
+                      ><br />
+                      <span>{{ item.institution }}</span
+                      ><br />
+                      <span>
+                        <a-col :span="10">
+                          发表论文：{{ item.paper }}
+                        </a-col></span
+                      ><br />
+                      <span
+                        ><a-col :span="10"
+                          >被引量：{{ item.citation }}</a-col
+                        ></span
+                      ><br />
+                      <span>
+                        <a-col :span="10"
+                          >研究领域：{{ item.field }}</a-col
+                        ></span
+                      >
+                    </div>
+                    <div class="card-button">
+                      <p style="margin-top: 42px">
+                        <a-button shape="circle" icon="arrow-right" />
+                      </p>
+                      <p style="margin-top: -5px">
+                        <a-button shape="circle" icon="mail" />
+                      </p>
+                    </div>
+                  </a-card-grid>
+                </a-card>
               </div>
-              <div class="card-info">
-                <span style="font-size: 16px; font-weight: 600"
-                  >{{ item.name }} </span
-                ><br />
-                <span>{{ item.institution }}</span
-                ><br />
-                <span>
-                  <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                ><br />
-                <span
-                  ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                ><br />
-                <span>
-                  <a-col :span="10">研究领域：{{ item.field }}</a-col></span
-                >
+              <div class="result-list-pagination">
+                <a-pagination
+                  simple
+                  :default-current="2"
+                  pageSize="6"
+                  :total="total"
+                  v-model="currentPage"
+                  @change="changePage"
+                />
+              </div></div
+          ></a-tab-pane>
+          <a-tab-pane key="2" tab="未认证学者">
+            <div class="result-list-scholar">
+              <div class="card-list">
+                <a-card>
+                  <a-card-grid
+                    style="width: 50%"
+                    v-for="(item, key) in scholarDataList"
+                    :key="key"
+                  >
+                    <div class="card-avatar">
+                      <a-avatar :size="80" :src="item.src" />
+                    </div>
+                    <div class="card-info">
+                      <span style="font-size: 16px; font-weight: 600"
+                        >{{ item.name }} </span
+                      ><br />
+                      <span>{{ item.institution }}</span
+                      ><br />
+                      <span>
+                        <a-col :span="10">
+                          发表论文：{{ item.paper }}
+                        </a-col></span
+                      ><br />
+                      <span
+                        ><a-col :span="10"
+                          >被引量：{{ item.citation }}</a-col
+                        ></span
+                      ><br />
+                      <span>
+                        <a-col :span="10"
+                          >研究领域：{{ item.field }}</a-col
+                        ></span
+                      >
+                    </div>
+                    <div class="card-button">
+                      <p style="margin-top: 42px">
+                        <a-button shape="circle" icon="arrow-right" />
+                      </p>
+                      <p style="margin-top: -5px">
+                        <a-button shape="circle" icon="mail" />
+                      </p>
+                    </div>
+                  </a-card-grid>
+                </a-card>
               </div>
-              <div class="card-button">
-                <p style="margin-top: 42px">
-                  <a-button shape="circle" icon="arrow-right" />
-                </p>
-                <p style="margin-top: -5px">
-                  <a-button shape="circle" icon="mail" />
-                </p>
-              </div>
-            </a-card-grid>
-          </a-card>
-        </div>
-        <div class="result-list-pagination">
-          <a-pagination
-            simple
-            :default-current="2"
-            pageSize="6"
-            :total="total"
-            v-model="currentPage"
-            @change="changePage"
-          />
-        </div>
+              <div class="result-list-pagination">
+                <a-pagination
+                  simple
+                  :default-current="2"
+                  pageSize="6"
+                  :total="total"
+                  v-model="currentPage"
+                  @change="changePage"
+                />
+              </div></div
+          ></a-tab-pane>
+          <div slot="tabBarExtraContent">
+            <div class="scholarSearch-topbar">
+              <a-select
+                default-value="1"
+                @change="handleChange"
+                class="topbar-select"
+              >
+                <a-icon slot="suffixIcon" type="swap" rotate="90" />
+                <a-select-option value="1"> H-index </a-select-option>
+                <a-select-option value="2"> 论文数 </a-select-option>
+                <a-select-option value="3"> 被引量 </a-select-option>
+              </a-select>
+              <span id="topbar-result">检索到{{ total }}名学者</span>
+            </div>
+          </div>
+        </a-tabs>
       </div>
     </div>
     <a-back-top></a-back-top>
@@ -130,46 +202,65 @@ export default {
           citation: 10602,
           field: "电路系统",
         },
-        // {
-        //   name: "张煜恒",
-        //   src:
-        //     "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        //   institution: "中国科学技术大学物理系",
-        //   paper: 1254,
-        //   citation: 11948,
-        //   field: "光学",
-        // },
-        // {
-        //   name: "张超",
-        //   src:
-        //     "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        //   institution: "第三军医大学西南医院",
-        //   paper: 1441,
-        //   citation: 18815,
-        //   field: "肿瘤学",
-        // },
-        // {
-        //   name: "张涛",
-        //   src:
-        //     "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        //   institution: "中国科学院海洋研究所",
-        //   paper: 920,
-        //   citation: 14393,
-        //   field: "水产养殖",
-        // },
-        // {
-        //   name: "张亚平",
-        //   src:
-        //     "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        //   institution: "中国科学院昆明动物研究所",
-        //   paper: 233,
-        //   citation: 7946,
-        //   field: "遗传学",
-        // },
+      ],
+      scholarDataList: [
+        {
+          name: "张煜恒",
+          src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          institution: "中国科学技术大学物理系",
+          paper: 1254,
+          citation: 11948,
+          field: "光学",
+        },
+        {
+          name: "张超",
+          src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          institution: "第三军医大学西南医院",
+          paper: 1441,
+          citation: 18815,
+          field: "肿瘤学",
+        },
+        {
+          name: "张涛",
+          src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          institution: "中国科学院海洋研究所",
+          paper: 920,
+          citation: 14393,
+          field: "水产养殖",
+        },
+        {
+          name: "张亚平",
+          src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          institution: "中国科学院昆明动物研究所",
+          paper: 233,
+          citation: 7946,
+          field: "遗传学",
+        },
+        {
+          name: "张亚平",
+          src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          institution: "中国科学院昆明动物研究所",
+          paper: 233,
+          citation: 7946,
+          field: "遗传学",
+        },
+        {
+          name: "张亚平",
+          src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          institution: "中国科学院昆明动物研究所",
+          paper: 233,
+          citation: 7946,
+          field: "遗传学",
+        },
       ],
     };
   },
-  props: ["word", "institution", "author", "startDate", "endDate"],
   methods: {
     changePage() {
       console.log(this.currentPage);
@@ -179,14 +270,20 @@ export default {
 </script>
 
 <style>
-.result-main-scholar .topbar {
-  border-bottom: 1px solid #e3e3e3;
-  height: 40px;
+.scholarSearch-topbar {
+  width: 400px;
 }
-.result-main-scholar .topbar .topbar-select {
+.scholarSearch-topbar #topbar-result {
+  display: block;
+  float: right;
+  margin-top: 2px;
+  margin-right: 30px;
+}
+.scholarSearch-topbar .topbar-select {
   float: right;
   width: 100px;
-  margin-right: 60px;
+  margin-top: 5px;
+  margin-right: 10px;
 }
 .result-list-scholar .card-list {
   width: 1000px;

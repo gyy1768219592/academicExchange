@@ -17,8 +17,17 @@ let path = {
     isEmailUsed: Ip.productIP + "user/emailUsed",
     isNameUsed: Ip.productIP + "user/nameUsed",
     userVerify: Ip.productIP + "user/verify",
+    scholarVerify: Ip.productIP + "user/toBeScholar",
+    getInfo: Ip.productIP + "user/getInfo",
+    
     //检索
-    searchProject: Ip.productIP + "scholarship/getProjectListByKeyword",
+    searchProject: Ip.productIP + "scholarship/advancedSearchProject",
+    searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",
+    searchPatent: Ip.productIP + "scholarship/advancedSearchPatent",
+    searchPatentSortByDate: Ip.productIP + "scholarship/advancedSearchPatentSortByDate",
+    searchPaper: Ip.productIP + "scholarship/advancedSearchPaper",
+    searchPaperSortByDate: Ip.productIP + "scholarship/advancedSearchPaperSortByDate",
+    searchPaperSortByCitation: Ip.productIP + "scholarship/advancedSearchPaperSortByCitationCount",
     getProjectById: Ip.productIP + "scholarship/getProjectById/",
     getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
 

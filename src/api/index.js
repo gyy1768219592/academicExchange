@@ -50,7 +50,7 @@ function apiAxios (method, url,headers, params, success, failure) {
   })
     .then(function (res) {
       if(res.headers.authorization != undefined)
-        window.sessionStorage.setItem('token',res.headers.authorization);
+        window.localStorage.setItem('token',res.headers.authorization);
       if (res.data) {
         if (success) {
 		//使用success(data)方法
