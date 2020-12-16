@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navSearch></navSearch>
+    <topNav></topNav>
     <div class="card-container">
       <a-tabs
         type="card"
@@ -8,24 +8,19 @@
         tabBarGutter="30px"
         animated
       >
-        <a-tab-pane key="1" tab="论  文">
+        <a-tab-pane key="1" tab="申诉信息">
           <div class="result-content">
-            <paperSearchResult :word="word"></paperSearchResult>
+            <appeal></appeal>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="2" tab="专  利">
+        <a-tab-pane key="2" tab="管理门户">
           <div class="result-content">
-            <patentSearchResult :word="word"></patentSearchResult>
+            <manageScholarGate></manageScholarGate>
           </div>
         </a-tab-pane>
-        <a-tab-pane key="3" tab="项  目">
+        <a-tab-pane key="3" tab="管理成果">
           <div class="result-content">
-            <projectSearchResult :word="word"></projectSearchResult>
-          </div>
-        </a-tab-pane>
-        <a-tab-pane key="4" tab="学  者">
-          <div class="result-content">
-            <scholarSearchResult :word="word"></scholarSearchResult>
+            <manageAcademicAchivement :word="word"></manageAcademicAchivement>
           </div>
         </a-tab-pane>
       </a-tabs>
@@ -34,18 +29,16 @@
 </template>
 
 <script>
-import navSearch from "@/components/navSearch.vue";
-import paperSearchResult from "@/components/paperSearchResult.vue";
-import patentSearchResult from "@/components/patentSearchResult.vue";
-import projectSearchResult from "@/components/projectSearchResult.vue";
-import scholarSearchResult from "@/components/scholarSearchResult.vue";
+import topNav from "@/components/nav.vue";
+import appeal from "@/components/appeal.vue";
+import manageScholarGate from "@/components/manageScholarGate.vue";
+import manageAcademicAchivement from "@/components/manageAcademicAchivement.vue";
 export default {
   components: {
-    navSearch,
-    paperSearchResult,
-    patentSearchResult,
-    projectSearchResult,
-    scholarSearchResult,
+    topNav,
+    appeal,
+    manageScholarGate,
+    manageAcademicAchivement,
   },
   data() {
     return {
