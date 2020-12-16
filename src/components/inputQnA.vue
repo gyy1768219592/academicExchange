@@ -5,12 +5,20 @@
         <h3>请输入修改之后的信息</h3>
       </div>
       <div class="modal-body">
-        <a-input style="width: 250px;" v-model="ques" placeholder="请输入新的密保问题">
+        <a-input
+          style="width: 250px;"
+          v-model="ques"
+          placeholder="请输入新的密保问题"
+        >
           <a-icon slot="prefix" type="question" />
           <a-tooltip slot="suffix" title="Extra information"> </a-tooltip>
         </a-input>
 
-        <a-input style="width: 250px; margin-top: 15px;" v-model="ans" placeholder="请输入新的密保问题答案">
+        <a-input
+          style="width: 250px; margin-top: 15px;"
+          v-model="ans"
+          placeholder="请输入新的密保问题答案"
+        >
           <a-icon slot="prefix" type="info" />
           <a-tooltip slot="suffix" title="Extra information"> </a-tooltip>
         </a-input>
@@ -29,7 +37,7 @@ export default {
       ques: "",
       ans: "",
       mainStyles: "",
-      temp: {},
+      temp: {}
     };
   },
   methods: {
@@ -51,8 +59,8 @@ export default {
     },
     getChoose() {
       return this.temp;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
