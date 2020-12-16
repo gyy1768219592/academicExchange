@@ -16,7 +16,13 @@ let path = {
     setPassword: Ip.productIP + "setPassword",
 
     //检索
-    searchProject: Ip.productIP + "scholarship/getProjectListByKeyword",
+    searchProject: Ip.productIP + "scholarship/advancedSearchProject",
+    searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",
+    searchPatent: Ip.productIP + "scholarship/advancedSearchPatent",
+    searchPatentSortByDate: Ip.productIP + "scholarship/advancedSearchPatentSortByDate",
+    searchPaper: Ip.productIP + "scholarship/advancedSearchPaper",
+    searchPaperSortByDate: Ip.productIP + "scholarship/advancedSearchPaperSortByDate",
+    searchPaperSortByCitation: Ip.productIP + "scholarship/advancedSearchPaperSortByCitationCount",
   },
 };
 export default path;

@@ -27,7 +27,7 @@
                 <a-form-item style="margin: 0; padding: 0" label="科研机构">
                   <a-input
                     size="small"
-                    placeholder="项目专利完成单位/学者工作单位"
+                    placeholder="项目和专利的完成单位"
                     v-decorator="['institution']"
                   />
                 </a-form-item>

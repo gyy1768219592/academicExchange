@@ -4,20 +4,25 @@
       <div class="sider-title">
         <a-icon type="read" />
         项目
+        <a-button
+          size="small"
+          style="margin-top: 4px; float: right"
+          @click="clearSelectedKey"
+          >重置结果</a-button
+        >
       </div>
       <a-menu
         :default-open-keys="['sub1', 'sub2']"
         mode="inline"
         :inline-collapsed="collapsed"
-        multiple
         class="sider-menu"
+        v-model="selectedKey"
       >
         <a-sub-menu key="sub2">
           <span slot="title"><span>发表年份</span></span>
           <template v-for="item in projectYearOptions">
-            <a-menu-item :key="item.value">
-              {{ item.value }}
-              <span style="float: right">({{ item.count }})</span>
+            <a-menu-item :key="item.value" @click="selectYear(item.value)">
+              {{ item.label }}
             </a-menu-item>
           </template>
         </a-sub-menu>
@@ -25,15 +30,17 @@
     </div>
     <div class="result-main">
       <div class="topbar">
-        <span> 检索到{{ total }}条结果</span>
+        <span style="display: inline-block; margin-top: 5px">
+          检索到{{ total }}条结果</span
+        >
         <a-select
-          default-value="1"
-          @change="handleChange"
+          v-model="sortOption"
+          @change="changeSortOption"
           class="topbar-select"
         >
           <a-icon slot="suffixIcon" type="swap" rotate="90" />
-          <a-select-option value="1"> 相关性 </a-select-option>
-          <a-select-option value="2"> 发表年份 </a-select-option>
+          <a-select-option :value="1"> 相关性 </a-select-option>
+          <a-select-option :value="2"> 发表年份 </a-select-option>
         </a-select>
       </div>
       <div class="result-list-project">
@@ -41,11 +48,17 @@
           <a-list-item slot="renderItem" key="item.projectId" slot-scope="item">
             <a-list-item-meta>
               <div slot="description">
-                {{ item.institution }} - {{ item.year }} <br />
-                {{ item.author }}
+                <span v-html="item.supportTypeName" /> -
+                <span v-html="item.fundProject" /> <br />
+                <span v-html="item.organization" /> -
+                <span v-html="item.authors" /> -
+                <span v-html="item.publishDate" /> -《<span
+                  v-html="item.journal"
+                />》<br />
+                <span v-html="item.zhKeyword" />
               </div>
-              <a slot="title" :href="item.href"
-                ><span v-html="item.title"></span>
+              <a class="searchResult-title" slot="title" :href="item.href"
+                ><span v-html="item.chineseTitle"></span>
               </a>
             </a-list-item-meta>
           </a-list-item>
@@ -53,7 +66,7 @@
         <div class="result-list-pagination">
           <a-pagination
             simple
-            :default-current="2"
+            :default-current="1"
             :total="total"
             v-model="currentPage"
             @change="changePage"
@@ -65,136 +78,114 @@
   </div>
 </template>
 <script>
-// import { getData } from "@/api/webget";
+import { getData } from "@/api/webget";
 export default {
   data() {
     return {
-      currentPage: "1",
-      total: 203,
-      projectList: [
-        {
-          title:
-            "基于云<span class='highlight'>计算</span>的互联网艺术培训考级平台",
-          institution: "华北水利水电大学",
-          author:
-            "徐勇; 焦宇翔; 陈蕙; 徐志健; 崔德伟; 刘海; 唐炯麟; 倪坚; 孙文力; 高阳; 阎帅; 王怡洁; 钱叶丹; 陈轶鸣",
-          year: "2019",
-        },
-        {
-          title:
-            "基于大数据云<span class='highlight'>计算</span>的智慧刑侦信息研判分析平台",
-          institution: "北京大学",
-          author:
-            "袁泉; 倪艳玉; 李志霞; 郑美英; 卢姗; 白建华; 郝亚昆; 古松景; 刁薪予; 王胤; 陈静",
-          year: "2019",
-        },
-        {
-          title:
-            "自主可控的可信<span class='highlight'>计算</span>关键技术及应用",
-          institution: "武汉大学",
-          author: "张焕国;赵波;严飞;王鹃;余发江;张立强;王后珍;王张宜",
-          year: "2019",
-        },
-        {
-          title:
-            "网络大数据<span class='highlight'>计算</span>的基础理论及其应用研究",
-          institution: "中国科学院计算技术研究所",
-          author: "	华云生;郑纬民;文继荣;赵生捷;李晓明;程学旗",
-          year: "2018",
-        },
-        {
-          title:
-            "基于云<span class='highlight'>计算</span>与盲源分离的设备故障预测系统研发",
-          institution: "西北工业大学",
-          author: "何鹏举;张京妹;张家豪;折廷廷;李文辉;陈青霞;袁伟标",
-          year: "2018",
-        },
-        {
-          title:
-            "	云<span class='highlight'>计算</span>架构下基于语义驱动的信息推荐理论和实证研究",
-          institution: "同济大学",
-          author: "黄震华",
-          year: "2016",
-        },
-        {
-          title:
-            "基于云<span class='highlight'>计算</span>的互联网艺术培训考级平台",
-          institution: "华北水利水电大学",
-          author:
-            "徐勇; 焦宇翔; 陈蕙; 徐志健; 崔德伟; 刘海; 唐炯麟; 倪坚; 孙文力; 高阳; 阎帅; 王怡洁; 钱叶丹; 陈轶鸣",
-          year: "2019",
-        },
-        {
-          title:
-            "基于大数据云<span class='highlight'>计算</span>的智慧刑侦信息研判分析平台",
-          institution: "清华大学",
-          author:
-            "袁泉; 倪艳玉; 李志霞; 郑美英; 卢姗; 白建华; 郝亚昆; 古松景; 刁薪予; 王胤; 陈静",
-          year: "2019",
-        },
-        {
-          title:
-            "自主可控的可信<span class='highlight'>计算</span>关键技术及应用",
-          institution: "武汉大学",
-          author: "张焕国;赵波;严飞;王鹃;余发江;张立强;王后珍;王张宜",
-          year: "2019",
-        },
-        {
-          title:
-            "网络大数据<span class='highlight'>计算</span>的基础理论及其应用研究",
-          institution: "中国科学院计算技术研究所",
-          author: "	华云生;郑纬民;文继荣;赵生捷;李晓明;程学旗",
-          year: "2018",
-        },
-      ],
+      currentPage: 1,
+      total: 0,
+      projectList: [],
       projectYearOptions: [
-        {
-          value: "2020",
-          count: 55,
-        },
-        {
-          value: "2019",
-          count: 34,
-        },
-        {
-          value: "2018",
-          count: 61,
-        },
-        {
-          value: "2017",
-          count: 23,
-        },
-        {
-          value: "2016",
-          count: 17,
-        },
-        {
-          value: "2015",
-          count: 13,
-        },
+        { label: "2019年", value: "2019" },
+        { label: "2018年", value: "2018" },
+        { label: "2017年", value: "2017" },
+        { label: "2016年", value: "2016" },
+        { label: "2015年", value: "2015" },
+        { label: "2014年", value: "2014" },
+        { label: "2013年", value: "2013" },
+        { label: "2012年", value: "2012" },
+        { label: "2011年", value: "2011" },
+        { label: "2010年", value: "2010" },
+        { label: "更早", value: "更早" },
       ],
+      sortOption: 1,
+      titleKW: "",
+      abstractKW: "",
+      organizationKW: "",
+      authorKW: "",
+      startDate: "",
+      endDate: "",
+      selectedKey: [],
     };
   },
-  props: ["word", "institution", "author", "startDate", "endDate"],
   methods: {
+    changeSortOption(value) {
+      this.sortOption = value;
+      this.currentPage = 1;
+      this.searchProject();
+    },
     changePage() {
-      console.log(this.currentPage);
+      this.searchProject();
+    },
+    selectYear(value) {
+      if (value == "更早") {
+        this.startDate = "200000101";
+        this.endDate = value + "20091231";
+      } else {
+        this.startDate = value + "0101";
+        this.endDate = value + "1231";
+      }
+      this.currentPage = 1;
+      this.searchProject();
     },
     searchProject() {
-      // let url = this.$urlPath.website.searchProject + "/" + this.word + "/0/10";
-      // getData(url).then((res) => {
-      //   if (res.code === 1001) {
-      //     this.projectList = res.data.projectList;
-      //     console.log(this.projectList);
-      //   } else {
-      //     console.log(res.code);
-      //     this.$message.error("服务器返回出错");
-      //   }
-      // });
+      let url;
+      if (this.sortOption == 1) {
+        url = this.$urlPath.website.searchProject;
+      } else {
+        url = this.$urlPath.website.searchProjectSortByDate;
+      }
+      let params = new URLSearchParams();
+      params.append("titleKW", this.titleKW);
+      params.append("abstractKW", "");
+      params.append("organizationKW", this.organizationKW);
+      params.append("authorKW", this.authorKW);
+      params.append("startDate", this.startDate);
+      params.append("endDate", this.endDate);
+      params.append("page", this.currentPage);
+      params.append("size", 10);
+      getData(url, params).then((res) => {
+        if (res.code === 1001) {
+          this.projectList = res.data.projectList;
+          this.total = res.data.total;
+          console.log(this.projectList);
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回出错");
+        }
+      });
+    },
+    clearSelectedKey() {
+      this.selectedKey = [];
+      this.currentPage = 1;
+      this.sortOption = 1;
+      this.startDate = this.$route.query.startDate;
+      this.endDate = this.$route.query.endDate;
+      this.searchProject();
     },
   },
-  mounted() {
+  created() {
+    this.titleKW = this.$route.query.word;
+    this.abstractKW = this.$route.query.word;
+    this.organizationKW = this.$route.query.institution;
+    this.authorKW = this.$route.query.author;
+    this.startDate = this.$route.query.startDate;
+    this.endDate = this.$route.query.endDate;
     this.searchProject();
+  },
+  watch: {
+    $route() {
+      this.titleKW = this.$route.query.word;
+      this.abstractKW = this.$route.query.word;
+      this.organizationKW = this.$route.query.institution;
+      this.authorKW = this.$route.query.author;
+      this.startDate = this.$route.query.startDate;
+      this.endDate = this.$route.query.endDate;
+      this.currentPage = 1;
+      this.selectedKey = [];
+      this.sortOption = 1;
+      this.searchProject();
+    },
   },
 };
 </script>
@@ -202,7 +193,7 @@ export default {
 <style>
 .result-sider {
   float: left;
-  width: 280px;
+  width: 220px;
   margin-right: 20px;
 }
 .result-sider .sider-title {
@@ -227,7 +218,7 @@ export default {
 }
 .result-main {
   float: left;
-  width: 980px;
+  width: 1040px;
   overflow: hidden;
   padding-left: 20px;
   border-left: 1px solid #e3e3e3;
@@ -239,7 +230,7 @@ export default {
 .result-main .topbar .topbar-select {
   float: right;
   width: 100px;
-  margin-right: 60px;
+  margin-right: 10px;
 }
 .result-main .ant-list-item-action {
   margin-top: 5px;
@@ -259,14 +250,8 @@ export default {
 .highlight {
   color: #de5f0d;
 }
-.abstract {
-  height: 40px;
-  width: 940px;
-  line-height: 20px;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+.searchResult-title {
+  font-weight: 600;
 }
 .result-list-project .result-list-pagination {
   margin: 10px 0 30px 0;
