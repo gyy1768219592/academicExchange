@@ -43,16 +43,17 @@
               type="link"
               icon="check-circle" 
               slot="actions"
-              class="result-list-button_l"
-              :class = "{'result-list-button_l_1':appeal==2}" 
-              >通过申诉</a-button
+              v-if="item.appeal!=3"
+              :class = "{'result-list-button_l' : item.appeal==1 , 'result-list-button_l_1': item.appeal==2 , 'result-list-button_l_2': item.appeal==3 }"
+              >申诉通过</a-button
             >
             <a-button 
                 type="link" 
                 icon="close-circle"  
                 slot="actions" 
-                class="result-list-button_r"
-                >驳回申诉</a-button
+                v-if="item.appeal!=2"
+                :class = "{'result-list-button_r' : item.appeal==1 , 'result-list-button_r_2': item.appeal==2 , 'result-list-button_r_1': item.appeal==3 }"
+                >申诉驳回</a-button
             >
             <a-list-item-meta
               :description="
@@ -336,14 +337,14 @@ export default {
   color: blue;
   background-color: #0000ff10;
 }
-.result-main .result-list .result-list-button_l_2 {
+.result-main .result-list .result-list-button_l_1 {
   /* border: solid 1px blue; */
-  margin-right: 5px;
+  margin-left: 120px;
   padding: 0;
   color: blue;
   /* background-color: #0000ff10; */
 }
-.result-main .result-list .result-list-button_l_3 {
+.result-main .result-list .result-list-button_l_2 {
   height: 0px;
   width: 0px;
   /* border: solid 1px blue; */
@@ -358,6 +359,22 @@ export default {
   padding: 0;
   color: red;
   background-color: #ff000010;
+}
+.result-main .result-list .result-list-button_r_1 {
+  /* border: solid 1px red; */
+  margin-left: 120px;
+  padding: 0;
+  color: red;
+  /* background-color: #ff000010; */
+}
+.result-main .result-list .result-list-button_r_2 {
+  height: 0px;
+  width: 0px;
+  /* border: solid 1px red;
+  margin-left: 5px;
+  padding: 0;
+  color: red;
+  background-color: #ff000010; */
 }
 .result-main .result-list .ant-list-item {
   padding-left: 10px;
