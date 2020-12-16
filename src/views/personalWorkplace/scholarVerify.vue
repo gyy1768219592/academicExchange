@@ -5,7 +5,7 @@
     :sub-title="sub_title"
   >
     <template #extra>
-      <a-button key="gotoClaimScholar" type="primary" v-if = 'show' @click = toClainScholar()>
+      <a-button key="gotoClaimScholar" type="primary" v-if = 'show' @click = toClaimScholar()>
         去认领门户
       </a-button>
       <a-button key="gotoPersonInfo" type="primary" v-if = '!show' @click = toPersonInfo()>
@@ -30,7 +30,7 @@ export default {
     let params = new URLSearchParams();
     params.append("Code", this.$route.params.CODE);
     console.log(this.$route.params.CODE);
-    let url = this.$urlPath.website.userVerify;//TODO 这个要改
+    let url = this.$urlPath.website.scholarVerify;
     postData(url, params).then(res => {
         if(res.code == 1001) {
           this.status = 'success';
@@ -72,11 +72,11 @@ export default {
         },1000)
       }
     },
-    toLogin() {
-      this.$router.push('/login');
+    toClaimScholar() {
+      this.$router.push('/user/claimScholar');
     },
-    toRegister() {
-      this.$router.push('/PersonInfo');
+    toPersonInfo() {
+      this.$router.push('/personInfo');
     }
   }
 };

@@ -210,8 +210,8 @@ export default {
     },
     verify(values) {
       let params = new URLSearchParams();
-      params.append("RealName",realname);
-      params.append("OrgEmail",email);
+      params.append("RealName",values.realname);
+      params.append("OrgEmail",values.email);
       let url = this.$urlPath.website.scholarVerify;
       postData(url, params).then(res => {
         if(res.code === 1001) {
@@ -226,7 +226,7 @@ export default {
             duration: 1000,
             showClose: true
           });
-          this.goClaimScholar();
+          this.toClaimScholar();
         } else {
           this.$message.error({
             message: res.message,
@@ -236,7 +236,10 @@ export default {
         }
       });
     },
-    toLast() {
+    toClaimScholar() {
+      this.$router.push('/user/claimScholar');
+    },
+    /*toLast() {
       console.log(this.$route.path);
       let userid = parseInt(window.sessionStorage.getItem("UserId"));
       if (this.$route.query.userid == userid) {
@@ -244,7 +247,7 @@ export default {
       } else if (this.$route.query.userid != userid) {
         this.$router.go(-1);
       }
-    },
+    },*/
     toEmail() {
       this.showEmail = !this.showEmail;
     },
@@ -266,11 +269,23 @@ export default {
       if (res.email != "") this.changeEmail();
     },
     getInfo() {
-      this.info.password = "●●●●●●";
-      this.info.username = "tianzhen";
-      this.info.email = "1030010026@qq.com";
-      this.info.userid = "123455555";
-      this.info.isScholar = false;
+      let params = new URLSearchParams();
+      let url = this.$urlPath.website.getInfo;
+      postData(url, params).then(res => {
+        if(res.code === 1001) {
+          this.info.username = res.data.username;
+          this.info.email = res.data.email;
+          this.isScholar = res.data.isScholar;
+          this.info.userid = res.data.uid;
+          this.info.password = "●●●●●●";
+        } else {
+          this.$message.error({
+            message: "抱歉，获取用户信息失败",
+            duration: 1000,
+            showClose: true
+          });
+        }
+      });
     },
     validateScholarEmail(rule, value, callback) {
     const form = this.form;

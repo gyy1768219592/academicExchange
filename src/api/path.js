@@ -18,6 +18,8 @@ let path = {
     isNameUsed: Ip.productIP + "user/nameUsed",
     userVerify: Ip.productIP + "user/verify",
     scholarVerify: Ip.productIP + "user/toBeScholar",
+    getInfo: Ip.productIP + "user/getInfo",
+    
     //检索
     searchProject: Ip.productIP + "scholarship/getProjectListByKeyword",
     getProjectById: Ip.productIP + "scholarship/getProjectById/",
