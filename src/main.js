@@ -7,13 +7,14 @@ import "ant-design-vue/dist/antd.less";
 import api from "./api/index.js";
 import path from "./api/path.js";
 import echarts from "echarts";
+import md5 from "js-md5"
 Vue.prototype.$echarts = echarts;
 Vue.config.productionTip = false;
 Vue.use(Antd);
 Vue.use(echarts);
 Vue.prototype.$api = api;
 Vue.prototype.$urlPath = path;
-
+Vue.prototype.$md5 = md5;
 new Vue({
   router,
   store,

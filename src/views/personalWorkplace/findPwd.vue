@@ -15,7 +15,8 @@
         block
         style="margin-left:80px;margin-bottom:30px;width:70%"
         v-show="!isGet"
-      >提 交</a-button>
+        >提 交</a-button
+      >
       <span v-show="isGet">
         <a-form-item
           :label-col="formItemLayout.labelCol"
@@ -37,7 +38,8 @@
           @click="valid()"
           block
           style="margin-left:80px;margin-bottom:30px;width:70%"
-        >提 交</a-button>
+          >提 交</a-button
+        >
       </span>
 
       <a-form :form="form2" @submit="handleSubmit2">
@@ -63,20 +65,20 @@
               <a-input
                 v-model="password"
                 v-decorator="[
-                        'password',
-                        {
-                            rules: [
-                            {
-                                required: true,
-                                message: 'Please input your password!',
-                            },
-                            {
-                                validator: validateToNextPassword,
-                            },
-                            { min: 3, message: '密码长度大于3', trigger: 'blur' },
-                            ],
-                        },
-                        ]"
+                  'password',
+                  {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input your password!'
+                      },
+                      {
+                        validator: validateToNextPassword
+                      },
+                      { min: 3, message: '密码长度大于3', trigger: 'blur' }
+                    ]
+                  }
+                ]"
                 type="password"
               />
             </a-form-item>
