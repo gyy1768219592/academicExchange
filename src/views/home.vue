@@ -5,7 +5,50 @@
       <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
         <a-popover trigger="click" placement="bottomLeft">
           <template slot="content">
-            <div class="home-searchCard">选项</div>
+            <div class="home-searchCard">
+              <a-form
+                :form="form"
+                :label-col="{ span: 6 }"
+                :wrapper-col="{ span: 14 }"
+                @submit="handleSubmit"
+              >
+                <a-form-item label="检索词/检索学者">
+                  <a-input
+                    placeholder="检索论文、项目、专利的关键词 / 检索学者的姓名"
+                    v-decorator="['word']"
+                  />
+                </a-form-item>
+                <a-form-item label="科研机构">
+                  <a-input
+                    placeholder="检索项目、专利的完成单位 / 检索学者的工作单位"
+                    v-decorator="['institution']"
+                  />
+                </a-form-item>
+                <a-form-item label="学术成果作者">
+                  <a-input
+                    placeholder="检索项目、专利的作者"
+                    v-decorator="['author']"
+                  />
+                </a-form-item>
+                <a-form-item label="发表日期">
+                  <a-range-picker
+                    popupStyle="width:386.75px"
+                    allowClear
+                    :placeholder="['开始日期', '结束日期']"
+                    format="YYYY-MM-DD"
+                    :value="yearValue"
+                    :mode="['date', 'date']"
+                    @panelChange="handlePanelChange2"
+                    @change="handleChange"
+                  />
+                </a-form-item>
+                <a-form-item :wrapper-col="{ span: 14, offset: 6 }">
+                  <a-button type="primary" html-type="submit" block>
+                    检索
+                  </a-button>
+                </a-form-item>
+              </a-form>
+            </div>
           </template>
           <a-button
             class="home-searchButton"
@@ -46,6 +89,7 @@
 import topNav from "@/components/nav.vue";
 import researchHotpots from "@/components/researchHotpots.vue";
 import institutionRank from "@/components/institutionRank.vue";
+import moment from "moment";
 export default {
   components: {
     topNav,
@@ -55,6 +99,8 @@ export default {
   data() {
     return {
       isSelected: false,
+      form: this.$form.createForm(this, { name: "advancedSearch" }),
+      yearValue: [],
     };
   },
   methods: {
@@ -65,7 +111,65 @@ export default {
       this.isSelected = false;
     },
     onSearch(value) {
-      this.$router.push({ path: "/searchResult", query: { word: value } });
+      if (value.length == 0) {
+        this.$message.error("请输入检索内容");
+      } else {
+        this.$router.push({
+          path: "/searchResult",
+          query: {
+            word: value,
+            institution: "",
+            author: "",
+            startDate: "",
+            endDate: "",
+          },
+        });
+      }
+    },
+    handleSubmit(e) {
+      e.preventDefault();
+      this.form.validateFields((err, values) => {
+        let word = values.word === undefined ? "" : values.word;
+        let institution =
+          values.institution === undefined ? "" : values.institution;
+        let author = values.author === undefined ? "" : values.author;
+        let startDate =
+          this.yearValue[0] === undefined
+            ? ""
+            : moment(this.yearValue[0]).format("YYYYMMDD");
+        let endDate =
+          this.yearValue[1] === undefined
+            ? ""
+            : moment(this.yearValue[1]).format("YYYYMMDD");
+        if (
+          word.length == 0 &&
+          institution.length == 0 &&
+          author.length == 0 &&
+          startDate.length == 0 &&
+          endDate.length == 0
+        ) {
+          this.$message.error("请输入检索内容");
+        } else {
+          this.$router.push({
+            path: "/searchResult",
+            query: {
+              word: word,
+              institution: institution,
+              author: author,
+              startDate: startDate,
+              endDate: endDate,
+            },
+          });
+        }
+      });
+    },
+    handleChange(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
+    },
+    handlePanelChange2(value) {
+      this.yearValue = value;
+      console.log(this.yearValue);
     },
   },
 };

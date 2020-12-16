@@ -25,9 +25,10 @@
           </div>
         </div>
         <div class="actions">
-          <a-button class="btn">我要认证</a-button>
-          <a-button class="btn">关注</a-button>
-          <a-button class="btn" type="primary">发送私信</a-button>
+          <a-button class="btn">我要认证<a-icon type="user"/></a-button>
+          <a-button v-if="isFollow" class="btn" @click="changeFollow">关注<a-icon type="star"/></a-button>
+          <a-button v-else class="btn" @click="changeFollow">取消关注<a-icon type="star" theme="filled"/></a-button>
+          <a-button class="btn" type="primary">发送私信<a-icon type="message"/></a-button>
         </div>
       </div>
       <div class="down-block">
@@ -257,6 +258,7 @@ export default {
       pageid: 0,
       current: ["mail"],
       openKeys: ["sub1"],
+      isFollow: false,
       user: {
         username: "陈志刚",
         ins: "中南大学",
@@ -298,6 +300,9 @@ export default {
     },
   },
   methods: {
+    changeFollow() {
+      this.isFollow = !this.isFollow;
+    },
     initEchart() {
       let dom = document.getElementById("relation");
       this.myChart = this.$echarts.init(dom);
@@ -465,21 +470,21 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1200px;
+  width: 1400px;
   height: 2000px;
   margin: auto;
   /* border: solid 1px grey; */
 }
 .up-block {
   /* border: solid 1px red; */
-  width: 1100px;
+  width: 1200px;
   height: 230px;
   margin: auto;
   background-color: #fafafa;
 }
 .down-block {
   /* border: solid 1px blue; */
-  width: 1100px;
+  width: 1200px;
   height: 1500px;
   margin: auto;
 }
@@ -533,7 +538,7 @@ export default {
 .results {
   padding: 10px 15px 10px 15px;
   /* border: solid 1px black; */
-  width: 800px;
+  width: 900px;
   height: 800px;
   display: block;
   float: right;

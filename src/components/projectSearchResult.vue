@@ -38,7 +38,7 @@
       </div>
       <div class="result-list-project">
         <a-list item-layout="vertical" size="large" :data-source="projectList">
-          <a-list-item slot="renderItem" key="item.title" slot-scope="item">
+          <a-list-item slot="renderItem" key="item.projectId" slot-scope="item">
             <a-list-item-meta>
               <div slot="description">
                 {{ item.institution }} - {{ item.year }} <br />
@@ -65,6 +65,7 @@
   </div>
 </template>
 <script>
+// import { getData } from "@/api/webget";
 export default {
   data() {
     return {
@@ -174,11 +175,26 @@ export default {
       ],
     };
   },
-  props: ["word"],
+  props: ["word", "institution", "author", "startDate", "endDate"],
   methods: {
     changePage() {
       console.log(this.currentPage);
     },
+    searchProject() {
+      // let url = this.$urlPath.website.searchProject + "/" + this.word + "/0/10";
+      // getData(url).then((res) => {
+      //   if (res.code === 1001) {
+      //     this.projectList = res.data.projectList;
+      //     console.log(this.projectList);
+      //   } else {
+      //     console.log(res.code);
+      //     this.$message.error("服务器返回出错");
+      //   }
+      // });
+    },
+  },
+  mounted() {
+    this.searchProject();
   },
 };
 </script>
