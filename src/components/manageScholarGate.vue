@@ -21,7 +21,7 @@
                 <a-card>
                   <a-card-grid
                     style="width: 100%"
-                    v-for="(item, key) in scholarList"
+                    v-for="(item, key) in scholarList.scholarList1"
                     :key="key"
                   >
                     <div class="card-avatar">
@@ -106,7 +106,7 @@
               <a-card>
                 <a-card-grid
                   style="width: 100%"
-                  v-for="(item, key) in scholarList"
+                  v-for="(item, key) in scholarList.scholarList2"
                   :key="key"
                 >
                   <div class="card-avatar">
@@ -128,7 +128,7 @@
                       <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                     >
                   </div>
-                  <div class="card-button" @click="deleteScholar">
+                  <div class="card-button" @click="deleteScholar(key)">
                     <p style="margin-top: 42px">
                       <a-tooltip>
                         <template slot="title">
@@ -172,7 +172,7 @@
                 <a-card>
                   <a-card-grid
                     style="width: 100%"
-                    v-for="(item, key) in scholarList"
+                    v-for="(item, key) in scholarList.scholarList3"
                     :key="key"
                   >
                     <div class="card-avatar">
@@ -194,7 +194,7 @@
                         <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                       >
                     </div>
-                    <div class="card-button" @click="addScholar">
+                    <div class="card-button" @click="addScholar(key)">
                       <p style="margin-top: 42px">
                         <a-tooltip>
                           <template slot="title">
@@ -247,69 +247,195 @@ export default {
           field: "肿瘤学",
         },  
       ],
-      scholarList: [
-        {
-          name: "张帆",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "华中科技大学同济医学院附属同济医院",
-          paper: 4349,
-          citation: 70957,
-          field: "肿瘤学",
-        },
-        {
-          name: "张立群",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "北京化工大学",
-          paper: 695,
-          citation: 10067,
-          field: "工业催化",
-        },
-        {
-          name: "张鹏",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "郑州大学第一附属医院",
-          paper: 86,
-          citation: 200,
-          field: "肿瘤学",
-        },
-        {
-          name: "张磊",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国电子科技集团公司",
-          paper: 2148,
-          citation: 16081,
-          field: "通信与信息系统",
-        },
+      scholarList:{
+        scholarList1: [
+          {
+            name: "张帆",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "华中科技大学同济医学院附属同济医院",
+            paper: 4349,
+            citation: 70957,
+            field: "肿瘤学",
+          },
+          {
+            name: "张立群",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "北京化工大学",
+            paper: 695,
+            citation: 10067,
+            field: "工业催化",
+          },
+          {
+            name: "张鹏",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "郑州大学第一附属医院",
+            paper: 86,
+            citation: 200,
+            field: "肿瘤学",
+          },
+          {
+            name: "张磊",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "中国电子科技集团公司",
+            paper: 2148,
+            citation: 16081,
+            field: "通信与信息系统",
+          },
+          {
+            name: "张庆玲",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "东北大学理学院",
+            paper: 1360,
+            citation: 18959,
+            field: "系统工程",
+          },
+          {
+            name: "张波",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
+            paper: 1843,
+            citation: 10602,
+            field: "电路系统",
+          },
+        ],
+        scholarList2: [
+          {
+            name: "张帆",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "华中科技大学同济医学院附属同济医院",
+            paper: 4349,
+            citation: 70957,
+            field: "肿瘤学",
+          },
+          {
+            name: "张立群",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "北京化工大学",
+            paper: 695,
+            citation: 10067,
+            field: "工业催化",
+          },
+          {
+            name: "张鹏",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "郑州大学第一附属医院",
+            paper: 86,
+            citation: 200,
+            field: "肿瘤学",
+          },
+          {
+            name: "张磊",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "中国电子科技集团公司",
+            paper: 2148,
+            citation: 16081,
+            field: "通信与信息系统",
+          },
+          {
+            name: "张庆玲",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "东北大学理学院",
+            paper: 1360,
+            citation: 18959,
+            field: "系统工程",
+          },
+          {
+            name: "张波",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
+            paper: 1843,
+            citation: 10602,
+            field: "电路系统",
+          },
+        ],
+        scholarList3: [
+          {
+            name: "张帆",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "华中科技大学同济医学院附属同济医院",
+            paper: 4349,
+            citation: 70957,
+            field: "肿瘤学",
+          },
+          {
+            name: "张立群",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "北京化工大学",
+            paper: 695,
+            citation: 10067,
+            field: "工业催化",
+          },
+          {
+            name: "张鹏",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "郑州大学第一附属医院",
+            paper: 86,
+            citation: 200,
+            field: "肿瘤学",
+          },
+          {
+            name: "张磊",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "中国电子科技集团公司",
+            paper: 2148,
+            citation: 16081,
+            field: "通信与信息系统",
+          },
 
-        {
-          name: "张庆玲",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "东北大学理学院",
-          paper: 1360,
-          citation: 18959,
-          field: "系统工程",
-        },
-        {
-          name: "张波",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-          paper: 1843,
-          citation: 10602,
-          field: "电路系统",
-        },
-      ],
+          {
+            name: "张庆玲",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "东北大学理学院",
+            paper: 1360,
+            citation: 18959,
+            field: "系统工程",
+          },
+          {
+            name: "张波",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
+            paper: 1843,
+            citation: 10602,
+            field: "电路系统",
+          },
+        ],
+      }
     };
   },
   props: ["word"],
   methods: {
     changeMain(key){
-      this.$set(this.scholarListMain,0,this.scholarList[key]);
+      this.$set(this.scholarListMain,0,this.scholarList.scholarList1[key]);
+    },
+    deleteScholar(key){
+      this.scholarList.scholarList2.splice(key, 1);
+      this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
+      this.$message.success("数据库门户已移除");
+    },
+    addScholar(key){
+      this.scholarList.scholarList2.push(this.scholarList.scholarList3[key]);
+      this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
+      this.scholarList.scholarList3.splice(key, 1);
+      this.$set(this.scholarList,"scholarList3",this.scholarList.scholarList3);
+      this.$message.success("数据库门户已添加");
     },
     changePage() {
       console.log(this.currentPage);
@@ -343,12 +469,6 @@ export default {
     onClose() {
       this.visible = false;
     },
-    deleteScholar(){
-      this.$message.success("申诉已通过");
-    },
-    addScholar(){
-      this.$message.success("申诉已通过");
-    }
   },
 };
 </script>

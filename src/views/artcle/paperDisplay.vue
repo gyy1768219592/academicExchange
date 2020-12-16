@@ -161,7 +161,7 @@
 <script>
 //引入导航栏
 //import personNav from "@/components/personNav";
-// import { postData } from "@/api/webpost";
+// import { getData } from "@/api/webget";
 import navSearch from "@/components/navSearch";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
