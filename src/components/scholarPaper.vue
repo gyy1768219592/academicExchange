@@ -54,7 +54,7 @@
             <a-list-item-meta :description="item.author + ' - ' + item.journal + ' - 被引量: ' + item.citationCount">
               <a slot="title" :href="item.href"><span v-html="item.title"></span> </a>
             </a-list-item-meta>
-            <div class="abstract">{{ item.abstract }}</div>
+            <div class="abstract-test">{{ item.abstract }}</div>
           </a-list-item>
         </a-list>
         <div class="result-list-pagination">
@@ -263,7 +263,7 @@ export default {
 .highlight {
   color: #de5f0d;
 }
-.abstract {
+.abstract-test {
   height: 40px;
   width: 500px;
   border: 1px red solid;

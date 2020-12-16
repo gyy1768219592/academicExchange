@@ -137,40 +137,6 @@
                 </a-timeline-item>
               </a-timeline>
             </div>
-            <div class="results">
-              <h3>发表成果</h3>
-              <a-button type="default" @click="showManageModal" class="manage-btn">管理学术成果</a-button>
-              <a-modal
-                width="600px"
-                v-model="manageVisible"
-                title="管理学术成果"
-                ok-text="确认"
-                cancel-text="取消"
-                @ok="hideManageModal"
-              >
-                <a-list item-layout="horizontal" :data-source="authors">
-                  <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a slot="actions" @click="saveScholar(index)" v-if="item.con">认领</a>
-                    <a slot="actions" @click="deleteScholar(index)" v-if="!item.con">退领</a>
-                    <a-list-item-meta :description="item.lastKnownAffiliationId">
-                      <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
-
-                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    </a-list-item-meta>
-                  </a-list-item>
-                </a-list>
-              </a-modal>
-
-              <a-divider></a-divider>
-              <a-list item-layout="horizontal" :data-source="data">
-                <a-list-item slot="renderItem" slot-scope="item">
-                  <a-list-item-meta :description="item.description">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
-                    <img style="height:50px;width:55px" slot="avatar" :src="item.src" />
-                  </a-list-item-meta>
-                </a-list-item>
-              </a-list>
-            </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="项目">
             <scholarProject :scholarid="scholarid"></scholarProject>

@@ -74,7 +74,7 @@
 //引入导航栏
 import navSearch from "@/components/navSearch";
 import { postData } from "@/api/webpost";
-// import { getData } from "@/api/webget";
+import { getData } from "@/api/webget";
 // import { putData } from "@/api/webput";
 
 import scholarPaper from "@/components/scholarPaper.vue";
@@ -326,6 +326,23 @@ export default {
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
 
+    //获取学者信息
+    getScholarInfo() {
+      let url = this.$urlPath.website.getScholarInfo;
+      getData(url + "/2/1").then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.scholar = res.data.scholar;
+          this.workExperience = res.data.workExperience;
+          console.log(this.scholar);
+          console.log(this.this.workExperience);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
     //关注学者
     subscribe() {
       let url = this.$urlPath.website.subscribe;
@@ -362,6 +379,7 @@ export default {
   mounted() {
     this.initEchart();
     this.drawLine();
+    this.getScholarInfo();
   },
 };
 </script>
