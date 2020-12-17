@@ -19,7 +19,7 @@ let path = {
     userVerify: Ip.productIP + "user/verify",
     scholarVerify: Ip.productIP + "user/toBeScholar",
     getInfo: Ip.productIP + "user/getInfo",
-    
+
     //检索
     searchProject: Ip.productIP + "scholarship/advancedSearchProject",
     searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",
@@ -30,11 +30,13 @@ let path = {
     searchPaperSortByCitation: Ip.productIP + "scholarship/advancedSearchPaperSortByCitationCount",
     getProjectById: Ip.productIP + "scholarship/getProjectById/",
     getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
+    searchDataScholar: Ip.productIP + "scholar/SearchDataScholar",
+    searchScholar: Ip.productIP + "scholar/Search",
 
     //申诉列表
     getAppeal: Ip.productIP + "message/appeal/all/",
-    updateAppeal: Ip.productIP + "message/appeal/one/", 
-    
+    updateAppeal: Ip.productIP + "message/appeal/one/",
+
     //学者
     getSameNameScholar: Ip.productIP + "scholar/sameName",
     subscribe: Ip.productIP + "scholar/subscribe",
