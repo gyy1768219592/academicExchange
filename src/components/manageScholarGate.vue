@@ -3,25 +3,13 @@
     <div class="result-main-scholar">
       <div class="home-content">
         <div class = "left-block">
-          <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <!-- <a-popover trigger="click" placement="bottomLeft">
-              <template slot="content">
-                <div class="home-searchCard">选项</div>
-              </template>
-              <a-button
-                class="home-searchButton"
-                type="link"
-                @click="selected"
-                @blur="undoSelected"
-                >高级检索</a-button
-              >
-            </a-popover> -->
+          <div v-bind:class="isSelected1 ? 'home-search-on' : 'home-search'">
             <a-input-search
-              class="home-searchBox"
+              class="home-searchBox-1"
               placeholder="通过ID搜索学者门户"
-              @search="onSearch"
-              @focus="selected"
-              @blur="undoSelected"
+              @search="onSearch1"
+              @focus="selected1"
+              @blur="undoSelected1"
             />
           </div>
           <div class="result-main-scholar">
@@ -33,7 +21,7 @@
                 <a-card>
                   <a-card-grid
                     style="width: 100%"
-                    v-for="(item, key) in scholarList"
+                    v-for="(item, key) in scholarList.scholarList1"
                     :key="key"
                   >
                     <div class="card-avatar">
@@ -118,7 +106,7 @@
               <a-card>
                 <a-card-grid
                   style="width: 100%"
-                  v-for="(item, key) in scholarList"
+                  v-for="(item, key) in scholarList.scholarList2"
                   :key="key"
                 >
                   <div class="card-avatar">
@@ -140,7 +128,7 @@
                       <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                     >
                   </div>
-                  <div class="card-button">
+                  <div class="card-button" @click="deleteScholar(key)">
                     <p style="margin-top: 42px">
                       <a-tooltip>
                         <template slot="title">
@@ -166,25 +154,13 @@
           </div>
         </div>
         <div class = "right-block">
-          <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
-            <!-- <a-popover trigger="click" placement="bottomLeft">
-              <template slot="content">
-                <div class="home-searchCard">选项</div>
-              </template>
-              <a-button
-                class="home-searchButton"
-                type="link"
-                @click="selected"
-                @blur="undoSelected"
-                >高级检索</a-button
-              >
-            </a-popover> -->
+          <div v-bind:class="isSelected2 ? 'home-search-on' : 'home-search'">
             <a-input-search
-              class="home-searchBox"
+              class="home-searchBox-2"
               placeholder="通过ID搜索数据库门户"
-              @search="onSearch"
-              @focus="selected"
-              @blur="undoSelected"
+              @search="onSearch2"
+              @focus="selected2"
+              @blur="undoSelected2"
             />
           </div>
           <div class="result-main-scholar">
@@ -196,7 +172,7 @@
                 <a-card>
                   <a-card-grid
                     style="width: 100%"
-                    v-for="(item, key) in scholarList"
+                    v-for="(item, key) in scholarList.scholarList3"
                     :key="key"
                   >
                     <div class="card-avatar">
@@ -218,7 +194,7 @@
                         <a-col :span="10">研究领域：{{ item.field }}</a-col></span
                       >
                     </div>
-                    <div class="card-button">
+                    <div class="card-button" @click="addScholar(key)">
                       <p style="margin-top: 42px">
                         <a-tooltip>
                           <template slot="title">
@@ -254,7 +230,8 @@ export default {
   data() {
     return {
       visible: false,
-      isSelected: false,
+      isSelected1: false,
+      isSelected2: false,
       currentPage: "1",
       total: 203,
       src:
@@ -270,81 +247,218 @@ export default {
           field: "肿瘤学",
         },  
       ],
-      scholarList: [
-        {
-          name: "张帆",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "华中科技大学同济医学院附属同济医院",
-          paper: 4349,
-          citation: 70957,
-          field: "肿瘤学",
-        },
-        {
-          name: "张立群",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "北京化工大学",
-          paper: 695,
-          citation: 10067,
-          field: "工业催化",
-        },
-        {
-          name: "张鹏",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "郑州大学第一附属医院",
-          paper: 86,
-          citation: 200,
-          field: "肿瘤学",
-        },
-        {
-          name: "张磊",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国电子科技集团公司",
-          paper: 2148,
-          citation: 16081,
-          field: "通信与信息系统",
-        },
+      scholarList:{
+        scholarList1: [
+          {
+            name: "张帆",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "华中科技大学同济医学院附属同济医院",
+            paper: 4349,
+            citation: 70957,
+            field: "肿瘤学",
+          },
+          {
+            name: "张立群",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "北京化工大学",
+            paper: 695,
+            citation: 10067,
+            field: "工业催化",
+          },
+          {
+            name: "张鹏",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "郑州大学第一附属医院",
+            paper: 86,
+            citation: 200,
+            field: "肿瘤学",
+          },
+          {
+            name: "张磊",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "中国电子科技集团公司",
+            paper: 2148,
+            citation: 16081,
+            field: "通信与信息系统",
+          },
+          {
+            name: "张庆玲",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "东北大学理学院",
+            paper: 1360,
+            citation: 18959,
+            field: "系统工程",
+          },
+          {
+            name: "张波",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
+            paper: 1843,
+            citation: 10602,
+            field: "电路系统",
+          },
+        ],
+        scholarList2: [
+          {
+            name: "张帆",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "华中科技大学同济医学院附属同济医院",
+            paper: 4349,
+            citation: 70957,
+            field: "肿瘤学",
+          },
+          {
+            name: "张立群",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "北京化工大学",
+            paper: 695,
+            citation: 10067,
+            field: "工业催化",
+          },
+          {
+            name: "张鹏",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "郑州大学第一附属医院",
+            paper: 86,
+            citation: 200,
+            field: "肿瘤学",
+          },
+          {
+            name: "张磊",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "中国电子科技集团公司",
+            paper: 2148,
+            citation: 16081,
+            field: "通信与信息系统",
+          },
+          {
+            name: "张庆玲",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "东北大学理学院",
+            paper: 1360,
+            citation: 18959,
+            field: "系统工程",
+          },
+          {
+            name: "张波",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
+            paper: 1843,
+            citation: 10602,
+            field: "电路系统",
+          },
+        ],
+        scholarList3: [
+          {
+            name: "张帆",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "华中科技大学同济医学院附属同济医院",
+            paper: 4349,
+            citation: 70957,
+            field: "肿瘤学",
+          },
+          {
+            name: "张立群",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "北京化工大学",
+            paper: 695,
+            citation: 10067,
+            field: "工业催化",
+          },
+          {
+            name: "张鹏",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "郑州大学第一附属医院",
+            paper: 86,
+            citation: 200,
+            field: "肿瘤学",
+          },
+          {
+            name: "张磊",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "中国电子科技集团公司",
+            paper: 2148,
+            citation: 16081,
+            field: "通信与信息系统",
+          },
 
-        {
-          name: "张庆玲",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "东北大学理学院",
-          paper: 1360,
-          citation: 18959,
-          field: "系统工程",
-        },
-        {
-          name: "张波",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-          paper: 1843,
-          citation: 10602,
-          field: "电路系统",
-        },
-      ],
+          {
+            name: "张庆玲",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "东北大学理学院",
+            paper: 1360,
+            citation: 18959,
+            field: "系统工程",
+          },
+          {
+            name: "张波",
+            src:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
+            paper: 1843,
+            citation: 10602,
+            field: "电路系统",
+          },
+        ],
+      }
     };
   },
   props: ["word"],
   methods: {
     changeMain(key){
-      this.$set(this.scholarListMain,0,this.scholarList[key]);
+      this.$set(this.scholarListMain,0,this.scholarList.scholarList1[key]);
+    },
+    deleteScholar(key){
+      this.scholarList.scholarList2.splice(key, 1);
+      this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
+      this.$message.success("数据库门户已移除");
+    },
+    addScholar(key){
+      this.scholarList.scholarList2.push(this.scholarList.scholarList3[key]);
+      this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
+      this.scholarList.scholarList3.splice(key, 1);
+      this.$set(this.scholarList,"scholarList3",this.scholarList.scholarList3);
+      this.$message.success("数据库门户已添加");
     },
     changePage() {
       console.log(this.currentPage);
     },
-    selected() {
-      this.isSelected = true;
+    selected1() {
+      this.isSelected1 = true;
     },
-    undoSelected() {
-      this.isSelected = false;
+    selected2() {
+      this.isSelected2 = true;
     },
-    onSearch(value) {
-      this.$router.push({ path: "/searchResult", query: { word: value } });
+    undoSelected1() {
+      this.isSelected1 = false;
+    },
+    undoSelected2() {
+      this.isSelected2 = false;
+    },
+    onSearch1(value) {//查找之后要结果
+      this.$message.success(value+"左查找");
+      // this.$router.push({ path: "/searchResult", query: { word: value } });
+    },
+    onSearch2(value) {//查找之后要结果
+      this.$message.success(value+"右查找");
+      // this.$router.push({ path: "/searchResult", query: { word: value } });
     },
     afterVisibleChange(val) {
       console.log('visible', val);
@@ -455,8 +569,13 @@ export default {
   width: 100%;
   height: 50px;
 }
-.home-searchBox {
-  width: 77%;
+.home-searchBox-1 {
+  margin-left: 2%;
+  width: 98%;
+}
+.home-searchBox-2 {
+  margin-left: 2%;
+  width: 98%;
 }
 .home-searchButton {
   font-size: 14px;
@@ -472,17 +591,27 @@ export default {
   border-right: 2px solid #e3e3e3;
 }
 
-.home-searchBox .ant-input {
+.home-searchBox-1 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox .ant-input:focus {
+.home-searchBox-1 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
+.home-searchBox-2 .ant-input {
+  margin-top: 1px;
+  border-radius: 0 10px 10px 0;
+  border: none;
+  display: inline-block;
+}
+.home-searchBox-2 .ant-input:focus {
+  border: none;
+  box-shadow: none;
+}
 .home-searchCard {
   width: 663px;
 }

@@ -49,9 +49,9 @@
                 </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn">我要认领</a-button>
-              <a-button class="btn">收藏</a-button>
-              <a-button class="btn" type="primary">分享</a-button>
+              <a-button class="btn" @click="renling">我要认领</a-button>
+              <a-button class="btn" @click="shoucang">收藏</a-button>
+              <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
             <div class="date">
                 <span class="date-num">申请时间： {{ApplicationDate}}</span>
@@ -123,7 +123,23 @@
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
-                    {{yinyong}}
+                    {{patentData.applicationDate}}
+                    {{patentData.agency}}
+                    {{patentData.applicationNumber}}
+                    {{patentData.agent}}
+                    {{patentData.content}}
+                    {{patentData.province}}
+                    {{patentData.location}}
+                    {{patentData.classificationNumber}}
+                    {{patentData.mainClassificationNumber}}
+                    {{patentData.inventor}}
+                    {{patentData.publishDate}}
+                    {{patentData.applicant}}
+                    {{patentData.currentObligee}}
+                    {{patentData.publishNumber}}
+                    {{patentData.title}}
+                    {{patentData.state}}
+                    {{patentData.abstract}}
                   </span>
                 </div>
               </a-descriptions-item>
@@ -160,6 +176,7 @@
 //import personNav from "@/components/personNav";
 // import { postData } from "@/api/webpost";
 import navSearch from "@/components/navSearch";
+import { getData } from "@/api/webget";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
@@ -169,79 +186,9 @@ export default {
   },
   data() {
     return {
-      inventor_data : [
-        {
-            username: "谭火彬",
-            prognum: 15,
-            outnum: 456,
-            Hindex: 14,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "宋友",
-            prognum: 5,
-            outnum: 56,
-            Hindex: 48,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "贾经冬",
-            prognum: 46,
-            outnum: 895,
-            Hindex: 5,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "原仓周",
-            prognum: 7,
-            outnum: 566,
-            Hindex: 6,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-      ],
-      Applicant: [
-        {
-            username: "原仓周",
-            prognum: 7,
-            outnum: 566,
-            Hindex: 6,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-      ],
-      CurrentObligee: [
-        {
-            username: "谭火彬",
-            prognum: 15,
-            outnum: 456,
-            Hindex: 14,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-      ],
-      PaperTitle : "基于大数据分析技术的可穿戴式健康设备",
-      Content : "  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构\"重基本建设、轻人力资本投资扣公共服务\"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府\"为增长而竞争\"的同时,与之伴随的成本可能正在上升.",
-      ApplicationDate : "2020-01-09",  //申请日期
-      Agency : "中华人民共和国工业与信息化部",  //代理机构
-      ApplicationNumber : "123-456-789",  //申请号
-      Agent	:	123,  //代理人
-      Province : "北京市",  //省份
-      Location: "北京市海淀区",	//地址
-      ClassificationNumber: "A63H3/00",	//分类号
-      MainClassificationNumber: "A01",	//主分类号
-      PublishDate: "2020-05-20",	//公布日
-      PublishNumber: "CN1340998A",	//公布号
-      State: "授权",	//状态
-      SourceUrl :"http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
-      yinyong: "杨玲,  陈志刚. 陈志刚教授辨病论治周围神经病经验[J]. 中国当代医药. 2018,(12):112-115. ",
-      leijiliang : 0,
-      mounian : 2000,
-      mounianbeiyinliang : 2,
-    };
+      patentID: this.$route.params.id,
+      patentData : {}
+    }
   },
   watch: {
     openKeys(val) {
@@ -250,6 +197,7 @@ export default {
   },
   mounted(){
     this.initCharts();
+    this.getPatent();
   },
   methods: {
     initCharts () {
@@ -377,18 +325,41 @@ export default {
       //去此人的主页
       this.$router.push("/scholarIndex");
     },
-    changeCollect(){
-      
+    renling(){
+      this.$message.success("我要认领");
     },
-    share(){
-
+    shoucang(){
+      this.$message.success("已收藏");
+      this.$message.success("已取消收藏");
     },
-    getPaper(){
-      // let params = new URLSearchParams();
-      // params.append("PaperId",values);
-      // postData(url, param).then(res=>{
-        
-      // })
+    fenxiang(){
+      var domUrl = document.createElement("input");
+      domUrl.value = window.location.href;
+      domUrl.id = "creatDom";
+      document.body.appendChild(domUrl);
+      domUrl.select(); // 选择对象
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      let creatDom = document.getElementById("creatDom");
+      creatDom.parentNode.removeChild(creatDom);
+      this.$message.success("分享链接已复制");
+    },
+    getPatent(){
+      let params = new URLSearchParams();
+      params.append("patentID", this.patentID);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getPatentById + this.patentID;
+      getData(url, params).then(res => {
+        this.patentData = res.data.patent;
+        console.log(res.code);
+        if (res.code === 1001) {
+          //this.$message.success(res.message);
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     oCopy(obj){
         obj.select();    // 选中输入框中的内容
