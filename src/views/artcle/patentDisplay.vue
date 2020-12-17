@@ -177,6 +177,7 @@
 // import { postData } from "@/api/webpost";
 import navSearch from "@/components/navSearch";
 import { getData } from "@/api/webget";
+import { postData } from "@/api/webpost";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
@@ -326,7 +327,21 @@ export default {
       this.$router.push("/scholarIndex");
     },
     renling(){
-      this.$message.success("我要认领");
+      let params = new URLSearchParams();
+      params.append("projectId", this.patentID);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.renlingPatent + this.patentID;
+      console.log(url);
+      postData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     shoucang(){
       this.$message.success("已收藏");

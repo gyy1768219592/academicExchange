@@ -34,6 +34,15 @@ let path = {
     //申诉列表
     getAppeal: Ip.productIP + "message/appeal/all/",
     updateAppeal: Ip.productIP + "message/appeal/one/", 
+
+    //通过id获取数据库门户信息
+    getScholarByID: Ip.productIP + "scholar/dataScholar/",
+
+    //认领项目
+    renlingProg: Ip.productIP + "/scholarship/claimProject/",
+
+    //认领专利
+    renlingPatent: Ip.productIP + "/scholarship/claimPatent/",
     
     //学者
     getSameNameScholar: Ip.productIP + "scholar/sameName",
