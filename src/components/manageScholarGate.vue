@@ -40,7 +40,7 @@
                         ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                       ><br />
                       <span>
-                        <a-col :span="10">研究领域：{{ item.Hindex }}</a-col></span
+                        <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
                     </div>
                     <div class="card-button">
@@ -84,7 +84,7 @@
                       ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                     ><br />
                     <span>
-                      <a-col :span="10">研究领域：{{ item.Hindex }}</a-col></span
+                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
                   </div>
                 </a-card-grid>
@@ -118,7 +118,7 @@
                       ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                     ><br />
                     <span>
-                      <a-col :span="10">研究领域：{{ item.Hindex }}</a-col></span
+                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
                   </div>
                   <div class="card-button" @click="deleteScholar(key)">

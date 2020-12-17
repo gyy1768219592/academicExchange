@@ -206,7 +206,7 @@ export default {
             this.paperTypeOptions[1].count ++;
           }
         }
-        console.log(res.code);
+        console.log(res);
         if (res.code === 1001) {
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);

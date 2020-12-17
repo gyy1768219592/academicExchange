@@ -111,7 +111,7 @@
                       ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                     ><br />
                     <span>
-                      <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                      <a-col :span="10">H指数：{{ item.field }}</a-col></span
                     >
                   </div>
                   <div class="card-button" @click="deleteAuthor(key,item)">
@@ -167,7 +167,7 @@
                         ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                       ><br />
                       <span>
-                        <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                        <a-col :span="10">H指数：{{ item.field }}</a-col></span
                       >
                     </div>
                     <div class="card-button" @click="addAuthor(key,item)">
@@ -328,7 +328,7 @@ export default {
         url += this.$urlPath.website.disrenlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
       }
       else if(this.paperTopList[0].patentID!=-1){
-        url += this.$urlPath.website.disrenlingPantentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+        url += this.$urlPath.website.disrenlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
       }
       postData(url, params).then(res => {
         if (res.code === 1001) {
@@ -351,7 +351,7 @@ export default {
         url += this.$urlPath.website.renlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
       }
       else if(this.paperTopList[0].patentID!=-1){
-        url += this.$urlPath.website.renlingPantentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+        url += this.$urlPath.website.renlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
       }
       postData(url, params).then(res => {
         if (res.code === 1001) {
