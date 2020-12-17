@@ -248,26 +248,7 @@ export default {
             field: "电路系统",
           },
         ],
-        AuthorList2: [
-          {
-            name: "张庆玲",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "东北大学理学院",
-            paper: 1360,
-            citation: 18959,
-            field: "系统工程",
-          },
-          {
-            name: "张波",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-            paper: 1843,
-            citation: 10602,
-            field: "电路系统",
-          },
-        ],
+        AuthorList2: [],
       },
     };
   },
@@ -280,6 +261,7 @@ export default {
       else{
         this.$set(this.paperTopList,0,item);
       }
+      // getScholarByPaper
     },
     changePage() {
       console.log(this.currentPage);
@@ -301,8 +283,37 @@ export default {
       this.getPatent(value);
     },
     onSearch4(value) {
-      this.$message.success(value+"右查找");
-      
+      let params = new URLSearchParams();
+      params.append("ScholarName", "");
+      params.append("ScholarId", value);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getRealScholarByID;
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          var newAuthor = {
+            ScholarId: res.data[0].ScholarId,
+            name: res.data[0].Name,
+            src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+            // paper: res.data[0].dataScholar.paperCount,
+            // citation: res.data[0].dataScholar.citationCount,
+            // Hindex: res.data[0].dataScholar.hindex,
+          };
+          if(this.AuthorList.AuthorList2.length === 0){
+            this.AuthorList.AuthorList2.push(newAuthor);
+          }
+          else{
+            this.$set(this.AuthorList.AuthorList2,0,newAuthor);
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     afterVisibleChange(val) {
       console.log('visible', val);

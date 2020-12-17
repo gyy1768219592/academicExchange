@@ -5,7 +5,7 @@
       <div class="up-block">
         <div class="artcle-info">
             <div class="title">
-              <span class="title-name">{{PaperTitle}}</span>
+              <span class="title-name">{{patentData.title}}</span>
             </div>
             <div class="inventors">
                 <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="inventor_data">
@@ -77,7 +77,7 @@
               <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
-                    <span class="Content" >{{Content}}</span>
+                    <span class="Content" >{{patentData.abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
@@ -123,23 +123,21 @@
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
-                    {{patentData.applicationDate}}
-                    {{patentData.agency}}
-                    {{patentData.applicationNumber}}
-                    {{patentData.agent}}
-                    {{patentData.content}}
-                    {{patentData.province}}
-                    {{patentData.location}}
-                    {{patentData.classificationNumber}}
-                    {{patentData.mainClassificationNumber}}
-                    {{patentData.inventor}}
-                    {{patentData.publishDate}}
-                    {{patentData.applicant}}
-                    {{patentData.currentObligee}}
-                    {{patentData.publishNumber}}
-                    {{patentData.title}}
-                    {{patentData.state}}
-                    {{patentData.abstract}}
+                    applicationDate:{{patentData.applicationDate}}
+                    agency:{{patentData.agency}}
+                    applicationNumber:{{patentData.applicationNumber}}
+                    agent:{{patentData.agent}}
+                    content:{{patentData.content}}
+                    province:{{patentData.province}}
+                    location:{{patentData.location}}
+                    classificationNumber:{{patentData.classificationNumber}}
+                    mainClassificationNumber:{{patentData.mainClassificationNumber}}
+                    inventor:{{patentData.inventor}}
+                    publishDate:{{patentData.publishDate}}
+                    applicant:{{patentData.applicant}}
+                    currentObligee:{{patentData.currentObligee}}
+                    publishNumber:{{patentData.publishNumber}}
+                    state:{{patentData.state}}
                   </span>
                 </div>
               </a-descriptions-item>

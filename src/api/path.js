@@ -30,10 +30,16 @@ let path = {
     searchPaperSortByCitation: Ip.productIP + "scholarship/advancedSearchPaperSortByCitationCount",
     getProjectById: Ip.productIP + "scholarship/getProjectById/",
     getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
+    getPaperById: Ip.productIP + "scholarship/getPaperByPaperId/",
 
+    //获取学者门户下属数据库门户
+    getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar/",
+
+    //获取学术成果已认领人员
+    getScholarByPaper: Ip.productIP + "scholarship/getWhoClaimIt/",
     //申诉列表
-    getAppeal: Ip.productIP + "message/appeal/all/",
-    updateAppeal: Ip.productIP + "message/appeal/one/", 
+    getAppeal: Ip.productIP + "message/admin/appeal/all/",
+    updateAppeal: Ip.productIP + "message/admin/appeal/one/", 
 
     //通过id获取数据库门户信息
     getScholarByID: Ip.productIP + "scholar/dataScholar/",

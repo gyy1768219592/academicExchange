@@ -49,7 +49,7 @@
                           <template slot="title">
                             管理学者门户
                           </template>
-                          <a-button shape="circle" icon="setting" @click="changeMain(key)"/>
+                          <a-button shape="circle" icon="setting" @click="changeMain(key,item)"/>
                         </a-tooltip>
                       </p>
                     </div>
@@ -222,35 +222,7 @@ export default {
         },  
       ],
       scholarList:{
-        scholarList1: [
-          {
-            name: "张帆",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "华中科技大学同济医学院附属同济医院",
-            paper: 4349,
-            citation: 70957,
-            Hindex: "肿瘤学",
-          },
-          {
-            name: "张立群",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "北京化工大学",
-            paper: 695,
-            citation: 10067,
-            Hindex: "工业催化",
-          },
-          {
-            name: "张鹏",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "郑州大学第一附属医院",
-            paper: 86,
-            citation: 200,
-            Hindex: "肿瘤学",
-          },
-        ],
+        scholarList1: [],
         scholarList2: [
           {
             name: "张帆",
@@ -286,8 +258,39 @@ export default {
   },
   props: ["word"],
   methods: {
-    changeMain(key){
+    changeMain(key,item){
       this.$set(this.scholarListMain,0,this.scholarList.scholarList1[key]);
+      let params = new URLSearchParams();
+      params.append("ScholarId", item.ScholarId);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getScholarBelong;
+      this.$message.success("res.message");
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          // var newAuthor = {
+          //   ScholarId: res.data[0].ScholarId,
+          //   name: res.data[0].Name,
+          //   src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          //   institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+          //   // paper: res.data[0].dataScholar.paperCount,
+          //   // citation: res.data[0].dataScholar.citationCount,
+          //   // Hindex: res.data[0].dataScholar.hindex,
+          // };
+          // if(this.scholarList.scholarList1.length === 0){
+          //   this.scholarList.scholarList1.push(newAuthor);
+          // }
+          // else{
+          //   this.$set(this.scholarList.scholarList1,0,newAuthor);
+          // }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     deleteScholar(key){
       this.scholarList.scholarList2.splice(key, 1);
@@ -317,8 +320,37 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
-      this.$message.success(value+"左查找");
-      // this.$router.push({ path: "/searchResult", query: { word: value } });
+      let params = new URLSearchParams();
+      params.append("ScholarName", "");
+      params.append("ScholarId", value);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getRealScholarByID;
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          var newAuthor = {
+            ScholarId: res.data[0].ScholarId,
+            name: res.data[0].Name,
+            src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+            // paper: res.data[0].dataScholar.paperCount,
+            // citation: res.data[0].dataScholar.citationCount,
+            // Hindex: res.data[0].dataScholar.hindex,
+          };
+          if(this.scholarList.scholarList1.length === 0){
+            this.scholarList.scholarList1.push(newAuthor);
+          }
+          else{
+            this.$set(this.scholarList.scholarList1,0,newAuthor);
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     onSearch2(value) {//查找之后要结果
       let params = new URLSearchParams();
