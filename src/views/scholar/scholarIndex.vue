@@ -10,10 +10,6 @@
             <h4 class="info-content-ins">{{ user.ins }}</h4>
             <ul class="index-table">
               <li class="index-item">
-                <p class="top-word">H指数</p>
-                <p class="index-number">{{ user.hindex }}</p>
-              </li>
-              <li class="index-item">
                 <p class="top-word">G指数</p>
                 <p class="index-number">{{ user.gindex }}</p>
               </li>
@@ -59,7 +55,12 @@
               <scholarProject :scholarid="scholarid"></scholarProject>
             </div>
           </a-tab-pane>
-          <a-tab-pane key="3" tab="成果">
+          <a-tab-pane key="3" tab="专利">
+            <div class="patent-list">
+              <scholarPatent :scholarid="scholarid"></scholarPatent>
+            </div>
+          </a-tab-pane>
+          <a-tab-pane key="4" tab="成果">
             <div class="paper-list">
               <scholarPaper :scholarid="scholarid"></scholarPaper>
             </div>
@@ -76,7 +77,7 @@ import navSearch from "@/components/navSearch";
 import { postData } from "@/api/webpost";
 import { getData } from "@/api/webget";
 // import { putData } from "@/api/webput";
-
+import scholarPatent from "@/components/scholarPatent.vue";
 import scholarPaper from "@/components/scholarPaper.vue";
 import scholarProject from "@/components/scholarProject.vue";
 import { deleteData } from "@/api/webdelete";
@@ -113,6 +114,7 @@ export default {
     navSearch,
     scholarProject,
     scholarPaper,
+    scholarPatent,
   },
   data() {
     return {
@@ -124,7 +126,7 @@ export default {
       pageid: 0,
       current: ["mail"],
       openKeys: ["sub1"],
-      isFollow: true,
+      isFollow: false,
       scholarid: 1,
       user: {
         username: "陈志刚",
@@ -329,7 +331,7 @@ export default {
     //获取学者信息
     getScholarInfo() {
       let url = this.$urlPath.website.getScholarInfo;
-      getData(url + "/2/1").then((res) => {
+      getData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
@@ -346,7 +348,7 @@ export default {
     //关注学者
     subscribe() {
       let url = this.$urlPath.website.subscribe;
-      postData(url + "/2/1").then((res) => {
+      postData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
@@ -364,7 +366,7 @@ export default {
       params.append("UserId", 2);
       params.append("ScholarId", 1);
       let url = this.$urlPath.website.undoSubscribe;
-      deleteData(url + "/2/1").then((res) => {
+      deleteData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
