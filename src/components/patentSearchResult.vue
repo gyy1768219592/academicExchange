@@ -58,7 +58,10 @@
                 <span v-html="item.applicationNumber" /> <br />
                 <span v-html="item.classificationNumber" />
               </div>
-              <a slot="title" class="searchResult-title" :href="item.href"
+              <a
+                slot="title"
+                class="searchResult-title"
+                @click="toPatent(item.id)"
                 ><span v-html="item.title"></span>
               </a>
             </a-list-item-meta>
@@ -105,6 +108,9 @@ export default {
     };
   },
   methods: {
+    toPatent(id) {
+      this.$router.push("/patentDisplay/" + id);
+    },
     changeSortOption(value) {
       this.sortOption = value;
       this.currentPage = 1;
@@ -127,7 +133,7 @@ export default {
         url = this.$urlPath.website.searchPatentSortByDate;
       }
       let params = new URLSearchParams();
-      params.append("titleKW", this.wordKW);
+      params.append("titleKW", this.titleKW);
       params.append("abstractKW", this.abstractKW);
       params.append("organizationKW", this.organizationKW);
       params.append("authorKW", this.authorKW);
