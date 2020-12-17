@@ -52,9 +52,9 @@
                 </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn">我要认领</a-button>
-              <a-button class="btn">收藏</a-button>
-              <a-button class="btn" type="primary">分享</a-button>
+              <!-- <a-button class="btn">我要认领</a-button> -->
+              <a-button class="btn" @click="shoucang">收藏</a-button>
+              <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
             <div class="date">
                 <span class="date-num">发表时间： {{date}}</span>
@@ -161,7 +161,7 @@
 <script>
 //引入导航栏
 //import personNav from "@/components/personNav";
-// import { postData } from "@/api/webpost";
+// import { getData } from "@/api/webget";
 import navSearch from "@/components/navSearch";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
@@ -360,11 +360,20 @@ export default {
       //去此人的主页
       this.$router.push("/scholarIndex");
     },
-    changeCollect(){
-      
+    shoucang(){
+      this.$message.success("已收藏");
+      this.$message.success("已取消收藏");
     },
-    share(){
-
+    fenxiang(){
+      var domUrl = document.createElement("input");
+      domUrl.value = window.location.href;
+      domUrl.id = "creatDom";
+      document.body.appendChild(domUrl);
+      domUrl.select(); // 选择对象
+      document.execCommand("Copy"); // 执行浏览器复制命令
+      let creatDom = document.getElementById("creatDom");
+      creatDom.parentNode.removeChild(creatDom);
+      this.$message.success("分享链接已复制");
     },
     getPaper(){
       // let params = new URLSearchParams();

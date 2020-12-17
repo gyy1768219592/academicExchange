@@ -29,7 +29,12 @@ let path = {
     searchPaperSortByDate: Ip.productIP + "scholarship/advancedSearchPaperSortByDate",
     searchPaperSortByCitation: Ip.productIP + "scholarship/advancedSearchPaperSortByCitationCount",
     getProjectById: Ip.productIP + "scholarship/getProjectById/",
+    getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
 
+    //申诉列表
+    getAppeal: Ip.productIP + "message/appeal/all/",
+    updateAppeal: Ip.productIP + "message/appeal/one/", 
+    
     //学者
     getSameNameScholar: Ip.productIP + "scholar/sameName",
     subscribe: Ip.productIP + "scholar/subscribe",
