@@ -124,16 +124,6 @@
                 </a-card-grid>
               </a-card>
             </div>
-            <div class="result-list-pagination">
-              <a-pagination
-                simple
-                :default-current="2"
-                pageSize="6"
-                :total="total"
-                v-model="currentPage"
-                @change="changePage"
-              />
-            </div>
           </div>
         </div>
         <div class = "right-block">

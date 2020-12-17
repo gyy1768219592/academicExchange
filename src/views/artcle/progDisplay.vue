@@ -284,7 +284,7 @@ export default {
       console.log(url);
       getData(url, params).then(res => {
         this.progData = res.data.project;
-        console.log(res.code);
+        console.log(res.data.project);
         if (res.code === 1001) {
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);

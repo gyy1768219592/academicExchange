@@ -350,7 +350,7 @@ export default {
       let url = this.$urlPath.website.getPatentById + this.patentID;
       getData(url, params).then(res => {
         this.patentData = res.data.patent;
-        console.log(res.code);
+        console.log(res.data.patent);
         if (res.code === 1001) {
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
