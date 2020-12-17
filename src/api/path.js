@@ -37,6 +37,7 @@ let path = {
 
     //获取学术成果已认领人员
     getScholarByPaper: Ip.productIP + "scholarship/getWhoClaimIt/",
+
     //申诉列表
     getAppeal: Ip.productIP + "message/admin/appeal/all/",
     updateAppeal: Ip.productIP + "message/admin/appeal/one/", 
@@ -45,15 +46,19 @@ let path = {
     getScholarByID: Ip.productIP + "scholar/dataScholar/",
 
     //通过学者ID查询学者
-    getRealScholarByID: Ip.productIP + "/scholar/admin/Search/",
+    getRealScholarByID: Ip.productIP + "scholar/admin/Search/",
 
     //认退领项目
-    renlingProg: Ip.productIP + "/scholarship/claimProject/",
-    disrenlingProg: Ip.productIP + "/scholarship/backClaimProject/",
+    renlingProg: Ip.productIP + "scholarship/claimProject/",
+    disrenlingProg: Ip.productIP + "scholarship/backClaimProject/",
+    renlingProgAm: Ip.productIP + "scholarship/manageClaimProject/",
+    disrenlingProgAm: Ip.productIP + "scholarship/manageBackClaimProject/",
 
     //认退领专利
-    renlingPatent: Ip.productIP + "/scholarship/claimPatent/",
-    disrenlingPatent: Ip.productIP + "/scholarship/backClaimPatent/",
+    renlingPatent: Ip.productIP + "scholarship/claimPatent/",
+    disrenlingPatent: Ip.productIP + "scholarship/backClaimPatent/",
+    renlingPatentAm: Ip.productIP + "scholarship/manageClaimPatent/",
+    disrenlingPatentAm: Ip.productIP + "scholarship/manageBackClaimPatent/",
 
     //查询项目、专利是否被认领
     haveRenling: Ip.productIP + "scholarship/getHaveClaim/",
