@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import {getData} from "@/api/webget";
+import { getData } from "@/api/webget";
 
 let echarts = require("echarts/lib/echarts");
 require("echarts-wordcloud/dist/echarts-wordcloud.min");
@@ -15,52 +15,12 @@ export default {
     return {
       chart: null,
       chart2: null,
-      cloudData: [
-        {
-          name: "人工智能",
-          value: "999",
-        },
-        {
-          name: "图像处理",
-          value: "888",
-        },
-        {
-          name: "大数据",
-          value: "777",
-        },
-        {
-          name: "高性能计算",
-          value: "688",
-        },
-        {
-          name: "数据挖掘",
-          value: "588",
-        },
-        {
-          name: "分布式系统",
-          value: "516",
-        },
-        {
-          name: "计算机科学理论",
-          value: "515",
-        },
-        {
-          name: "软件工程",
-          value: "462",
-        },
-        {
-          name: "计算机网络",
-          value: "449",
-        },
-        {
-          name: "云计算",
-          value: "429",
-        },
-      ],
+      cloudData: [],
     };
   },
   methods: {
     initChart2() {
+      let that = this;
       this.chart2 = echarts.init(document.getElementById("echart-wordbar"));
       var salvProName = [];
       var salvProValue = [];
@@ -127,6 +87,7 @@ export default {
             return params[0].name + "<br>热度: " + params[0].value;
           },
         },
+        width: "100%",
         xAxis: {
           show: false,
           type: "value",
@@ -258,31 +219,40 @@ export default {
       };
       this.chart2.setOption(option2);
       this.chart2.on("click", function (params) {
-        console.log(params.name);
+        that.$router.push({
+          path: "/searchResult",
+          query: {
+            word: params.name,
+            institution: "",
+            author: "",
+            startDate: "",
+            endDate: "",
+          },
+        });
       });
     },
-    getData () {
-      getData(this.$urlPath.website.getHotFields).then(res => {
+    getData() {
+      getData(this.$urlPath.website.getHotFields).then((res) => {
         if (res.code === 1001) {
-          console.log(res.data)
-          const cloudData = []
-          res.data.forEach(item => {
-            const display = {}
-            display['name'] = item.displayName
-            display['value'] = item.citationCount
-            cloudData.push(display)
-          })
-          this.cloudData = cloudData
-          this.initChart2()
+          console.log(res.data);
+          const cloudData = [];
+          res.data.forEach((item) => {
+            const display = {};
+            display["name"] = item.displayName;
+            display["value"] = item.citationCount;
+            cloudData.push(display);
+          });
+          this.cloudData = cloudData;
+          this.initChart2();
         } else {
-          this.$message.error(res.message)
+          this.$message.error(res.message);
         }
-      })
-    }
+      });
+    },
   },
   mounted() {
-    this.getData()
-  }
+    this.getData();
+  },
 };
 </script>
 
