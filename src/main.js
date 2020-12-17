@@ -20,18 +20,19 @@ Vue.prototype.$urlPath = path;
 Vue.prototype.$md5 = md5;
 
 axios.interceptors.request.use(
-  config => {
-    if (localStorage.getItem('token')) {
-      config.headers.Authorization = localStorage.getItem('token');
+  (config) => {
+    if (localStorage.getItem("token")) {
+      config.headers.Authorization = localStorage.getItem("token");
     }
     return config;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
-  });
+  }
+);
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");
