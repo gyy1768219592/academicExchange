@@ -74,11 +74,7 @@
             <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="item-list-item">
                 <a-list-item-meta
                 :description="
-                    item.author +
-                    ' - ' +
-                    item.journal +
-                    ' - 被引量: ' +
-                    item.citationCount
+                    item.descrble
                 "
                 >
                 <a slot="title" :href="item.href"
@@ -404,7 +400,7 @@ export default {
         }
         console.log(res.code);
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
@@ -433,7 +429,7 @@ export default {
         }
         console.log(res.code);
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
