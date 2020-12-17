@@ -75,7 +75,10 @@
                 </div>
                 <span v-html="item.doi" />
               </div>
-              <a slot="title" class="searchResult-title" :href="item.href"
+              <a
+                slot="title"
+                class="searchResult-title"
+                @click="toPaper(item.paperId)"
                 ><span v-html="item.paperTitle"></span>
               </a>
             </a-list-item-meta>
@@ -142,6 +145,9 @@ export default {
     };
   },
   methods: {
+    toPaper(paperId) {
+      this.$router.push("/paperDisplay/" + paperId);
+    },
     selectDocType(value) {
       this.doctype = value;
       this.currentPage = 1;
