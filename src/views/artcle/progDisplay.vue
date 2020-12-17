@@ -5,10 +5,13 @@
       <div class="up-block">
         <div class="artcle-info">
             <div class="refer-num">
-                <span class="refer-num-dis">{{CitationCount}}被引</span>
+                <span class="refer-num-dis">{{progData.supportTypeName}}({{progData.fundProjectCode}})</span>
             </div>
             <div class="title">
-              <span class="title-name">{{PaperTitle}}</span>
+              <span class="title-name">{{progData.fundProject}}</span>
+            </div>
+            <div class="refer-num1">
+                <span class="refer-num-dis1">{{progData.chineseTitle}}</span>
             </div>
             <div class="authors">
                 <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="author_data">
@@ -16,19 +19,22 @@
                         <div class="author">
                           <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                             <a-avatar class="img" :size="35" icon="user" />
-                            <h1 class="author-name">{{ item.username }}</h1>
+                            <h1 class="author-name">{{ item }}</h1>
                           </a>
                         </div>
                     </a-list-item>
                 </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling">我要认领</a-button>
+              <a-button class="btn" @click="renling">{{renlingchar}}</a-button>
               <a-button class="btn" @click="shoucang">收藏</a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
             <div class="date">
-                <span class="date-num">发表时间： {{date}}</span>
+                <span class="date-num">公布时间： {{progData.publishDate}}</span>
+            </div>
+            <div class="organization">
+                <span class="organization-num">机构：{{progData.organization}}({{progData.organizationID}})</span>
             </div>
         </div>
       </div>
@@ -38,10 +44,10 @@
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
               <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
-              <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
+              <a-descriptions title="领域" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
-                    <span class="Abstract" >{{Abstract}}</span>
+                    <span class="Abstract" >{{progData.fieldName}}{{progData.fieldCode}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
@@ -57,7 +63,7 @@
               <a-descriptions title="DOI" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="DOI-frame">
-                    <span class="DOI" >{{DOI}}</span>
+                    <span class="DOI" >{{progData.doi}}</span>
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
@@ -76,7 +82,7 @@
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
-                  <a :href="SourceUrl">链接</a>
+                  <a :href="progData.doiUrl">链接</a>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
@@ -87,25 +93,13 @@
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
-                    {{progData.organization}}
-                    {{progData.fundProjectCode}}
-                    {{progData.source}}
-                    {{progData.doi}}
-                    {{progData.fieldName}}
-                    {{progData.doiUrl}}
-                    {{progData.zhAbstract}}
-                    {{progData.fundProject}}
-                    {{progData.authors}}
-                    {{progData.fieldCode}}
-                    {{progData.organizationID}}
-                    {{progData.supportTypeName}}
-                    {{progData.chineseTitle}}
-                    {{progData.publishDate}}
-                    {{progData.fundProjectNo}}
-                    {{progData.achievementID}}
-                    {{progData.journal}}
-                    {{progData.productType}}
-                    {{progData.zhKeyword}}
+                    source:{{progData.source}}
+                    zhAbstract:{{progData.zhAbstract}}
+                    fundProjectNo:{{progData.fundProjectNo}}
+                    achievementID:{{progData.achievementID}}
+                    journal:{{progData.journal}}
+                    productType:{{progData.productType}}
+                    zhKeyword:{{progData.zhKeyword}}
                   </span>
                 </div>
               </a-descriptions-item>
@@ -142,6 +136,7 @@
 //import personNav from "@/components/personNav";
 import navSearch from "@/components/navSearch";
 import { getData } from "@/api/webget";
+import { postData } from "@/api/webpost";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
@@ -151,6 +146,8 @@ export default {
   },
   data() {
     return {
+      renlingchar: "我要认领",
+      haveRen: true,
       progID : this.$route.params.id,
       progData : {}
     };
@@ -163,6 +160,7 @@ export default {
   mounted(){
     this.initCharts();
     this.getProg();
+    this.getRenlingStatus();
   },
   methods: {
     initCharts () {
@@ -276,22 +274,40 @@ export default {
       });
       
     },
-    getProg(){
+    getProg(){//haveRenling
       let params = new URLSearchParams();
       params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getProjectById + this.progID;
       console.log(url);
       getData(url, params).then(res => {
-        this.progData = res.data.project;
-        console.log(res.code);
         if (res.code === 1001) {
+          this.progData = res.data.project;
+          this.author_data = this.progData.authors.split("; ");
+          console.log(res.data.project);
+          console.log(this.author_data);
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
           console.log(res.code);
           this.$message.error(res.message);
+        }
+      });
+    },
+    getRenlingStatus(){
+      let params = new URLSearchParams();
+      params.append("projectId", this.progID);
+      let url2 = this.$urlPath.website.haveRenling + "1/" + this.progID;
+      getData(url2, params).then(res => {
+        if (res.code === 1001) {
+          this.haveRen = res.data.haveClaim;
+          if(this.haveRen){
+            this.renlingchar = "我要退领"
+          }
+          console.log(res.code);
+        } else {
+          console.log(res.code);
         }
       });
     },
@@ -309,7 +325,41 @@ export default {
       this.$router.push("/scholarIndex");
     },
     renling(){
-      this.$message.success("我要认领");
+      let params = new URLSearchParams();
+      params.append("projectId", this.progID);
+      //调用封装的postData函数，获取服务器返回值 
+      if(!this.haveRen){
+        let url = this.$urlPath.website.renlingProg + this.progID;
+        console.log(url);
+        postData(url, params).then(res => {
+          if (res.code === 1001) {
+            this.$message.success("认领成功！");
+            this.renlingchar = "我要退领"
+            this.haveRen = true;
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
+      else{
+        let url = this.$urlPath.website.disrenlingProg + this.progID;
+        console.log(url);
+        postData(url, params).then(res => {
+          if (res.code === 1001) {
+            this.$message.success("退领成功！");
+            this.renlingchar = "我要认领"
+            this.haveRen = false;
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
     },
     shoucang(){
       this.$message.success("已收藏");
@@ -400,23 +450,50 @@ export default {
 }
 .refer-num{
   /* border: solid 1px black; */
-  width: 100px;
+  width: 300px;
   height: 25px;
   margin: 10px 10px 10px 10px;
   font-size: small;
 }
 .refer-num-dis{
   /* border: solid 1px black; */
-  width: 100px;
+  width: 300px;
   height: 25px;
   margin: 10px 10px 10px 10px;
+  font-size: large;
+}
+.refer-num1{
+  /* border: solid 1px black; */
+  width: 900px;
+  height: 30px;
+  margin: 10px 10px 10px 10px;
+  font-size: large;
+}
+.refer-num-dis1{
+  /* border: solid 1px black; */
+  width: 900px;
+  height: 30px;
+  margin: 10px 10px 10px 10px;
+  font-size: medium;
+}
+.organization{
+  /* border: solid 1px black; */
+  width: 200px;
+  height: 25px;
+  margin: -25px 0px 0px 700px;
+  font-size: small;
+}
+.organization-num{
+  width: 200px;
+  height: 25px;
+  margin: 10px;
   font-size: medium;
 }
 .date{
   /* border: solid 1px black; */
   width: 200px;
   height: 25px;
-  margin: 50px 0px 0px 0px;
+  margin: 0px 0px 0px 0px;
   font-size: small;
 }
 .date-num{
@@ -598,7 +675,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -170px -105px 10px 10px;
+  margin: -200px -105px 10px 10px;
 }
 .btn {
   width: 100px;
