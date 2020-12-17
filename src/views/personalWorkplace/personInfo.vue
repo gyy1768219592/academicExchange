@@ -24,7 +24,7 @@
               <div style="margin-bottom: 0.5em">
                 <uploadPhoto></uploadPhoto>
               </div>
-              <div style="margin-left: -0.55em" v-show="!this.info.isScholar">
+              <div style="margin-left: -0.55em" :v-show="!this.info.isScholar">
                 <a-button type="primary" @click="() => setModalVisible(true)">
                   学者认证
                 </a-button>
@@ -47,6 +47,26 @@
                               {
                                 required: true,
                                 message: '真实姓名不能为空!',
+                              },
+                            ],
+                          },
+                        ]"
+                      >
+                        <a-icon slot="prefix" type="user" />
+                        <a-tooltip slot="suffix" title="Extra information">
+                        </a-tooltip>
+                      </a-input>
+                    </a-form-item>
+                    <a-form-item has-feedback>
+                      <a-input
+                        placeholder="请输入您的英文名或名字的汉语拼音"
+                        v-decorator="[
+                          'englishname',
+                          {
+                            rules: [
+                              {
+                                required: true,
+                                message: '此处不能为空!',
                               },
                             ],
                           },
@@ -175,7 +195,11 @@ export default {
   },
   data() {
     return {
-      info: [],
+      info: {
+        username: '',
+        email: '',
+        userid: '',
+      },
       showEmail: false,
       showPwd: false,
       modalVisible: false,
@@ -211,6 +235,7 @@ export default {
     verify(values) {
       let params = new URLSearchParams();
       params.append("RealName",values.realname);
+      params.append("EnglishName",values.englishname);
       params.append("OrgEmail",values.email);
       let url = this.$urlPath.website.scholarVerify;
       postData(url, params).then(res => {
@@ -248,6 +273,9 @@ export default {
         this.$router.go(-1);
       }
     },*/
+    toLast() {
+      this.$router.go(-1);
+    },
     toEmail() {
       this.showEmail = !this.showEmail;
     },
@@ -272,8 +300,10 @@ export default {
       let params = new URLSearchParams();
       let url = this.$urlPath.website.getInfo;
       postData(url, params).then(res => {
+        console.log(res);
         if(res.code === 1001) {
           this.info.username = res.data.username;
+          console.log(res.data.username);
           this.info.email = res.data.email;
           this.isScholar = res.data.isScholar;
           this.info.userid = res.data.uid;

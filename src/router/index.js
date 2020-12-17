@@ -90,7 +90,7 @@ const routes = [
   {
     path: "/user/claimScholar",
     name: "claimScholar",
-    component: () => import("../views/personalWorkplace/ClaimScholar.vue")
+    component: () => import("../views/personalWorkplace/claimScholar.vue")
   }
 ];
 
