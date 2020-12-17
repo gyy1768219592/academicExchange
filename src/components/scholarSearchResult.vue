@@ -12,34 +12,71 @@
               <div class="card-list">
                 <a-card>
                   <a-card-grid
-                    style="width: 50%"
+                    style="width: 50%; height: 180px"
                     v-for="(item, index) in scholarList"
                     :key="index"
                   >
                     <div class="card-avatar">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        v-if="item.AvatarUrl != null"
+                        :size="80"
+                        :src="item.AvatarUrl"
+                      />
+                      <a-avatar
+                        v-else
+                        :size="80"
+                        :style="'backgroundColor: #00a2ae'"
+                        >{{ item.Name.substring(0, 3) }}</a-avatar
+                      >
                     </div>
                     <div class="card-info">
-                      <span style="font-size: 16px; font-weight: 600"
-                        >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10">
-                          发表论文：{{ item.paper }}
-                        </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10"
-                          >被引量：{{ item.citation }}</a-col
-                        ></span
-                      ><br />
-                      <span>
-                        <a-col :span="10"
-                          >研究领域：{{ item.field }}</a-col
-                        ></span
+                      <div
+                        style="font-size: 16px; font-weight: 600; height: 30px"
                       >
+                        {{ item.Name }}
+                      </div>
+                      <div
+                        v-if="item.institution != ''"
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.Institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="论文数"
+                          :value="item.PaperCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="被引量"
+                          :value="item.CitationCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="hIndex"
+                          :value="item.hIndex"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 42px">
@@ -68,45 +105,69 @@
               <div class="card-list">
                 <a-card>
                   <a-card-grid
-                    style="width: 50%"
+                    style="width: 50%; height: 180px"
                     v-for="(item, index) in dataScholarList"
                     :key="index"
                   >
                     <div class="card-avatar">
                       <a-avatar
                         :size="80"
-                        :style="'backgroundColor:' + colorList[index]"
-                        >{{ item.displayName }}</a-avatar
+                        :style="'backgroundColor: #00a2ae'"
+                        >{{ item.displayName.substring(0, 3) }}</a-avatar
                       >
                     </div>
                     <div class="card-info">
-                      <span style="font-size: 16px; font-weight: 600"
-                        >{{ item.displayName }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10">
-                          发表论文：{{ item.paperCount }}
-                        </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10"
-                          >被引量：{{ item.citationCount }}</a-col
-                        ></span
-                      ><br />
-                      <span>
-                        <a-col :span="10"
-                          >hIndex：{{ item.hIndex }}</a-col
-                        ></span
+                      <div
+                        style="font-size: 16px; font-weight: 600; height: 30px"
                       >
+                        {{ item.displayName }}
+                      </div>
+                      <div
+                        v-if="item.institution != ''"
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="论文数"
+                          :value="item.paperCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="被引量"
+                          :value="item.citationCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="hIndex"
+                          :value="item.hIndex"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button">
-                      <p style="margin-top: 42px">
+                      <p style="margin-top: 82px">
                         <a-button shape="circle" icon="arrow-right" />
-                      </p>
-                      <p style="margin-top: -5px">
-                        <a-button shape="circle" icon="mail" />
                       </p>
                     </div>
                   </a-card-grid>
@@ -337,5 +398,8 @@ export default {
 .result-list-scholar .result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
+}
+.result-scholar-number {
+  display: inline-block;
 }
 </style>

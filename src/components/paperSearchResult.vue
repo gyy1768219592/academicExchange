@@ -61,10 +61,25 @@
         </a-select>
       </div>
       <div class="result-list">
-        <a-list item-layout="vertical" size="large" :data-source="paperList">
-          <a-list-item slot="renderItem" key="item.paperId" slot-scope="item">
+        <a-list item-layout="vertical" size="large">
+          <a-list-item v-for="(item, index) in paperList" :key="index">
             <a-list-item-meta>
               <div slot="description">
+                <span
+                  v-for="(aitem, aindex) in authorList[index]"
+                  :key="aindex"
+                >
+                  <a
+                    class="result-name"
+                    @click="toScholar(aitem.type, aitem.authorId)"
+                  >
+                    {{ aitem.name }}
+                  </a>
+                  <span v-if="aindex != authorList[index].length - 1">
+                    &nbsp;,</span
+                  >
+                </span>
+
                 <div v-if="item.doctype == 'Journal'">
                   <span v-html="item.journal" /> - <span v-html="item.date" /> -
                   被引量:{{ item.citationCount }}
@@ -109,6 +124,7 @@ export default {
       currentPage: 1,
       total: 0,
       paperList: [],
+      authorList: [],
       selectedKey: [],
       paperTypeOptions: [
         {
@@ -194,13 +210,18 @@ export default {
       getData(url, params).then((res) => {
         if (res.code === 1001) {
           this.paperList = res.data.paperList;
+          this.authorList = res.data.author;
           this.total = res.data.total;
-          console.log(this.paperList);
+          console.log(res.data);
         } else {
           console.log(res.code);
           this.$message.error("服务器返回出错");
         }
       });
+    },
+    toScholar(type, id) {
+      alert(type);
+      alert(id);
     },
     clearSelectedKey() {
       this.selectedKey = [];
@@ -297,6 +318,14 @@ export default {
 }
 .highlight {
   color: #de5f0d;
+}
+.result-name {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6);
+}
+.result-name:hover {
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: underline;
 }
 .searchResult-abstract {
   height: 40px;
