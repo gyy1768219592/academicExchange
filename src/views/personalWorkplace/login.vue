@@ -100,6 +100,8 @@ export default {
         //console.log(res);
         if (res.code === 1001) {
           this.$message.success("登录成功");
+          window.localStorage.setItem("avatarUrl",res.data.avatar);
+          window.localStorage.setItem("identification",res.data.identification);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           //const webAdrs = window.sessionStorage.getItem("WebAdrs");
           /*if (webAdrs) {

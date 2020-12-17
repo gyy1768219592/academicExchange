@@ -91,6 +91,11 @@ const routes = [
     path: "/user/claimScholar",
     name: "claimScholar",
     component: () => import("../views/personalWorkplace/claimScholar.vue")
+  },
+  {
+    path: "/appealTest",
+    name: "appealTest",
+    component: () => import("../views/appeal/appealTest.vue")
   }
 ];
 
