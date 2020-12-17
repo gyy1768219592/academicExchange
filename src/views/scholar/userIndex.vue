@@ -6,20 +6,20 @@
         <div class="user-info">
           <div class="avatar">
             <a-avatar class="img" :size="100" icon="user" />
-            <h1 class="info-content-name">{{ user.username }}</h1>
-            <h4 class="info-content-ins">{{ user.ins }}</h4>
+            <h1 class="info-content-name">{{ scholar.name }}</h1>
+            <h4 class="info-content-ins">{{ scholar.organization }}</h4>
             <ul class="index-table">
               <li class="index-item">
                 <p class="top-word">H指数</p>
-                <p class="index-number">{{ user.hindex }}</p>
+                <p class="index-number">{{ scholar.hindex }}</p>
               </li>
               <li class="index-item">
                 <p class="top-word">G指数</p>
-                <p class="index-number">{{ user.gindex }}</p>
+                <p class="index-number">{{ scholar.gindex }}</p>
               </li>
               <li class="index-item">
                 <p class="top-word">成果数</p>
-                <p class="index-number">{{ count }}</p>
+                <p class="index-number">{{ scholar.citations }}</p>
               </li>
             </ul>
           </div>
@@ -37,17 +37,34 @@
               cancel-text="取消"
               @ok="hideManageModal"
             >
-              <a-list item-layout="horizontal" :data-source="authors">
-                <a-list-item slot="renderItem" slot-scope="item, index">
-                  <a slot="actions" @click="saveScholar(index)" v-if="item.con">认领</a>
-                  <a slot="actions" @click="deleteScholar(index)" v-if="!item.con">退领</a>
-                  <a-list-item-meta :description="item.lastKnownAffiliationId">
-                    <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
+              <div v-if="isDelete">
+                <a-button type="default" @click="changePage">认领同名门户</a-button>
+                <a-list item-layout="horizontal" :data-source="gotSList">
+                  <a-list-item slot="renderItem" slot-scope="item, index">
+                    <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarid == -1">认领</a>
+                    <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
+                    <a-list-item-meta :description="item.lastKnownAffiliationId">
+                      <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
 
-                    <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                  </a-list-item-meta>
-                </a-list-item>
-              </a-list>
+                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                    </a-list-item-meta>
+                  </a-list-item>
+                </a-list>
+              </div>
+              <div v-else>
+                <a-button type="default" @click="changePage">退领已认领门户</a-button>
+                <a-list item-layout="horizontal" :data-source="sameNameSlist">
+                  <a-list-item slot="renderItem" slot-scope="item, index">
+                    <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarId === -1">认领</a>
+                    <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
+                    <a-list-item-meta :description="item.lastKnownAffiliationId">
+                      <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
+
+                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                    </a-list-item-meta>
+                  </a-list-item>
+                </a-list>
+              </div>
             </a-modal>
           </div>
           <div class="info-modal">
@@ -63,17 +80,14 @@
                 <a-form-model-item label="学者姓名" prop="scholarname">
                   <a-input v-model="form.scholarname" />
                 </a-form-model-item>
-                <a-form-model-item v-model="form.email" label="邮箱" prop="email">
-                  <a-input />
+                <a-form-model-item label="邮箱" prop="email">
+                  <a-input v-model="form.email" />
                 </a-form-model-item>
                 <a-form-model-item label="工作机构" prop="instituition">
                   <a-input v-model="form.instituition" />
                 </a-form-model-item>
                 <a-form-model-item label="职务/身份" prop="position">
                   <a-input v-model="form.position" />
-                </a-form-model-item>
-                <a-form-model-item label="微信号" prop="wechatNumber">
-                  <a-input v-model="form.wechatNumber" />
                 </a-form-model-item>
                 <a-form-item label="个人简介" prop="intro">
                   <a-textarea v-model="form.intro" placeholder :rows="4" />
@@ -129,10 +143,10 @@
             </div>
             <div class="experience">
               <a-timeline>
-                <a-timeline-item v-for="(item, i) in user.experience" :key="i" :color="i == 0 ? 'blue' : 'gray'">
+                <a-timeline-item v-for="(item, i) in workExperience" :key="i" :color="i == 0 ? 'blue' : 'gray'">
                   <div>
-                    <p>{{ item.startyear }} - {{ item.endyear }}</p>
-                    <p>{{ item.organization }} - {{ item.position }}</p>
+                    <p>{{ item.yearStart }} - {{ item.yearEnd }}</p>
+                    <p>{{ item.organization }} - {{ item.introduction }}</p>
                   </div>
                 </a-timeline-item>
               </a-timeline>
@@ -141,7 +155,10 @@
           <a-tab-pane key="2" tab="项目">
             <scholarProject :scholarid="scholarid"></scholarProject>
           </a-tab-pane>
-          <a-tab-pane key="3" tab="成果">
+          <a-tab-pane key="3" tab="专利">
+            <scholarPatent :scholarid="scholarid"></scholarPatent>
+          </a-tab-pane>
+          <a-tab-pane key="4" tab="成果">
             <div>
               <scholarPaper :scholarid="scholarid"></scholarPaper>
             </div>
@@ -161,6 +178,7 @@ import { deleteData } from "@/api/webdelete";
 import navSearch from "@/components/navSearch";
 import scholarPaper from "@/components/scholarPaper.vue";
 import scholarProject from "@/components/scholarProject.vue";
+import scholarPatent from "@/components/scholarPatent.vue";
 const data = [
   {
     title: "成果 1",
@@ -236,6 +254,7 @@ export default {
     navSearch,
     scholarPaper,
     scholarProject,
+    scholarPatent,
   },
   data() {
     return {
@@ -246,6 +265,7 @@ export default {
       visible: false,
       loginid: 0,
       pageid: 0,
+      isDelete: true,
       current: ["mail"],
       openKeys: ["sub1"],
       user: {
@@ -281,56 +301,48 @@ export default {
           },
         ],
       },
-      scholarid: 1,
+      scholarid: 13,
+      userid: 18,
       scholar: {
-        scholarid: 0,
-        name: "",
-        englishName: "",
+        scholarid: 13,
+        name: "路路路",
+        englishName: "lululu",
         title: "",
         organization: "",
         email: "",
-        phone: "",
         fans: 0,
         introduction: "",
+        hindex: 0,
+        gindex: 0,
+        avatarUrl: "",
+        citations: 0,
       },
       coAuthors: {},
       workExperience: [],
       crtexperience: {
         position: "",
         organization: "",
-        startyear: "",
-        endyear: "",
+        startyear: null,
+        endyear: null,
       },
       sameNameSlist: [],
+      gotSList: [],
       pos: 0, //从此处开始为同名已认领门户
       count: 10,
       labelCol: { span: 8 },
       wrapperCol: { span: 12 },
       form: {
         email: "470935458@qq.com",
-        wechatNumber: "13611793768",
         position: "教授",
         scholarname: "陈志刚",
         instituition: "中南大学",
         intro: "哈哈哈哈哈",
       },
       rules: {
-        intro: [{ required: true, message: "Introduce is required!", trigger: "blur" }],
-        scholarname: [
-          { required: true, message: "Username is required!" },
-          { min: 2, message: "学者姓名长度大于2", trigger: "blur" },
-        ],
-        email: [
-          {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
-          {
-            required: true,
-            message: "Please input your E-mail!",
-          },
-        ],
-        wechatNumber: [{ required: true, message: "wechatNumber is required!", trigger: "change" }],
+        position: [{ required: true, message: "Title is required!" }],
+        instituition: [{ required: true, message: "Instituition is required!" }],
+        scholarname: [{ required: true, message: "Username is required!" }],
+        email: [{ required: true, message: "Please input your E-mail!" }],
       },
     };
   },
@@ -338,9 +350,18 @@ export default {
     this.initEchart();
     this.drawLine();
     this.getScholarInfo();
+    this.getDataPortal();
     this.getSameNameScholar();
   },
   methods: {
+    changePage() {
+      this.isDelete = !this.isDelete;
+      if (this.isDelete) {
+        this.getDataPortal();
+      } else {
+        this.getSameNameScholar();
+      }
+    },
     initEchart() {
       let myChart = this.$echarts.init(document.getElementById("relation"));
       let option = {
@@ -511,6 +532,7 @@ export default {
       this.manageVisible = false;
     },
     handleOk() {
+      this.addWorkExp();
       this.visible = false;
     },
     handleCancel() {
@@ -528,22 +550,11 @@ export default {
     callback(key) {
       console.log(key);
     },
-    toPro() {
-      //跳转到项目展示页面，带参数
-      // this.$router.push("/Pro");
-    },
-    toPaper() {
-      //跳转到项目文献页面，带参数
-      // this.$router.push("/Paper");
-    },
-    toPatent() {
-      //跳转到专利展示页面，带参数
-      // this.$router.push("/Patent");
-    },
     onSubmit() {
       this.$refs.ruleForm.validate((valid) => {
         if (valid) {
           alert("submit!");
+          this.editScholarInfo();
         } else {
           console.log("error submit!!");
           return false;
@@ -554,29 +565,42 @@ export default {
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
 
-    saveScholar(index) {
-      this.postScholar(index);
-    },
-    deleteScholar(index) {
-      this.eraseScholar(index);
-    },
-    postScholar() {
-      console.log("post");
-    },
-    eraseScholar() {
-      console.log("erase");
-    },
     //获取同名数据库门户
     getSameNameScholar() {
       let url = this.$urlPath.website.getSameNameScholar;
-      getData(url + "/ji gedi").then((res) => {
+      getData(url + "/" + this.scholar.englishName + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.sameNameSlist = res.data.datascholars;
+          this.sameNameSlist = res.data.dataScholar;
           this.pos = res.data.pos;
+          this.sameNameSlist.map((item, index) => {
+            console.log(index, res.data.instituition[index]);
+            item.lastKnownAffiliationId = res.data.instituition.get(index);
+
+            return item;
+          });
           console.log(this.sameNameSlist);
           console.log(this.pos);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //获取已认领数据库门户
+    getDataPortal() {
+      let url = this.$urlPath.website.getDataPortal;
+      let params = {
+        scholarId: this.scholarid,
+      };
+      JSON.stringify(params);
+      getData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.gotSList = res.data.datascholars;
+          console.log("获取成功");
         } else {
           this.$message.error(res.message);
         }
@@ -584,18 +608,22 @@ export default {
     },
 
     //认领数据库门户
-    claimDataPortal() {
+    claimDataPortal(index) {
       let params = new URLSearchParams();
-      params.append("UserName", "ji gedi");
       let url = this.$urlPath.website.claimDataPortal;
-      postData(url + params).then((res) => {
+      params.append("scholarId", 13);
+      params.append("authorId", this.sameNameSlist[index].authorId);
+      // let params = {
+      //   scholarId: 1,
+      //   authorId: this.sameNameSlist[index].authorId,
+      // };
+      // JSON.stringify(params);
+      console.log(params);
+      postData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.sameNameSlist = res.data.datascholars;
-          this.pos = res.data.pos;
-          console.log(this.sameNameSlist);
-          console.log(this.pos);
+          console.log("认领成功");
         } else {
           this.$message.error(res.message);
         }
@@ -603,18 +631,15 @@ export default {
     },
 
     //退领数据库门户
-    undoClaimDataPortal() {
-      let params = new URLSearchParams();
-      params.append("UserName", "ji gedi");
+    undoClaimDataPortal(index) {
+      console.log(index);
+      let authorid = this.gotSList[index].authorid;
       let url = this.$urlPath.website.undoClaimDataPortal;
-      deleteData(url + params).then((res) => {
+      deleteData(url + "/" + this.scholarid + "/" + authorid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.sameNameSlist = res.data.datascholars;
-          this.pos = res.data.pos;
-          console.log(this.sameNameSlist);
-          console.log(this.pos);
+          console.log("退领成功");
         } else {
           this.$message.error(res.message);
         }
@@ -623,17 +648,20 @@ export default {
 
     //修改学者信息
     editScholarInfo() {
-      let params = new URLSearchParams();
-      params.append("UserName", "ji gedi");
+      let params = {
+        name: this.form.scholarname,
+        email: this.form.email,
+        title: this.form.position,
+        introduction: this.form.intro,
+        instituition: this.form.instituition,
+      };
+      JSON.stringify(params);
       let url = this.$urlPath.website.editScholarInfo;
-      putData(url + params).then((res) => {
+      putData(url + "/" + this.scholarid, params).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.sameNameSlist = res.data.datascholars;
-          this.pos = res.data.pos;
-          console.log(this.sameNameSlist);
-          console.log(this.pos);
+          console.log("修改成功");
         } else {
           this.$message.error(res.message);
         }
@@ -643,13 +671,59 @@ export default {
     //获取学者信息
     getScholarInfo() {
       let url = this.$urlPath.website.getScholarInfo;
-      getData(url + this.scholar.scholarid).then((res) => {
+      getData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           this.scholar = res.data.scholar;
           this.workExperience = res.data.workExperience;
           console.log(this.scholar);
+          console.log(this.this.workExperience);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //添加学者工作经历
+    addWorkExp() {
+      let url = this.$urlPath.website.addWorkExp;
+      let params = {
+        scholarId: this.scholarid,
+        introduction: this.crtexperience.position,
+        organization: this.crtexperience.organization,
+        yearStart: this.crtexperience.startyear,
+        yearEnd: this.crtexperience.endyear,
+      };
+      JSON.stringify(params);
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          console.log(this.this.workExperience);
+          this.getScholarInfo();
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+
+    //删除学者工作经历
+    deleteWorkExp() {
+      let url = this.$urlPath.website.deleteWorkExp;
+      let params = {
+        scholarId: this.scholarid,
+        introduction: this.crtexperience.position,
+        organization: this.crtexperience.organization,
+        yearStart: this.crtexperience.startyear,
+        yearEnd: this.crtexperience.endyear,
+      };
+      JSON.stringify(params);
+      console.log(params);
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
           console.log(this.this.workExperience);
         } else {
           this.$message.error(res.message);
