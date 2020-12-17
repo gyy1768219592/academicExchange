@@ -49,7 +49,7 @@
                 </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling">我要认领</a-button>
+              <a-button class="btn" @click="renling">{{renlingchar}}</a-button>
               <a-button class="btn" @click="shoucang">收藏</a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
@@ -187,6 +187,8 @@ export default {
   },
   data() {
     return {
+      renlingchar: "我要认领",
+      haveRen: true,
       patentID: this.$route.params.id,
       patentData : {}
     }
@@ -199,6 +201,7 @@ export default {
   mounted(){
     this.initCharts();
     this.getPatent();
+    this.getRenlingStatus();
   },
   methods: {
     initCharts () {
@@ -330,18 +333,38 @@ export default {
       let params = new URLSearchParams();
       params.append("projectId", this.patentID);
       //调用封装的postData函数，获取服务器返回值 
-      let url = this.$urlPath.website.renlingPatent + this.patentID;
-      console.log(url);
-      postData(url, params).then(res => {
-        if (res.code === 1001) {
-          this.$message.success(res.message);
-          //window.sessionStorage.setItem("UserId", res.data.userid);
-          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
-        } else {
-          console.log(res.code);
-          this.$message.error(res.message);
-        }
-      });
+      if(!this.haveRen){
+        let url = this.$urlPath.website.renlingPatent + this.patentID;
+        console.log(url);
+        postData(url, params).then(res => {
+          if (res.code === 1001) {
+            this.$message.success("认领成功！");
+            this.renlingchar = "我要退领"
+            this.haveRen = true;
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
+      else{
+        let url = this.$urlPath.website.disrenlingPatent + this.patentID;
+        console.log(url);
+        postData(url, params).then(res => {
+          if (res.code === 1001) {
+            this.$message.success("退领成功！");
+            this.renlingchar = "我要认领"
+            this.haveRen = false;
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
     },
     shoucang(){
       this.$message.success("已收藏");
@@ -373,6 +396,22 @@ export default {
         } else {
           console.log(res.code);
           this.$message.error(res.message);
+        }
+      });
+    },
+    getRenlingStatus(){
+      let params = new URLSearchParams();
+      params.append("patentID", this.patentID);
+      let url2 = this.$urlPath.website.haveRenling + "2/" + this.patentID;
+      getData(url2, params).then(res => {
+        if (res.code === 1001) {
+          this.haveRen = res.data.haveClaim;
+          if(this.haveRen){
+            this.renlingchar = "我要退领"
+          }
+          console.log(res.code);
+        } else {
+          console.log(res.code);
         }
       });
     },
