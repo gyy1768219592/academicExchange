@@ -4,6 +4,8 @@
   </div>
 </template>
 <script>
+import {getData} from "@/api/webget";
+
 let echarts = require("echarts/lib/echarts");
 require("echarts-wordcloud/dist/echarts-wordcloud.min");
 require("echarts/lib/chart/bar");
@@ -259,10 +261,28 @@ export default {
         console.log(params.name);
       });
     },
+    getData () {
+      getData(this.$urlPath.website.getHotFields).then(res => {
+        if (res.code === 1001) {
+          console.log(res.data)
+          const cloudData = []
+          res.data.forEach(item => {
+            const display = {}
+            display['name'] = item.displayName
+            display['value'] = item.citationCount
+            cloudData.push(display)
+          })
+          this.cloudData = cloudData
+          this.initChart2()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    }
   },
   mounted() {
-    this.initChart2();
-  },
+    this.getData()
+  }
 };
 </script>
 

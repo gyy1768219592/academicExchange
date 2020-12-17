@@ -3,7 +3,7 @@
 </template>
 <script>
 export default {
-    
+    name: "ClaimScholar"
 }
 </script>
 <style scoped>
