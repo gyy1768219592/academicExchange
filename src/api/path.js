@@ -38,8 +38,6 @@ let path = {
     updateAppeal: Ip.productIP + "message/appeal/one/",
     getHotFields: Ip.productIP + "scholarship/hotFields/",
 
-
-
     //通过id获取数据库门户信息
     getScholarByID: Ip.productIP + "scholar/dataScholar/",
 
@@ -61,10 +59,13 @@ let path = {
     getSameNameScholar: Ip.productIP + "scholar/sameName",
     subscribe: Ip.productIP + "scholar/subscribe",
     undoSubscribe: Ip.productIP + "scholar/subscribe",
-    getScholarInfo: Ip.productIP + "scholar",
-    editScholarInfo: Ip.productIP + "scholar",
-    claimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
-    undoClaimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
+    getScholarInfo: Ip.productIP + "scholar/info",
+    editScholarInfo: Ip.productIP + "scholar/infoUpdate",
+    claimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
+    undoClaimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
+    getDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
+    addWorkExp: Ip.productIP + "scholar/workExperience",
+    deleteWorkExp: Ip.productIP + "scholar/workExperience",
   },
 };
 export default path;
