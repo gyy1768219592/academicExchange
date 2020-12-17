@@ -84,6 +84,9 @@
                 <div class="abstract">{{ item.abstract }}</div>
             </a-list-item>
           </a-list>
+          <div class="topbar">
+            <span style="margin-left: 20px"> 已经认领的学者门户</span>
+          </div>
           <div class="result-list-scholar">
             <div class="card-list">
               <a-card>
@@ -124,16 +127,6 @@
                 </a-card-grid>
               </a-card>
             </div>
-            <div class="result-list-pagination">
-              <a-pagination
-                simple
-                :default-current="2"
-                pageSize="6"
-                :total="total"
-                v-model="currentPage"
-                @change="changePage"
-              />
-            </div>
           </div>
         </div>
         <div class = "right-block">
@@ -148,7 +141,7 @@
           </div>
           <div class="result-main-scholar">
             <div class="topbar">
-              <span style="margin-left: 20px"> 检索到{{ total }}个学者门户</span>
+              <span style="margin-left: 20px"> 检索到的学者门户</span>
             </div>
             <div class="result-list-scholar">
               <div class="card-list">
@@ -189,16 +182,6 @@
                     </div>
                   </a-card-grid>
                 </a-card>
-              </div>
-              <div class="result-list-pagination">
-                <a-pagination
-                  simple
-                  :default-current="2"
-                  pageSize="6"
-                  :total="total"
-                  v-model="currentPage"
-                  @change="changePage"
-                />
               </div>
             </div>
           </div>
@@ -266,43 +249,6 @@ export default {
           },
         ],
         AuthorList2: [
-          {
-            name: "张帆",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "华中科技大学同济医学院附属同济医院",
-            paper: 4349,
-            citation: 70957,
-            field: "肿瘤学",
-          },
-          {
-            name: "张立群",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "北京化工大学",
-            paper: 695,
-            citation: 10067,
-            field: "工业催化",
-          },
-          {
-            name: "张鹏",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "郑州大学第一附属医院",
-            paper: 86,
-            citation: 200,
-            field: "肿瘤学",
-          },
-          {
-            name: "张磊",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "中国电子科技集团公司",
-            paper: 2148,
-            citation: 16081,
-            field: "通信与信息系统",
-          },
-
           {
             name: "张庆玲",
             src:
@@ -446,19 +392,19 @@ export default {
 .left-block{
   width: 33%;
   height: 1350px;
-  /* border: solid 1px black; */
+  border: solid 1px white;
 }
 .middle-block{
   width: 34%;
   height: 1350px;
-  /* border: solid 1px black; */
+  border: solid 1px white;
   margin: -1350px 0px 0px 33%;
 }
 .right-block{
   width: 33%;
   height: 1350px;
   margin: -1350px 0px 0px 67%;
-  /* border: solid 1px black; */
+  border: solid 1px white;
 }
 .result-main-scholar .topbar {
   width: 100%;

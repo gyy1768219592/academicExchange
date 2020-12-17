@@ -10,10 +10,6 @@
             <h4 class="info-content-ins">{{ user.ins }}</h4>
             <ul class="index-table">
               <li class="index-item">
-                <p class="top-word">H指数</p>
-                <p class="index-number">{{ user.hindex }}</p>
-              </li>
-              <li class="index-item">
                 <p class="top-word">G指数</p>
                 <p class="index-number">{{ user.gindex }}</p>
               </li>

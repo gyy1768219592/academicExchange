@@ -19,7 +19,7 @@ let path = {
     userVerify: Ip.productIP + "user/verify",
     scholarVerify: Ip.productIP + "user/toBeScholar",
     getInfo: Ip.productIP + "user/getInfo",
-    
+
     //检索
     searchProject: Ip.productIP + "scholarship/advancedSearchProject",
     searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",
@@ -30,11 +30,33 @@ let path = {
     searchPaperSortByCitation: Ip.productIP + "scholarship/advancedSearchPaperSortByCitationCount",
     getProjectById: Ip.productIP + "scholarship/getProjectById/",
     getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
+    searchDataScholar: Ip.productIP + "scholar/SearchDataScholar",
+    searchScholar: Ip.productIP + "scholar/Search",
 
     //申诉列表
     getAppeal: Ip.productIP + "message/appeal/all/",
-    updateAppeal: Ip.productIP + "message/appeal/one/", 
-    
+    updateAppeal: Ip.productIP + "message/appeal/one/",
+    getHotFields: Ip.productIP + "scholarship/hotFields/",
+
+
+
+    //通过id获取数据库门户信息
+    getScholarByID: Ip.productIP + "scholar/dataScholar/",
+
+    //通过学者ID查询学者
+    getRealScholarByID: Ip.productIP + "/scholar/admin/Search/",
+
+    //认退领项目
+    renlingProg: Ip.productIP + "/scholarship/claimProject/",
+    disrenlingProg: Ip.productIP + "/scholarship/backClaimProject/",
+
+    //认退领专利
+    renlingPatent: Ip.productIP + "/scholarship/claimPatent/",
+    disrenlingPatent: Ip.productIP + "/scholarship/backClaimPatent/",
+
+    //查询项目、专利是否被认领
+    haveRenling: Ip.productIP + "scholarship/getHaveClaim/",
+
     //学者
     getSameNameScholar: Ip.productIP + "scholar/sameName",
     subscribe: Ip.productIP + "scholar/subscribe",

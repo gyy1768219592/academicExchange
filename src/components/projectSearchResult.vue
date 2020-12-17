@@ -61,7 +61,10 @@
                 />》<br />
                 <span v-html="item.zhKeyword" />
               </div>
-              <a class="searchResult-title" slot="title" :href="item.href"
+              <a
+                class="searchResult-title"
+                slot="title"
+                @click="toProject(item.projectId)"
                 ><span v-html="item.chineseTitle"></span>
               </a>
             </a-list-item-meta>
@@ -113,6 +116,9 @@ export default {
     };
   },
   methods: {
+    toProject(id) {
+      this.$router.push("/progDisplay/" + id);
+    },
     changeSortOption(value) {
       this.sortOption = value;
       this.currentPage = 1;
