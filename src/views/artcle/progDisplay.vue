@@ -146,6 +146,9 @@ export default {
   },
   data() {
     return {
+      canClaim: false,
+      nowClaimNumber: -1,
+      maxClaimNumber: -1,
       renlingchar: "我要认领",
       haveRen: true,
       progID : this.$route.params.id,
@@ -161,6 +164,7 @@ export default {
     this.initCharts();
     this.getProg();
     this.getRenlingStatus();
+    this.checkrenling();
   },
   methods: {
     initCharts () {
@@ -324,25 +328,53 @@ export default {
       //去此人的主页
       this.$router.push("/scholarIndex");
     },
+    checkrenling(){
+      let params = new URLSearchParams();
+      params.append("projectId", this.progID);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.checkNum + "1/" + this.progID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.canClaim = res.data.canClaim;
+          this.nowClaimNumber= res.data.nowClaimNumber;
+          this.maxClaimNumber= res.data.maxClaimNumber;
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+    },
     renling(){
       let params = new URLSearchParams();
       params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
       if(!this.haveRen){
-        let url = this.$urlPath.website.renlingProg + this.progID;
-        console.log(url);
-        postData(url, params).then(res => {
-          if (res.code === 1001) {
-            this.$message.success("认领成功！");
-            this.renlingchar = "我要退领"
-            this.haveRen = true;
-            //window.sessionStorage.setItem("UserId", res.data.userid);
-            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
-          } else {
-            console.log(res.code);
-            this.$message.error(res.message);
-          }
-        });
+        if(this.canClaim){
+          let url = this.$urlPath.website.renlingProg + this.progID;
+          console.log(url);
+          postData(url, params).then(res => {
+            if (res.code === 1001) {
+              this.$message.success("认领成功！");
+              this.renlingchar = "我要退领"
+              this.haveRen = true;
+              this.nowClaimNumber ++;
+              if(this.nowClaimNumber>=this.maxClaimNumber){
+                this.canClaim = false;
+              }
+              //window.sessionStorage.setItem("UserId", res.data.userid);
+              // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+            } else {
+              console.log(res.code);
+              this.$message.error(res.message);
+            }
+          });
+        }
+        else{
+          this.$message.error("名额已满，不能认领");
+        }
       }
       else{
         let url = this.$urlPath.website.disrenlingProg + this.progID;
@@ -352,6 +384,10 @@ export default {
             this.$message.success("退领成功！");
             this.renlingchar = "我要认领"
             this.haveRen = false;
+            this.nowClaimNumber --;
+            if(this.nowClaimNumber<this.maxClaimNumber){
+              this.canClaim = true;
+            }
             //window.sessionStorage.setItem("UserId", res.data.userid);
             // const webAdrs = window.sessionStorage.getItem("WebAdrs");
           } else {

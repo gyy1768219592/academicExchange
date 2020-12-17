@@ -63,6 +63,9 @@ let path = {
     renlingPatentAm: Ip.productIP + "scholarship/manageClaimPatent/",
     disrenlingPatentAm: Ip.productIP + "scholarship/manageBackClaimPatent/",
 
+    //查询项目、专利认领限额
+    checkNum: Ip.productIP + "scholarship/getClaimNumber/",
+
     //查询项目、专利是否被认领
     haveRenling: Ip.productIP + "scholarship/getHaveClaim/",
 
