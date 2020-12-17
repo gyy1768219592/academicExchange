@@ -105,7 +105,7 @@
             </a-menu-item>
             <a-menu-divider />
             <a-menu-item>
-              <a href="#/">退出登录</a>
+              <a @click="logout()">退出登录</a>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
@@ -208,6 +208,16 @@ export default {
     toLogin() {
       this.$router.push("/login");
     },
+    logout() {
+      this.isLogin = false;
+      localStorage.removeItem("token");
+      this.$forceUpdate();
+    },
+  },
+  created() {
+    if (localStorage.getItem("token")) {
+      this.isLogin = true;
+    }
   },
 };
 </script>

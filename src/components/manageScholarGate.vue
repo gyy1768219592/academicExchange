@@ -14,7 +14,7 @@
           </div>
           <div class="result-main-scholar">
             <div class="topbar">
-              <span style="margin-left: 60px"> 检索到{{ total }}个学者门户</span>
+              <span style="margin-left: 20px"> 检索到的学者门户</span>
             </div>
             <div class="result-list-scholar">
               <div class="card-list">
@@ -40,7 +40,7 @@
                         ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                       ><br />
                       <span>
-                        <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                        <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
                     </div>
                     <div class="card-button">
@@ -49,22 +49,12 @@
                           <template slot="title">
                             管理学者门户
                           </template>
-                          <a-button shape="circle" icon="setting" @click="changeMain(key)"/>
+                          <a-button shape="circle" icon="setting" @click="changeMain(key,item)"/>
                         </a-tooltip>
                       </p>
                     </div>
                   </a-card-grid>
                 </a-card>
-              </div>
-              <div class="result-list-pagination">
-                <a-pagination
-                  simple
-                  :default-current="2"
-                  pageSize="6"
-                  :total="total"
-                  v-model="currentPage"
-                  @change="changePage"
-                />
               </div>
             </div>
           </div>
@@ -94,12 +84,15 @@
                       ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                     ><br />
                     <span>
-                      <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
                   </div>
                 </a-card-grid>
               </a-card>
             </div>
+          </div>
+          <div class="topbar">
+            <span style="margin-left: 20px"> 下属的数据库门户</span>
           </div>
           <div class="result-list-scholar">
             <div class="card-list">
@@ -125,7 +118,7 @@
                       ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                     ><br />
                     <span>
-                      <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
                   </div>
                   <div class="card-button" @click="deleteScholar(key)">
@@ -141,16 +134,6 @@
                 </a-card-grid>
               </a-card>
             </div>
-            <div class="result-list-pagination">
-              <a-pagination
-                simple
-                :default-current="2"
-                pageSize="6"
-                :total="total"
-                v-model="currentPage"
-                @change="changePage"
-              />
-            </div>
           </div>
         </div>
         <div class = "right-block">
@@ -165,7 +148,7 @@
           </div>
           <div class="result-main-scholar">
             <div class="topbar">
-              <span style="margin-left: 60px"> 检索到{{ total }}个数据库门户</span>
+              <span style="margin-left: 20px"> 检索到的数据库门户</span>
             </div>
             <div class="result-list-scholar">
               <div class="card-list">
@@ -191,7 +174,7 @@
                         ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                       ><br />
                       <span>
-                        <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                        <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
                     </div>
                     <div class="card-button" @click="addScholar(key)">
@@ -207,16 +190,6 @@
                   </a-card-grid>
                 </a-card>
               </div>
-              <div class="result-list-pagination">
-                <a-pagination
-                  simple
-                  :default-current="2"
-                  pageSize="6"
-                  :total="total"
-                  v-model="currentPage"
-                  @change="changePage"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -226,6 +199,7 @@
   </div>
 </template>
 <script>
+import { getData } from "@/api/webget";
 export default {
   data() {
     return {
@@ -244,66 +218,11 @@ export default {
           institution: "华中科技大学同济医学院附属同济医院",
           paper: 4349,
           citation: 70957,
-          field: "肿瘤学",
+          Hindex: "肿瘤学",
         },  
       ],
       scholarList:{
-        scholarList1: [
-          {
-            name: "张帆",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "华中科技大学同济医学院附属同济医院",
-            paper: 4349,
-            citation: 70957,
-            field: "肿瘤学",
-          },
-          {
-            name: "张立群",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "北京化工大学",
-            paper: 695,
-            citation: 10067,
-            field: "工业催化",
-          },
-          {
-            name: "张鹏",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "郑州大学第一附属医院",
-            paper: 86,
-            citation: 200,
-            field: "肿瘤学",
-          },
-          {
-            name: "张磊",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "中国电子科技集团公司",
-            paper: 2148,
-            citation: 16081,
-            field: "通信与信息系统",
-          },
-          {
-            name: "张庆玲",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "东北大学理学院",
-            paper: 1360,
-            citation: 18959,
-            field: "系统工程",
-          },
-          {
-            name: "张波",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-            paper: 1843,
-            citation: 10602,
-            field: "电路系统",
-          },
-        ],
+        scholarList1: [],
         scholarList2: [
           {
             name: "张帆",
@@ -312,7 +231,7 @@ export default {
             institution: "华中科技大学同济医学院附属同济医院",
             paper: 4349,
             citation: 70957,
-            field: "肿瘤学",
+            Hindex: "肿瘤学",
           },
           {
             name: "张立群",
@@ -321,7 +240,7 @@ export default {
             institution: "北京化工大学",
             paper: 695,
             citation: 10067,
-            field: "工业催化",
+            Hindex: "工业催化",
           },
           {
             name: "张鹏",
@@ -330,100 +249,48 @@ export default {
             institution: "郑州大学第一附属医院",
             paper: 86,
             citation: 200,
-            field: "肿瘤学",
-          },
-          {
-            name: "张磊",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "中国电子科技集团公司",
-            paper: 2148,
-            citation: 16081,
-            field: "通信与信息系统",
-          },
-          {
-            name: "张庆玲",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "东北大学理学院",
-            paper: 1360,
-            citation: 18959,
-            field: "系统工程",
-          },
-          {
-            name: "张波",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-            paper: 1843,
-            citation: 10602,
-            field: "电路系统",
+            Hindex: "肿瘤学",
           },
         ],
-        scholarList3: [
-          {
-            name: "张帆",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "华中科技大学同济医学院附属同济医院",
-            paper: 4349,
-            citation: 70957,
-            field: "肿瘤学",
-          },
-          {
-            name: "张立群",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "北京化工大学",
-            paper: 695,
-            citation: 10067,
-            field: "工业催化",
-          },
-          {
-            name: "张鹏",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "郑州大学第一附属医院",
-            paper: 86,
-            citation: 200,
-            field: "肿瘤学",
-          },
-          {
-            name: "张磊",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "中国电子科技集团公司",
-            paper: 2148,
-            citation: 16081,
-            field: "通信与信息系统",
-          },
-
-          {
-            name: "张庆玲",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "东北大学理学院",
-            paper: 1360,
-            citation: 18959,
-            field: "系统工程",
-          },
-          {
-            name: "张波",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-            paper: 1843,
-            citation: 10602,
-            field: "电路系统",
-          },
-        ],
+        scholarList3: [],
       }
     };
   },
   props: ["word"],
   methods: {
-    changeMain(key){
+    changeMain(key,item){
       this.$set(this.scholarListMain,0,this.scholarList.scholarList1[key]);
+      let params = new URLSearchParams();
+      params.append("ScholarId", item.ScholarId);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getScholarBelong;
+      this.$message.success("res.message");
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          // var newAuthor = {
+          //   ScholarId: res.data[0].ScholarId,
+          //   name: res.data[0].Name,
+          //   src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+          //   institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+          //   // paper: res.data[0].dataScholar.paperCount,
+          //   // citation: res.data[0].dataScholar.citationCount,
+          //   // Hindex: res.data[0].dataScholar.hindex,
+          // };
+          // if(this.scholarList.scholarList1.length === 0){
+          //   this.scholarList.scholarList1.push(newAuthor);
+          // }
+          // else{
+          //   this.$set(this.scholarList.scholarList1,0,newAuthor);
+          // }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     deleteScholar(key){
       this.scholarList.scholarList2.splice(key, 1);
@@ -453,12 +320,68 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
-      this.$message.success(value+"左查找");
-      // this.$router.push({ path: "/searchResult", query: { word: value } });
+      let params = new URLSearchParams();
+      params.append("ScholarName", "");
+      params.append("ScholarId", value);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getRealScholarByID;
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          var newAuthor = {
+            ScholarId: res.data[0].ScholarId,
+            name: res.data[0].Name,
+            src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+            // paper: res.data[0].dataScholar.paperCount,
+            // citation: res.data[0].dataScholar.citationCount,
+            // Hindex: res.data[0].dataScholar.hindex,
+          };
+          if(this.scholarList.scholarList1.length === 0){
+            this.scholarList.scholarList1.push(newAuthor);
+          }
+          else{
+            this.$set(this.scholarList.scholarList1,0,newAuthor);
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     onSearch2(value) {//查找之后要结果
-      this.$message.success(value+"右查找");
-      // this.$router.push({ path: "/searchResult", query: { word: value } });
+      let params = new URLSearchParams();
+      params.append("value", value);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getScholarByID + value;
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          var newAuthor = {
+            name: res.data.dataScholar.displayName,
+            src:
+            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: res.data.institution,
+            paper: res.data.dataScholar.paperCount,
+            citation: res.data.dataScholar.citationCount,
+            Hindex: res.data.dataScholar.hindex,
+          };
+          if(this.scholarList.scholarList3.length === 0){
+            this.scholarList.scholarList3.push(newAuthor);
+          }
+          else{
+            this.$set(this.scholarList.scholarList3,0,newAuthor);
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     afterVisibleChange(val) {
       console.log('visible', val);
@@ -477,19 +400,19 @@ export default {
 .left-block{
   width: 33%;
   height: 1350px;
-  /* border: solid 1px black; */
+  border: solid 1px white;
 }
 .middle-block{
   width: 34%;
   height: 1350px;
-  /* border: solid 1px black; */
+  border: solid 1px white;
   /* margin: -1350px 0px 0px 33%; */
 }
 .right-block{
   width: 33%;
   height: 1350px;
   /* margin: -1350px 0px 0px 67%; */
-  /* border: solid 1px black; */
+  border: solid 1px white;
 }
 .result-main-scholar .topbar {
   width: 100%;

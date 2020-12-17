@@ -1,46 +1,8 @@
 <template>
   <div>
-    <div class="result-sider">
-      <div class="sider-title">
-        <a-icon type="read" />
-        论文
-      </div>
-      <a-menu
-        :default-open-keys="['sub1', 'sub2']"
-        mode="inline"
-        :inline-collapsed="collapsed"
-        multiple
-        class="sider-menu"
-      >
-        <a-sub-menu key="sub1">
-          <span slot="title"><span>论文类型</span></span>
-          <template v-for="item in paperTypeOptions">
-            <a-menu-item :key="item.value">
-              {{ item.label }}
-              <span style="float: right">({{ item.count }})</span>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-        <a-sub-menu key="sub2">
-          <span slot="title"><span>发表年份</span></span>
-          <template v-for="item in paperYearOptions">
-            <a-menu-item :key="item.value">
-              {{ item.value }}
-              <span style="float: right">({{ item.count }})</span>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-      </a-menu>
-    </div>
     <div class="result-main">
       <div class="topbar">
         <span> 检索到{{ total }}条结果</span>
-        <a-select default-value="1" @change="handleChange" class="topbar-select">
-          <a-icon slot="suffixIcon" type="swap" rotate="90" />
-          <a-select-option value="1"> 相关性 </a-select-option>
-          <a-select-option value="2"> 发表年份 </a-select-option>
-          <a-select-option value="3"> 被引量 </a-select-option>
-        </a-select>
       </div>
       <div class="result-list">
         <a-list item-layout="vertical" size="large" :data-source="paperList">
@@ -54,7 +16,7 @@
             <a-list-item-meta :description="item.author + ' - ' + item.journal + ' - 被引量: ' + item.citationCount">
               <a slot="title" :href="item.href"><span v-html="item.title"></span> </a>
             </a-list-item-meta>
-            <div class="abstract-test">{{ item.abstract }}</div>
+            <div class="abstract-paper">{{ item.abstract }}</div>
           </a-list-item>
         </a-list>
         <div class="result-list-pagination">
@@ -66,6 +28,8 @@
   </div>
 </template>
 <script>
+import { getData } from "@/api/webget";
+
 export default {
   data() {
     return {
@@ -156,44 +120,6 @@ export default {
             "云计算代表IT领域向集约化,规模化与专业化道路发展的趋势,是IT领域正在发生的深刻变革.但它在提高使用效率的同时,为实现用户信息资产安全与隐私保护带来极大的冲击与挑战.当前,安全成为云计算领域亟待突破的重要问题,其重要性与紧迫性已不容忽视.分析了云计算对信息安全领域中技术,标准,监管等各方面带来的挑战;提出云计算安全参考框架及该框架下的主要研究内容;指出云计算的普及与应用是近年来信息安全领域的重大挑战与发展契机,将引发信息安全领域又一次重要的技术变革.",
         },
       ],
-      paperTypeOptions: [
-        {
-          label: "期刊论文",
-          value: "1",
-          count: 32,
-        },
-        {
-          label: "会议论文",
-          value: "2",
-          count: 63,
-        },
-      ],
-      paperYearOptions: [
-        {
-          value: "2020",
-          count: 32,
-        },
-        {
-          value: "2019",
-          count: 13,
-        },
-        {
-          value: "2018",
-          count: 25,
-        },
-        {
-          value: "2017",
-          count: 8,
-        },
-        {
-          value: "2016",
-          count: 13,
-        },
-        {
-          value: "2015",
-          count: 4,
-        },
-      ],
     };
   },
   props: ["scholarid"],
@@ -201,42 +127,35 @@ export default {
     changePage() {
       console.log(this.currentPage);
     },
+    //获取学者信息
+    getScholarInfo() {
+      let url = this.$urlPath.website.getScholarInfo;
+      getData(url + "/2/1").then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.scholar = res.data.scholar;
+          this.workExperience = res.data.workExperience;
+          console.log(this.scholar);
+          console.log(this.this.workExperience);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
   },
 };
 </script>
 
 <style>
-.result-sider {
-  float: left;
-  width: 240px;
-  margin-right: 20px;
-}
-.result-sider .sider-title {
-  font-size: 18px;
-  font-weight: 700;
-  padding: 10px;
-  border-bottom: 1px solid #e3e3e3;
-}
-.result-sider .sider-menu {
-  margin-left: 20px;
-  padding-right: 20px;
-  border-right: 0;
-}
-.result-sider .sider-menu .ant-menu-submenu-title {
-  border-bottom: 1px solid #e3e3e3;
-}
-.result-sider .sider-menu .ant-menu-item {
-  margin: 0;
-}
-.result-sider .sider-menu .ant-menu-item-selected::after {
-  border: 0;
-}
 .result-main {
   float: left;
-  width: 930px;
+  width: 1300px;
   overflow: hidden;
+  border: red solid 1px;
+  border-left: red 2px solid;
   padding-left: 20px;
-  border-left: 1px solid #e3e3e3;
+  margin-left: 10px;
 }
 .result-main .topbar {
   border-bottom: 1px solid #e3e3e3;
@@ -263,10 +182,10 @@ export default {
 .highlight {
   color: #de5f0d;
 }
-.abstract-test {
-  height: 40px;
-  width: 500px;
-  border: 1px red solid;
+.abstract-paper {
+  height: 60px;
+  width: 880px;
+  border: 1px blue solid;
   line-height: 20px;
   display: -webkit-box;
   -webkit-box-orient: vertical;

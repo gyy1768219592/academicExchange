@@ -1,36 +1,8 @@
 <template>
   <div>
-    <div class="result-sider">
-      <div class="sider-title">
-        <a-icon type="read" />
-        项目
-      </div>
-      <a-menu
-        :default-open-keys="['sub1', 'sub2']"
-        mode="inline"
-        :inline-collapsed="collapsed"
-        multiple
-        class="sider-menu"
-      >
-        <a-sub-menu key="sub2">
-          <span slot="title"><span>发表年份</span></span>
-          <template v-for="item in projectYearOptions">
-            <a-menu-item :key="item.value">
-              {{ item.value }}
-              <span style="float: right">({{ item.count }})</span>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-      </a-menu>
-    </div>
     <div class="result-main">
       <div class="topbar">
         <span> 检索到{{ total }}条结果</span>
-        <a-select default-value="1" @change="handleChange" class="topbar-select">
-          <a-icon slot="suffixIcon" type="swap" rotate="90" />
-          <a-select-option value="1"> 相关性 </a-select-option>
-          <a-select-option value="2"> 发表年份 </a-select-option>
-        </a-select>
       </div>
       <div class="result-list-project">
         <a-list item-layout="vertical" size="large" :data-source="projectList">
@@ -53,7 +25,8 @@
   </div>
 </template>
 <script>
-// import { getData } from "@/api/webget";
+import { getData } from "@/api/webget";
+
 export default {
   data() {
     return {
@@ -121,32 +94,6 @@ export default {
           year: "2018",
         },
       ],
-      projectYearOptions: [
-        {
-          value: "2020",
-          count: 55,
-        },
-        {
-          value: "2019",
-          count: 34,
-        },
-        {
-          value: "2018",
-          count: 61,
-        },
-        {
-          value: "2017",
-          count: 23,
-        },
-        {
-          value: "2016",
-          count: 17,
-        },
-        {
-          value: "2015",
-          count: 13,
-        },
-      ],
     };
   },
   props: ["scholarid"],
@@ -154,17 +101,21 @@ export default {
     changePage() {
       console.log(this.currentPage);
     },
-    searchProject() {
-      // let url = this.$urlPath.website.searchProject + "/" + this.word + "/0/10";
-      // getData(url).then((res) => {
-      //   if (res.code === 1001) {
-      //     this.projectList = res.data.projectList;
-      //     console.log(this.projectList);
-      //   } else {
-      //     console.log(res.code);
-      //     this.$message.error("服务器返回出错");
-      //   }
-      // });
+    //获取学者信息
+    getScholarInfo() {
+      let url = this.$urlPath.website.getScholarInfo;
+      getData(url + "/2/1").then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          this.scholar = res.data.scholar;
+          this.workExperience = res.data.workExperience;
+          console.log(this.scholar);
+          console.log(this.this.workExperience);
+        } else {
+          this.$message.error(res.message);
+        }
+      });
     },
   },
   mounted() {
@@ -174,31 +125,6 @@ export default {
 </script>
 
 <style>
-.result-sider {
-  float: left;
-  width: 250px;
-  margin-right: 20px;
-}
-.result-sider .sider-title {
-  font-size: 18px;
-  font-weight: 700;
-  padding: 10px;
-  border-bottom: 1px solid #e3e3e3;
-}
-.result-sider .sider-menu {
-  margin-left: 20px;
-  padding-right: 20px;
-  border-right: 0;
-}
-.result-sider .sider-menu .ant-menu-submenu-title {
-  border-bottom: 1px solid #e3e3e3;
-}
-.result-sider .sider-menu .ant-menu-item {
-  margin: 0;
-}
-.result-sider .sider-menu .ant-menu-item-selected::after {
-  border: 0;
-}
 .result-main {
   float: left;
   width: 930px;
