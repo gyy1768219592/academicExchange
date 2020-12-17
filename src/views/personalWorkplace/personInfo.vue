@@ -24,7 +24,7 @@
               <div style="margin-bottom: 0.5em">
                 <uploadPhoto></uploadPhoto>
               </div>
-              <div style="margin-left: -0.55em" :v-show="!this.info.isScholar">
+              <div style="margin-left: -0.55em" v-show="!this.info.isScholar">
                 <a-button type="primary" @click="() => setModalVisible(true)">
                   学者认证
                 </a-button>
@@ -199,6 +199,7 @@ export default {
         username: '',
         email: '',
         userid: '',
+        isScholar: false
       },
       showEmail: false,
       showPwd: false,
@@ -237,7 +238,7 @@ export default {
       params.append("RealName",values.realname);
       params.append("EnglishName",values.englishname);
       params.append("OrgEmail",values.email);
-      let url = this.$urlPath.website.scholarVerify;
+      let url = this.$urlPath.website.toBeScholar;
       postData(url, params).then(res => {
         if(res.code === 1001) {
           this.$message.success({
@@ -305,7 +306,7 @@ export default {
           this.info.username = res.data.username;
           console.log(res.data.username);
           this.info.email = res.data.email;
-          this.isScholar = res.data.isScholar;
+          this.info.isScholar = res.data.isScholar;
           this.info.userid = res.data.uid;
           this.info.password = "●●●●●●";
         } else {
