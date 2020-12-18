@@ -7,39 +7,76 @@
           tab-position="top"
           tabBarStyle="margin-left:10px"
         >
-          <a-tab-pane key="1" tab="已认证学者">
+          <a-tab-pane key="1" :tab="'已认证学者(' + this.total1 + ')'">
             <div class="result-list-scholar">
               <div class="card-list">
                 <a-card>
                   <a-card-grid
-                    style="width: 50%"
+                    style="width: 50%; height: 180px"
                     v-for="(item, index) in scholarList"
                     :key="index"
                   >
                     <div class="card-avatar">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        v-if="item.AvatarUrl != null"
+                        :size="80"
+                        :src="item.AvatarUrl"
+                      />
+                      <a-avatar
+                        v-else
+                        :size="80"
+                        :style="'backgroundColor: #00a2ae'"
+                        >{{ item.Name.substring(0, 3) }}</a-avatar
+                      >
                     </div>
                     <div class="card-info">
-                      <span style="font-size: 16px; font-weight: 600"
-                        >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10">
-                          发表论文：{{ item.paper }}
-                        </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10"
-                          >被引量：{{ item.citation }}</a-col
-                        ></span
-                      ><br />
-                      <span>
-                        <a-col :span="10"
-                          >研究领域：{{ item.field }}</a-col
-                        ></span
+                      <div
+                        style="font-size: 16px; font-weight: 600; height: 30px"
                       >
+                        {{ item.Name }}
+                      </div>
+                      <div
+                        v-if="item.institution != ''"
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.Institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="论文数"
+                          :value="item.PaperCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="被引量"
+                          :value="item.CitationCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="hIndex"
+                          :value="item.hIndex"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 42px">
@@ -55,54 +92,87 @@
               <div class="result-list-pagination">
                 <a-pagination
                   simple
-                  :default-current="2"
+                  :default-current="1"
                   pageSize="6"
-                  :total="total"
-                  v-model="currentPage"
-                  @change="changePage"
+                  :total="total1"
+                  v-model="currentPage1"
+                  @change="changePage1"
                 />
               </div></div
           ></a-tab-pane>
-          <a-tab-pane key="2" tab="未认证学者">
+          <a-tab-pane key="2" :tab="'未认证学者(' + this.total2 + ')'">
             <div class="result-list-scholar">
               <div class="card-list">
                 <a-card>
                   <a-card-grid
-                    style="width: 50%"
-                    v-for="(item, key) in scholarDataList"
-                    :key="key"
+                    @click="toDataScholar(item.scholarId, item.authorId)"
+                    style="width: 50%; height: 180px"
+                    v-for="(item, index) in dataScholarList"
+                    :key="index"
                   >
                     <div class="card-avatar">
-                      <a-avatar :size="80" :src="item.src" />
-                    </div>
-                    <div class="card-info">
-                      <span style="font-size: 16px; font-weight: 600"
-                        >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10">
-                          发表论文：{{ item.paper }}
-                        </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10"
-                          >被引量：{{ item.citation }}</a-col
-                        ></span
-                      ><br />
-                      <span>
-                        <a-col :span="10"
-                          >研究领域：{{ item.field }}</a-col
-                        ></span
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #00a2ae'"
+                        >{{ item.displayName.substring(0, 3) }}</a-avatar
                       >
                     </div>
+                    <div class="card-info">
+                      <div
+                        style="font-size: 16px; font-weight: 600; height: 30px"
+                      >
+                        {{ item.displayName }}
+                      </div>
+                      <div
+                        v-if="item.institution != ''"
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="论文数"
+                          :value="item.paperCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="被引量"
+                          :value="item.citationCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="hIndex"
+                          :value="item.hIndex"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                    </div>
                     <div class="card-button">
-                      <p style="margin-top: 42px">
-                        <a-button shape="circle" icon="arrow-right" />
-                      </p>
-                      <p style="margin-top: -5px">
-                        <a-button shape="circle" icon="mail" />
+                      <p style="margin-top: 82px">
+                        <a-button
+                          shape="circle"
+                          icon="arrow-right"
+                          @click="toDataScholar(item.scholarId, item.authorId)"
+                        />
                       </p>
                     </div>
                   </a-card-grid>
@@ -111,27 +181,28 @@
               <div class="result-list-pagination">
                 <a-pagination
                   simple
-                  :default-current="2"
+                  :default-current="1"
                   pageSize="6"
-                  :total="total"
-                  v-model="currentPage"
-                  @change="changePage"
+                  :total="total2"
+                  v-model="currentPage2"
+                  @change="changePage2"
                 />
               </div></div
           ></a-tab-pane>
           <div slot="tabBarExtraContent">
             <div class="scholarSearch-topbar">
               <a-select
-                default-value="1"
-                @change="handleChange"
+                :default-value="1"
+                @change="changeSortOption"
+                v-model="sortOption"
                 class="topbar-select"
               >
                 <a-icon slot="suffixIcon" type="swap" rotate="90" />
-                <a-select-option value="1"> H-index </a-select-option>
-                <a-select-option value="2"> 论文数 </a-select-option>
-                <a-select-option value="3"> 被引量 </a-select-option>
+                <a-select-option :value="1"> H-index </a-select-option>
+                <a-select-option :value="2"> 论文数 </a-select-option>
+                <a-select-option :value="3"> 被引量 </a-select-option>
               </a-select>
-              <span id="topbar-result">检索到{{ total }}名学者</span>
+              <span id="topbar-result">共检索到{{ total }}名学者</span>
             </div>
           </div>
         </a-tabs>
@@ -141,11 +212,16 @@
   </div>
 </template>
 <script>
+import { getData } from "@/api/webget";
 export default {
   data() {
     return {
-      currentPage: "1",
-      total: 203,
+      currentPage1: 1,
+      currentPage2: 1,
+      total1: 0,
+      total2: 0,
+      total: 0,
+      sortOption: 1,
       scholarList: [
         {
           name: "张帆",
@@ -203,67 +279,89 @@ export default {
           field: "电路系统",
         },
       ],
-      scholarDataList: [
-        {
-          name: "张煜恒",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国科学技术大学物理系",
-          paper: 1254,
-          citation: 11948,
-          field: "光学",
-        },
-        {
-          name: "张超",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "第三军医大学西南医院",
-          paper: 1441,
-          citation: 18815,
-          field: "肿瘤学",
-        },
-        {
-          name: "张涛",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国科学院海洋研究所",
-          paper: 920,
-          citation: 14393,
-          field: "水产养殖",
-        },
-        {
-          name: "张亚平",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国科学院昆明动物研究所",
-          paper: 233,
-          citation: 7946,
-          field: "遗传学",
-        },
-        {
-          name: "张亚平",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国科学院昆明动物研究所",
-          paper: 233,
-          citation: 7946,
-          field: "遗传学",
-        },
-        {
-          name: "张亚平",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国科学院昆明动物研究所",
-          paper: 233,
-          citation: 7946,
-          field: "遗传学",
-        },
+      dataScholarList: [],
+      colorList: [
+        "#f56a00",
+        "#7265e6",
+        "#ffbf00",
+        "#00a2ae",
+        "#87d068",
+        "#FFB6C1",
       ],
     };
   },
   methods: {
-    changePage() {
-      console.log(this.currentPage);
+    changeSortOption(value) {
+      this.sortOption = value;
+      this.currentPage1 = 1;
+      this.currentPage2 = 1;
+      this.searchDataScholar();
+      this.searchScholar();
+    },
+    changePage1() {
+      this.searchScholar();
+    },
+    changePage2() {
+      this.searchDataScholar();
+    },
+    toDataScholar(sid, aid) {
+      if (sid == -1) {
+        this.$router.push({ path: "/authorIndex", query: { authorid: aid } });
+      } else {
+        this.$router.push({ path: "/authorIndex", query: { authorid: aid } });
+      }
+    },
+    searchDataScholar() {
+      let url = this.$urlPath.website.searchDataScholar;
+      let params = new URLSearchParams();
+      params.append("DataScholarName", this.wordKW);
+      params.append("orderType", this.sortOption);
+      params.append("pageNumber", this.currentPage2);
+      getData(url, params).then((res) => {
+        if (res.code === 1001) {
+          this.dataScholarList = res.data.dataScholars;
+          this.total2 = res.data.totalSize;
+          this.total = this.total1 + this.total2;
+          console.log(this.dataScholarList);
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回出错");
+        }
+      });
+    },
+    searchScholar() {
+      let url = this.$urlPath.website.searchScholar;
+      let params = new URLSearchParams();
+      params.append("ScholarName", this.wordKW);
+      params.append("Institution", "");
+      params.append("orderType", this.sortOption);
+      params.append("pageNumber", this.currentPage1);
+      getData(url, params).then((res) => {
+        if (res.code === 1001) {
+          this.scholarList = res.data.scholars;
+          this.total1 = res.data.totalSize;
+          this.total = this.total1 + this.total2;
+          console.log(this.scholarList);
+        } else {
+          console.log(res.code);
+          this.$message.error("服务器返回出错");
+        }
+      });
+    },
+  },
+  created() {
+    this.wordKW = this.$route.query.word;
+    this.searchDataScholar();
+    this.searchScholar();
+  },
+  watch: {
+    $route() {
+      this.wordKW = this.$route.query.word;
+      this.currentPage1 = 1;
+      this.currentPage2 = 1;
+      this.sortOption = 1;
+      this.searchDataScholar();
+      this.searchScholar();
     },
   },
 };
@@ -312,5 +410,8 @@ export default {
 .result-list-scholar .result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
+}
+.result-scholar-number {
+  display: inline-block;
 }
 </style>

@@ -5,7 +5,7 @@
       <div class="up-block">
         <div class="artcle-info">
             <div class="title">
-              <span class="title-name">{{PaperTitle}}</span>
+              <span class="title-name">{{patentData.title}}</span>
             </div>
             <div class="inventors">
                 <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="inventor_data">
@@ -49,7 +49,7 @@
                 </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling">我要认领</a-button>
+              <a-button class="btn" @click="renling">{{renlingchar}}</a-button>
               <a-button class="btn" @click="shoucang">收藏</a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
@@ -77,7 +77,7 @@
               <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
-                    <span class="Content" >{{Content}}</span>
+                    <span class="Content" >{{patentData.abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
@@ -123,23 +123,21 @@
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
-                    {{patentData.applicationDate}}
-                    {{patentData.agency}}
-                    {{patentData.applicationNumber}}
-                    {{patentData.agent}}
-                    {{patentData.content}}
-                    {{patentData.province}}
-                    {{patentData.location}}
-                    {{patentData.classificationNumber}}
-                    {{patentData.mainClassificationNumber}}
-                    {{patentData.inventor}}
-                    {{patentData.publishDate}}
-                    {{patentData.applicant}}
-                    {{patentData.currentObligee}}
-                    {{patentData.publishNumber}}
-                    {{patentData.title}}
-                    {{patentData.state}}
-                    {{patentData.abstract}}
+                    applicationDate:{{patentData.applicationDate}}
+                    agency:{{patentData.agency}}
+                    applicationNumber:{{patentData.applicationNumber}}
+                    agent:{{patentData.agent}}
+                    content:{{patentData.content}}
+                    province:{{patentData.province}}
+                    location:{{patentData.location}}
+                    classificationNumber:{{patentData.classificationNumber}}
+                    mainClassificationNumber:{{patentData.mainClassificationNumber}}
+                    inventor:{{patentData.inventor}}
+                    publishDate:{{patentData.publishDate}}
+                    applicant:{{patentData.applicant}}
+                    currentObligee:{{patentData.currentObligee}}
+                    publishNumber:{{patentData.publishNumber}}
+                    state:{{patentData.state}}
                   </span>
                 </div>
               </a-descriptions-item>
@@ -177,6 +175,7 @@
 // import { postData } from "@/api/webpost";
 import navSearch from "@/components/navSearch";
 import { getData } from "@/api/webget";
+import { postData } from "@/api/webpost";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
 require('echarts/lib/component/title')
@@ -186,6 +185,11 @@ export default {
   },
   data() {
     return {
+      canClaim: false,
+      nowClaimNumber: -1,
+      maxClaimNumber: -1,
+      renlingchar: "我要认领",
+      haveRen: true,
       patentID: this.$route.params.id,
       patentData : {}
     }
@@ -198,6 +202,7 @@ export default {
   mounted(){
     this.initCharts();
     this.getPatent();
+    this.getRenlingStatus();
   },
   methods: {
     initCharts () {
@@ -325,8 +330,74 @@ export default {
       //去此人的主页
       this.$router.push("/scholarIndex");
     },
+    checkrenling(){
+      let params = new URLSearchParams();
+      params.append("projectId", this.patentID);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.checkNum + "2/" + this.patentID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.canClaim = res.data.canClaim;
+          this.nowClaimNumber= res.data.nowClaimNumber;
+          this.maxClaimNumber= res.data.maxClaimNumber;
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+    },
     renling(){
-      this.$message.success("我要认领");
+      let params = new URLSearchParams();
+      params.append("projectId", this.patentID);
+      //调用封装的postData函数，获取服务器返回值 
+      if(!this.haveRen){
+        if(this.canClaim){
+          let url = this.$urlPath.website.renlingPatent + this.patentID;
+          console.log(url);
+          postData(url, params).then(res => {
+            if (res.code === 1001) {
+              this.$message.success("认领成功！");
+              this.renlingchar = "我要退领"
+              this.haveRen = true;
+              this.nowClaimNumber ++;
+              if(this.nowClaimNumber>=this.maxClaimNumber){
+                this.canClaim = false;
+              }
+              //window.sessionStorage.setItem("UserId", res.data.userid);
+              // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+            } else {
+              console.log(res.code);
+              this.$message.error(res.message);
+            }
+          });
+        }
+        else{
+          this.$message.error("名额已满，不能认领");
+        }
+      }
+      else{
+        let url = this.$urlPath.website.disrenlingPatent + this.patentID;
+        console.log(url);
+        postData(url, params).then(res => {
+          if (res.code === 1001) {
+            this.$message.success("退领成功！");
+            this.renlingchar = "我要认领"
+            this.haveRen = false;
+            this.nowClaimNumber --;
+            if(this.nowClaimNumber<this.maxClaimNumber){
+              this.canClaim = true;
+            }
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
     },
     shoucang(){
       this.$message.success("已收藏");
@@ -350,7 +421,7 @@ export default {
       let url = this.$urlPath.website.getPatentById + this.patentID;
       getData(url, params).then(res => {
         this.patentData = res.data.patent;
-        console.log(res.code);
+        console.log(res.data.patent);
         if (res.code === 1001) {
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
@@ -358,6 +429,22 @@ export default {
         } else {
           console.log(res.code);
           this.$message.error(res.message);
+        }
+      });
+    },
+    getRenlingStatus(){
+      let params = new URLSearchParams();
+      params.append("patentID", this.patentID);
+      let url2 = this.$urlPath.website.haveRenling + "2/" + this.patentID;
+      getData(url2, params).then(res => {
+        if (res.code === 1001) {
+          this.haveRen = res.data.haveClaim;
+          if(this.haveRen){
+            this.renlingchar = "我要退领"
+          }
+          console.log(res.code);
+        } else {
+          console.log(res.code);
         }
       });
     },

@@ -92,6 +92,7 @@ const routes = [
     name: "claimScholar",
     component: () => import("../views/personalWorkplace/ClaimScholar.vue")
   },
+<<<<<<< HEAD
   //收藏
   {
     path: "/collect",
@@ -122,6 +123,13 @@ const routes = [
     name: "messageInfo",
     component: () => import("../views/message/messageInfo.vue")
   },
+=======
+  {
+    path: "/appealTest",
+    name: "appealTest",
+    component: () => import("../views/appeal/appealTest.vue")
+  }
+>>>>>>> 68fd5173f60a2e1dd6ea8ab830c3e40c53cc619c
 ];
 
 const router = new VueRouter({

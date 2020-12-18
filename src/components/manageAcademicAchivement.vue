@@ -74,11 +74,7 @@
             <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="item-list-item">
                 <a-list-item-meta
                 :description="
-                    item.author +
-                    ' - ' +
-                    item.journal +
-                    ' - 被引量: ' +
-                    item.citationCount
+                    item.descrble
                 "
                 >
                 <a slot="title" :href="item.href"
@@ -88,6 +84,9 @@
                 <div class="abstract">{{ item.abstract }}</div>
             </a-list-item>
           </a-list>
+          <div class="topbar">
+            <span style="margin-left: 20px"> 已经认领该学术成果的学者门户</span>
+          </div>
           <div class="result-list-scholar">
             <div class="card-list">
               <a-card>
@@ -112,10 +111,10 @@
                       ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                     ><br />
                     <span>
-                      <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                      <a-col :span="10">H指数：{{ item.field }}</a-col></span
                     >
                   </div>
-                  <div class="card-button" @click="deleteAuthor(key)">
+                  <div class="card-button" @click="deleteAuthor(key,item)">
                     <p style="margin-top: 42px">
                       <a-tooltip>
                         <template slot="title">
@@ -127,16 +126,6 @@
                   </div>
                 </a-card-grid>
               </a-card>
-            </div>
-            <div class="result-list-pagination">
-              <a-pagination
-                simple
-                :default-current="2"
-                pageSize="6"
-                :total="total"
-                v-model="currentPage"
-                @change="changePage"
-              />
             </div>
           </div>
         </div>
@@ -152,7 +141,7 @@
           </div>
           <div class="result-main-scholar">
             <div class="topbar">
-              <span style="margin-left: 20px"> 检索到{{ total }}个学者门户</span>
+              <span style="margin-left: 20px"> 检索到的学者门户</span>
             </div>
             <div class="result-list-scholar">
               <div class="card-list">
@@ -178,10 +167,10 @@
                         ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
                       ><br />
                       <span>
-                        <a-col :span="10">研究领域：{{ item.field }}</a-col></span
+                        <a-col :span="10">H指数：{{ item.field }}</a-col></span
                       >
                     </div>
-                    <div class="card-button" @click="addAuthor(key)">
+                    <div class="card-button" @click="addAuthor(key,item)">
                       <p style="margin-top: 42px">
                         <a-tooltip>
                           <template slot="title">
@@ -194,16 +183,6 @@
                   </a-card-grid>
                 </a-card>
               </div>
-              <div class="result-list-pagination">
-                <a-pagination
-                  simple
-                  :default-current="2"
-                  pageSize="6"
-                  :total="total"
-                  v-model="currentPage"
-                  @change="changePage"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -214,6 +193,7 @@
 </template>
 <script>
 import { getData } from "@/api/webget";
+import { postData } from "@/api/webpost";
 export default {
   data() {
     return {
@@ -230,102 +210,8 @@ export default {
       getProgList: [],
       getPatentList: [],
       AuthorList:{
-        AuthorList1: [
-          {
-            name: "张鹏",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "郑州大学第一附属医院",
-            paper: 86,
-            citation: 200,
-            field: "肿瘤学",
-          },
-          {
-            name: "张磊",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "中国电子科技集团公司",
-            paper: 2148,
-            citation: 16081,
-            field: "通信与信息系统",
-          },
-
-          {
-            name: "张庆玲",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "东北大学理学院",
-            paper: 1360,
-            citation: 18959,
-            field: "系统工程",
-          },
-          {
-            name: "张波",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-            paper: 1843,
-            citation: 10602,
-            field: "电路系统",
-          },
-        ],
-        AuthorList2: [
-          {
-            name: "张帆",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "华中科技大学同济医学院附属同济医院",
-            paper: 4349,
-            citation: 70957,
-            field: "肿瘤学",
-          },
-          {
-            name: "张立群",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "北京化工大学",
-            paper: 695,
-            citation: 10067,
-            field: "工业催化",
-          },
-          {
-            name: "张鹏",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "郑州大学第一附属医院",
-            paper: 86,
-            citation: 200,
-            field: "肿瘤学",
-          },
-          {
-            name: "张磊",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "中国电子科技集团公司",
-            paper: 2148,
-            citation: 16081,
-            field: "通信与信息系统",
-          },
-
-          {
-            name: "张庆玲",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "东北大学理学院",
-            paper: 1360,
-            citation: 18959,
-            field: "系统工程",
-          },
-          {
-            name: "张波",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-            paper: 1843,
-            citation: 10602,
-            field: "电路系统",
-          },
-        ],
+        AuthorList1: [],
+        AuthorList2: [],
       },
     };
   },
@@ -338,6 +224,40 @@ export default {
       else{
         this.$set(this.paperTopList,0,item);
       }
+      let params = new URLSearchParams();
+      params.append("ScholarName", "");
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getScholarByPaper;
+      if(this.paperTopList[0].progID!=-1){
+        url += "1/" + this.paperTopList[0].progID;
+      }
+      else if(this.paperTopList[0].patentID!=-1){
+        url += "2/" + this.paperTopList[0].patentID;
+      }
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.AuthorList.AuthorList1.splice(0,this.AuthorList.AuthorList1.length);
+          for(var i = 0; i < res.data.length; i ++){
+            var newAuthor = {
+              ScholarId: res.data[i].scholarId,
+              name: res.data[i].name,
+              src: res.data[i].avatarUrl!=null?res.data[i].avatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+              institution: res.data[i].institution!=null?res.data[i].institution:"暂时没有机构",
+              // paper: res.data[0].dataScholar.paperCount,
+              // citation: res.data[0].dataScholar.citationCount,
+              // Hindex: res.data[0].dataScholar.hindex,
+            };
+            this.AuthorList.AuthorList1.push(newAuthor);
+          }
+          this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
+          // window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     changePage() {
       console.log(this.currentPage);
@@ -359,8 +279,36 @@ export default {
       this.getPatent(value);
     },
     onSearch4(value) {
-      this.$message.success(value+"右查找");
-      
+      let params = new URLSearchParams();
+      params.append("ScholarName", "");
+      params.append("ScholarId", value);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getRealScholarByID;
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          var newAuthor = {
+            ScholarId: res.data[0].ScholarId,
+            name: res.data[0].Name,
+            src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+            // paper: res.data[0].dataScholar.paperCount,
+            // citation: res.data[0].dataScholar.citationCount,
+            // Hindex: res.data[0].dataScholar.hindex,
+          };
+          if(this.AuthorList.AuthorList2.length === 0){
+            this.AuthorList.AuthorList2.push(newAuthor);
+          }
+          else{
+            this.$set(this.AuthorList.AuthorList2,0,newAuthor);
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     afterVisibleChange(val) {
       console.log('visible', val);
@@ -371,17 +319,54 @@ export default {
     onClose() {
       this.visible = false;
     },
-    deleteAuthor(key){
-      this.AuthorList.AuthorList1.splice(key, 1);
-      this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
-      this.$message.success("学者门户已移除");
+    deleteAuthor(key,item){
+      console.log(item);
+      let params = new URLSearchParams();
+      params.append("projectId", this.progID);
+      let url = "";
+      if(this.paperTopList[0].progID!=-1){
+        url += this.$urlPath.website.disrenlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+      }
+      else if(this.paperTopList[0].patentID!=-1){
+        url += this.$urlPath.website.disrenlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+      }
+      postData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.AuthorList.AuthorList1.splice(key, 1);
+          this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
+          this.$message.success("学者门户已移除");
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
-    addAuthor(key){
-      this.AuthorList.AuthorList1.push(this.AuthorList.AuthorList2[key]);
-      this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
-      this.AuthorList.AuthorList2.splice(key, 1);
-      this.$set(this.AuthorList,"AuthorList2",this.AuthorList.AuthorList2);
-      this.$message.success("学者门户已添加");
+    addAuthor(key,item){
+      let params = new URLSearchParams();
+      params.append("projectId", this.progID);
+      let url = "";
+      if(this.paperTopList[0].progID!=-1){
+        url += this.$urlPath.website.renlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+      }
+      else if(this.paperTopList[0].patentID!=-1){
+        url += this.$urlPath.website.renlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+      }
+      postData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.AuthorList.AuthorList1.push(this.AuthorList.AuthorList2[key]);
+          this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
+          this.AuthorList.AuthorList2.splice(key, 1);
+          this.$set(this.AuthorList,"AuthorList2",this.AuthorList.AuthorList2);
+          this.$message.success("学者门户已添加");
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     getProg(progID){
       let params = new URLSearchParams();
@@ -391,6 +376,8 @@ export default {
       console.log(url);
       getData(url, params).then(res => {
         var newProg = {
+          progID: progID,
+          patentID: -1,
           title: res.data.project.fundProject,
           author: res.data.project.authors,
           descrble: res.data.project.authors + ' - 机构: ' + res.data.project.organization,
@@ -404,7 +391,7 @@ export default {
         }
         console.log(res.code);
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
@@ -420,6 +407,8 @@ export default {
       let url = this.$urlPath.website.getPatentById + patentID;
       getData(url, params).then(res => {
         var newPatent = {
+          progID: -1,
+          patentID: patentID,
           title: res.data.patent.title,
           author: res.data.patent.inventor,
           descrble: res.data.patent.inventor + ' - 发布日期' + res.data.patent.publishDate + ' - 状态: ' + res.data.patent.state,
@@ -433,7 +422,7 @@ export default {
         }
         console.log(res.code);
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
@@ -450,19 +439,19 @@ export default {
 .left-block{
   width: 33%;
   height: 1350px;
-  /* border: solid 1px black; */
+  border: solid 1px white;
 }
 .middle-block{
   width: 34%;
   height: 1350px;
-  /* border: solid 1px black; */
+  border: solid 1px white;
   margin: -1350px 0px 0px 33%;
 }
 .right-block{
   width: 33%;
   height: 1350px;
   margin: -1350px 0px 0px 67%;
-  /* border: solid 1px black; */
+  border: solid 1px white;
 }
 .result-main-scholar .topbar {
   width: 100%;

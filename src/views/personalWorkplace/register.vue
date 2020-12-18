@@ -40,7 +40,7 @@
                   },
                   { min: 2, message: '用户名长度最小为2！', trigger: 'blur' },
                   {
-                    validator: validateUsername
+                    validator: validateUsername,
                   }
                 ]
               }

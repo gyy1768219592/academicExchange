@@ -9,13 +9,13 @@
         :default-open-keys="['sub1', 'sub2']"
         mode="inline"
         :inline-collapsed="collapsed"
-        multiple
+        v-model="selectedKey"
         class="sider-menu"
       >
         <a-sub-menu key="sub1">
           <span slot="title"><span>未处理申诉</span></span>
-          <template v-for="item in paperTypeOptions">
-            <a-menu-item :key="item.value">
+          <template v-for="item in paperTypeOptions" @click="selectUnSolved(item.value)">
+            <a-menu-item :key="item.value" @click="selectUnSolved(item.value)">
               {{ item.label }}
               <span style="float: right">({{ item.count }})</span>
             </a-menu-item>
@@ -24,8 +24,8 @@
         <a-sub-menu key="sub2">
           <span slot="title"><span>已处理申诉</span></span>
           <template v-for="item in paperYearOptions">
-            <a-menu-item :key="item.value">
-              {{ item.value }}
+            <a-menu-item :key="item.value" @click="selectSolved(item.value)">
+              {{ item.label }}
               <span style="float: right">({{ item.count }})</span>
             </a-menu-item>
           </template>
@@ -37,7 +37,7 @@
         <span> 现有{{ total }}条申诉记录</span>
       </div>
       <div class="result-list">
-        <a-list item-layout="vertical" size="large" :data-source="appealList">
+        <a-list item-layout="vertical" size="large" :data-source="List.showList">
           <a-list-item slot="renderItem" key="item.title" slot-scope="item">
             <a-button
               type="link"
@@ -62,9 +62,9 @@
                 '   申诉者ID: ' + 
                 item.senderUserid +
                 '   相关数据ID: ' +
-                (item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid)) +
+                (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid))) +
                 '   申诉类型: ' +
-                (item.paperid!=null?'申诉论文':(item.patentid!=null?'申诉专利':'申诉项目')) +
+                (item.dataScholarId!=null?'申诉冒领数据库门户':(item.paperid!=null?'申诉论文':(item.patentid!=null?'申诉专利':'申诉项目'))) +
                 '   发送时间: ' +
                 item.sendtime
                 "
@@ -96,28 +96,33 @@ export default {
     return {
       text: `A dog is a type of domesticated animal.Known for its loyalty and faithfulness,it can be found as a welcome guest in many households across the world.`,
       currentPage: "1",
-      total: 95,
-      appealList: [],
+      total: 0,
+      List:{
+        appealList: [],
+        showList:[],
+      },
       paperTypeOptions: [
         {
           label: "未查看申诉",
-          value: "1",
-          count: 32,
+          value: 0,
+          count: 0,
         },
         {
           label: "已查看申诉",
-          value: "2",
-          count: 63,
+          value: 1,
+          count: 0,
         },
       ],
       paperYearOptions: [
         {
-          value: "已通过申诉",
-          count: 32,
+          label: "已通过申诉",
+          value: 3,
+          count: 0,
         },
         {
-          value: "已驳回申诉",
-          count: 13,
+          label: "已驳回申诉",
+          value: 4,
+          count: 0,
         },
       ],
     };
@@ -132,7 +137,12 @@ export default {
     },
     appealAgree(item){
       if(item.msgstatus!=3){
+        if(item.msgstatus==0){
+          this.paperTypeOptions[0].count --;
+          this.paperTypeOptions[1].count ++;
+        }
         item.msgstatus = 3;
+        this.paperYearOptions[0].count ++;
         this.updateAppealStatus(item.msgid,item.msgstatus);
         this.$message.success("申诉已通过");
       }
@@ -140,7 +150,12 @@ export default {
     },
     appealDisagree(item){
       if(item.msgstatus!=4){
+        if(item.msgstatus==0){
+          this.paperTypeOptions[0].count --;
+          this.paperTypeOptions[1].count ++;
+        }
         item.msgstatus = 4;
+        this.paperYearOptions[1].count ++;
         this.updateAppealStatus(item.msgid,item.msgstatus);
         this.$message.success("申诉已驳回");
       }
@@ -172,8 +187,26 @@ export default {
       let url = this.$urlPath.website.getAppeal;
       console.log(url);
       getData(url, params).then(res => {
-        this.appealList = res.data;
-        console.log(res.code);
+        this.List.appealList = res.data;
+        this.List.showList = res.data;
+        this.total = this.List.appealList.length;
+        for(var i = 0; i < this.total ; i ++){
+          if(this.List.showList[i].msgstatus === 0){
+            this.paperTypeOptions[0].count ++;
+          }
+          else if(this.List.showList[i].msgstatus === 1){
+            this.paperTypeOptions[1].count ++;
+          }
+          else if(this.List.showList[i].msgstatus === 3){
+            this.paperYearOptions[0].count ++;
+            this.paperTypeOptions[1].count ++;
+          }
+          else if(this.List.showList[i].msgstatus === 4){
+            this.paperYearOptions[1].count ++;
+            this.paperTypeOptions[1].count ++;
+          }
+        }
+        console.log(res);
         if (res.code === 1001) {
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
@@ -185,23 +218,72 @@ export default {
       });
     },
     Seek(item){
-      let params = new URLSearchParams();
-      params.append("messageId", item.msgid);
-      params.append("messageStatus", 1);
-      //调用封装的putData函数，获取服务器返回值 
-      let url = this.$urlPath.website.updateAppeal;
-      // putData(url + params).then((res) => {
-      putData(url, params).then(res => {
-        // console.log(res.code);
-        if (res.code === 1001) {
-          // this.$message.success(res.message);
-          //window.sessionStorage.setItem("UserId", res.data.userid);
-          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
-        } else {
-          console.log(res.code);
-          this.$message.error(res.message);
+      if(item.msgstatus === 0){
+        this.paperTypeOptions[0].count --;
+        this.paperTypeOptions[1].count ++;
+        let params = new URLSearchParams();
+        params.append("messageId", item.msgid);
+        params.append("messageStatus", 1);
+        //调用封装的putData函数，获取服务器返回值 
+        let url = this.$urlPath.website.updateAppeal;
+        // putData(url + params).then((res) => {
+        putData(url, params).then(res => {
+          // console.log(res.code);
+          if (res.code === 1001) {
+            item.msgstatus = 1;
+            // this.$message.success(res.message);
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
+    },
+    selectUnSolved(value){
+      if(value == 0){
+        var temp1 = [];
+        for(var i1 = 0; i1 < this.List.appealList.length; i1 ++){
+          if(this.List.appealList[i1].msgstatus == 0){
+            temp1.push(this.List.appealList[i1]);
+          }
         }
-      });
+        this.$set(this.List,"showList",temp1);
+        this.total = temp1.length;
+      }
+      else if(value == 1){
+        var temp = [];
+        for(var i = 0; i < this.List.appealList.length; i ++){
+          if((this.List.appealList[i].msgstatus == 1)||(this.List.appealList[i].msgstatus == 3)||(this.List.appealList[i].msgstatus == 4)){
+            temp.push(this.List.appealList[i]);
+          }
+        }
+        this.$set(this.List,"showList",temp);
+        this.total = temp.length;
+      }
+    },
+    selectSolved(value){
+      if(value == 3){
+        var temp1 = [];
+        for(var i1 = 0; i1 < this.List.appealList.length; i1 ++){
+          if(this.List.appealList[i1].msgstatus == 3){
+            temp1.push(this.List.appealList[i1]);
+          }
+        }
+        this.$set(this.List,"showList",temp1);
+        this.total = temp1.length;
+      }
+      else if(value == 4){
+        var temp = [];
+        for(var i = 0; i < this.List.appealList.length; i ++){
+          if(this.List.appealList[i].msgstatus == 4){
+            temp.push(this.List.appealList[i]);
+          }
+        }
+        this.$set(this.List,"showList",temp);
+        this.total = temp.length;
+      }
     }
   },
 };

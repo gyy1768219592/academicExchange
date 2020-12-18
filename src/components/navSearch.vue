@@ -85,7 +85,13 @@
       <div v-if="isLogin">
         <a-dropdown class="topNav-dropDown">
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <a-avatar :size="50" icon="user" class="topNav-avatar" />
+            <a-avatar
+              v-if="avatar == null || avatar == 'null'"
+              :size="50"
+              icon="user"
+              class="topNav-avatar"
+            />
+            <a-avatar v-else :size="50" :src="avatar" class="topNav-avatar" />
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
@@ -105,7 +111,7 @@
             </a-menu-item>
             <a-menu-divider />
             <a-menu-item>
-              <a href="#/">退出登录</a>
+              <a @click="logout()">退出登录</a>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
@@ -132,6 +138,7 @@ export default {
       form: this.$form.createForm(this, { name: "advancedSearchTop" }),
       yearValue: [],
       isLogin: false,
+      avatar: null,
     };
   },
   methods: {
@@ -208,6 +215,17 @@ export default {
     toLogin() {
       this.$router.push("/login");
     },
+    logout() {
+      this.isLogin = false;
+      localStorage.removeItem("token");
+      this.$forceUpdate();
+    },
+  },
+  created() {
+    if (localStorage.getItem("token")) {
+      this.isLogin = true;
+      this.avatar = localStorage.getItem("avatarUrl");
+    }
   },
 };
 </script>

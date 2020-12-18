@@ -67,7 +67,7 @@ export default {
             clearInterval(this.timer)
             this.timer = null
             //TODO 跳转到认领门户页面
-            this.$router.push('/login')
+            this.$router.push('/user/claimScholar');
           }
         },1000)
       }
