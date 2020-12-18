@@ -165,6 +165,7 @@ export default {
     this.getProg();
     this.getRenlingStatus();
     this.checkrenling();
+    this.getLikeStatus();
   },
   methods: {
     initCharts () {
@@ -396,6 +397,26 @@ export default {
           }
         });
       }
+    },
+    getLikeStatus(){
+      let params = new URLSearchParams();
+      params.append("paperId", this.progID);
+      params.append("type", 1);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          console.log(res);
+          // this.Like = 
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     shoucang(){
       this.$message.success("已收藏");

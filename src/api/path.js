@@ -52,6 +52,9 @@ let path = {
     //通过学者ID查询学者
     getRealScholarByID: Ip.productIP + "scholar/admin/Search/",
 
+    //获取、改变收藏状态
+    gcLikeStatus: Ip.productIP + "scholarship/scholarship/starStatus/",
+
     //认退领项目
     renlingProg: Ip.productIP + "scholarship/claimProject/",
     disrenlingProg: Ip.productIP + "scholarship/backClaimProject/",
