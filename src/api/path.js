@@ -66,6 +66,7 @@ let path = {
     getDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
     addWorkExp: Ip.productIP + "scholar/workExperience",
     deleteWorkExp: Ip.productIP + "scholar/workExperience",
+    getAuthorInfo: Ip.productIP + "scholar/dataScholar",
   },
 };
 export default path;
