@@ -34,7 +34,7 @@ let path = {
     getPaperById: Ip.productIP + "scholarship/getPaperByPaperId/",
 
     //获取学者门户下属数据库门户
-    getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar/",
+    getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar",
 
     //获取学术成果已认领人员
     getScholarByPaper: Ip.productIP + "scholarship/getWhoClaimIt/",
