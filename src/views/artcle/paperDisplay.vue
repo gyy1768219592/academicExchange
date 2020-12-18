@@ -17,13 +17,13 @@
                           <a-dropdown>
                             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                               <a-avatar class="img" :size="35" icon="user" />
-                              <h1 class="author-name">{{ item.username }}</h1>
+                              <h1 class="author-name">{{ item.name }}</h1>
                             </a>
                             <a-menu slot="overlay">
                               <a-menu-item>
                                 <div class="author" @click="gotoUser">
                                   <a-avatar class="img" :size="38" icon="user" />
-                                  <h1 class="author-name2">{{ item.username }}</h1>
+                                  <h1 class="author-name2">{{ item.name }}</h1>
                                   <div class="author-from" :title=item.infor>
                                     {{item.infor}}
                                   </div>
@@ -32,12 +32,12 @@
                               <a-menu-item>
                                 <div class="author-infor">
                                   <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.prognum }}</span> 
-                                    <span class="author-infor-item_cnt">项目</span>
+                                    <span class="author-infor-item_cnt">{{ item.paperCount }}</span> 
+                                    <span class="author-infor-item_cnt">论文</span>
                                   </div>
                                   <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.outnum }}</span> 
-                                    <span class="author-infor-item_cnt">成果</span>
+                                    <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
+                                    <span class="author-infor-item_cnt">被引</span>
                                   </div>
                                   <div class="author-infor-item">
                                     <span class="author-infor-item_cnt">{{ item.Hindex }}</span> 
@@ -161,7 +161,7 @@
 <script>
 //引入导航栏
 //import personNav from "@/components/personNav";
-// import { getData } from "@/api/webget";
+import { getData } from "@/api/webget";
 import navSearch from "@/components/navSearch";
 require('echarts/lib/chart/bar')
 require('echarts/lib/component/tooltip')
@@ -172,54 +172,22 @@ export default {
   },
   data() {
     return {
-      author_data : [
-        {
-            username: "谭火彬",
-            prognum: 15,
-            outnum: 456,
-            Hindex: 14,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "宋友",
-            prognum: 5,
-            outnum: 56,
-            Hindex: 48,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "贾经冬",
-            prognum: 46,
-            outnum: 895,
-            Hindex: 5,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-        {
-            username: "原仓周",
-            prognum: 7,
-            outnum: 566,
-            Hindex: 6,
-            infor: "北京航空航天大学软件学院 副教授",
-            src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-        },
-      ],
-      PaperTitle : "陈志刚教授辨病论治周围神经病经验",
-      Abstract : "  经济分权同垂直的政治管理体制紧密结合是中国式分权的核心内涵,本文在此背景下讨论地方政府支出结构偏向的激励根源,并通过构造财政分权指标和政府竞争指标、利用1994～2004年的省级面板数据对我们的推断进行实证检验.本文主要结论是:中国的财政分权以及基于政绩考核下的政府竞争,造就了地方政府公共支出结构\"重基本建设、轻人力资本投资扣公共服务\"的明显扭曲;并且,政府竞争会加剧财政分权对政府支出结构的扭曲,竞争对支出结构的最终影响则取决于分权程度,而1994年之后包括科教兴国、西部大开发在内的现行重大政策并没有缓解这种状况.这意味着,中国式分权在推动市场化和激发地方政府\"为增长而竞争\"的同时,与之伴随的成本可能正在上升.",
-      keyword : "财政支出结构 中国式分权 政府竞争",
-      DOI : "CNKI:SUN:GLSJ.0.2007-03-001",
-      DocType : "会议",
-      CitationCount	:	123,
-      date : "2001-01-09",
-      Journal	: "SCI",          //期刊名	
-      Conference :	"高级会议", //会议名
-      Volume :	"23",          //卷号
-      Issue :	"2001-23",       //期号
-      FirstPage :	"213",       //开始页
-      LastPage :	"223",       //结束页
-      SourceUrl :"http://www.cnki.com.cn/Article/CJFDTotal-GLSJ200703001.htm",
+      paperID: this.$route.params.id,
+      author_data : [],
+      PaperTitle : "",
+      Abstract : "",
+      keyword : "",
+      DOI : "",
+      DocType : "",
+      CitationCount	:	0,
+      date : "",
+      Journal	: "",          //期刊名	
+      Conference :	"", //会议名
+      Volume :	"",          //卷号
+      Issue :	"",       //期号
+      FirstPage :	"",       //开始页
+      LastPage :	"",       //结束页
+      SourceUrl :"",
       yinyong: "杨玲,  陈志刚. 陈志刚教授辨病论治周围神经病经验[J]. 中国当代医药. 2018,(12):112-115. ",
       leijiliang : 0,
       mounian : 2000,
@@ -233,6 +201,7 @@ export default {
   },
   mounted(){
     this.initCharts();
+    this.getPaper();
   },
   methods: {
     initCharts () {
@@ -376,11 +345,60 @@ export default {
       this.$message.success("分享链接已复制");
     },
     getPaper(){
-      // let params = new URLSearchParams();
-      // params.append("PaperId",values);
-      // postData(url, param).then(res=>{
-        
-      // })
+      let params = new URLSearchParams();
+      params.append("paperId", this.paperID);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getPaperById + this.paperID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          // this.progData = res.data.project;
+          // this.author_data = this.progData.authors.split("; ");
+          console.log(res.data);
+          this.PaperTitle = res.data.paper.paperTitle;
+          this.Abstract = res.data.paper.paper_abstract;
+      // this.keyword : "财政支出结构 中国式分权 政府竞争",
+          this.DOI = res.data.paper.doi,
+          this.DocType = res.data.paper.doctype;
+          this.CitationCount = res.data.paper.citationCount;
+          this.date = res.data.paper.date;
+          this.Journal	= res.data.paper.journal;
+          this.Conference = res.data.paper.conference;
+          this.Volume = res.data.paper.volume;
+          this.Issue = res.data.paper.issue;
+          this.FirstPage = res.data.paper.firstPage;
+          this.LastPage = res.data.paper.lastPage;
+          this.SourceUrl = res.data.paper.sourceUrl;
+          this.$message.success(res.message);
+          for(var i = 0; i < res.data.paperMap.authorList.length; i ++){
+            var temp = {
+              name: res.data.paperMap.authorList[i].name,
+              paperCount: res.data.paperMap.authorList[i].paperCount,
+              citationCount: res.data.paperMap.authorList[i].citationCount,
+              Hindex: res.data.paperMap.authorList[i].Hindex,
+              src: "https:///resmod/smate-pc/img/logo_psndefault.png",
+              authorId: res.data.paperMap.authorList[i].authorId,
+            }
+            this.author_data.push(temp);
+          } 
+          for(var j = 0; j < res.data.paperMap.scholarList.length; j ++){
+            var temp1 = {
+              name: res.data.paperMap.scholarList[j].name,
+              paperCount: res.data.paperMap.scholarList[j].paperCount,
+              citationCount: res.data.paperMap.scholarList[j].citationCount,
+              Hindex: res.data.paperMap.scholarList[j].Hindex,
+              src: "https:///resmod/smate-pc/img/logo_psndefault.png",
+              authorId: res.data.paperMap.scholarList[j].authorId,
+            }
+            this.author_data.push(temp1);
+          } 
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     oCopy(obj){
         obj.select();    // 选中输入框中的内容

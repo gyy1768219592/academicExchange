@@ -5,7 +5,7 @@
       <div class="up-block">
         <div class="artcle-info">
             <div class="title">
-              <span class="title-name">{{PaperTitle}}</span>
+              <span class="title-name">{{patentData.title}}</span>
             </div>
             <div class="inventors">
                 <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="inventor_data">
@@ -77,7 +77,7 @@
               <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
-                    <span class="Content" >{{Content}}</span>
+                    <span class="Content" >{{patentData.abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
@@ -123,23 +123,21 @@
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
-                    {{patentData.applicationDate}}
-                    {{patentData.agency}}
-                    {{patentData.applicationNumber}}
-                    {{patentData.agent}}
-                    {{patentData.content}}
-                    {{patentData.province}}
-                    {{patentData.location}}
-                    {{patentData.classificationNumber}}
-                    {{patentData.mainClassificationNumber}}
-                    {{patentData.inventor}}
-                    {{patentData.publishDate}}
-                    {{patentData.applicant}}
-                    {{patentData.currentObligee}}
-                    {{patentData.publishNumber}}
-                    {{patentData.title}}
-                    {{patentData.state}}
-                    {{patentData.abstract}}
+                    applicationDate:{{patentData.applicationDate}}
+                    agency:{{patentData.agency}}
+                    applicationNumber:{{patentData.applicationNumber}}
+                    agent:{{patentData.agent}}
+                    content:{{patentData.content}}
+                    province:{{patentData.province}}
+                    location:{{patentData.location}}
+                    classificationNumber:{{patentData.classificationNumber}}
+                    mainClassificationNumber:{{patentData.mainClassificationNumber}}
+                    inventor:{{patentData.inventor}}
+                    publishDate:{{patentData.publishDate}}
+                    applicant:{{patentData.applicant}}
+                    currentObligee:{{patentData.currentObligee}}
+                    publishNumber:{{patentData.publishNumber}}
+                    state:{{patentData.state}}
                   </span>
                 </div>
               </a-descriptions-item>
@@ -187,6 +185,9 @@ export default {
   },
   data() {
     return {
+      canClaim: false,
+      nowClaimNumber: -1,
+      maxClaimNumber: -1,
       renlingchar: "我要认领",
       haveRen: true,
       patentID: this.$route.params.id,
@@ -329,25 +330,53 @@ export default {
       //去此人的主页
       this.$router.push("/scholarIndex");
     },
+    checkrenling(){
+      let params = new URLSearchParams();
+      params.append("projectId", this.patentID);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.checkNum + "2/" + this.patentID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.canClaim = res.data.canClaim;
+          this.nowClaimNumber= res.data.nowClaimNumber;
+          this.maxClaimNumber= res.data.maxClaimNumber;
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+    },
     renling(){
       let params = new URLSearchParams();
       params.append("projectId", this.patentID);
       //调用封装的postData函数，获取服务器返回值 
       if(!this.haveRen){
-        let url = this.$urlPath.website.renlingPatent + this.patentID;
-        console.log(url);
-        postData(url, params).then(res => {
-          if (res.code === 1001) {
-            this.$message.success("认领成功！");
-            this.renlingchar = "我要退领"
-            this.haveRen = true;
-            //window.sessionStorage.setItem("UserId", res.data.userid);
-            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
-          } else {
-            console.log(res.code);
-            this.$message.error(res.message);
-          }
-        });
+        if(this.canClaim){
+          let url = this.$urlPath.website.renlingPatent + this.patentID;
+          console.log(url);
+          postData(url, params).then(res => {
+            if (res.code === 1001) {
+              this.$message.success("认领成功！");
+              this.renlingchar = "我要退领"
+              this.haveRen = true;
+              this.nowClaimNumber ++;
+              if(this.nowClaimNumber>=this.maxClaimNumber){
+                this.canClaim = false;
+              }
+              //window.sessionStorage.setItem("UserId", res.data.userid);
+              // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+            } else {
+              console.log(res.code);
+              this.$message.error(res.message);
+            }
+          });
+        }
+        else{
+          this.$message.error("名额已满，不能认领");
+        }
       }
       else{
         let url = this.$urlPath.website.disrenlingPatent + this.patentID;
@@ -357,6 +386,10 @@ export default {
             this.$message.success("退领成功！");
             this.renlingchar = "我要认领"
             this.haveRen = false;
+            this.nowClaimNumber --;
+            if(this.nowClaimNumber<this.maxClaimNumber){
+              this.canClaim = true;
+            }
             //window.sessionStorage.setItem("UserId", res.data.userid);
             // const webAdrs = window.sessionStorage.getItem("WebAdrs");
           } else {

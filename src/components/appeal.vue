@@ -62,9 +62,9 @@
                 '   申诉者ID: ' + 
                 item.senderUserid +
                 '   相关数据ID: ' +
-                (item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid)) +
+                (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid))) +
                 '   申诉类型: ' +
-                (item.paperid!=null?'申诉论文':(item.patentid!=null?'申诉专利':'申诉项目')) +
+                (item.dataScholarId!=null?'申诉冒领数据库门户':(item.paperid!=null?'申诉论文':(item.patentid!=null?'申诉专利':'申诉项目'))) +
                 '   发送时间: ' +
                 item.sendtime
                 "
@@ -206,7 +206,7 @@ export default {
             this.paperTypeOptions[1].count ++;
           }
         }
-        console.log(res.code);
+        console.log(res);
         if (res.code === 1001) {
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);

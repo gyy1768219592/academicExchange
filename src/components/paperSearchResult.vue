@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="result-sider">
+    <div class="homes-result-sider">
       <div class="sider-title">
         <a-icon type="read" />
         论文
@@ -44,7 +44,7 @@
         </a-sub-menu>
       </a-menu>
     </div>
-    <div class="result-main">
+    <div class="homes-result-main">
       <div class="topbar">
         <span style="display: inline-block; margin-top: 5px">
           检索到{{ total }}条结果</span
@@ -61,10 +61,25 @@
         </a-select>
       </div>
       <div class="result-list">
-        <a-list item-layout="vertical" size="large" :data-source="paperList">
-          <a-list-item slot="renderItem" key="item.paperId" slot-scope="item">
+        <a-list item-layout="vertical" size="large">
+          <a-list-item v-for="(item, index) in paperList" :key="index">
             <a-list-item-meta>
               <div slot="description">
+                <span
+                  v-for="(aitem, aindex) in authorList[index]"
+                  :key="aindex"
+                >
+                  <a
+                    class="result-name"
+                    @click="toScholar(aitem.type, aitem.authorId)"
+                  >
+                    {{ aitem.name }}
+                  </a>
+                  <span v-if="aindex != authorList[index].length - 1">
+                    &nbsp;,</span
+                  >
+                </span>
+
                 <div v-if="item.doctype == 'Journal'">
                   <span v-html="item.journal" /> - <span v-html="item.date" /> -
                   被引量:{{ item.citationCount }}
@@ -109,6 +124,7 @@ export default {
       currentPage: 1,
       total: 0,
       paperList: [],
+      authorList: [],
       selectedKey: [],
       paperTypeOptions: [
         {
@@ -194,13 +210,18 @@ export default {
       getData(url, params).then((res) => {
         if (res.code === 1001) {
           this.paperList = res.data.paperList;
+          this.authorList = res.data.author;
           this.total = res.data.total;
-          console.log(this.paperList);
+          console.log(res.data);
         } else {
           console.log(res.code);
           this.$message.error("服务器返回出错");
         }
       });
+    },
+    toScholar(type, id) {
+      alert(type);
+      alert(id);
     },
     clearSelectedKey() {
       this.selectedKey = [];
@@ -240,63 +261,71 @@ export default {
 </script>
 
 <style>
-.result-sider {
+.homes-result-sider {
   float: left;
   width: 220px;
   margin-right: 20px;
 }
-.result-sider .sider-title {
+.homes-result-sider .sider-title {
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu {
+.homes-result-sider .sider-menu {
   margin-left: 20px;
   padding-right: 20px;
   border-right: 0;
 }
-.result-sider .sider-menu .ant-menu-submenu-title {
+.homes-result-sider .sider-menu .ant-menu-submenu-title {
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu .ant-menu-item {
+.homes-result-sider .sider-menu .ant-menu-item {
   margin: 0;
 }
-.result-sider .sider-menu .ant-menu-item-selected::after {
+.homes-result-sider .sider-menu .ant-menu-item-selected::after {
   border: 0;
 }
-.result-main {
+.homes-result-main {
   float: left;
   width: 1040px;
   overflow: hidden;
   padding-left: 20px;
   border-left: 1px solid #e3e3e3;
 }
-.result-main .topbar {
+.homes-result-main .topbar {
   border-bottom: 1px solid #e3e3e3;
   height: 40px;
 }
-.result-main .topbar .topbar-select {
+.homes-result-main .topbar .topbar-select {
   float: right;
   width: 100px;
   margin-right: 10px;
 }
-.result-main .ant-list-item-action {
+.homes-result-main .ant-list-item-action {
   margin-top: 5px;
 }
-.result-main .result-list .result-list-button {
+.homes-result-main .result-list .result-list-button {
   margin-right: 5px;
   padding: 0;
 }
-.result-main .result-list .ant-list-item {
+.homes-result-main .result-list .ant-list-item {
   padding-left: 10px;
 }
-.result-main .result-list .ant-list-item:hover {
+.homes-result-main .result-list .ant-list-item:hover {
   background-color: #fafafa;
   transition: all 0.5s;
 }
 .highlight {
   color: #de5f0d;
+}
+.result-name {
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.6);
+}
+.result-name:hover {
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: underline;
 }
 .searchResult-abstract {
   height: 40px;
@@ -307,7 +336,7 @@ export default {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.result-list .result-list-pagination {
+.homes-result-list .result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }
