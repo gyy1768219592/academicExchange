@@ -333,7 +333,7 @@ export default {
     //获取学者信息
     getScholarInfo() {
       let url = this.$urlPath.website.getScholarInfo;
-      getData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
+      getData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
