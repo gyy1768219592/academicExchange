@@ -105,6 +105,7 @@
               <div class="card-list">
                 <a-card>
                   <a-card-grid
+                    @click="toDataScholar(item.scholarId, item.authorId)"
                     style="width: 50%; height: 180px"
                     v-for="(item, index) in dataScholarList"
                     :key="index"
@@ -167,7 +168,11 @@
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 82px">
-                        <a-button shape="circle" icon="arrow-right" />
+                        <a-button
+                          shape="circle"
+                          icon="arrow-right"
+                          @click="toDataScholar(item.scholarId, item.authorId)"
+                        />
                       </p>
                     </div>
                   </a-card-grid>
@@ -298,6 +303,13 @@ export default {
     },
     changePage2() {
       this.searchDataScholar();
+    },
+    toDataScholar(sid, aid) {
+      if (sid == -1) {
+        this.$router.push({ path: "/authorIndex", query: { authorid: aid } });
+      } else {
+        this.$router.push({ path: "/authorIndex", query: { authorid: aid } });
+      }
     },
     searchDataScholar() {
       let url = this.$urlPath.website.searchDataScholar;
