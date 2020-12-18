@@ -32,7 +32,7 @@
                         item.descrble
                     "
                     >
-                    <a slot="title" :href="item.href"
+                    <a slot="title" :href="item.href" @click="gotoProg(item.progID)"
                         ><span v-html="item.title"></span>
                     </a>
                     </a-list-item-meta>
@@ -59,7 +59,7 @@
                         item.descrble
                     "
                     >
-                    <a slot="title" :href="item.href"
+                    <a slot="title" :href="item.href" @click="gotoPatent(item.patentID)"
                         ><span v-html="item.title"></span>
                     </a>
                     </a-list-item-meta>
@@ -77,7 +77,7 @@
                     item.descrble
                 "
                 >
-                <a slot="title" :href="item.href"
+                <a slot="title" :href="item.href" @click="gotoProgOrPatent(item)"
                     ><span v-html="item.title"></span>
                 </a>
                 </a-list-item-meta>
@@ -217,6 +217,20 @@ export default {
   },
   props: ["word"],
   methods: {
+    gotoProg(ProgID){
+      this.$router.push("/progDisplay/"+ProgID);
+    },
+    gotoPatent(PatentID){
+      this.$router.push("/patentDisplay/"+PatentID);
+    },
+    gotoProgOrPatent(item){
+      if(item.progID!=-1){
+        this.$router.push("/progDisplay/"+item.progID);
+      }
+      else if(item.patentID!=-1){
+        this.$router.push("/patentDisplay/"+item.patentID);
+      }
+    },
     changeMain(item){
       if(this.paperTopList.length === 0){
         this.paperTopList.push(item);

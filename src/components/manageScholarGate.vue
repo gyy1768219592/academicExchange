@@ -264,7 +264,6 @@ export default {
       params.append("ScholarId", item.ScholarId);
       //调用封装的putData函数，获取服务器返回值 
       let url = this.$urlPath.website.getScholarBelong;
-      this.$message.success("res.message");
       getData(url, params).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
@@ -354,7 +353,7 @@ export default {
     },
     onSearch2(value) {//查找之后要结果
       let params = new URLSearchParams();
-      params.append("value", value);
+      // params.append("value", value);
       //调用封装的putData函数，获取服务器返回值 
       let url = this.$urlPath.website.getScholarByID + value;
       getData(url, params).then(res => {

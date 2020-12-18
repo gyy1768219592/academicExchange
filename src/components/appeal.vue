@@ -136,6 +136,7 @@ export default {
       console.log(this.currentPage);
     },
     appealAgree(item){
+      // this.updateAppealStatus(item.msgid,item.msgstatus);//调0用
       if(item.msgstatus!=3){
         if(item.msgstatus==0){
           this.paperTypeOptions[0].count --;
@@ -149,6 +150,7 @@ export default {
       item.msgstatus = 3
     },
     appealDisagree(item){
+      // this.updateAppealStatus(item.msgid,item.msgstatus);//调0用
       if(item.msgstatus!=4){
         if(item.msgstatus==0){
           this.paperTypeOptions[0].count --;
@@ -162,6 +164,7 @@ export default {
       item.msgstatus = 4
     },
     updateAppealStatus(msgid,status){
+      // status=0;//调0用
       let params = new URLSearchParams();
       params.append("messageId", msgid);
       params.append("messageStatus", status);

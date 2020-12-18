@@ -369,7 +369,7 @@ export default {
           this.FirstPage = res.data.paper.firstPage;
           this.LastPage = res.data.paper.lastPage;
           this.SourceUrl = res.data.paper.sourceUrl;
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           for(var i = 0; i < res.data.paperMap.authorList.length; i ++){
             var temp = {
               name: res.data.paperMap.authorList[i].name,
