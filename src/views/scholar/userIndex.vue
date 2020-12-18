@@ -10,16 +10,12 @@
             <h4 class="info-content-ins">{{ scholar.organization }}</h4>
             <ul class="index-table">
               <li class="index-item">
-                <p class="top-word">H指数</p>
-                <p class="index-number">{{ scholar.hindex }}</p>
-              </li>
-              <li class="index-item">
                 <p class="top-word">G指数</p>
                 <p class="index-number">{{ scholar.gindex }}</p>
               </li>
               <li class="index-item">
                 <p class="top-word">成果数</p>
-                <p class="index-number">{{ scholar.citations }}</p>
+                <p class="index-number">{{ count }}</p>
               </li>
             </ul>
           </div>
@@ -153,14 +149,22 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="项目">
-            <scholarProject :scholarid="scholarid"></scholarProject>
+            <div class="project-list">
+              <scholarProject
+                :projectTotal="projectTotal"
+                :projectList="projectList"
+                :scholarid="scholarid"
+              ></scholarProject>
+            </div>
           </a-tab-pane>
           <a-tab-pane key="3" tab="专利">
-            <scholarPatent :scholarid="scholarid"></scholarPatent>
+            <div class="patent-list">
+              <scholarPatent :patentTotal="patentTotal" :patentList="patentList" :scholarid="scholarid"></scholarPatent>
+            </div>
           </a-tab-pane>
           <a-tab-pane key="4" tab="成果">
-            <div>
-              <scholarPaper :scholarid="scholarid"></scholarPaper>
+            <div class="paper-list">
+              <scholarPaper :paperTotal="paperTotal" :paperList="paperList" :scholarid="scholarid"></scholarPaper>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -205,50 +209,6 @@ const data = [
       "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
   },
 ];
-const authors = [
-  {
-    displayName: "陈志刚",
-    lastKnownAffiliationId: "中南大学",
-    paperCount: 25,
-    citationCount: 100,
-    con: 0,
-  },
-  {
-    displayName: "陈志刚",
-    lastKnownAffiliationId: "中南大学",
-    paperCount: 25,
-    citationCount: 100,
-    con: 1,
-  },
-  {
-    displayName: "陈志刚",
-    lastKnownAffiliationId: "中南大学",
-    paperCount: 25,
-    citationCount: 100,
-    con: 0,
-  },
-  {
-    displayName: "陈志刚",
-    lastKnownAffiliationId: "中南大学",
-    paperCount: 25,
-    citationCount: 100,
-    con: 0,
-  },
-  {
-    displayName: "陈志刚",
-    lastKnownAffiliationId: "中南大学",
-    paperCount: 25,
-    citationCount: 100,
-    con: 0,
-  },
-  {
-    displayName: "陈志刚",
-    lastKnownAffiliationId: "中南大学",
-    paperCount: 25,
-    citationCount: 100,
-    con: 0,
-  },
-];
 export default {
   components: {
     navSearch,
@@ -259,15 +219,11 @@ export default {
   data() {
     return {
       data,
-      authors,
       editInfoVisi: false,
       manageVisible: false,
       visible: false,
-      loginid: 0,
       pageid: 0,
       isDelete: true,
-      current: ["mail"],
-      openKeys: ["sub1"],
       user: {
         username: "陈志刚",
         ins: "中南大学",
@@ -344,6 +300,13 @@ export default {
         scholarname: [{ required: true, message: "Username is required!" }],
         email: [{ required: true, message: "Please input your E-mail!" }],
       },
+
+      paperList: [],
+      paperTotal: 0,
+      patentList: [],
+      patentTotal: 0,
+      projectList: [],
+      projectTotal: 0,
     };
   },
   mounted() {
@@ -597,9 +560,10 @@ export default {
       JSON.stringify(params);
       getData(url, params).then((res) => {
         console.log(res.code);
+        console.log("why got 400");
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.gotSList = res.data.datascholars;
+          this.gotSList = res.data;
           console.log("获取成功");
         } else {
           this.$message.error(res.message);
@@ -624,6 +588,7 @@ export default {
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           console.log("认领成功");
+          this.getSameNameScholar();
         } else {
           this.$message.error(res.message);
         }
@@ -633,13 +598,19 @@ export default {
     //退领数据库门户
     undoClaimDataPortal(index) {
       console.log(index);
-      let authorid = this.gotSList[index].authorid;
+      let authorid = this.gotSList[index].authorId;
+      console.log(authorid);
       let url = this.$urlPath.website.undoClaimDataPortal;
-      deleteData(url + "/" + this.scholarid + "/" + authorid).then((res) => {
+      let params = {
+        scholarId: this.scholarid,
+        authorId: authorid,
+      };
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           console.log("退领成功");
+          this.getDataPortal();
         } else {
           this.$message.error(res.message);
         }
@@ -676,9 +647,26 @@ export default {
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           this.scholar = res.data.scholar;
-          this.workExperience = res.data.workExperience;
+          if (this.scholar.gindex == null) {
+            this.scholar.gindex = 0;
+          }
+          this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
+          console.log(this.scholar.citations);
+          this.workExperience = res.data.workExperience.reverse();
+          this.form.email = this.scholar.email;
+          this.form.scholarname = this.scholar.name;
+          this.form.position = this.scholar.title;
+          this.form.instituition = this.scholar.organization;
+          this.form.intro = this.scholar.introduction;
+
+          this.projectTotal = res.data.projectNum;
+          this.projectList = res.data.project;
+          this.patentTotal = res.data.patentNum;
+          this.patentList = res.data.patent;
+          this.paperList = res.data.paper;
+          this.paperTotal = res.data.paperNum;
           console.log(this.scholar);
-          console.log(this.this.workExperience);
+          console.log(this.workExperience);
         } else {
           this.$message.error(res.message);
         }

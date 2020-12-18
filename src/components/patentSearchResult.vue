@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="result-sider">
+    <div class="homes-result-sider">
       <div class="sider-title">
         <a-icon type="read" />
         专利
@@ -32,7 +32,7 @@
         </a-sub-menu>
       </a-menu>
     </div>
-    <div class="result-main">
+    <div class="homes-result-main">
       <div class="topbar">
         <span style="display: inline-block; margin-top: 5px">
           检索到{{ total }}条结果</span
@@ -188,61 +188,61 @@ export default {
 </script>
 
 <style>
-.result-sider {
+.homes-result-sider {
   float: left;
   width: 220px;
   margin-right: 20px;
 }
-.result-sider .sider-title {
+.homes-result-sider .sider-title {
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu {
+.homes-result-sider .sider-menu {
   margin-left: 20px;
   padding-right: 20px;
   border-right: 0;
 }
-.result-sider .sider-menu .ant-menu-submenu-title {
+.homes-result-sider .sider-menu .ant-menu-submenu-title {
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu .ant-menu-item {
+.homes-result-sider .sider-menu .ant-menu-item {
   margin: 0;
 }
-.result-sider .sider-menu .ant-menu-item-selected::after {
+.homes-result-sider .sider-menu .ant-menu-item-selected::after {
   border: 0;
 }
 .searchResult-title {
   font-weight: 600;
 }
-.result-main {
+.homes-result-main {
   float: left;
   width: 1040px;
   overflow: hidden;
   padding-left: 20px;
   border-left: 1px solid #e3e3e3;
 }
-.result-main .topbar {
+.homes-result-main .topbar {
   border-bottom: 1px solid #e3e3e3;
   height: 40px;
 }
-.result-main .topbar .topbar-select {
+.homes-result-main .topbar .topbar-select {
   float: right;
   width: 100px;
   margin-right: 10px;
 }
-.result-main .ant-list-item-action {
+.homes-result-main .ant-list-item-action {
   margin-top: 5px;
 }
-.result-main .result-list .result-list-button {
+.homes-result-main .result-list .result-list-button {
   margin-right: 5px;
   padding: 0;
 }
-.result-main .result-list .ant-list-item {
+.homes-result-main .result-list .ant-list-item {
   padding-left: 10px;
 }
-.result-main .result-list .ant-list-item:hover {
+.homes-result-main .result-list .ant-list-item:hover {
   background-color: #fafafa;
   transition: all 0.5s;
 }
@@ -258,7 +258,7 @@ export default {
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.result-list .result-list-pagination {
+.homes-result-main .result-list .result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }
