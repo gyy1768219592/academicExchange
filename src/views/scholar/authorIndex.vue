@@ -17,10 +17,10 @@
           </div>
         </div>
         <div class="actions">
-          <a-button v-if="!isClaim" @click="claimDataPortal" class="btn">我要认领<a-icon type="star"/></a-button>
-          <a-button v-if="isClaim" class="btn">已认领<a-icon type="star" theme="filled"/></a-button>
+          <a-button v-if="!isClaim" @click="claimDataPortal" class="btn">我要认领<a-icon type="skin"/></a-button>
+          <a-button v-if="isClaim" class="btn">已被认领<a-icon type="skin" theme="filled"/></a-button>
           <a-button v-if="isClaim" @click="report" class="btn" type="primary"
-            >我要申诉<a-icon type="message"
+            >我要申诉<a-icon type="question-circle"
           /></a-button>
         </div>
       </div>

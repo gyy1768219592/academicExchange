@@ -130,7 +130,7 @@
         </div>
       </div>
       <div class="down-block">
-        <a-tabs default-active-key="3" @change="callback">
+        <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="主页" force-render>
             <div class="intro">
               <div class="echart" id="main"></div>
@@ -224,39 +224,6 @@ export default {
       visible: false,
       pageid: 0,
       isDelete: true,
-      user: {
-        username: "陈志刚",
-        ins: "中南大学",
-        posi: "教授",
-        hindex: 1,
-        gindex: 2,
-        experience: [
-          {
-            position: "副教授",
-            organization: "中科院",
-            startyear: "2019",
-            endyear: "2020",
-          },
-          {
-            position: "研究员",
-            organization: "中科院",
-            startyear: "1998",
-            endyear: "2019",
-          },
-          {
-            position: "研究生",
-            organization: "中科大",
-            startyear: "1983",
-            endyear: "1986",
-          },
-          {
-            position: "本科生",
-            organization: "中科大",
-            startyear: "1979",
-            endyear: "1983",
-          },
-        ],
-      },
       scholarid: 13,
       userid: 18,
       scholar: {
@@ -288,11 +255,11 @@ export default {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 },
       form: {
-        email: "470935458@qq.com",
-        position: "教授",
-        scholarname: "陈志刚",
-        instituition: "中南大学",
-        intro: "哈哈哈哈哈",
+        email: "",
+        position: "",
+        scholarname: "",
+        instituition: "",
+        intro: "",
       },
       rules: {
         position: [{ required: true, message: "Title is required!" }],
@@ -442,9 +409,9 @@ export default {
             radius: "55%",
             center: ["50%", "60%"],
             data: [
-              { value: 2, name: "项目" },
-              { value: 14, name: "专利" },
-              { value: 547, name: "文献" },
+              { value: this.projectTotal, name: "项目" },
+              { value: this.patentTotal, name: "专利" },
+              { value: this.paperTotal, name: "文献" },
             ],
             emphasis: {
               itemStyle: {
@@ -619,12 +586,13 @@ export default {
 
     //修改学者信息
     editScholarInfo() {
+      this.getScholarInfo();
       let params = {
         name: this.form.scholarname,
         email: this.form.email,
         title: this.form.position,
         introduction: this.form.intro,
-        instituition: this.form.instituition,
+        organization: this.form.instituition,
       };
       JSON.stringify(params);
       let url = this.$urlPath.website.editScholarInfo;
@@ -633,6 +601,7 @@ export default {
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           console.log("修改成功");
+          this.getScholarInfo();
         } else {
           this.$message.error(res.message);
         }
@@ -642,7 +611,7 @@ export default {
     //获取学者信息
     getScholarInfo() {
       let url = this.$urlPath.website.getScholarInfo;
-      getData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
+      getData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
