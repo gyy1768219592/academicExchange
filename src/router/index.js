@@ -91,7 +91,37 @@ const routes = [
     path: "/user/claimScholar",
     name: "claimScholar",
     component: () => import("../views/personalWorkplace/ClaimScholar.vue")
-  }
+  },
+  //收藏
+  {
+    path: "/collect",
+    name: "collect",
+    component: () => import("../views/message/collect.vue")
+  },
+  //关注
+  {
+    path: "/concern",
+    name: "concern",
+    component: () => import("../views/message/concern.vue")
+  },
+  //消息
+  {
+    path: "/message",
+    name: "message",
+    component: () => import("../views/message/message.vue")
+  },
+  //发送消息
+  {
+    path: "/sendMessage",
+    name: "sendMessage",
+    component: () => import("../views/message/sendMessage.vue")
+  },
+  //消息主页
+  {
+    path: "/messageInfo",
+    name: "messageInfo",
+    component: () => import("../views/message/messageInfo.vue")
+  },
 ];
 
 const router = new VueRouter({

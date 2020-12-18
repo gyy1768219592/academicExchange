@@ -43,6 +43,20 @@ let path = {
     editScholarInfo: Ip.productIP + "scholar",
     claimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
     undoClaimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
+
+    //消息
+    sendMessage: Ip.productIP + "/message/user/one",
+    getMessage: Ip.productIP + "/message/user/inbox",
+    delMessage: Ip.productIP + "/message/one",
+    //关注
+    getConcern: Ip.productIP + "/scholar/subscribe",
+    addConcern: Ip.productIP + "/scholar/subscribe",
+    delConcern: Ip.productIP + "/scholar/subscribe",
+    //收藏
+    addCollect: Ip.productIP + "",
+    getCollect: Ip.productIP + "",
+    delCollect: Ip.productIP + "",
+    
   },
 };
 export default path;
