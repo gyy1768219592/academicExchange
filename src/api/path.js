@@ -45,7 +45,9 @@ let path = {
     searchDataScholar: Ip.productIP + "scholar/SearchDataScholar",
     searchScholar: Ip.productIP + "scholar/Search",
     getHotFields: Ip.productIP + "scholarship/hotFields/",
-
+    // 提交申诉
+    uploadComplaintMaterial: Ip.productIP + "message/scholar/appeal/one/file",
+    makeAppeal: Ip.productIP + "message/scholar/appeal/one",
     //通过id获取数据库门户信息
     getScholarByID: Ip.productIP + "scholar/dataScholar/",
 

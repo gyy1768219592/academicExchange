@@ -25,6 +25,11 @@ const routes = [
     component: () => import("../views/personalWorkplace/personInfo.vue"),
   },
   {
+    path: "/personIndex",
+    name: "PersonIndex",
+    component: () => import("../views/personalWorkplace/personIndex.vue"),
+  },
+  {
     path: "/findPwd",
     name: "findPwd",
     component: () => import("../views/personalWorkplace/findPwd.vue"),
@@ -96,7 +101,7 @@ const routes = [
     path: "/appealTest",
     name: "appealTest",
     component: () => import("../views/appeal/appealTest.vue")
-  }
+  },
 ];
 
 const router = new VueRouter({
