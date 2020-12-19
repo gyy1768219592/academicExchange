@@ -219,20 +219,42 @@ export default {
   methods: {
     gotoScholar(Id){
       //去此人的主页
-      this.$router.push("/scholarIndex/" + Id);
+      if(Id!=-1){
+        let routeUrl = this.$router.resolve({
+          path: "/scholarIndex/" + Id,
+        });
+        window.open(routeUrl.href, '_blank');
+        // this.$router.push("/scholarIndex/" + Id);
+      }
     },
     gotoProg(ProgID){
-      this.$router.push("/progDisplay/"+ProgID);
+      let routeUrl = this.$router.resolve({
+        path: "/progDisplay/"+ProgID,
+      });
+      window.open(routeUrl.href, '_blank');
+      // this.$router.push("/progDisplay/"+ProgID);
     },
     gotoPatent(PatentID){
-      this.$router.push("/patentDisplay/"+PatentID);
+      let routeUrl = this.$router.resolve({
+        path: "/patentDisplay/"+PatentID,
+      });
+      window.open(routeUrl.href, '_blank');
+      // this.$router.push("/patentDisplay/"+PatentID);
     },
     gotoProgOrPatent(item){
       if(item.progID!=-1){
-        this.$router.push("/progDisplay/"+item.progID);
+        let routeUrl = this.$router.resolve({
+          path: "/progDisplay/"+item.progID,
+        });
+        window.open(routeUrl.href, '_blank');
+        // this.$router.push("/progDisplay/"+item.progID);
       }
       else if(item.patentID!=-1){
-        this.$router.push("/patentDisplay/"+item.patentID);
+        let routeUrl = this.$router.resolve({
+          path: "/patentDisplay/"+item.patentID,
+        });
+        window.open(routeUrl.href, '_blank');
+        // this.$router.push("/patentDisplay/"+item.patentID);
       }
     },
     changeMain(item){

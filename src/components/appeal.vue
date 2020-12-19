@@ -186,6 +186,9 @@ export default {
         }
       });
     },
+    giveFeedback(){
+      
+    },
     getAppeal(){
       let params = new URLSearchParams();
       // params.append("projectId", this.progID);
