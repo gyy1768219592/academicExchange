@@ -24,10 +24,10 @@
                     v-for="(item, key) in scholarList.scholarList1"
                     :key="key"
                   >
-                    <div class="card-avatar">
+                    <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                       <a-avatar :size="80" :src="item.src" />
                     </div>
-                    <div class="card-info">
+                    <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
                       ><br />
@@ -68,10 +68,10 @@
                   v-for="(item, key) in scholarListMain"
                   :key="key"
                 >
-                  <div class="card-avatar">
+                  <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                     <a-avatar :size="80" :src="item.src" />
                   </div>
-                  <div class="card-info">
+                  <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
                     ><br />
@@ -102,10 +102,10 @@
                   v-for="(item, key) in scholarList.scholarList2"
                   :key="key"
                 >
-                  <div class="card-avatar">
+                  <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
                     <a-avatar :size="80" :src="item.src" />
                   </div>
-                  <div class="card-info">
+                  <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
                     ><br />
@@ -158,10 +158,10 @@
                     v-for="(item, key) in scholarList.scholarList3"
                     :key="key"
                   >
-                    <div class="card-avatar">
+                    <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
                       <a-avatar :size="80" :src="item.src" />
                     </div>
-                    <div class="card-info">
+                    <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
                       ><br />
@@ -212,7 +212,15 @@ export default {
       total: 203,
       src:
             "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-      scholarListMain:[],
+      scholarListMain:[{
+        ScholarId: -1,
+        name: "无名氏",
+        src: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        institution: "暂时没有机构",
+        // paper: res.data[0].dataScholar.paperCount,
+        // citation: res.data[0].dataScholar.citationCount,
+        // Hindex: res.data[0].dataScholar.hindex,
+      }],
       scholarList:{
         scholarList1: [],
         scholarList2: [],
@@ -222,6 +230,14 @@ export default {
   },
   props: ["word"],
   methods: {
+    gotoScholar(Id){
+      //去此人的主页
+      this.$router.push("/scholarIndex/" + Id);
+    },
+    gotoAuthor(Id){
+      //去此人的主页
+      this.$router.push("/authorIndex/" + Id);
+    },
     changeMain(key,item){
       this.$set(this.scholarListMain,0,this.scholarList.scholarList1[key]);
       let params = new URLSearchParams();

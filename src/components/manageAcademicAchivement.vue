@@ -95,10 +95,10 @@
                   v-for="(item, key) in AuthorList.AuthorList1"
                   :key="key"
                 >
-                  <div class="card-avatar">
+                  <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                     <a-avatar :size="80" :src="item.src" />
                   </div>
-                  <div class="card-info">
+                  <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
                     ><br />
@@ -151,10 +151,10 @@
                     v-for="(item, key) in AuthorList.AuthorList2"
                     :key="key"
                   >
-                    <div class="card-avatar">
+                    <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                       <a-avatar :size="80" :src="item.src" />
                     </div>
-                    <div class="card-info">
+                    <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
                       ><br />
@@ -217,6 +217,10 @@ export default {
   },
   props: ["word"],
   methods: {
+    gotoScholar(Id){
+      //去此人的主页
+      this.$router.push("/scholarIndex/" + Id);
+    },
     gotoProg(ProgID){
       this.$router.push("/progDisplay/"+ProgID);
     },

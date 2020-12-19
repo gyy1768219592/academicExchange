@@ -563,7 +563,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -200px -105px 10px 10px;
+  margin: -21% -105px 10px 10px;
 }
 .btn {
   width: 100px;

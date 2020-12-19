@@ -24,7 +24,7 @@
                           </a>
                           <a-menu slot="overlay">
                             <a-menu-item>
-                              <div class="author" @click="gotoUser">
+                              <div class="author" @click="gotoUser(item.scholarId,item.authorId)">
                                 <a-avatar class="img" :size="30" icon="user" />
                                 <h1 class="author-name2">{{ item.name }}</h1>
                               </div>
@@ -307,9 +307,14 @@ export default {
     callback(key) {
       console.log(key);
     },
-    gotoUser(){
+    gotoUser(scholarId,authorId){
       //去此人的主页
-      this.$router.push("/scholarIndex");
+      if(scholarId==-1){
+        this.$router.push("/authorIndex/" + authorId);
+      }
+      else if(authorId == -1){
+        this.$router.push("/scholarIndex/" + scholarId);
+      }
     },
     shoucang(){
       this.$message.success("已收藏");
@@ -378,6 +383,7 @@ export default {
               HIndex: res.data.paperMap.authorList[i].HIndex,
               src: "https:///resmod/smate-pc/img/logo_psndefault.png",
               authorId: res.data.paperMap.authorList[i].authorId,
+              scholarId: -1,
             }
             this.author_data.push(temp);
           } 
@@ -388,7 +394,8 @@ export default {
               citationCount: res.data.paperMap.scholarList[j].citationCount,
               HIndex: res.data.paperMap.scholarList[j].HIndex,
               src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-              authorId: res.data.paperMap.scholarList[j].authorId,
+              authorId: -1,
+              scholarId: res.data.paperMap.scholarList[j].scholarId,
             }
             this.author_data.push(temp1);
           } 
