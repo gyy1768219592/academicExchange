@@ -30,6 +30,7 @@
               <a-button class="btn" @click="shoucang">{{LikeDisplay}}</a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
+            <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
             <div class="date">
               <span class="date-num">组织：{{progData.organization}}({{progData.organizationID}})</span>
             </div>
@@ -137,6 +138,8 @@ export default {
   },
   data() {
     return {
+      visible:false,
+      type: 'patent',
       Like: false,
       LikeDisplay:"收藏",
       canClaim: false,
@@ -161,6 +164,12 @@ export default {
     this.getLikeStatus();
   },
   methods: {
+    showModal() {
+      this.visible = true;
+    },
+    closeModal() {
+      this.visible = false;
+    },
     getProg(){//haveRenling
       let params = new URLSearchParams();
       // params.append("projectId", this.progID);
@@ -263,7 +272,8 @@ export default {
           });
         }
         else{
-          this.$message.error("名额已满，不能认领");
+          this.$message.error("名额已满，不能认领，请申诉");
+          this.showModal();
         }
       }
       else{

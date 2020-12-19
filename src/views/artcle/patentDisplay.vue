@@ -27,7 +27,7 @@
               <a-button class="btn" @click="shoucang">{{LikeDisplay}}</a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
-            <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="47"></appeal-achievement>
+            <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
             <div class="date">
               <span class="date-num">主分类号： {{patentData.mainClassificationNumber}}</span>
             </div>
@@ -228,7 +228,8 @@ export default {
           });
         }
         else{
-          this.$message.error("名额已满，不能认领");
+          this.$message.error("名额已满，不能认领，请申诉");
+          this.showModal();
         }
       }
       else{
