@@ -102,7 +102,7 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <a-tab-pane key="3" tab="引用助手" style="margin: 10px">
+          <!-- <a-tab-pane key="3" tab="推荐项目" style="margin: 10px">
             <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
@@ -113,7 +113,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-          </a-tab-pane>
+          </a-tab-pane> -->
           </a-tabs>
         </div>
         <div class="down-right-block">
@@ -169,7 +169,13 @@ export default {
       getData(url, params).then(res => {
         if (res.code === 1001) {
           this.progData = res.data.project;
-          this.progData.doiUrl = this.progData.doi.substring(16,this.progData.doi.length+1);
+          if(this.progData.doi[0]=='h'){
+            this.progData.doiUrl = this.progData.doi.substring(16,this.progData.doi.length+1);
+          }
+          else if(this.progData.doi[0]>'0'&&this.progData.doi[0]<'9'){
+            this.progData.doiUrl = this.progData.doi;
+            this.progData.doi = "https://doi.org/" + this.progData.doi;
+          }
           this.author_data = this.progData.authors.split(";");
           console.log(res.data.project);
           console.log(this.author_data);
@@ -352,46 +358,40 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1200px;
-  height: 1400px;
+  width: 1400px;
+  /* height: 1400px; */
   margin: auto;
   /* border: solid 1px black; */
 }
 .up-block {
   /* border: solid 1px black; */
-  width: 1100px;
+  width: 1200px;
   /* height: 220px; */
   margin: auto;
   background-color: #fafafa;
 }
 .down-block {
   /* border: solid 1px black; */
-  width: 1100px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: auto;
 }
 .down-left-block {
   /* border: solid 1px black; */
-  width: 750px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: 0px 0px 0px 0px;
 }
 .down-right-block {
   /* border: solid 1px black; */
-  width: 350px;
-  height: 900px;
-  margin: -900px 10px 10px 750px;
+  width: 0px;
+  height: 100px;
+  /* margin: -1200px 10px 10px 750px; */
 }
 .artcle-info {
   /* border: solid 1px black; */
-  width: 950px;
+  width: 1050px;
   /* height: 180px; */
-  margin: 10px;
-}
-.tool{
-  /* border: solid 1px black; */
-  width: 950px;
-  height: 40px;
   margin: 10px;
 }
 .refer-num{
@@ -410,13 +410,13 @@ export default {
 }
 .refer-num1{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   height: 30px;
   margin: 10px 10px 10px 10px;
 }
 .refer-num-dis1{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   height: 30px;
   margin: 10px 10px 10px 10px;
   font-size: medium;
@@ -425,7 +425,7 @@ export default {
   /* border: solid 1px black; */
   width: 200px;
   height: 25px;
-  margin: -25px 0px 0px 700px;
+  margin: -25px 0px 0px 800px;
   /* margin-top: -25px;
   margin-right: 20px; */
   font-size: small;
@@ -451,12 +451,12 @@ export default {
 }
 .title{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
 }
 .title-name{
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
   font-size: x-large;
@@ -464,7 +464,7 @@ export default {
 }
 .authors{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
 }
@@ -490,12 +490,12 @@ export default {
 }
 
 .Abstract-frame{
-  width: 700px;
+  width: 1100px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .Abstract{
-  width: 600px;
+  width: 1000px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;

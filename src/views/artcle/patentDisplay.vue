@@ -99,7 +99,7 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <a-tab-pane key="3" tab="引用助手" style="margin: 10px">
+          <!-- <a-tab-pane key="3" tab="推荐专利" style="margin: 10px">
             <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
@@ -110,7 +110,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-          </a-tab-pane>
+          </a-tab-pane> -->
           </a-tabs>
         </div>
         <div class="down-right-block">
@@ -296,46 +296,40 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1200px;
-  height: 1400px;
+  width: 1400px;
+  /* height: 1400px; */
   margin: auto;
   /* border: solid 1px black; */
 }
 .up-block {
   /* border: solid 1px black; */
-  width: 1100px;
+  width: 1200px;
   /* height: 220px; */
   margin: auto;
   background-color: #fafafa;
 }
 .down-block {
   /* border: solid 1px black; */
-  width: 1100px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: auto;
 }
 .down-left-block {
   /* border: solid 1px black; */
-  width: 750px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: 0px 0px 0px 0px;
 }
 .down-right-block {
   /* border: solid 1px black; */
-  width: 350px;
-  height: 900px;
-  margin: -900px 10px 10px 750px;
+  width: 0px;
+  height: 100px;
+  /* margin: -1200px 10px 10px 750px; */
 }
 .artcle-info {
   /* border: solid 1px black; */
-  width: 950px;
+  width: 1050px;
   /* height: 180px; */
-  margin: 10px;
-}
-.tool{
-  /* border: solid 1px black; */
-  width: 950px;
-  height: 40px;
   margin: 10px;
 }
 .refer-num{
@@ -366,12 +360,12 @@ export default {
 }
 .title{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
 }
 .title-name{
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
   font-size: x-large;
@@ -379,7 +373,7 @@ export default {
 }
 .inventors{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
 }
@@ -405,12 +399,12 @@ export default {
 }
 
 .Content-frame{
-  width: 700px;
+  width: 1100px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .Content{
-  width: 600px;
+  width: 1000px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;
@@ -496,7 +490,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -200px -105px 10px 10px;
+  margin: -180px -105px 10px 10px;
 }
 .btn {
   width: 100px;

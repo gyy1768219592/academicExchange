@@ -103,7 +103,7 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <a-tab-pane key="3" tab="引用助手" style="margin: 10px">
+          <!-- <a-tab-pane key="3" tab="推荐文献" style="margin: 10px">
             <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
@@ -114,7 +114,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-          </a-tab-pane>
+          </a-tab-pane> -->
           </a-tabs>
         </div>
         <div class="down-right-block">
@@ -409,46 +409,40 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1200px;
-  height: 1400px;
+  width: 1400px;
+  /* height: 1400px; */
   margin: auto;
   /* border: solid 1px black; */
 }
 .up-block {
   /* border: solid 1px black; */
-  width: 1100px;
+  width: 1200px;
   /* height: 220px; */
   margin: auto;
   background-color: #fafafa;
 }
 .down-block {
   /* border: solid 1px black; */
-  width: 1100px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: auto;
 }
 .down-left-block {
   /* border: solid 1px black; */
-  width: 750px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: 0px 0px 0px 0px;
 }
 .down-right-block {
   /* border: solid 1px black; */
-  width: 350px;
-  height: 900px;
-  margin: -900px 10px 10px 750px;
+  width: 1200px;
+  height: 100px;
+  /* margin: 0px 10px 10px 750px; */
 }
 .artcle-info {
   /* border: solid 1px black; */
-  width: 950px;
+  width: 1050px;
   /* height: 180px; */
-  margin: 10px;
-}
-.tool{
-  /* border: solid 1px black; */
-  width: 950px;
-  height: 40px;
   margin: 10px;
 }
 .refer-num{
@@ -467,13 +461,13 @@ export default {
 }
 .refer-num1{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   height: 30px;
   margin: 10px 10px 10px 10px;
 }
 .refer-num-dis1{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   height: 30px;
   margin: 10px 10px 10px 10px;
   font-size: medium;
@@ -491,12 +485,12 @@ export default {
 }
 .title{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
 }
 .title-name{
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
   font-size: x-large;
@@ -504,7 +498,7 @@ export default {
 }
 .authors{
   /* border: solid 1px black; */
-  width: 900px;
+  width: 1000px;
   /* height: 50px; */
   margin: 10px;
 }
@@ -550,12 +544,12 @@ export default {
 }
 
 .Abstract-frame{
-  width: 700px;
+  width: 1000px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .Abstract{
-  width: 600px;
+  width: 900px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;
@@ -564,7 +558,7 @@ export default {
 .DOI-frame{
   width: 700px;
   /* border: solid 1px black; */
-  margin: -25px 0px 0px 550px;
+  margin: -25px 0px 0px 750px;
 }
 .DOI{
   width: 600px;
