@@ -130,6 +130,7 @@
 import navSearch from "@/components/navSearch";
 import { getData } from "@/api/webget";
 import { postData } from "@/api/webpost";
+import { putData } from "@/api/webput";
 export default {
   components: {
     navSearch,
@@ -289,20 +290,23 @@ export default {
     getLikeStatus(){
       let params = new URLSearchParams();
       params.append("paperId", this.progID);
-      params.append("type", 1);
+      params.append("type", 2);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
       console.log(url);
       getData(url, params).then(res => {
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           console.log(res);
-          // this.Like =
-          if(this.Like){ 
-            this.LikeDisplay = "取消收藏";
-          }
+          this.Like = true;
+          this.LikeDisplay = "取消收藏";
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else if(res.code === 404){
+          this.Like = false;
+          this.LikeDisplay = "收藏";
+          console.log(res.code);
+          // this.$message.success(res.message);
         } else {
           console.log(res.code);
           this.$message.error(res.message);
@@ -311,24 +315,26 @@ export default {
     },
     shoucang(){
       let params = new URLSearchParams();
-      params.append("paperId", this.progID);
-      params.append("type", 1);
+      params={
+        "paperId": this.progID,
+        "type": 2,
+      };
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
       console.log(url);
-      getData(url, params).then(res => {
+      putData(url,params).then(res => {
         if (res.code === 1001) {
           this.$message.success(res.message);
           console.log(res);
           if(this.Like){ 
             this.LikeDisplay = "收藏";
-            this.$message.success("已取消收藏");
-            // this.Like = false;
+            // this.$message.success("已取消收藏");
+            this.Like = false;
           }
           else {
             this.LikeDisplay = "取消收藏";
-            this.$message.success("已收藏");
-            // this.Like = true;
+            // this.$message.success("已收藏");
+            this.Like = true;
           }
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");

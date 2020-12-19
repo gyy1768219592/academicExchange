@@ -58,7 +58,7 @@ let path = {
     getSidByUid: Ip.productIP + "/user/getScholarId",
 
     //获取、改变收藏状态
-    gcLikeStatus: Ip.productIP + "scholarship/starStatus/",
+    gcLikeStatus: Ip.productIP + "scholarship/starStatus",
 
     //认退领项目
     renlingProg: Ip.productIP + "scholarship/claimProject/",

@@ -52,7 +52,7 @@
               </a-list>
           </div>
           <div class="actions">
-            <a-button class="btn" @click="shoucang">收藏</a-button>
+            <a-button class="btn" @click="shoucang">{{LikeDisplay}}</a-button>
             <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
           </div>
           <div class="date">
@@ -144,6 +144,7 @@
 //引入导航栏
 //import personNav from "@/components/personNav";
 import { getData } from "@/api/webget";
+import { putData } from "@/api/webput";
 import navSearch from "@/components/navSearch";
 // require('echarts/lib/chart/bar')
 // require('echarts/lib/component/tooltip')
@@ -154,6 +155,8 @@ export default {
   },
   data() {
     return {
+      Like: false,
+      LikeDisplay:"收藏",
       paperID: this.$route.params.id,
       author_data : [],
       PaperTitle : "",
@@ -184,6 +187,7 @@ export default {
   mounted(){
     // this.initCharts();
     this.getPaper();
+    this.getLikeStatus();
   },
   methods: {
     // initCharts () {
@@ -316,9 +320,62 @@ export default {
         this.$router.push("/scholarIndex/" + scholarId);
       }
     },
+    getLikeStatus(){
+      let params = new URLSearchParams();
+      params.append("paperId", this.paperID);
+      params.append("type", 0);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          // this.$message.success(res.message);
+          console.log(res);
+          this.Like = true;
+          this.LikeDisplay = "取消收藏";
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else if(res.code === 404){
+          this.Like = false;
+          this.LikeDisplay = "收藏";
+          console.log(res.code);
+          // this.$message.success(res.message);
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+    },
     shoucang(){
-      this.$message.success("已收藏");
-      this.$message.success("已取消收藏");
+      let params = new URLSearchParams();
+      params={
+        "paperId": this.paperID,
+        "type": 0,
+      };
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
+      console.log(url);
+      putData(url,params).then(res => {
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          console.log(res);
+          if(this.Like){ 
+            this.LikeDisplay = "收藏";
+            // this.$message.success("已取消收藏");
+            this.Like = false;
+          }
+          else {
+            this.LikeDisplay = "取消收藏";
+            // this.$message.success("已收藏");
+            this.Like = true;
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     fenxiang(){
       var domUrl = document.createElement("input");
