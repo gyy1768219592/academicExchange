@@ -1,9 +1,9 @@
 <template>
     <div>
       <a-button type="primary" @click="showModal">
-        这是学术成果申诉
+        申诉
       </a-button>
-      <appeal-achievement :visible="visible" v-on:closeModal="closeModal"></appeal-achievement>
+      <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="47"></appeal-achievement>
     </div>
 </template>
 <script>
@@ -13,7 +13,7 @@ export default {
     data() {
       return {
         visible:false,
-        confirmLoading: false,
+        type: 'paper',
       };
     },
     methods: {
