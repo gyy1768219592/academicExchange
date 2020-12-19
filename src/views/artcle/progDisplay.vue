@@ -14,11 +14,11 @@
                 <span class="refer-num-dis1">{{progData.chineseTitle}}</span>
             </div>
             <div class="authors">
-                <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="author_data">
+                <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
                     <a-list-item slot="renderItem" slot-scope="item">
                         <div class="author">
                           <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar class="img" :size="35" icon="user" />
+                            <a-avatar class="img" :size="30" icon="user" />
                             <h1 class="author-name">{{ item }}</h1>
                           </a>
                         </div>
@@ -27,14 +27,14 @@
             </div>
             <div class="actions">
               <a-button class="btn" @click="renling">{{renlingchar}}</a-button>
-              <a-button class="btn" @click="shoucang">收藏</a-button>
+              <a-button class="btn" @click="shoucang">{{LikeDisplay}}</a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
             <div class="date">
-                <span class="date-num">公布时间： {{progData.publishDate}}</span>
+                <span class="date-num">组织：{{progData.organization}}({{progData.organizationID}})</span>
             </div>
             <div class="organization">
-                <span class="organization-num">机构：{{progData.organization}}({{progData.organizationID}})</span>
+                <span class="organization-num">公布日期： {{progData.publishDate}}</span>
             </div>
         </div>
       </div>
@@ -108,23 +108,7 @@
           </a-tabs>
         </div>
         <div class="down-right-block">
-          <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
-          <span class = "title-echart">引用走势</span>
-          <!-- style="z-index:999;float:left;position:absolute" -->
-          <div class="echarts-infor-frame">
-            <div class="echarts-infor">
-              <div class="echarts-infor-item">
-                <span class="echarts-infor-item_cnt" id="leijialiang">{{leijiliang}}</span> 
-                <span class="echarts-infor-item_cnt">累计被引量</span>
-              </div>
-              <div class="echarts-infor-item">
-                <span class="echarts-infor-item_cnt" id="mounianbeiyinliang">{{mounianbeiyinliang}}</span> 
-                <span class="echarts-infor-item_cnt" id="mounian">{{mounian}}年被引量</span>
-              </div>
-            </div>
-          </div>
-          <div id="myChart" class="myChart">
-          </div>
+          
         </div>
       </div>
     </div>
@@ -137,15 +121,14 @@
 import navSearch from "@/components/navSearch";
 import { getData } from "@/api/webget";
 import { postData } from "@/api/webpost";
-require('echarts/lib/chart/bar')
-require('echarts/lib/component/tooltip')
-require('echarts/lib/component/title')
 export default {
   components: {
     navSearch,
   },
   data() {
     return {
+      Like: false,
+      LikeDisplay:"收藏",
       canClaim: false,
       nowClaimNumber: -1,
       maxClaimNumber: -1,
@@ -161,127 +144,15 @@ export default {
     },
   },
   mounted(){
-    this.initCharts();
     this.getProg();
     this.getRenlingStatus();
     this.checkrenling();
     this.getLikeStatus();
   },
   methods: {
-    initCharts () {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById('myChart'));
-      // 绘制图表
-      myChart.setOption({
-        title: {
-            text: '',
-            subtext: ''
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['最高','最低']
-        },
-        splitLine:{//去掉网格线
-          show: false
-        },
-        toolbox: {
-            show: false,
-            feature: {
-                dataZoom: {
-                    yAxisIndex: 'none'
-                },
-                dataView: {readOnly: false},
-                magicType: {type: ['line', 'bar']},
-                saveAsImage: {}
-            }
-        },
-        xAxis:  {
-            type: 'category',
-            boundaryGap: false,
-            axisLabel: {
-                formatter: '{value}'
-            },
-            data: ['1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020']
-        },
-        yAxis: {
-            show: false,
-            type: 'value',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        },
-        
-        series: [
-          {
-            name:'',
-            type:'line',
-            data:[0, 0, 1, 2, 4, 8, 9, 12, 14, 15, 19, 20, 21, 22, 23, 24, 26, 34, 46, 52, 60, 67],
-            markPoint: {
-              data: [
-                {type: 'max', name: '最大值'},
-                {type: 'min', name: '最小值'}
-              ]
-            },
-            markLine: {
-              data: [
-                // {type: 'average', name: '平均值'}
-              ]
-            },
-            tooltip: {
-              show: true,
-              trigger: 'axis',
-            },
-            itemStyle: {
-              normal: {
-                color: "#386db3",//折线点的颜色
-                lineStyle: {
-                color: "#386db3"//折线的颜色
-                }
-              }
-            }
-          },
-          
-        ]
-      });
-      myChart.getZr().on('mousemove', function (params) { 
-      var pointInPixel= [params.offsetX, params.offsetY];
-        if (myChart.containPixel('grid',pointInPixel)) {
-          this.leijiliang = 10;
-          var pointInGrid=myChart.convertFromPixel({seriesIndex:0},pointInPixel);
-          var xIndex=pointInGrid[0];
-          var op=myChart.getOption();
-          var month = op.xAxis[0].data[xIndex];
-          var value = op.series[0].data[xIndex];
-          var num=0;
-          for (var i=0; i<=xIndex; i++){
-              num+=op.series[0].data[i];
-          }
-          this.mounian=month;
-          if(isNaN(num)){
-            num=0;
-          }
-          if(typeof(this.mounianbeiyinliang) == undefined){
-            this.mounianbeiyinliang = 0;
-          }
-          if(typeof(this.mounian) == undefined){
-            this.mounian = "0000";
-          }
-          this.mounianbeiyinliang = value;
-          var span = document.getElementById("leijialiang");
-          span.innerHTML = num;
-          span = document.getElementById("mounianbeiyinliang");
-          span.innerHTML = this.mounianbeiyinliang;
-          span = document.getElementById("mounian");
-          span.innerHTML = this.mounian+"年被引量";
-        }
-      });
-      
-    },
     getProg(){//haveRenling
       let params = new URLSearchParams();
-      params.append("projectId", this.progID);
+      // params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getProjectById + this.progID;
       console.log(url);
@@ -409,7 +280,10 @@ export default {
         if (res.code === 1001) {
           this.$message.success(res.message);
           console.log(res);
-          // this.Like = 
+          // this.Like =
+          if(this.Like){ 
+            this.LikeDisplay = "取消收藏";
+          }
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
@@ -419,8 +293,33 @@ export default {
       });
     },
     shoucang(){
-      this.$message.success("已收藏");
-      this.$message.success("已取消收藏");
+      let params = new URLSearchParams();
+      params.append("paperId", this.progID);
+      params.append("type", 1);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          console.log(res);
+          if(this.Like){ 
+            this.LikeDisplay = "收藏";
+            this.$message.success("已取消收藏");
+            // this.Like = false;
+          }
+          else {
+            this.LikeDisplay = "取消收藏";
+            this.$message.success("已收藏");
+            // this.Like = true;
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     fenxiang(){
       var domUrl = document.createElement("input");
@@ -450,7 +349,7 @@ export default {
 .up-block {
   /* border: solid 1px black; */
   width: 1100px;
-  height: 220px;
+  /* height: 220px; */
   margin: auto;
   background-color: #f0f0f0f0;
 }
@@ -475,7 +374,7 @@ export default {
 .artcle-info {
   /* border: solid 1px black; */
   width: 950px;
-  height: 180px;
+  /* height: 180px; */
   margin: 10px;
 }
 .tool{
@@ -484,40 +383,19 @@ export default {
   height: 40px;
   margin: 10px;
 }
-.collect{
-  /* border: solid 1px black; */
-  width: 100px;
-  height: 40px;
-  margin: 0px;
-}
-.collect-word{
-  /* border: solid 1px black; */
-  width: 50px;
-  height: 35px;
-  margin: 0px 0px 0px -30px;
-  font-size: x-large;
-}
-.star{
-  /* border: solid 1px black; */
-  color: #08c;
-  width: 40px;
-  height: 40px;
-  margin: 0px 0px 0px -20px;
-  font-size: x-large;
-}
 .refer-num{
   /* border: solid 1px black; */
-  width: 300px;
+  /* width: 100px; */
   height: 25px;
   margin: 10px 10px 10px 10px;
-  font-size: small;
+  font-weight: 800;
 }
 .refer-num-dis{
   /* border: solid 1px black; */
-  width: 300px;
+  /* width: 100px; */
   height: 25px;
   margin: 10px 10px 10px 10px;
-  font-size: large;
+  font-weight: 800;
 }
 .refer-num1{
   /* border: solid 1px black; */
@@ -538,23 +416,25 @@ export default {
   width: 200px;
   height: 25px;
   margin: -25px 0px 0px 700px;
+  /* margin-top: -25px;
+  margin-right: 20px; */
   font-size: small;
 }
 .organization-num{
   width: 200px;
   height: 25px;
-  margin: 10px;
+  margin-right: 10px;
   font-size: medium;
 }
 .date{
   /* border: solid 1px black; */
-  width: 200px;
+  /* width: 200px; */
   height: 25px;
   margin: 0px 0px 0px 0px;
   font-size: small;
 }
 .date-num{
-  width: 200px;
+  /* width: 200px; */
   height: 25px;
   margin: 10px;
   font-size: medium;
@@ -564,50 +444,32 @@ export default {
   width: 800px;
   height: 50px;
   margin: 10px;
-  font-size: x-large;
 }
 .title-name{
   width: 800px;
   height: 50px;
   margin: 10px;
-  font-size: xx-large;
+  font-size: x-large;
+  font-weight: 650;
 }
 .authors{
   /* border: solid 1px black; */
   width: 900px;
-  height: 50px;
+  /* height: 50px; */
   margin: 10px;
 }
 .author {
   height: 40px;
-  width: 130px;
+  /* width: 130px; */
   margin: 5px;
   /*border: solid 1px black;*/
 }
 .author-name {
-  width: 95px;
+  /* width: 95px; */
   /*border: solid 1px black; */
-  margin: -37px auto 0 35px;
+  margin: -30px auto 0 35px;
   height: 40px;
-  font-size: x-large;
-}
-.author-name2 {
-  width: 95px;
-  /*border: solid 1px black; */
-  margin: -35px auto 0 40px;
-  height: 50px;
-  font-size: x-large;
-}
-.addLink{
-  width: 100px;
-  /*border: solid 1px black; */
-  margin: -50px auto 0 40px;
-}
-.myChart {
-  /* border: solid 1px blue; */
-  width: 320px;
-  height: 300px;
-  margin: -60px 0px 0px 0px;
+  font-size: medium;
 }
 .yinyong {
     width: 80%;
@@ -615,9 +477,6 @@ export default {
     font-size: 14px;
     line-height: 20px;
     font-size: large;
-}
-.title-echart{
-  font-size: medium;
 }
 
 .Abstract-frame{
@@ -673,45 +532,7 @@ export default {
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
 }
-.author-infor {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin: 12px 0px;
-}
-.author-infor-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.author-infor-item_cnt {
-    color: #999;
-    font-size: 14px;
-}
 
-.echarts-infor-frame{
-  width: 50%;
-  margin: 0px 0px 0px 0px;
-}
-.echarts-infor {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin: 12px 0px;
-}
-.echarts-infor-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-.echarts-infor-item_cnt {
-    color: #999;
-    font-size: 14px;
-}
 .img {
   margin: auto;
   /* border: solid 1px red; */
@@ -738,16 +559,5 @@ export default {
   width: 100px;
   /* border: solid 1px black; */
   margin: 15px;
-}
-
-.info-content-ins {
-  width: 100px;
-  /* border: solid 1px red; */
-  margin: -5px auto 10px 120px;
-}
-.info-content-index {
-  width: 250px;
-  /* border: solid 1px purple; */
-  margin: 20px auto 10px 120px;
 }
 </style>

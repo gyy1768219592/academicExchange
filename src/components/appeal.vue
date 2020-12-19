@@ -59,7 +59,7 @@
             >
             <a-list-item-meta
               :description="
-                '   申诉者ID: ' + 
+                '   申诉者UID: ' + 
                 item.senderUserid +
                 '   相关数据ID: ' +
                 (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid))) +
@@ -91,6 +91,7 @@
 <script>
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
+import { postData } from "@/api/webpost";
 export default {
   data() {
     return {
@@ -188,10 +189,10 @@ export default {
       params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getAppeal;
-      console.log(url);
       getData(url, params).then(res => {
         this.List.appealList = res.data;
         this.List.showList = res.data;
+        console.log(this.List.showList);
         this.total = this.List.appealList.length;
         for(var i = 0; i < this.total ; i ++){
           if(this.List.showList[i].msgstatus === 0){
@@ -209,7 +210,6 @@ export default {
             this.paperTypeOptions[1].count ++;
           }
         }
-        console.log(res);
         if (res.code === 1001) {
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
@@ -265,6 +265,25 @@ export default {
         this.$set(this.List,"showList",temp);
         this.total = temp.length;
       }
+    },
+    getSidByUid(uid){
+      let params = new URLSearchParams();
+      params.append("UserID", uid);
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getSidByUid;
+      // putData(url + params).then((res) => {
+      postData(url, params).then(res => {
+        // console.log(res.code);
+        if (res.code === 1001) {
+          return res.data.scholarId;
+          // this.$message.success(res.message);
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     selectSolved(value){
       if(value == 3){
