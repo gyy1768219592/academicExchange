@@ -36,7 +36,7 @@ export default {
           this.status = 'success';
           this.title = "认证成功";
           this.show = true;
-          this.goClaimScholar();
+          this.goClaimScholar(res.data.englishname);
           console.log(res);
         } else if(res.code == 404) {
           this.status = '404';
@@ -55,7 +55,7 @@ export default {
     });
   },
   methods: {
-    goClaimScholar() {
+    goClaimScholar(value) {
       const TIME_COUNT = 3
       if(!this.timer) {
         this.count = TIME_COUNT
@@ -67,13 +67,22 @@ export default {
             clearInterval(this.timer)
             this.timer = null
             //TODO 跳转到认领门户页面
-            this.$router.push('/user/claimScholar');
+            this.toClaimScholar(value);
           }
         },1000)
       }
     },
-    toClaimScholar() {
-      this.$router.push('/user/claimScholar');
+    toClaimScholar(value) {
+      this.$router.push({
+          path: "/user/claimScholar",
+          query: {
+            word: value,
+            institution: "",
+            author: "",
+            startDate: "",
+            endDate: "",
+          },
+        });
     },
     toPersonInfo() {
       this.$router.push('/personInfo');
