@@ -14,16 +14,16 @@
                 <span class="refer-num-dis1">{{progData.chineseTitle}}</span>
             </div>
             <div class="authors">
-                <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
-                    <a-list-item slot="renderItem" slot-scope="item">
-                        <div class="author">
-                          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar class="img" :size="30" icon="user" />
-                            <h1 class="author-name">{{ item }}</h1>
-                          </a>
-                        </div>
-                    </a-list-item>
-                </a-list>
+              <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
+                  <a-list-item slot="renderItem" slot-scope="item">
+                      <div class="author">
+                        <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                          <a-avatar class="img" :size="30" icon="user" />
+                          <h1 class="author-name">{{ item }}</h1>
+                        </a>
+                      </div>
+                  </a-list-item>
+              </a-list>
             </div>
             <div class="actions">
               <a-button class="btn" @click="renling">{{renlingchar}}</a-button>
@@ -31,10 +31,10 @@
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
             <div class="date">
-                <span class="date-num">组织：{{progData.organization}}({{progData.organizationID}})</span>
+              <span class="date-num">组织：{{progData.organization}}({{progData.organizationID}})</span>
             </div>
             <div class="organization">
-                <span class="organization-num">公布日期： {{progData.publishDate}}</span>
+              <span class="organization-num">公布日期： {{progData.publishDate}}</span>
             </div>
         </div>
       </div>
@@ -43,46 +43,61 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
-              <a-descriptions title="领域" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="progData.zhAbstract!=''" type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-descriptions v-if="progData.zhAbstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
-                    <span class="Abstract" >{{progData.fieldName}}{{progData.fieldCode}}</span>
+                    <span class="Abstract" >{{progData.zhAbstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="key" :style="{ fontSize: '20px', color: '#08c'}"/>
-              <a-descriptions title="关键词" style="margin: -25px 0px 0px 20px">
+              <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-descriptions title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
-                  <div class="Keyword-frame">
-                   <span class="Keyword" >{{keyword}}</span>
+                  <div class="source-frame">
+                    <span class="source" >期刊：《{{progData.journal}}》</span>
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
-              <a-icon type="snippets" :style="{ fontSize: '20px', color: '#08c'}"/>
-              <a-descriptions title="DOI" style="margin: -25px 0px 0px 20px">
+              <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-descriptions title="相关信息" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
-                  <div class="DOI-frame">
-                    <span class="DOI" >{{progData.doi}}</span>
+                  <div class="source-frame">
+                    <span class="source" >项目编号：{{progData.fundProjectNo}}</span>
+                  </div>
+                  <div class="source-frame">
+                    <span class="source" >领域：{{progData.fieldName}}({{progData.fieldCode}})</span>
+                  </div>
+                  <div class="source-frame">
+                    <span class="source" >产品类型：{{progData.productType}}</span>
+                  </div>
+                  <div class="source-frame">
+                    <span class="source" >成果ID：{{progData.achievementID}}</span>
+                  </div>
+                  <div class="source-frame">
+                    <span class="source" >来源：{{progData.source}}</span>
+                  </div>
+                  <div class="source-frame">
+                    <span class="source" >DOI号：{{progData.doiUrl}}</span>
+                  </div>
+                </a-descriptions-item >
+              </a-descriptions>
+              <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-descriptions v-if="progData.zhKeyword!=''" title="关键词" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="Keyword-frame">
+                   <span class="Keyword" >{{progData.zhKeyword}}</span>
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
             </div>
           </a-tab-pane>
-          <a-tab-pane key="2" tab="原文来源">
-            <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
-            <a-descriptions title="原文出处" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="source-frame">
-                  <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
+          <a-tab-pane key="2" tab="原文链接">
             <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
-                  <a :href="progData.doiUrl">链接</a>
+                  <a :href="progData.doi">{{progData.doi}}</a>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
@@ -93,13 +108,7 @@
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
                   <span class="yinyong" onclick="oCopy(this)">
-                    source:{{progData.source}}
-                    zhAbstract:{{progData.zhAbstract}}
-                    fundProjectNo:{{progData.fundProjectNo}}
-                    achievementID:{{progData.achievementID}}
-                    journal:{{progData.journal}}
-                    productType:{{progData.productType}}
-                    zhKeyword:{{progData.zhKeyword}}
+                    
                   </span>
                 </div>
               </a-descriptions-item>
@@ -135,7 +144,8 @@ export default {
       renlingchar: "我要认领",
       haveRen: true,
       progID : this.$route.params.id,
-      progData : {}
+      progData : {},
+      author_data: [],
     };
   },
   watch: {
@@ -159,7 +169,8 @@ export default {
       getData(url, params).then(res => {
         if (res.code === 1001) {
           this.progData = res.data.project;
-          this.author_data = this.progData.authors.split("; ");
+          this.progData.doiUrl = this.progData.doi.substring(16,this.progData.doi.length+1);
+          this.author_data = this.progData.authors.split(";");
           console.log(res.data.project);
           console.log(this.author_data);
           //this.$message.success(res.message);
@@ -351,7 +362,7 @@ export default {
   width: 1100px;
   /* height: 220px; */
   margin: auto;
-  background-color: #f0f0f0f0;
+  background-color: #fafafa;
 }
 .down-block {
   /* border: solid 1px black; */
@@ -402,7 +413,6 @@ export default {
   width: 900px;
   height: 30px;
   margin: 10px 10px 10px 10px;
-  font-size: large;
 }
 .refer-num-dis1{
   /* border: solid 1px black; */
@@ -441,13 +451,13 @@ export default {
 }
 .title{
   /* border: solid 1px black; */
-  width: 800px;
-  height: 50px;
+  width: 900px;
+  /* height: 50px; */
   margin: 10px;
 }
 .title-name{
-  width: 800px;
-  height: 50px;
+  width: 900px;
+  /* height: 50px; */
   margin: 10px;
   font-size: x-large;
   font-weight: 650;
@@ -489,7 +499,7 @@ export default {
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;
-  font-size: medium;
+  /* font-size: medium; */
 }
 .Keyword-frame{
   width: 700px;
@@ -501,7 +511,7 @@ export default {
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;
-  font-size: medium;
+  /* font-size: medium; */
 }
 .DOI-frame{
   width: 700px;
@@ -513,7 +523,7 @@ export default {
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;
-  font-size: medium;
+  /* font-size: medium; */
 }
 .source-frame{
   width: 700px;
@@ -523,9 +533,9 @@ export default {
 .source{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  /* margin: 0px 0px 0px 20px; */
   height: 30px;
-  font-size: medium;
+  /* font-size: medium; */
 }
 .url-frame{
   width: 700px;

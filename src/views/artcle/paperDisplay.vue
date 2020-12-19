@@ -10,6 +10,9 @@
           <div class="title">
             <span class="title-name">{{PaperTitle}}</span>
           </div>
+          <div v-if="EngTitie!=''" class="refer-num1">
+            <span v-if="EngTitie!=''" class="refer-num-dis1">{{EngTitie}}</span>
+          </div>
           <div class="authors">
               <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
                   <a-list-item slot="renderItem" slot-scope="item">
@@ -78,8 +81,8 @@
                 <a-descriptions-item >
                   <div class="source-frame">
                     <!-- <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span> -->
-                    <div class="source" v-if="Journal!=''">期刊：{{Journal}}</div>
-                    <div class="source" v-if="Conference!=''">会议：{{Conference}}</div>
+                    <div class="source" v-if="Journal!=''">期刊：《{{Journal}}》</div>
+                    <div class="source" v-if="Conference!=''">会议：《{{Conference}}》</div>
                     <div class="source" v-if="Volume!=''">卷号：第{{Volume}}卷</div>
                     <div class="source" v-if="Issue!=''">期号：第{{Issue}}期</div>
                     <div class="source" v-if="FirstPage!=''">开始页：{{FirstPage}}</div>
@@ -154,6 +157,7 @@ export default {
       paperID: this.$route.params.id,
       author_data : [],
       PaperTitle : "",
+      EngTitie: "",
       Abstract : "",
       DOI : "",
       DocType : "",
@@ -345,7 +349,26 @@ export default {
           this.Issue = res.data.paper.issue;
           this.FirstPage = res.data.paper.firstPage;
           this.LastPage = res.data.paper.lastPage;
-          this.SourceUrl = res.data.paper.sourceUrl;
+          this.SourceUrl = res.data.paper.sourceUrl==""?"https://doi.org/" + this.DOI:res.data.paper.sourceUrl;
+          var qiege = this.PaperTitle.length;
+          for(var k = this.PaperTitle.length; k >= 0; k --){
+            console.log(this.PaperTitle[k]);
+            var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+            if(reg.test(this.PaperTitle[k])){
+              qiege = k+1;
+              break;
+            }
+          }
+          if(qiege == 0){
+            this.EngTitie = "";
+          }
+          else if(qiege != this.PaperTitle.length){
+            this.EngTitie = this.PaperTitle.substring(qiege,this.PaperTitle.length+1);
+            this.PaperTitle = this.PaperTitle.substring(0,qiege);
+          }
+          else{
+            this.EngTitie = "";
+          }
           // this.$message.success(res.message);
           for(var i = 0; i < res.data.paperMap.authorList.length; i ++){
             var temp = {
@@ -442,6 +465,19 @@ export default {
   margin: 10px 10px 10px 10px;
   font-weight: 800;
 }
+.refer-num1{
+  /* border: solid 1px black; */
+  width: 900px;
+  height: 30px;
+  margin: 10px 10px 10px 10px;
+}
+.refer-num-dis1{
+  /* border: solid 1px black; */
+  width: 900px;
+  height: 30px;
+  margin: 10px 10px 10px 10px;
+  font-size: medium;
+}
 .date{
   /* border: solid 1px black; */
   width: 200px;
@@ -455,13 +491,13 @@ export default {
 }
 .title{
   /* border: solid 1px black; */
-  width: 800px;
-  height: 50px;
+  width: 900px;
+  /* height: 50px; */
   margin: 10px;
 }
 .title-name{
-  width: 800px;
-  height: 50px;
+  width: 900px;
+  /* height: 50px; */
   margin: 10px;
   font-size: x-large;
   font-weight: 650;
