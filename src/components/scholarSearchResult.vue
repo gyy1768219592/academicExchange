@@ -8,10 +8,25 @@
           tabBarStyle="margin-left:10px"
         >
           <a-tab-pane key="1" :tab="'已认证学者(' + this.total1 + ')'">
-            <div class="result-list-scholar">
-              <div class="card-list">
+            <div
+              v-if="isok1 == false"
+              class="result-list-scholar"
+              style="text-align: center; height: 600px"
+            >
+              <a-spin
+                style="margin-top: 300px"
+                tip="数据加载中，请稍候"
+                size="large"
+              />
+            </div>
+            <div v-else class="result-list-scholar">
+              <div v-if="scholarList.length == 0" class="card-list">
+                <a-empty />
+              </div>
+              <div v-else class="card-list">
                 <a-card>
                   <a-card-grid
+                    @click="toScholar(item.ScholarId)"
                     style="width: 50%; height: 180px"
                     v-for="(item, index) in scholarList"
                     :key="index"
@@ -36,7 +51,9 @@
                         {{ item.Name }}
                       </div>
                       <div
-                        v-if="item.institution != ''"
+                        v-if="
+                          item.Institution != '' && item.Institution != null
+                        "
                         style="
                           height: 30px;
                           overflow: hidden;
@@ -51,7 +68,7 @@
                         <a-statistic
                           class="result-scholar-number"
                           title="论文数"
-                          :value="item.PaperCount"
+                          :value="item.PaperCount == null ? 0 : item.PaperCount"
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -61,7 +78,9 @@
                         <a-statistic
                           class="result-scholar-number"
                           title="被引量"
-                          :value="item.CitationCount"
+                          :value="
+                            item.CitationCount == null ? 0 : item.CitationCount
+                          "
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -71,7 +90,7 @@
                         <a-statistic
                           class="result-scholar-number"
                           title="hIndex"
-                          :value="item.hIndex"
+                          :value="item.hIndex == null ? 0 : item.hIndex"
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -80,7 +99,11 @@
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 42px">
-                        <a-button shape="circle" icon="arrow-right" />
+                        <a-button
+                          shape="circle"
+                          icon="arrow-right"
+                          @click="toScholar(item.ScholarId)"
+                        />
                       </p>
                       <p style="margin-top: -5px">
                         <a-button shape="circle" icon="mail" />
@@ -101,8 +124,22 @@
               </div></div
           ></a-tab-pane>
           <a-tab-pane key="2" :tab="'未认证学者(' + this.total2 + ')'">
-            <div class="result-list-scholar">
-              <div class="card-list">
+            <div
+              v-if="isok2 == false"
+              class="result-list-scholar"
+              style="text-align: center; height: 600px"
+            >
+              <a-spin
+                style="margin-top: 300px"
+                tip="数据加载中，请稍候"
+                size="large"
+              />
+            </div>
+            <div v-else class="result-list-scholar">
+              <div v-if="dataScholarList.length == 0" class="card-list">
+                <a-empty />
+              </div>
+              <div v-else class="card-list">
                 <a-card>
                   <a-card-grid
                     @click="toDataScholar(item.scholarId, item.authorId)"
@@ -139,7 +176,7 @@
                         <a-statistic
                           class="result-scholar-number"
                           title="论文数"
-                          :value="item.paperCount"
+                          :value="item.paperCount == null ? 0 : item.paperCount"
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -149,7 +186,9 @@
                         <a-statistic
                           class="result-scholar-number"
                           title="被引量"
-                          :value="item.citationCount"
+                          :value="
+                            item.citationCount == null ? 0 : item.citationCount
+                          "
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -159,7 +198,7 @@
                         <a-statistic
                           class="result-scholar-number"
                           title="hIndex"
-                          :value="item.hIndex"
+                          :value="item.hIndex == null ? 0 : item.hIndex"
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -288,6 +327,8 @@ export default {
         "#87d068",
         "#FFB6C1",
       ],
+      isok1: false,
+      isok2: false,
     };
   },
   methods: {
@@ -308,10 +349,25 @@ export default {
       if (sid == -1) {
         this.$router.push({ path: "/authorIndex", query: { authorid: aid } });
       } else {
-        this.$router.push({ path: "/authorIndex", query: { authorid: aid } });
+        if (sid == localStorage.getItem("scholarId")) {
+          this.$router.push({ path: "/userIndex", query: { scholarid: sid } });
+        } else {
+          this.$router.push({
+            path: "/scholarIndex",
+            query: { scholarid: sid },
+          });
+        }
+      }
+    },
+    toScholar(sid) {
+      if (sid == localStorage.getItem("scholarId")) {
+        this.$router.push({ path: "/userIndex", query: { scholarid: sid } });
+      } else {
+        this.$router.push({ path: "/scholarIndex", query: { scholarid: sid } });
       }
     },
     searchDataScholar() {
+      this.isok2 = false;
       let url = this.$urlPath.website.searchDataScholar;
       let params = new URLSearchParams();
       params.append("DataScholarName", this.wordKW);
@@ -322,6 +378,7 @@ export default {
           this.dataScholarList = res.data.dataScholars;
           this.total2 = res.data.totalSize;
           this.total = this.total1 + this.total2;
+          this.isok2 = true;
           console.log(this.dataScholarList);
         } else {
           console.log(res.code);
@@ -330,6 +387,7 @@ export default {
       });
     },
     searchScholar() {
+      this.isok1 = false;
       let url = this.$urlPath.website.searchScholar;
       let params = new URLSearchParams();
       params.append("ScholarName", this.wordKW);
@@ -341,6 +399,7 @@ export default {
           this.scholarList = res.data.scholars;
           this.total1 = res.data.totalSize;
           this.total = this.total1 + this.total2;
+          this.isok1 = true;
           console.log(this.scholarList);
         } else {
           console.log(res.code);

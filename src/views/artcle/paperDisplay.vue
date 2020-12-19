@@ -425,11 +425,16 @@ export default {
             this.EngTitie = "";
           }
           else if(qiege != this.PaperTitle.length){
-            this.EngTitie = this.PaperTitle.substring(qiege,this.PaperTitle.length+1);
+            this.EngTitie = this.PaperTitle.substring(qiege+1,this.PaperTitle.length+1);
+            var tempstr = this.PaperTitle.substring(qiege,qiege+1).toUpperCase();
+            this.EngTitie = tempstr + this.EngTitie;
             this.PaperTitle = this.PaperTitle.substring(0,qiege);
           }
           else{
             this.EngTitie = "";
+            var tempstr1 = this.PaperTitle.substring(0,1).toUpperCase();
+            this.PaperTitle = this.PaperTitle.substring(1,this.PaperTitle.length);
+            this.PaperTitle = tempstr1 + this.PaperTitle;
           }
           // this.$message.success(res.message);
           for(var i = 0; i < res.data.paperMap.authorList.length; i ++){

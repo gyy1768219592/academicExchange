@@ -17,7 +17,7 @@
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
-              <a href="#">个人设置</a>
+              <a @click="toPersonInfo()">个人设置</a>
             </a-menu-item>
             <a-menu-item>
               <a href="#">我的主页</a>
@@ -69,7 +69,14 @@ export default {
     logout() {
       this.isLogin = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("aaa");
+      localStorage.removeItem("identification");
+      localStorage.removeItem("avatarUrl");
+      localStorage.removeItem("scholarId");
       this.$forceUpdate();
+    },
+    toPersonInfo() {
+      this.$router.push("/personInfo");
     },
   },
   created() {
