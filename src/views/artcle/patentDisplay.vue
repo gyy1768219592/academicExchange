@@ -27,6 +27,7 @@
               <a-button class="btn" @click="shoucang">收藏</a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
             </div>
+            <appeal-achievement :visible="visible" v-on:closeModal="closeModal"></appeal-achievement>
             <div class="date">
               <span class="date-num">主分类号： {{patentData.mainClassificationNumber}}</span>
             </div>
@@ -125,15 +126,19 @@
 //引入导航栏
 //import personNav from "@/components/personNav";
 // import { postData } from "@/api/webpost";
+import appealAchievement from '../appeal/appealAchievement.vue'
 import navSearch from "@/components/navSearch";
 import { getData } from "@/api/webget";
 import { postData } from "@/api/webpost";
 export default {
   components: {
     navSearch,
+    appealAchievement
   },
   data() {
     return {
+      visible:false,
+      confirmLoading: false,
       canClaim: false,
       nowClaimNumber: -1,
       maxClaimNumber: -1,
@@ -154,6 +159,12 @@ export default {
     this.getRenlingStatus();
   },
   methods: {    
+    showModal() {
+      this.visible = true;
+    },
+    closeModal() {
+      this.visible = false;
+    },
     handleClick(e) {
       console.log("click", e);
     },
@@ -187,6 +198,7 @@ export default {
       });
     },
     renling(){
+      this.showModal();
       let params = new URLSearchParams();
       params.append("projectId", this.patentID);
       //调用封装的postData函数，获取服务器返回值 
