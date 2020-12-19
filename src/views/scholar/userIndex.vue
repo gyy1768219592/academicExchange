@@ -26,6 +26,7 @@
               ><a-icon type="folder-open" />管理学术成果</a-button
             >
             <a-modal
+              style="z-index:100000000;position:relative"
               width="600px"
               v-model="manageVisible"
               title="管理学术成果"
