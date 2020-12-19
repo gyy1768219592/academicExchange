@@ -323,7 +323,7 @@ export default {
     },
     getPatent(){
       let params = new URLSearchParams();
-      params.append("patentID", this.patentID);
+      // params.append("patentID", this.patentID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getPatentById + this.patentID;
       getData(url, params).then(res => {
