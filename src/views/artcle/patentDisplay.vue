@@ -203,7 +203,6 @@ export default {
       });
     },
     renling(){
-      this.showModal();
       let params = new URLSearchParams();
       params.append("projectId", this.patentID);
       //调用封装的postData函数，获取服务器返回值 
