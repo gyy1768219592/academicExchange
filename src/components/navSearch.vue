@@ -86,7 +86,7 @@
         <a-dropdown class="topNav-dropDown">
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
             <a-avatar
-              v-if="avatar == null || avatar == 'null'"
+              v-if="avatar == '' || avatar == 'null'"
               :size="50"
               icon="user"
               class="topNav-avatar"
