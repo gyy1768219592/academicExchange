@@ -6,12 +6,12 @@
         <div class="user-info">
           <div class="avatar">
             <a-avatar class="img" :size="100" icon="user" />
-            <h1 class="info-content-name">{{ user.username }}</h1>
-            <h4 class="info-content-ins">{{ user.ins }}</h4>
+            <h1 class="info-content-name">{{ scholar.name }}</h1>
+            <h4 class="info-content-ins">{{ scholar.organization }}</h4>
             <ul class="index-table">
               <li class="index-item">
                 <p class="top-word">G指数</p>
-                <p class="index-number">{{ user.gindex }}</p>
+                <p class="index-number">{{ scholar.gindex }}</p>
               </li>
               <li class="index-item">
                 <p class="top-word">成果数</p>
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="actions">
-          <a-button class="btn">我要认证<a-icon type="user"/></a-button>
+          <a-button class="btn" @click="toPersonInfo">我要认证<a-icon type="user"/></a-button>
           <a-button v-if="!isFollow" class="btn" @click="subscribe">关注<a-icon type="star"/></a-button>
           <a-button v-else class="btn" @click="undoSubscribe">取消关注<a-icon type="star" theme="filled"/></a-button>
           <a-button class="btn" type="primary">发送私信<a-icon type="message"/></a-button>
@@ -33,6 +33,7 @@
             <div class="intro">
               <div class="self-intro">
                 <h2>个人简介</h2>
+                <p>{{ scholar.introduction }}</p>
               </div>
               <a-divider></a-divider>
               <div class="echart" id="main"></div>
@@ -41,10 +42,10 @@
             </div>
             <div class="experience">
               <a-timeline>
-                <a-timeline-item v-for="(item, i) in user.experience" :key="i" :color="i == 0 ? 'blue' : 'gray'">
+                <a-timeline-item v-for="(item, i) in workExperience" :key="i" :color="i == 0 ? 'blue' : 'gray'">
                   <div>
-                    <p>{{ item.startyear }} - {{ item.endyear }}</p>
-                    <p>{{ item.organization }} - {{ item.position }}</p>
+                    <p>{{ item.yearStart }} - {{ item.yearEnd }}</p>
+                    <p>{{ item.organization }} - {{ item.introduction }}</p>
                   </div>
                 </a-timeline-item>
               </a-timeline>
@@ -52,17 +53,21 @@
           </a-tab-pane>
           <a-tab-pane key="2" tab="项目">
             <div class="project-list">
-              <scholarProject :scholarid="scholarid"></scholarProject>
+              <scholarProject
+                :projectTotal="projectTotal"
+                :projectList="projectList"
+                :scholarid="scholarid"
+              ></scholarProject>
             </div>
           </a-tab-pane>
           <a-tab-pane key="3" tab="专利">
             <div class="patent-list">
-              <scholarPatent :scholarid="scholarid"></scholarPatent>
+              <scholarPatent :patentTotal="patentTotal" :patentList="patentList" :scholarid="scholarid"></scholarPatent>
             </div>
           </a-tab-pane>
           <a-tab-pane key="4" tab="成果">
             <div class="paper-list">
-              <scholarPaper :scholarid="scholarid"></scholarPaper>
+              <scholarPaper :paperTotal="paperTotal" :paperList="paperList" :scholarid="scholarid"></scholarPaper>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -82,32 +87,6 @@ import scholarPaper from "@/components/scholarPaper.vue";
 import scholarProject from "@/components/scholarProject.vue";
 import { deleteData } from "@/api/webdelete";
 import imgSrc from "../../assets/user.png";
-const data = [
-  {
-    title: "成果 1",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
-  },
-  {
-    title: "成果 2",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
-  },
-  {
-    title: "成果 3",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
-  },
-  {
-    title: "成果 4",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
-  },
-];
 
 export default {
   components: {
@@ -121,13 +100,10 @@ export default {
       myChart: null,
       chartData: [],
       chartLink: [],
-      data,
-      loginid: 0,
       pageid: 0,
-      current: ["mail"],
-      openKeys: ["sub1"],
       isFollow: false,
-      scholarid: 1,
+      scholarid: 13,
+      userid: 18,
       user: {
         username: "陈志刚",
         ins: "中南大学",
@@ -160,7 +136,30 @@ export default {
           },
         ],
       },
+      workExperience: [],
+      scholar: {
+        scholarid: 13,
+        name: "路路路",
+        englishName: "lululu",
+        title: "",
+        organization: "",
+        email: "",
+        fans: 0,
+        introduction: "",
+        hindex: 0,
+        gindex: 0,
+        avatarUrl: "",
+        citations: 0,
+      },
+      gotSList: [],
       count: 10,
+      paperList: [],
+      paperTotal: 0,
+      patentList: [],
+      patentTotal: 0,
+      projectList: [],
+      projectTotal: 0,
+      barData: [],
     };
   },
   watch: {
@@ -298,7 +297,7 @@ export default {
           {
             name: "发表数",
             type: "bar",
-            data: [1, 5, 4],
+            data: this.barData,
           },
         ],
       });
@@ -311,6 +310,9 @@ export default {
     },
     callback(key) {
       console.log(key);
+    },
+    toPersonInfo() {
+      this.$router.push("/personInfo");
     },
     toPro() {
       //跳转到项目展示页面，带参数
@@ -331,12 +333,25 @@ export default {
     //获取学者信息
     getScholarInfo() {
       let url = this.$urlPath.website.getScholarInfo;
-      getData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
+      getData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           this.scholar = res.data.scholar;
-          this.workExperience = res.data.workExperience;
+          if (this.scholar.gindex == null) {
+            this.scholar.gindex = 0;
+          }
+          this.projectTotal = res.data.projectNum;
+          this.projectList = res.data.project;
+          this.patentTotal = res.data.patentNum;
+          this.patentList = res.data.patent;
+          this.paperList = res.data.paper;
+          this.paperTotal = res.data.paperNum;
+          this.barData[0] = this.patentTotal;
+          this.barData[1] = this.projectTotal;
+          this.barData[2] = this.paperTotal;
+          this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
+          this.workExperience = res.data.workExperience.reverse();
           console.log(this.scholar);
           console.log(this.this.workExperience);
         } else {
@@ -379,9 +394,9 @@ export default {
     },
   },
   mounted() {
+    this.getScholarInfo();
     this.initEchart();
     this.drawLine();
-    this.getScholarInfo();
   },
 };
 </script>

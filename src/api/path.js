@@ -34,7 +34,7 @@ let path = {
     getPaperById: Ip.productIP + "scholarship/getPaperByPaperId/",
 
     //获取学者门户下属数据库门户
-    getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar/",
+    getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar",
 
     //获取学术成果已认领人员
     getScholarByPaper: Ip.productIP + "scholarship/getWhoClaimIt/",
@@ -53,6 +53,12 @@ let path = {
 
     //通过学者ID查询学者
     getRealScholarByID: Ip.productIP + "scholar/admin/Search/",
+
+    //通过UID查询学者ID
+    getSidByUid: Ip.productIP + "/user/getScholarId",
+
+    //获取、改变收藏状态
+    gcLikeStatus: Ip.productIP + "scholarship/starStatus",
 
     //认退领项目
     renlingProg: Ip.productIP + "scholarship/claimProject/",
@@ -83,6 +89,7 @@ let path = {
     getDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
     addWorkExp: Ip.productIP + "scholar/workExperience",
     deleteWorkExp: Ip.productIP + "scholar/workExperience",
+    getAuthorInfo: Ip.productIP + "scholar/dataScholar",
   },
 };
 export default path;

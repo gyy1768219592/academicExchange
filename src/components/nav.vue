@@ -7,7 +7,13 @@
       <div v-if="isLogin">
         <a-dropdown class="topNav-dropDown">
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <a-avatar :size="50" icon="user" class="topNav-avatar" />
+            <a-avatar
+              v-if="avatar == '' || avatar == 'null'"
+              :size="50"
+              icon="user"
+              class="topNav-avatar"
+            />
+            <a-avatar v-else :size="50" :src="avatar" class="topNav-avatar" />
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
@@ -50,6 +56,7 @@ export default {
   data() {
     return {
       isLogin: false,
+      avatar: null,
     };
   },
   methods: {
@@ -68,6 +75,7 @@ export default {
   created() {
     if (localStorage.getItem("token")) {
       this.isLogin = true;
+      this.avatar = localStorage.getItem("avatarUrl");
     }
   },
 };

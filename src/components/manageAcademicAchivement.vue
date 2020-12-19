@@ -32,7 +32,7 @@
                         item.descrble
                     "
                     >
-                    <a slot="title" :href="item.href"
+                    <a slot="title" :href="item.href" @click="gotoProg(item.progID)"
                         ><span v-html="item.title"></span>
                     </a>
                     </a-list-item-meta>
@@ -59,7 +59,7 @@
                         item.descrble
                     "
                     >
-                    <a slot="title" :href="item.href"
+                    <a slot="title" :href="item.href" @click="gotoPatent(item.patentID)"
                         ><span v-html="item.title"></span>
                     </a>
                     </a-list-item-meta>
@@ -77,7 +77,7 @@
                     item.descrble
                 "
                 >
-                <a slot="title" :href="item.href"
+                <a slot="title" :href="item.href" @click="gotoProgOrPatent(item)"
                     ><span v-html="item.title"></span>
                 </a>
                 </a-list-item-meta>
@@ -95,10 +95,10 @@
                   v-for="(item, key) in AuthorList.AuthorList1"
                   :key="key"
                 >
-                  <div class="card-avatar">
+                  <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                     <a-avatar :size="80" :src="item.src" />
                   </div>
-                  <div class="card-info">
+                  <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
                     ><br />
@@ -151,10 +151,10 @@
                     v-for="(item, key) in AuthorList.AuthorList2"
                     :key="key"
                   >
-                    <div class="card-avatar">
+                    <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                       <a-avatar :size="80" :src="item.src" />
                     </div>
-                    <div class="card-info">
+                    <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
                       ><br />
@@ -217,6 +217,24 @@ export default {
   },
   props: ["word"],
   methods: {
+    gotoScholar(Id){
+      //去此人的主页
+      this.$router.push("/scholarIndex/" + Id);
+    },
+    gotoProg(ProgID){
+      this.$router.push("/progDisplay/"+ProgID);
+    },
+    gotoPatent(PatentID){
+      this.$router.push("/patentDisplay/"+PatentID);
+    },
+    gotoProgOrPatent(item){
+      if(item.progID!=-1){
+        this.$router.push("/progDisplay/"+item.progID);
+      }
+      else if(item.patentID!=-1){
+        this.$router.push("/patentDisplay/"+item.patentID);
+      }
+    },
     changeMain(item){
       if(this.paperTopList.length === 0){
         this.paperTopList.push(item);

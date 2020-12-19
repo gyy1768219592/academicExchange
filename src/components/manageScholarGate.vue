@@ -24,10 +24,10 @@
                     v-for="(item, key) in scholarList.scholarList1"
                     :key="key"
                   >
-                    <div class="card-avatar">
+                    <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                       <a-avatar :size="80" :src="item.src" />
                     </div>
-                    <div class="card-info">
+                    <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
                       ><br />
@@ -68,10 +68,10 @@
                   v-for="(item, key) in scholarListMain"
                   :key="key"
                 >
-                  <div class="card-avatar">
+                  <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                     <a-avatar :size="80" :src="item.src" />
                   </div>
-                  <div class="card-info">
+                  <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
                     ><br />
@@ -102,10 +102,10 @@
                   v-for="(item, key) in scholarList.scholarList2"
                   :key="key"
                 >
-                  <div class="card-avatar">
+                  <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
                     <a-avatar :size="80" :src="item.src" />
                   </div>
-                  <div class="card-info">
+                  <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
                     ><br />
@@ -121,7 +121,7 @@
                       <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
                   </div>
-                  <div class="card-button" @click="deleteScholar(key)">
+                  <div class="card-button" @click="deleteScholar(key,item)">
                     <p style="margin-top: 42px">
                       <a-tooltip>
                         <template slot="title">
@@ -158,10 +158,10 @@
                     v-for="(item, key) in scholarList.scholarList3"
                     :key="key"
                   >
-                    <div class="card-avatar">
+                    <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
                       <a-avatar :size="80" :src="item.src" />
                     </div>
-                    <div class="card-info">
+                    <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
                       ><br />
@@ -177,7 +177,7 @@
                         <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
                     </div>
-                    <div class="card-button" @click="addScholar(key)">
+                    <div class="card-button" @click="addScholar(key,item)">
                       <p style="margin-top: 42px">
                         <a-tooltip>
                           <template slot="title">
@@ -200,6 +200,8 @@
 </template>
 <script>
 import { getData } from "@/api/webget";
+import { postData } from "@/api/webpost";
+import { deleteData } from "@/api/webdelete";
 export default {
   data() {
     return {
@@ -210,80 +212,56 @@ export default {
       total: 203,
       src:
             "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-      scholarListMain:[
-        {
-          name: "张帆",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "华中科技大学同济医学院附属同济医院",
-          paper: 4349,
-          citation: 70957,
-          Hindex: "肿瘤学",
-        },  
-      ],
+      scholarListMain:[{
+        ScholarId: -1,
+        name: "无名氏",
+        src: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        institution: "暂时没有机构",
+        // paper: res.data[0].dataScholar.paperCount,
+        // citation: res.data[0].dataScholar.citationCount,
+        // Hindex: res.data[0].dataScholar.hindex,
+      }],
       scholarList:{
         scholarList1: [],
-        scholarList2: [
-          {
-            name: "张帆",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "华中科技大学同济医学院附属同济医院",
-            paper: 4349,
-            citation: 70957,
-            Hindex: "肿瘤学",
-          },
-          {
-            name: "张立群",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "北京化工大学",
-            paper: 695,
-            citation: 10067,
-            Hindex: "工业催化",
-          },
-          {
-            name: "张鹏",
-            src:
-              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: "郑州大学第一附属医院",
-            paper: 86,
-            citation: 200,
-            Hindex: "肿瘤学",
-          },
-        ],
+        scholarList2: [],
         scholarList3: [],
       }
     };
   },
   props: ["word"],
   methods: {
+    gotoScholar(Id){
+      //去此人的主页
+      this.$router.push("/scholarIndex/" + Id);
+    },
+    gotoAuthor(Id){
+      //去此人的主页
+      this.$router.push("/authorIndex/" + Id);
+    },
     changeMain(key,item){
       this.$set(this.scholarListMain,0,this.scholarList.scholarList1[key]);
       let params = new URLSearchParams();
-      params.append("ScholarId", item.ScholarId);
+      params.append("scholarId", item.ScholarId);
       //调用封装的putData函数，获取服务器返回值 
       let url = this.$urlPath.website.getScholarBelong;
-      this.$message.success("res.message");
       getData(url, params).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
-          this.$message.success(res.message);
-          // var newAuthor = {
-          //   ScholarId: res.data[0].ScholarId,
-          //   name: res.data[0].Name,
-          //   src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          //   institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
-          //   // paper: res.data[0].dataScholar.paperCount,
-          //   // citation: res.data[0].dataScholar.citationCount,
-          //   // Hindex: res.data[0].dataScholar.hindex,
-          // };
-          // if(this.scholarList.scholarList1.length === 0){
-          //   this.scholarList.scholarList1.push(newAuthor);
-          // }
-          // else{
-          //   this.$set(this.scholarList.scholarList1,0,newAuthor);
-          // }
+          // this.$message.success(res.message);
+          this.scholarList.scholarList2.splice(0,this.scholarList.scholarList2.length);
+          for(var i = 0; i < res.data.length; i ++){
+            var newAuthor = {
+              AuthorId: res.data[i].authorId,
+              name: res.data[i].displayName,
+              src: res.data[i].avatarUrl!=null?res.data[i].avatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+              institution: res.data[i].institution!=null?res.data[i].institution:"暂时没有机构",
+              paper: res.data[i].paperCount,
+              citation: res.data[i].citationCount,
+              Hindex: res.data[i].hindex,
+            };
+            this.scholarList.scholarList2.push(newAuthor);
+          }
+          this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
@@ -292,17 +270,41 @@ export default {
         }
       });
     },
-    deleteScholar(key){
-      this.scholarList.scholarList2.splice(key, 1);
-      this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
-      this.$message.success("数据库门户已移除");
+    deleteScholar(key,item){
+      let authorid = item.AuthorId;
+      let url = this.$urlPath.website.undoClaimDataPortal;
+      let params = {
+        scholarId: this.scholarListMain[0].ScholarId,
+        authorId: authorid,
+      };
+      deleteData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          this.scholarList.scholarList2.splice(key, 1);
+          this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
+          this.$message.success("数据库门户已移除");
+        } else {
+          this.$message.error(res.message);
+        }
+      });
     },
-    addScholar(key){
-      this.scholarList.scholarList2.push(this.scholarList.scholarList3[key]);
-      this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
-      this.scholarList.scholarList3.splice(key, 1);
-      this.$set(this.scholarList,"scholarList3",this.scholarList.scholarList3);
-      this.$message.success("数据库门户已添加");
+    addScholar(key,item){
+      let params = new URLSearchParams();
+      let url = this.$urlPath.website.claimDataPortal;
+      params.append("scholarId", this.scholarListMain[0].ScholarId);
+      params.append("authorId", item.AuthorId);
+      postData(url, params).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          this.scholarList.scholarList2.push(this.scholarList.scholarList3[key]);
+          this.$set(this.scholarList,"scholarList2",this.scholarList.scholarList2);
+          this.scholarList.scholarList3.splice(key, 1);
+          this.$set(this.scholarList,"scholarList3",this.scholarList.scholarList3);
+          this.$message.success("数据库门户已添加");
+        } else {
+          this.$message.error(res.message);
+        }
+      });
     },
     changePage() {
       console.log(this.currentPage);
@@ -328,7 +330,7 @@ export default {
       getData(url, params).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
-          this.$message.success(res.message);
+          // this.$message.success(res.message);
           var newAuthor = {
             ScholarId: res.data[0].ScholarId,
             name: res.data[0].Name,
@@ -354,13 +356,14 @@ export default {
     },
     onSearch2(value) {//查找之后要结果
       let params = new URLSearchParams();
-      params.append("value", value);
+      // params.append("value", value);
       //调用封装的putData函数，获取服务器返回值 
       let url = this.$urlPath.website.getScholarByID + value;
       getData(url, params).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
           var newAuthor = {
+            AuthorId: res.data.dataScholar.authorId,
             name: res.data.dataScholar.displayName,
             src:
             "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
