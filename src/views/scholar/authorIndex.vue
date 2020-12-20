@@ -72,6 +72,7 @@ export default {
       isClaim: false,
       nameList: [],
       instituition: "",
+      scholarid: 13,
       dataScholar: {
         scholarId: 13,
         displayName: "路路路",
@@ -156,7 +157,7 @@ export default {
     claimDataPortal() {
       let params = new URLSearchParams();
       let url = this.$urlPath.website.claimDataPortal;
-      params.append("scholarId", this.dataScholar.scholarId);
+      params.append("scholarId", this.scholarid);
       params.append("authorId", this.authorid);
       console.log(params);
       postData(url, params).then((res) => {
@@ -173,6 +174,7 @@ export default {
   },
   mounted() {
     this.authorid = this.$route.query.authorid;
+    this.scholarid = localStorage.getItem("scholarId");
     this.getAuthorInfo();
   },
 };

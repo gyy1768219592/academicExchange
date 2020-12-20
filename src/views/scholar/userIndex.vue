@@ -62,7 +62,7 @@
                 <a-list item-layout="horizontal" :pagination="Cpagination" :data-source="sameNameSlist">
                   <a-list-item slot="renderItem" slot-scope="item, index">
                     <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarId === -1">认领</a>
-                    <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
+                    <a slot="actions" v-else>已被认领</a>
                     <a-list-item-meta :description="item.lastKnownAffiliationId">
                       <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
 
@@ -261,7 +261,7 @@ export default {
         avatarUrl: "",
         citations: 0,
       },
-      coAuthors: {},
+      coAuthors: new Map(),
       workExperience: [],
       crtexperience: {
         position: "",
@@ -313,6 +313,7 @@ export default {
         { value: 0, name: "专利" },
         { value: 0, name: "文献" },
       ],
+      instituition: [],
     };
   },
   mounted() {
@@ -429,6 +430,7 @@ export default {
         if (valid) {
           alert("submit!");
           this.editScholarInfo();
+          this.editInfoVisi = false;
         } else {
           console.log("error submit!!");
           return false;
@@ -450,17 +452,17 @@ export default {
           console.log(this.pos);
           this.sameNameSlist = res.data.dataScholar;
           this.pos = res.data.pos;
-          this.sameNameSlist = this.sameNameSlist.map((item, index) => {
-            console.log(index, res.data.instituition[index]);
-
-            item.lastKnownAffiliationId = res.data.instituition[index];
-            if (item.lastKnownAffiliationId == -1) {
-              item.lastKnownAffiliationId = "";
-            }
-            return item;
-          });
           console.log(res.data.instituition);
           console.log(this.pos);
+          this.sameNameSlist = this.sameNameSlist.map((item, index) => {
+            // console.log(index, res.data.instituition[index]);
+            item.lastKnownAffiliationId = "";
+            item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "   引用数:" + item.citationCount;
+            if (res.data.instituition != null)
+              item.lastKnownAffiliationId = res.data.instituition[index] + item.lastKnownAffiliationId;
+            console.log(item.lastKnownAffiliationId);
+            return item;
+          });
         } else {
           this.$message.error(res.message);
         }
@@ -479,7 +481,20 @@ export default {
         console.log("why got 400");
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.gotSList = res.data;
+          this.gotSList = res.data.dataScholars;
+          this.institution = res.data.institution;
+          console.log(res.data);
+          this.gotSList = this.gotSList.map((item, index) => {
+            item.lastKnownAffiliationId = "";
+            item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "    引用数:" + item.citationCount;
+            console.log(item.lastKnownAffiliationId);
+            console.log(this.institution);
+            if (res.data.institution != null) {
+              item.lastKnownAffiliationId = this.institution[index] + item.lastKnownAffiliationId;
+              console.log(index);
+            }
+            return item;
+          });
           console.log("获取成功");
         } else {
           this.$message.error(res.message);
@@ -572,6 +587,7 @@ export default {
           this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
           console.log(this.scholar.citations);
           this.coAuthors = res.data.coAuthors;
+          console.log(this.coAuthors);
           this.workExperience = res.data.workExperience.reverse();
           this.form.email = this.scholar.email;
           this.form.scholarname = this.scholar.name;
@@ -585,6 +601,7 @@ export default {
           this.patentList = res.data.patent;
           this.paperList = res.data.paper;
           this.paperTotal = res.data.paperNum;
+
           console.log(this.scholar);
           console.log(this.workExperience);
         } else {
@@ -686,7 +703,7 @@ export default {
 .info-content-ins {
   width: 100px;
   /* border: solid 1px red; */
-  margin: -5px auto 10px 120px;
+  margin: 0px auto 10px 120px;
 }
 .info-content-index {
   width: 250px;
@@ -702,21 +719,7 @@ export default {
   float: right;
   margin: -210px 20px 10px 10px;
 }
-.selections {
-  /* border: solid 1px black; */
-  width: 250px;
-  height: 800px;
-  margin: 10px 10px 10px 10px;
-}
-.results {
-  padding: 10px 15px 10px 15px;
-  /* border: solid 1px black; */
-  width: 900px;
-  height: 800px;
-  display: block;
-  float: right;
-  margin: -810px 10px 35px 280px;
-}
+
 .btn {
   width: 140px;
   /* border: solid 1px black; */

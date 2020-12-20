@@ -57,13 +57,13 @@
               <a @click="toUserIndex">我的主页</a>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的私信</a>
+              <router-link to="/message">我的私信</router-link>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的收藏</a>
+              <router-link to="/collect">我的收藏</router-link>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的关注</a>
+              <router-link to="/concern">我的关注</router-link>
             </a-menu-item>
             <a-menu-divider />
             <a-menu-item>
