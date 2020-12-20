@@ -282,6 +282,7 @@ export default {
       let url = this.$urlPath.website.getAppeal;
       getData(url, params).then(res => {
         this.List.appealList = res.data;
+        console.log(res.data);
         for(var ii = 0; ii < this.List.appealList.length; ii ++){
           console.log(this.List.appealList[ii].complaintMaterialUrl);
           if(this.List.appealList[ii].complaintMaterialUrl!=null&&this.List.appealList[ii].complaintMaterialUrl!="not-allowed extension name"){
@@ -294,6 +295,7 @@ export default {
               this.List.appealList[ii]["downloadstatus"] = 2;
             }
             else if((houzhui == "pdf")){
+              this.List.appealList[ii]["downloadurl"] = this.List.appealList[ii].complaintMaterialUrl;
               this.List.appealList[ii].complaintMaterialUrl="";
               this.List.appealList[ii]["downloadDisplay"] = "点击查看"
               this.List.appealList[ii]["downloadstatus"] = 1;

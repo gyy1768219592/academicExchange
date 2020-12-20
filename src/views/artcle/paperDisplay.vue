@@ -52,8 +52,8 @@
               </a-list>
           </div>
           <div class="actions">
-            <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
-            <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
+            <a-button class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+            <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
           </div>
           <div v-if="date!=''" class="date">
             <span class="date-num">发表时间： {{date}}</span>

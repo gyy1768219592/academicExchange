@@ -26,9 +26,9 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling"><a-icon type="heart" :theme="haveRen?'filled':'outlined'"/>{{renlingchar}}</a-button>
-              <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
-              <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
+              <a-button class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+              <a-button class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+              <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
             </div>
             <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="progID"></appeal-achievement>
             <div v-if="progData.organization!=''||progData.organizationID!=''" class="date">

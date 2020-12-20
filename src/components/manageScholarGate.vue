@@ -266,7 +266,7 @@ export default {
               AuthorId: res.data.dataScholars[i].authorId,
               name: res.data.dataScholars[i].displayName,
               src: /*res.data[i].avatarUrl!=null?res.data[i].avatarUrl:*/"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-              institution: res.data.dataScholars[i].institution!=null?res.data[i].institution:"暂时没有机构",
+              institution: res.data.institution[i]!=null?res.data.institution[i]:"暂时没有机构",
               paper: res.data.dataScholars[i].paperCount,
               citation: res.data.dataScholars[i].citationCount,
               Hindex: res.data.dataScholars[i].hindex,
