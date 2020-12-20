@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="control">
     <topNav></topNav>
     <div class="home-content">
+      <img class="img" src="../assets/logo.png" style=" display: table-cell;">
       <div
         v-bind:class="isSelected ? 'homeIndex-search-on' : 'homeIndex-search'"
       >
@@ -178,18 +179,27 @@ export default {
 </script>
 
 <style>
-body{
-  
+.control{
+  background: url("../assets/bg.jpeg");
+  opacity:0.9;
+  height: auto;
+  width: 100%;
+  background-size: cover;
 }
 .home-content {
   width: 1280px;
-  margin: 0 auto;
+  padding: 1px;
+  margin: 60px auto;
   
 }
 
 .homeIndex-search {
+  background-color: white;
   border-radius: 10px;
-  margin: 100px auto;
+  margin-top: 0px;
+  margin-bottom:100px;
+  margin-right: auto;
+  margin-left: auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
   width: 700px;
   height: 50px;
@@ -198,11 +208,17 @@ body{
 .homeIndex-search:hover {
   border: solid 2px rgba(0, 0, 0, 0.5);
 }
-
+.img {
+   margin: 0px auto;
+}
 .homeIndex-search-on {
+  background-color: white;
   border-radius: 10px;
-  margin: 100px auto;
-  border: solid 2px #1890ff;
+  margin-top: 0px;
+  margin-bottom:100px;
+  margin-right: auto;
+  margin-left: auto;
+  border: solid 2px #DC143C;
   width: 700px;
   height: 50px;
 }
@@ -249,5 +265,8 @@ body{
 }
 .home-display {
   height: 700px;
+  background-color: white;
+  opacity:0.9;
+  padding: 10px;
 }
 </style>

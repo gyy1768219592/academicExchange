@@ -6,7 +6,7 @@
       @prevClick="callback"
       @nextClick="callback"
       :tabBarGutter="0"
-      :style="{ height: '550px' }"
+      :style="{ height: '580px' }"
     >
       <a-tab-pane key="all" tab="总体排名">
         <div class="irank-orgtitle">自然指数排名</div>
@@ -364,7 +364,7 @@ export default {
 .irank-main .ant-tabs-left-bar .ant-tabs-nav .ant-tabs-tab-active {
   padding-left: 23px;
   border: solid 1px #d5d5d5;
-  border-left: solid 2px #1890ff;
+  border-left: solid 2px #DC143C;
   padding-top: 0;
   padding-bottom: 0;
   height: 50px;
