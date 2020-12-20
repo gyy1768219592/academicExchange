@@ -20,7 +20,7 @@
               <a @click="toPersonInfo()">个人设置</a>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的主页</a>
+              <a @click="toUserIndex()">我的主页</a>
             </a-menu-item>
             <a-menu-item>
               <router-link to="/message">我的私信</router-link>
@@ -77,6 +77,17 @@ export default {
     },
     toPersonInfo() {
       this.$router.push("/personInfo");
+    },
+    toUserIndex() {
+      if (localStorage.getItem("scholarId")) {
+        this.$router.push({
+          path: "/userIndex",
+          query: { scholarid: localStorage.getItem("scholarId") },
+        });
+      } else {
+        this.$router.push("/personInfo");
+        this.$message.info("请先进行学者认证");
+      }
     },
   },
   created() {

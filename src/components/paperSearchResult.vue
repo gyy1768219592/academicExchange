@@ -301,6 +301,7 @@ export default {
   border-bottom: 1px solid #e3e3e3;
 }
 .homes-result-sider .sider-menu .ant-menu-item {
+  background: #fff;
   margin: 0;
 }
 .homes-result-sider .sider-menu .ant-menu-item-selected::after {
