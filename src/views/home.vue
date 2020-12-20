@@ -178,9 +178,13 @@ export default {
 </script>
 
 <style>
+body{
+  
+}
 .home-content {
   width: 1280px;
   margin: 0 auto;
+  
 }
 
 .homeIndex-search {

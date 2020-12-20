@@ -67,6 +67,7 @@ export default {
           content: _this.info[index].msgcontent,
           receiverUserid: _this.info[index].receiverUserid,
           senderUserid: _this.info[index].senderUserid,
+          senderUsername: _this.info[index].senderUsername,
         }
       });
     },
