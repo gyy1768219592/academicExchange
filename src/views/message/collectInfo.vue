@@ -273,9 +273,10 @@ export default {
       console.log(index.id)
       var _this = this;
       let url = _this.$urlPath.website.delCollect;
-      let params = new URLSearchParams();
-      params.append("type", this.ch);
-      params.append("paperId",index.id);
+      let params = {
+        "type":  _this.ch,
+        "paperId": index.id,
+      };
       putData(url,params).then(res => {
         console.log(res);
         if (res.code === 1001) {
