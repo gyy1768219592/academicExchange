@@ -105,7 +105,11 @@
               <a-collapse accordion >
                 <a-collapse-panel key="1" header= "打开查看申诉具体信息">
                   <div class="appealText">{{ item.msgcontent }}</div>
-                  <img :src="item.complaintMaterialUrl" style="width:100%; height:100%"/>
+                  <img v-if="item.complaintMaterialUrl!=''" :src="item.complaintMaterialUrl" style="width:100%; height:100%"/>
+                  <div v-if="item.downloadurl!=''" class="url-frame">
+                    <a-icon type="cloud-download" />
+                    <a v-if="item.downloadurl!=''" :href="item.downloadurl">下载附件</a>
+                  </div>
                 </a-collapse-panel>
               </a-collapse>
             </div>
@@ -238,8 +242,26 @@ export default {
       let url = this.$urlPath.website.getAppeal;
       getData(url, params).then(res => {
         this.List.appealList = res.data;
-        this.List.showList = res.data;
-        console.log(this.List.showList);
+        for(var ii = 0; ii < this.List.appealList.length; ii ++){
+          console.log(this.List.appealList[ii].complaintMaterialUrl);
+          if(this.List.appealList[ii].complaintMaterialUrl!=null){
+            var houzhui = this.List.appealList[ii].complaintMaterialUrl.substring(this.List.appealList[ii].complaintMaterialUrl.length-3,this.List.appealList[ii].complaintMaterialUrl.length);
+            console.log(houzhui);
+            if((houzhui !== "jpg")&&(houzhui !== "png")){
+              this.List.appealList[ii]["downloadurl"]=this.List.appealList[ii].complaintMaterialUrl;
+              this.List.appealList[ii].complaintMaterialUrl="";
+            }
+            else{
+              this.List.appealList[ii]["downloadurl"]="";
+            }
+          }
+          else{
+            this.List.appealList[ii].complaintMaterialUrl=""
+            this.List.appealList[ii]["downloadurl"]="";
+          }
+        }
+        this.List.showList = this.List.appealList;
+        console.log(this.List.appealList);
         this.total = this.List.appealList.length;
         for(var i = 0; i < this.total ; i ++){
           if(this.List.showList[i].msgstatus === 0){
@@ -387,7 +409,7 @@ export default {
 .result-main {
   float: left;
   width: 980px;
-  overflow: hidden;
+  /* overflow: hidden; */
   padding-left: 20px;
   border-left: 1px solid #e3e3e3;
 }
@@ -476,5 +498,10 @@ export default {
 .appeal_self{
     margin-left: 10px;
     margin-right: 10px;
+}
+.url-frame{
+  width: 300px;
+  /* border: solid 1px black; */
+  margin: 0px 0px 0px 0px;
 }
 </style>
