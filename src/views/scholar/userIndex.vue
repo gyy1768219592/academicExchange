@@ -601,7 +601,9 @@ export default {
           this.patentList = res.data.patent;
           this.paperList = res.data.paper;
           this.paperTotal = res.data.paperNum;
-
+          this.seriData[0].value = this.projectTotal;
+          this.seriData[1].value = this.patentTotal;
+          this.seriData[2].value = this.paperTotal;
           console.log(this.scholar);
           console.log(this.workExperience);
         } else {
@@ -660,7 +662,7 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1400px;
+  width: 1280px;
   height: 2500px;
   margin: auto;
   /* border: solid 1px grey; */

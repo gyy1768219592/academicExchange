@@ -117,7 +117,8 @@ export default {
   },
   methods: {
     toPatent(id) {
-      this.$router.push("/patentDisplay/" + id);
+      let url = this.$router.resolve("/patentDisplay/" + id);
+      window.open(url.href, "_blank");
     },
     changeSortOption(value) {
       this.sortOption = value;
