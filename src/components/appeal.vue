@@ -83,6 +83,15 @@
                 :class = "{'result-list-button_r' : (item.msgstatus==1||item.msgstatus==0) , 'result-list-button_r_1': item.msgstatus==4 , 'result-list-button_r_2': item.msgstatus==3 }"
                 >申诉驳回</a-button
             >
+            <a-button 
+                type="link" 
+                icon="delete"  
+                slot="actions" 
+                v-if="item.msgstatus==3||item.msgstatus==4"
+                @click="deleteMes(item)"
+                class = "delete-button"
+                >删除</a-button
+            >
             <a-list-item-meta
               :description="
                 '   申诉者UID: ' + 
@@ -124,6 +133,7 @@
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
 import { postData } from "@/api/webpost";
+import { deleteData } from "@/api/webdelete";
 export default {
   data() {
     return {
@@ -187,6 +197,35 @@ export default {
     changePage() {
       console.log(this.currentPage);
     },
+    deleteMes(item){
+      console.log(item);
+      for(var i1 = 0; i1 < this.List.appealList.length; i1 ++){
+        if(this.List.appealList[i1].msgid == item.msgid){
+          this.List.appealList.splice(i1,1)
+        }
+      }
+      for(var i2 = 0; i2 < this.List.showList.length; i2 ++){
+        if(this.List.showList[i2].msgid == item.msgid){
+          this.List.showList.splice(i2,1)
+        }
+      }
+      this.$set(this.List,"showList",this.List.showList);
+      this.total = this.List.showList.length;
+      if(item.msgstatus==3){
+        this.paperTypeOptions[1].count --;
+        this.paperYearOptions[0].count --;
+      }
+      else if(item.msgstatus==4){
+        this.paperTypeOptions[1].count --;
+        this.paperYearOptions[1].count --;
+      }
+      let url = this.$urlPath.website.delMessage;
+      let params = new URLSearchParams();
+      params.append("messageId", item.msgid);
+      deleteData(url, params).then(res => {
+        console.log(res);
+      });
+    },
     appealAgree(item){
       // this.updateAppealStatus(item.msgid,item.msgstatus);//调0用
       if(item.msgstatus!=3){
@@ -244,7 +283,7 @@ export default {
         this.List.appealList = res.data;
         for(var ii = 0; ii < this.List.appealList.length; ii ++){
           console.log(this.List.appealList[ii].complaintMaterialUrl);
-          if(this.List.appealList[ii].complaintMaterialUrl!=null){
+          if(this.List.appealList[ii].complaintMaterialUrl!=null&&this.List.appealList[ii].complaintMaterialUrl!="not-allowed extension name"){
             var houzhui = this.List.appealList[ii].complaintMaterialUrl.substring(this.List.appealList[ii].complaintMaterialUrl.length-3,this.List.appealList[ii].complaintMaterialUrl.length);
             console.log(houzhui);
             if((houzhui !== "jpg")&&(houzhui !== "png")){
@@ -435,7 +474,7 @@ export default {
 }
 .result-main .result-list .result-list-button_l_1 {
   /* border: solid 1px blue; */
-  margin-left: 120px;
+  margin-left: 40px;
   padding: 0;
   color: blue;
   /* background-color: #0000ff10; */
@@ -458,7 +497,7 @@ export default {
 }
 .result-main .result-list .result-list-button_r_1 {
   /* border: solid 1px red; */
-  margin-left: 120px;
+  margin-left: 40px;
   padding: 0;
   color: red;
   /* background-color: #ff000010; */
@@ -471,6 +510,13 @@ export default {
   padding: 0;
   color: red;
   background-color: #ff000010; */
+}
+.result-main .result-list .delete-button {
+  border: solid 1px red;
+  margin-left: 5px;
+  padding: 0;
+  color: white;
+  background-color: #ff0000e0;
 }
 .result-main .result-list .ant-list-item {
   padding-left: 10px;
