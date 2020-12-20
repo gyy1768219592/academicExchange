@@ -40,7 +40,7 @@
                       <a-avatar
                         v-else
                         :size="80"
-                        :style="'backgroundColor: #00a2ae'"
+                        :style="'backgroundColor: #c85554'"
                         >{{ item.Name.substring(0, 3) }}</a-avatar
                       >
                     </div>
@@ -48,7 +48,15 @@
                       <div
                         style="font-size: 16px; font-weight: 600; height: 30px"
                       >
-                        {{ item.Name }}
+                        <span
+                          style="
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                          "
+                        >
+                          {{ item.Name }}</span
+                        >
                       </div>
                       <div
                         v-if="
@@ -140,7 +148,7 @@
                     <div class="card-avatar">
                       <a-avatar
                         :size="80"
-                        :style="'backgroundColor: #00a2ae'"
+                        :style="'backgroundColor: #c85554'"
                         >{{ item.displayName.substring(0, 3) }}</a-avatar
                       >
                     </div>
@@ -148,7 +156,15 @@
                       <div
                         style="font-size: 16px; font-weight: 600; height: 30px"
                       >
-                        {{ item.displayName }}
+                        <span
+                          style="
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                          "
+                        >
+                          {{ item.displayName }}</span
+                        >
                       </div>
                       <div
                         v-if="item.institution != ''"
@@ -301,7 +317,7 @@ export default {
         });
         window.open(url.href, "_blank");
       } else {
-        let url = this.$router.push({
+        let url = this.$router.resolve({
           path: "/scholarIndex",
           query: { scholarid: sid },
         });
@@ -427,4 +443,5 @@ export default {
 .result-scholar-number {
   display: inline-block;
 }
+
 </style>
