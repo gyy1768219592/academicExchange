@@ -20,11 +20,11 @@
             </ul>
           </div>
         </div>
-        <div class="actions">
+        <div class="actions" v-if="isLogin">
           <a-button class="btn" @click="toPersonInfo">我要认证<a-icon type="user"/></a-button>
           <a-button v-if="!isFollow" class="btn" @click="subscribe">关注<a-icon type="star"/></a-button>
           <a-button v-else class="btn" @click="undoSubscribe">取消关注<a-icon type="star" theme="filled"/></a-button>
-          <a-button class="btn" type="primary">发送私信<a-icon type="message"/></a-button>
+          <a-button class="btn" type="primary" @click="sendMsg">发送私信<a-icon type="message"/></a-button>
         </div>
       </div>
       <div class="down-block">
@@ -109,6 +109,7 @@ export default {
   },
   data() {
     return {
+      isLogin: false,
       myChart: null,
       chartData: [],
       chartLink: [],
@@ -121,8 +122,8 @@ export default {
       workExperience: [],
       scholar: {
         scholarid: 13,
-        name: "路路路",
-        englishName: "lululu",
+        name: "",
+        englishName: "",
         title: "",
         organization: "",
         email: "",
@@ -142,48 +143,8 @@ export default {
       projectList: [],
       projectTotal: 0,
       barData: [1, 2, 3],
-      coData: [
-        {
-          name: "张1",
-          symbolSize: 76,
-          id: "1",
-        },
-        {
-          name: "张2",
-          symbolSize: 86,
-          id: "2",
-        },
-        {
-          name: "张3",
-          symbolSize: 96,
-          id: "3",
-        },
-        {
-          name: "张4",
-          symbolSize: 136,
-          id: "4",
-        },
-        {
-          name: "张5",
-          symbolSize: 136,
-          id: "5",
-        },
-        {
-          name: "张6",
-          symbolSize: 136,
-          id: "6",
-        },
-        {
-          name: "张7",
-          symbolSize: 136,
-          id: "7",
-        },
-        {
-          name: "张6",
-          symbolSize: 136,
-          id: "8",
-        },
-      ],
+      coData: [],
+      dataLink: [],
     };
   },
   watch: {
@@ -258,15 +219,7 @@ export default {
      * 关系数据集合
      */
     linkEChart() {
-      let dataLink = [
-        { value: "合作学者", source: "1", target: "2" },
-        { value: "合作学者", source: "1", target: "3" },
-        { value: "合作学者", source: "1", target: "4" },
-        { value: "合作学者", source: "1", target: "5" },
-        { value: "合作学者", source: "1", target: "6" },
-        { value: "合作学者", source: "1", target: "7" },
-        { value: "合作学者", source: "1", target: "8" },
-      ];
+      let dataLink = this.dataLink;
       return dataLink;
     },
     drawLine() {
@@ -287,6 +240,15 @@ export default {
             data: this.barData,
           },
         ],
+      });
+    },
+    sendMsg() {
+      this.$router.push({
+        path: "/sendMessage",
+        query: {
+          name: this.scholar.name,
+          ScholarId: this.scholar.scholarid,
+        },
       });
     },
     handleClick(e) {
@@ -341,16 +303,30 @@ export default {
           this.barData[1] = this.projectTotal;
           this.barData[2] = this.paperTotal;
           console.log(this.barData);
-          this.coData[0].name = this.scholar.name;
-
-          for (let i = 0; i < this.coData.length; i++) {
-            if (i > this.coAuthors.length) break;
+          let high = 8;
+          if (this.coAuthors.length / 2 < 8) high = this.coAuthors.length / 2;
+          for (let i = 0; i <= high; i++) {
             if (i == 0) {
-              this.coData[i].name = this.scholar.name;
-              this.coData[i].symbolSize = 60;
+              let tmp = {
+                name: this.scholar.name,
+                symbolSize: 60,
+                id: i + 1,
+              };
+              this.coData[i] = tmp;
             } else {
-              this.coData[i].name = this.coAuthors[2 * (i - 1)];
-              this.coData[i].symbolSize = this.coAuthors[2 * (i - 1) + 1] + 60;
+              let tmp = {
+                name: this.coAuthors[2 * (i - 1)],
+                symbolSize: this.coAuthors[2 * (i - 1) + 1] + 60,
+                id: i + 1,
+              };
+              console.log(i + 1);
+              this.coData[i] = tmp;
+              let link = {
+                value: "合作学者",
+                source: 1,
+                target: i + 1,
+              };
+              this.dataLink[i - 1] = link;
             }
           }
           console.log(this.coData);
@@ -397,6 +373,7 @@ export default {
   },
   mounted() {
     this.scholarid = this.$route.query.scholarid;
+    if (localStorage.getItem("scholarId")) this.isLogin = true;
     this.getScholarInfo();
   },
 };

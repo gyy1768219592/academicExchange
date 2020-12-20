@@ -20,7 +20,7 @@
             </ul>
           </div>
         </div>
-        <div class="actions">
+        <div class="actions" v-if="isLogin">
           <a-button v-if="!isClaim" @click="claimDataPortal" class="btn">我要认领<a-icon type="skin"/></a-button>
           <a-button v-if="isClaim" class="btn" disabled>已被认领<a-icon type="skin" theme="filled"/></a-button>
           <a-button v-if="isClaim" @click="showModal" class="btn" type="primary"
@@ -70,13 +70,14 @@ export default {
       pageid: 0,
       authorid: 2889275216,
       isClaim: false,
+      isLogin: false,
       nameList: [],
       instituition: "",
       scholarid: 13,
       dataScholar: {
         scholarId: 13,
-        displayName: "路路路",
-        normalizedName: "lululu",
+        displayName: "",
+        normalizedName: "",
         introduction: "",
         avatarUrl: "",
         citationCount: 0,
@@ -174,6 +175,9 @@ export default {
   },
   mounted() {
     this.authorid = this.$route.query.authorid;
+    if (localStorage.getItem("scholarId")) {
+      this.isLogin = true;
+    }
     this.scholarid = localStorage.getItem("scholarId");
     this.getAuthorInfo();
   },
