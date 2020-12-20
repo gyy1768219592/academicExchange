@@ -1,7 +1,7 @@
 <template>
   <div>
     <navSearch></navSearch>
-    <div class="main-block">
+    <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
             <div v-if="progData.supportTypeName!=''||progData.fundProjectCode!=''" class="refer-num">
@@ -26,7 +26,7 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling"><a-icon type="heart" :theme="haveRen?'outlined':'filled'"/>{{renlingchar}}</a-button>
+              <a-button class="btn" @click="renling"><a-icon type="heart" :theme="haveRen?'filled':'outlined'"/>{{renlingchar}}</a-button>
               <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
               <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
             </div>
@@ -144,6 +144,7 @@ export default {
   },
   data() {
     return {
+      isLegal:true,
       visible:false,
       type: 'project',
       Like: false,
@@ -184,6 +185,10 @@ export default {
       console.log(url);
       getData(url, params).then(res => {
         if (res.code === 1001) {
+          if(res.data.project==null){
+            this.isLegal=false;
+            return;
+          }
           this.progData = res.data.project;
           if(this.progData.doi[0]=='h'){
             this.progData.doiUrl = this.progData.doi.substring(16,this.progData.doi.length+1);
