@@ -336,7 +336,7 @@ export default {
   float: left;
   margin: 12px 0 8px 50px;
   border-radius: 10px;
-  border: solid 2px #1890ff;
+  border: solid 2px #B22222;
   width: 400px;
 }
 .topNav-searchBox {

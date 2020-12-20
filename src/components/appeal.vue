@@ -107,7 +107,7 @@
                 "
             >
               <a slot="title" >
-                <span class = "appeal_self">{{item.msgtitle}}</span>
+                <span class = "appeal_self">{{item.msgtitle}}（用户：{{item.senderUsername}}）</span>
               </a>
             </a-list-item-meta>
             <div @click="Seek(item)">
@@ -116,8 +116,9 @@
                   <div class="appealText">{{ item.msgcontent }}</div>
                   <img v-if="item.complaintMaterialUrl!=''" :src="item.complaintMaterialUrl" style="width:100%; height:100%"/>
                   <div v-if="item.downloadurl!=''" class="url-frame">
-                    <a-icon type="cloud-download" />
-                    <a v-if="item.downloadurl!=''" :href="item.downloadurl">下载附件</a>
+                    <a-icon v-if="item.downloadstatus==2" type="cloud-download" />
+                    <a-icon v-if="item.downloadstatus==1" type="eye" />
+                    <a v-if="item.downloadurl!=''" :href="item.downloadurl" target="_blank">{{item.downloadDisplay}}</a>
                   </div>
                 </a-collapse-panel>
               </a-collapse>
@@ -281,22 +282,35 @@ export default {
       let url = this.$urlPath.website.getAppeal;
       getData(url, params).then(res => {
         this.List.appealList = res.data;
+        console.log(res.data);
         for(var ii = 0; ii < this.List.appealList.length; ii ++){
           console.log(this.List.appealList[ii].complaintMaterialUrl);
           if(this.List.appealList[ii].complaintMaterialUrl!=null&&this.List.appealList[ii].complaintMaterialUrl!="not-allowed extension name"){
             var houzhui = this.List.appealList[ii].complaintMaterialUrl.substring(this.List.appealList[ii].complaintMaterialUrl.length-3,this.List.appealList[ii].complaintMaterialUrl.length);
             console.log(houzhui);
-            if((houzhui !== "jpg")&&(houzhui !== "png")){
-              this.List.appealList[ii]["downloadurl"]=this.List.appealList[ii].complaintMaterialUrl;
+            if((houzhui !== "jpg")&&(houzhui !== "png")&&(houzhui !== "pdf")){
+              this.List.appealList[ii]["downloadurl"] = this.List.appealList[ii].complaintMaterialUrl;
+              this.List.appealList[ii].complaintMaterialUrl = "";
+              this.List.appealList[ii]["downloadDisplay"] = "下载附件"
+              this.List.appealList[ii]["downloadstatus"] = 2;
+            }
+            else if((houzhui == "pdf")){
+              this.List.appealList[ii]["downloadurl"] = this.List.appealList[ii].complaintMaterialUrl;
               this.List.appealList[ii].complaintMaterialUrl="";
+              this.List.appealList[ii]["downloadDisplay"] = "点击查看"
+              this.List.appealList[ii]["downloadstatus"] = 1;
             }
             else{
               this.List.appealList[ii]["downloadurl"]="";
+              this.List.appealList[ii]["downloadDisplay"] = "";
+              this.List.appealList[ii]["downloadstatus"] = 0;
             }
           }
           else{
             this.List.appealList[ii].complaintMaterialUrl=""
             this.List.appealList[ii]["downloadurl"]="";
+            this.List.appealList[ii]["downloadDisplay"] = "";
+              this.List.appealList[ii]["downloadstatus"] = 0;
           }
         }
         this.List.showList = this.List.appealList;

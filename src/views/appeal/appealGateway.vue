@@ -60,7 +60,7 @@ export default {
         this.fileUrList[i] = this.info.fileList[i].response.data;
       }
       console.log(this.fileUrList);
-      params.append("complaintMaterial", this.fileUrList[0]);
+      params.append("complaintMaterialUrl", this.fileUrList[0]);
       let url = this.$urlPath.website.makeAppeal;
       postData(url, params).then((res) => {
         if (res.code === 1001) {

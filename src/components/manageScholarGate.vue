@@ -266,7 +266,7 @@ export default {
               AuthorId: res.data.dataScholars[i].authorId,
               name: res.data.dataScholars[i].displayName,
               src: /*res.data[i].avatarUrl!=null?res.data[i].avatarUrl:*/"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-              institution: res.data.dataScholars[i].institution!=null?res.data[i].institution:"暂时没有机构",
+              institution: res.data.institution[i]!=null?res.data.institution[i]:"暂时没有机构",
               paper: res.data.dataScholars[i].paperCount,
               citation: res.data.dataScholars[i].citationCount,
               Hindex: res.data.dataScholars[i].hindex,
@@ -334,6 +334,11 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       params.append("ScholarName", "");
       params.append("ScholarId", value);
@@ -367,6 +372,11 @@ export default {
       });
     },
     onSearch2(value) {//查找之后要结果
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       // params.append("value", value);
       //调用封装的putData函数，获取服务器返回值 
