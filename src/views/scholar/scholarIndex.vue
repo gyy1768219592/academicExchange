@@ -93,7 +93,6 @@
 import navSearch from "@/components/navSearch";
 import { postData } from "@/api/webpost";
 import { getData } from "@/api/webget";
-// import { putData } from "@/api/webput";
 import scholarPatent from "@/components/scholarPatent.vue";
 import scholarPaper from "@/components/scholarPaper.vue";
 import scholarProject from "@/components/scholarProject.vue";
@@ -263,18 +262,6 @@ export default {
     toPersonInfo() {
       this.$router.push("/personInfo");
     },
-    toPro() {
-      //跳转到项目展示页面，带参数
-      // this.$router.push("/Pro");
-    },
-    toPaper() {
-      //跳转到项目文献页面，带参数
-      // this.$router.push("/Paper");
-    },
-    toPatent() {
-      //跳转到专利展示页面，带参数
-      // this.$router.push("/Patent");
-    },
 
     //获取学者信息
     getScholarInfo() {
@@ -380,7 +367,7 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1400px;
+  width: 1280px;
   height: 2000px;
   margin: auto;
   /* border: solid 1px grey; */
