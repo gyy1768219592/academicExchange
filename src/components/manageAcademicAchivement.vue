@@ -356,10 +356,20 @@ export default {
       this.isSelected4 = false;
     },
     onSearch3(value) {
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       this.getProg(value);
       this.getPatent(value);
     },
     onSearch4(value) {
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       params.append("ScholarName", "");
       params.append("ScholarId", value);

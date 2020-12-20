@@ -334,6 +334,11 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       params.append("ScholarName", "");
       params.append("ScholarId", value);
@@ -367,6 +372,11 @@ export default {
       });
     },
     onSearch2(value) {//查找之后要结果
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       // params.append("value", value);
       //调用封装的putData函数，获取服务器返回值 

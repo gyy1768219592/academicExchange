@@ -1,7 +1,7 @@
 <template>
   <div>
     <navSearch></navSearch>
-    <div class="main-block">
+    <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
           <div class="refer-num">
@@ -158,6 +158,7 @@ export default {
   },
   data() {
     return {
+      isLegal:true,
       Like: false,
       LikeDisplay:"收藏",
       paperID: this.$route.params.id,
@@ -405,6 +406,11 @@ export default {
       console.log(url);
       getData(url, params).then(res => {
         if (res.code === 1001) {
+          if(res.data.paper==null){
+            this.isLegal=false;
+            this.$message.error("不存在该学术成果！");
+            return;
+          }
           // this.progData = res.data.project;
           // this.author_data = this.progData.authors.split("; ");
           console.log(res.data);
