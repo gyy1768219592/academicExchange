@@ -102,6 +102,8 @@ export default {
           this.$message.success("登录成功");
           window.localStorage.setItem("avatarUrl",res.data.avatar);
           window.localStorage.setItem("identification",res.data.identification);
+          if(res.data.scholarId != undefined)
+          window.localStorage.setItem("scholarId",res.data.scholarId);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           //const webAdrs = window.sessionStorage.getItem("WebAdrs");
           /*if (webAdrs) {

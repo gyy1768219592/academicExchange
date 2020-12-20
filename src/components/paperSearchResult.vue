@@ -44,7 +44,14 @@
         </a-sub-menu>
       </a-menu>
     </div>
-    <div class="homes-result-main">
+    <div
+      v-if="isok == false"
+      class="homes-result-main"
+      style="text-align: center; height: 700px"
+    >
+      <a-spin style="margin-top: 300px" tip="数据加载中，请稍候" size="large" />
+    </div>
+    <div v-else class="homes-result-main">
       <div class="topbar">
         <span style="display: inline-block; margin-top: 5px">
           检索到{{ total }}条结果</span
@@ -158,6 +165,7 @@ export default {
       authorKW: "",
       startDate: "",
       endDate: "",
+      isok: false,
     };
   },
   methods: {
@@ -189,6 +197,7 @@ export default {
       this.searchPaper();
     },
     searchPaper() {
+      this.isok = false;
       let url;
       if (this.sortOption == 1) {
         url = this.$urlPath.website.searchPaper;
@@ -212,6 +221,7 @@ export default {
           this.paperList = res.data.paperList;
           this.authorList = res.data.author;
           this.total = res.data.total;
+          this.isok = true;
           console.log(res.data);
         } else {
           console.log(res.code);
@@ -220,8 +230,18 @@ export default {
       });
     },
     toScholar(type, id) {
-      alert(type);
-      alert(id);
+      if (type == 0) {
+        this.$router.push({ path: "/authorIndex", query: { authorid: id } });
+      } else {
+        if (id == localStorage.getItem("scholarId")) {
+          this.$router.push({ path: "/userIndex", query: { scholarid: id } });
+        } else {
+          this.$router.push({
+            path: "/scholarIndex",
+            query: { scholarid: id },
+          });
+        }
+      }
     },
     clearSelectedKey() {
       this.selectedKey = [];

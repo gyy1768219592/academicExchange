@@ -33,7 +33,7 @@ export default {
       },
     };
   },
-  props: ["page", "scholarid", "paperList", "paperTotal", "nameList"],
+  props: ["page", "scholarid", "paperList", "nameList", "paperTotal"],
   methods: {
     changePage() {
       console.log(this.currentPage);

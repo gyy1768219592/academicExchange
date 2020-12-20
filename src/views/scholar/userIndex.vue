@@ -26,6 +26,7 @@
               ><a-icon type="folder-open" />管理学术成果</a-button
             >
             <a-modal
+              style="z-index:100000000;position:relative"
               width="600px"
               v-model="manageVisible"
               title="管理学术成果"
@@ -34,8 +35,17 @@
               @ok="hideManageModal"
             >
               <div v-if="isDelete">
-                <a-button type="default" @click="changePage">认领同名门户</a-button>
-                <a-list item-layout="horizontal" :data-source="gotSList">
+                <div>
+                  <a-button style="float: right;margin-top:-40px" type="default" @click="changePage"
+                    >认领同名门户<a-icon type="right-square"
+                  /></a-button>
+                </div>
+                <a-list
+                  style="margin-top:30px"
+                  :pagination="Upagination"
+                  item-layout="horizontal"
+                  :data-source="gotSList"
+                >
                   <a-list-item slot="renderItem" slot-scope="item, index">
                     <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarid == -1">认领</a>
                     <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
@@ -48,8 +58,8 @@
                 </a-list>
               </div>
               <div v-else>
-                <a-button type="default" @click="changePage">退领已认领门户</a-button>
-                <a-list item-layout="horizontal" :data-source="sameNameSlist">
+                <a-button type="default" @click="changePage"><a-icon type="left-square" />退领已认领门户</a-button>
+                <a-list item-layout="horizontal" :pagination="Cpagination" :data-source="sameNameSlist">
                   <a-list-item slot="renderItem" slot-scope="item, index">
                     <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarId === -1">认领</a>
                     <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
@@ -135,7 +145,6 @@
             <div class="intro">
               <div class="echart" id="main"></div>
               <a-divider></a-divider>
-              <div class="relation-echart" id="relation"></div>
             </div>
             <div class="experience">
               <a-timeline>
@@ -151,6 +160,7 @@
           <a-tab-pane key="2" tab="项目">
             <div class="project-list">
               <scholarProject
+                :page="page"
                 :projectTotal="projectTotal"
                 :projectList="projectList"
                 :scholarid="scholarid"
@@ -159,12 +169,23 @@
           </a-tab-pane>
           <a-tab-pane key="3" tab="专利">
             <div class="patent-list">
-              <scholarPatent :patentTotal="patentTotal" :patentList="patentList" :scholarid="scholarid"></scholarPatent>
+              <scholarPatent
+                :page="page"
+                :patentTotal="patentTotal"
+                :patentList="patentList"
+                :scholarid="scholarid"
+              ></scholarPatent>
             </div>
           </a-tab-pane>
           <a-tab-pane key="4" tab="成果">
             <div class="paper-list">
-              <scholarPaper :paperTotal="paperTotal" :paperList="paperList" :scholarid="scholarid"></scholarPaper>
+              <scholarPaper
+                :page="page"
+                :paperTotal="paperTotal"
+                :nameList="nameList"
+                :paperList="paperList"
+                :scholarid="scholarid"
+              ></scholarPaper>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -248,6 +269,19 @@ export default {
         startyear: null,
         endyear: null,
       },
+      Upagination: {
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 5,
+      },
+      Cpagination: {
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 5,
+      },
+      nameList: [],
       sameNameSlist: [],
       gotSList: [],
       pos: 0, //从此处开始为同名已认领门户
@@ -267,21 +301,29 @@ export default {
         scholarname: [{ required: true, message: "Username is required!" }],
         email: [{ required: true, message: "Please input your E-mail!" }],
       },
-
+      page: 1,
       paperList: [],
-      paperTotal: 0,
+      paperTotal: 1,
       patentList: [],
-      patentTotal: 0,
+      patentTotal: 2,
       projectList: [],
-      projectTotal: 0,
+      projectTotal: 3,
+      seriData: [
+        { value: 0, name: "项目" },
+        { value: 0, name: "专利" },
+        { value: 0, name: "文献" },
+      ],
     };
   },
   mounted() {
-    this.initEchart();
-    this.drawLine();
+    this.scholarid = localStorage.getItem("scholarId");
     this.getScholarInfo();
     this.getDataPortal();
     this.getSameNameScholar();
+    this.seriData[0].value = this.projectTotal;
+    this.seriData[1].value = this.patentTotal;
+    this.seriData[2].value = this.paperTotal;
+    this.drawLine();
   },
   methods: {
     changePage() {
@@ -291,100 +333,6 @@ export default {
       } else {
         this.getSameNameScholar();
       }
-    },
-    initEchart() {
-      let myChart = this.$echarts.init(document.getElementById("relation"));
-      let option = {
-        title: {
-          text: "按年份展示发表情况",
-        },
-        tooltip: {
-          trigger: "axis",
-        },
-        dataZoom: [
-          {
-            type: "slider",
-            xAxisIndex: 0,
-            start: 0,
-            end: 20,
-          },
-          {
-            type: "inside",
-            xAxisIndex: 0,
-            start: 0,
-            end: 20,
-          },
-          {
-            type: "slider",
-            yAxisIndex: 0,
-            start: 0,
-            end: 50,
-          },
-          {
-            type: "inside",
-            yAxisIndex: 0,
-            start: 0,
-            end: 50,
-          },
-        ],
-        legend: {
-          data: ["项目", "专利", "文献"],
-        },
-        grid: {
-          left: "3%",
-          right: "4%",
-          bottom: "3%",
-          containLabel: true,
-        },
-        toolbox: {
-          feature: {
-            saveAsImage: {},
-          },
-        },
-        xAxis: {
-          type: "category",
-          boundaryGap: false,
-          data: [
-            "2008年",
-            "2009年",
-            "2010年",
-            "2011年",
-            "2012年",
-            "2013年",
-            "2014年",
-            "2015年",
-            "2016年",
-            "2017年",
-            "2018年",
-            "2019年",
-            "2020年",
-          ],
-        },
-        yAxis: {
-          type: "value",
-        },
-        series: [
-          {
-            name: "项目",
-            type: "line",
-            stack: "总量",
-            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0],
-          },
-          {
-            name: "专利",
-            type: "line",
-            stack: "总量",
-            data: [2, 3, 5, 10, 12, 2, 0, 2, 3, 5, 10, 12, 2, 0],
-          },
-          {
-            name: "文献",
-            type: "line",
-            stack: "总量",
-            data: [150, 232, 201, 154, 190, 330, 410, 150, 232, 201, 154, 190, 330, 410],
-          },
-        ],
-      };
-      myChart.setOption(option);
     },
     drawLine() {
       let myChart = this.$echarts.init(document.getElementById("main"));
@@ -408,11 +356,7 @@ export default {
             type: "pie",
             radius: "55%",
             center: ["50%", "60%"],
-            data: [
-              { value: this.projectTotal, name: "项目" },
-              { value: this.patentTotal, name: "专利" },
-              { value: this.paperTotal, name: "文献" },
-            ],
+            data: this.seriData,
             emphasis: {
               itemStyle: {
                 shadowBlur: 10,
@@ -502,15 +446,20 @@ export default {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
+          console.log(res.data.instituition);
+          console.log(this.pos);
           this.sameNameSlist = res.data.dataScholar;
           this.pos = res.data.pos;
-          this.sameNameSlist.map((item, index) => {
+          this.sameNameSlist = this.sameNameSlist.map((item, index) => {
             console.log(index, res.data.instituition[index]);
-            item.lastKnownAffiliationId = res.data.instituition.get(index);
 
+            item.lastKnownAffiliationId = res.data.instituition[index];
+            if (item.lastKnownAffiliationId == -1) {
+              item.lastKnownAffiliationId = "";
+            }
             return item;
           });
-          console.log(this.sameNameSlist);
+          console.log(res.data.instituition);
           console.log(this.pos);
         } else {
           this.$message.error(res.message);
@@ -619,8 +568,10 @@ export default {
           if (this.scholar.gindex == null) {
             this.scholar.gindex = 0;
           }
+          this.nameList = res.data.authorList;
           this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
           console.log(this.scholar.citations);
+          this.coAuthors = res.data.coAuthors;
           this.workExperience = res.data.workExperience.reverse();
           this.form.email = this.scholar.email;
           this.form.scholarname = this.scholar.name;

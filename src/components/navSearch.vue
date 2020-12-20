@@ -8,35 +8,15 @@
         <a-popover trigger="click" placement="bottomLeft">
           <template slot="content">
             <div class="topNav-searchCard">
-              <a-form
-                :form="form"
-                :label-col="{ span: 8 }"
-                :wrapper-col="{ span: 15 }"
-                @submit="handleSubmit"
-              >
-                <a-form-item
-                  style="margin: 0; padding: 0"
-                  label="检索词/检索学者"
-                >
-                  <a-input
-                    size="small"
-                    placeholder="学术成果关键词/学者姓名"
-                    v-decorator="['word']"
-                  />
+              <a-form :form="form" :label-col="{ span: 8 }" :wrapper-col="{ span: 15 }" @submit="handleSubmit">
+                <a-form-item style="margin: 0; padding: 0" label="检索词/检索学者">
+                  <a-input size="small" placeholder="学术成果关键词/学者姓名" v-decorator="['word']" />
                 </a-form-item>
                 <a-form-item style="margin: 0; padding: 0" label="科研机构">
-                  <a-input
-                    size="small"
-                    placeholder="项目和专利的完成单位"
-                    v-decorator="['institution']"
-                  />
+                  <a-input size="small" placeholder="项目和专利的完成单位" v-decorator="['institution']" />
                 </a-form-item>
                 <a-form-item style="margin: 0; padding: 0" label="学术成果作者">
-                  <a-input
-                    size="small"
-                    placeholder="项目和专利的作者"
-                    v-decorator="['author']"
-                  />
+                  <a-input size="small" placeholder="项目和专利的作者" v-decorator="['author']" />
                 </a-form-item>
                 <a-form-item style="margin: 0; padding: 0" label="发表日期">
                   <a-range-picker
@@ -51,54 +31,30 @@
                     @change="handleChange"
                   />
                 </a-form-item>
-                <a-form-item
-                  style="margin: 0; padding: 0"
-                  :wrapper-col="{ span: 23, offset: 0 }"
-                >
-                  <a-button
-                    type="primary"
-                    html-type="submit"
-                    block
-                    size="small"
-                  >
+                <a-form-item style="margin: 0; padding: 0" :wrapper-col="{ span: 23, offset: 0 }">
+                  <a-button type="primary" html-type="submit" block size="small">
                     检索
                   </a-button>
                 </a-form-item>
               </a-form>
             </div>
           </template>
-          <a-button
-            class="topNav-searchButton"
-            type="link"
-            @click="selected"
-            @blur="undoSelected"
-            >高级检索</a-button
-          >
+          <a-button class="topNav-searchButton" type="link" @click="selected" @blur="undoSelected">高级检索</a-button>
         </a-popover>
-        <a-input-search
-          class="topNav-searchBox"
-          @search="onSearch"
-          @focus="selected"
-          @blur="undoSelected"
-        />
+        <a-input-search class="topNav-searchBox" @search="onSearch" @focus="selected" @blur="undoSelected" />
       </div>
       <div v-if="isLogin">
         <a-dropdown class="topNav-dropDown">
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
-            <a-avatar
-              v-if="avatar == null || avatar == 'null'"
-              :size="50"
-              icon="user"
-              class="topNav-avatar"
-            />
+            <a-avatar v-if="avatar == '' || avatar == 'null'" :size="50" icon="user" class="topNav-avatar" />
             <a-avatar v-else :size="50" :src="avatar" class="topNav-avatar" />
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
-              <a href="#">个人设置</a>
+              <a @click="toPersonInfo()">个人设置</a>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的主页</a>
+              <a @click="toUserIndex">我的主页</a>
             </a-menu-item>
             <a-menu-item>
               <router-link to="/message">我的私信</router-link>
@@ -117,12 +73,7 @@
         </a-dropdown>
       </div>
       <div v-else>
-        <a-button
-          type="primary"
-          ghost
-          class="topNav-LoginButton"
-          @click="toLogin()"
-        >
+        <a-button type="primary" ghost class="topNav-LoginButton" @click="toLogin()">
           登录
         </a-button>
       </div>
@@ -167,21 +118,20 @@ export default {
     toHome() {
       this.$router.push({ name: "Home" });
     },
+    toUserIndex() {
+      this.$router.push({ path: "/userIndex", query: { scholarid: localStorage.getItem("scholarId") } });
+    },
+    toPersonInfo() {
+      this.$router.push("/personInfo");
+    },
     handleSubmit(e) {
       e.preventDefault();
       this.form.validateFields((err, values) => {
         let word = values.word === undefined ? "" : values.word;
-        let institution =
-          values.institution === undefined ? "" : values.institution;
+        let institution = values.institution === undefined ? "" : values.institution;
         let author = values.author === undefined ? "" : values.author;
-        let startDate =
-          this.yearValue[0] === undefined
-            ? ""
-            : moment(this.yearValue[0]).format("YYYYMMDD");
-        let endDate =
-          this.yearValue[1] === undefined
-            ? ""
-            : moment(this.yearValue[1]).format("YYYYMMDD");
+        let startDate = this.yearValue[0] === undefined ? "" : moment(this.yearValue[0]).format("YYYYMMDD");
+        let endDate = this.yearValue[1] === undefined ? "" : moment(this.yearValue[1]).format("YYYYMMDD");
         if (
           word.length == 0 &&
           institution.length == 0 &&
@@ -218,6 +168,10 @@ export default {
     logout() {
       this.isLogin = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("aaa");
+      localStorage.removeItem("identification");
+      localStorage.removeItem("avatarUrl");
+      localStorage.removeItem("scholarId");
       this.$forceUpdate();
     },
   },

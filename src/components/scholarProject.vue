@@ -5,7 +5,7 @@
         <span> 检索到{{ projectTotal }}条结果</span>
       </div>
       <div class="result-list-project">
-        <a-list item-layout="vertical" size="large" :data-source="projectList">
+        <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="projectList">
           <a-list-item slot="renderItem" key="item.fundProjectCode" slot-scope="item">
             <a-list-item-meta>
               <div slot="description">
@@ -16,9 +16,6 @@
             </a-list-item-meta>
           </a-list-item>
         </a-list>
-        <div class="result-list-pagination">
-          <a-pagination simple :default-current="2" :total="projectTotal" v-model="currentPage" @change="changePage" />
-        </div>
       </div>
     </div>
     <a-back-top></a-back-top>
@@ -31,9 +28,15 @@ export default {
   data() {
     return {
       currentPage: "1",
+      pagination: {
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 5,
+      },
     };
   },
-  props: ["scholarid", "projectList", "projectTotal"],
+  props: ["page", "scholarid", "projectList", "projectTotal"],
   methods: {
     changePage() {
       console.log(this.currentPage);

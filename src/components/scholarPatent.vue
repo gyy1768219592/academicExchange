@@ -5,7 +5,7 @@
         <span style="display: inline-block; margin-top: 5px"> 检索到{{ patentTotal }}条结果</span>
       </div>
       <div class="result-list">
-        <a-list item-layout="vertical" size="large" :data-source="patentList">
+        <a-list item-layout="vertical" size="large" :pagination="pagination" :data-source="patentList">
           <a-list-item slot="renderItem" key="item.title" slot-scope="item">
             <a-list-item-meta>
               <div slot="description">
@@ -21,9 +21,6 @@
             <div class="patent-abstract" v-html="item.Abstract"></div>
           </a-list-item>
         </a-list>
-        <div class="result-list-pagination">
-          <a-pagination simple :default-current="1" :total="patentTotal" v-model="currentPage" @change="changePage" />
-        </div>
       </div>
     </div>
     <a-back-top></a-back-top>
@@ -35,9 +32,15 @@ export default {
   data() {
     return {
       currentPage: 1,
+      pagination: {
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 5,
+      },
     };
   },
-  props: ["scholarid", "patentList", "patentTotal"],
+  props: ["page", "scholarid", "patentList", "patentTotal"],
   methods: {
     toPatent(id) {
       this.$router.push("/patentDisplay/" + id);

@@ -4,79 +4,71 @@
     <div class="main-block">
       <div class="up-block">
         <div class="artcle-info">
-            <div class="refer-num">
-                <span class="refer-num-dis">{{CitationCount}}被引</span>
-            </div>
-            <div class="title">
-              <span class="title-name">{{PaperTitle}}</span>
-            </div>
-            <div class="authors">
-                <a-list item-layout="vertical" :grid="{ gutter: 6, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3 }" :data-source="author_data">
-                    <a-list-item slot="renderItem" slot-scope="item">
-                        <div class="author">
-                          <a-dropdown>
-                            <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                              <a-avatar class="img" :size="35" icon="user" />
-                              <h1 class="author-name">{{ item.name }}</h1>
-                            </a>
-                            <a-menu slot="overlay">
-                              <a-menu-item>
-                                <div class="author" @click="gotoUser">
-                                  <a-avatar class="img" :size="38" icon="user" />
-                                  <h1 class="author-name2">{{ item.name }}</h1>
-                                  <div class="author-from" :title=item.infor>
-                                    {{item.infor}}
-                                  </div>
+          <div class="refer-num">
+              <span class="refer-num-dis">{{CitationCount}}被引</span>
+          </div>
+          <div class="title">
+            <span class="title-name">{{PaperTitle}}</span>
+          </div>
+          <div v-if="EngTitie!=''" class="refer-num1">
+            <span v-if="EngTitie!=''" class="refer-num-dis1">{{EngTitie}}</span>
+          </div>
+          <div class="authors">
+              <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
+                  <a-list-item slot="renderItem" slot-scope="item">
+                      <div class="author">
+                        <a-dropdown>
+                          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                            <a-avatar class="img" :size="30" icon="user" />
+                            <h1 class="author-name">{{ item.name }}</h1>
+                          </a>
+                          <a-menu slot="overlay">
+                            <a-menu-item>
+                              <div class="author" @click="gotoUser(item.scholarId,item.authorId)">
+                                <a-avatar class="img" :size="30" icon="user" />
+                                <h1 class="author-name2">{{ item.name }}</h1>
+                              </div>
+                            </a-menu-item>
+                            <a-menu-item>
+                              <div class="author-infor">
+                                <div class="author-infor-item">
+                                  <span class="author-infor-item_cnt">{{ item.paperCount }}</span> 
+                                  <span class="author-infor-item_cnt">论文</span>
                                 </div>
-                              </a-menu-item>
-                              <a-menu-item>
-                                <div class="author-infor">
-                                  <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.paperCount }}</span> 
-                                    <span class="author-infor-item_cnt">论文</span>
-                                  </div>
-                                  <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
-                                    <span class="author-infor-item_cnt">被引</span>
-                                  </div>
-                                  <div class="author-infor-item">
-                                    <span class="author-infor-item_cnt">{{ item.Hindex }}</span> 
-                                    <span class="author-infor-item_cnt">H指数</span>
-                                  </div>
+                                <div class="author-infor-item">
+                                  <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
+                                  <span class="author-infor-item_cnt">被引</span>
                                 </div>
-                              </a-menu-item>
-                            </a-menu>
-                          </a-dropdown>
-                        </div>
-                    </a-list-item>
-                </a-list>
-            </div>
-            <div class="actions">
-              <!-- <a-button class="btn">我要认领</a-button> -->
-              <a-button class="btn" @click="shoucang">收藏</a-button>
-              <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
-            </div>
-            <div class="date">
-                <span class="date-num">发表时间： {{date}}</span>
-            </div>
+                                <div class="author-infor-item">
+                                  <span class="author-infor-item_cnt">{{ item.HIndex }}</span> 
+                                  <span class="author-infor-item_cnt">H指数</span>
+                                </div>
+                              </div>
+                            </a-menu-item>
+                          </a-menu>
+                        </a-dropdown>
+                      </div>
+                  </a-list-item>
+              </a-list>
+          </div>
+          <div class="actions">
+            <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
+            <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
+          </div>
+          <div class="date">
+            <span class="date-num">发表时间： {{date}}</span>
+          </div>
+          <div class="DOI-frame">
+            <span class="DOI" >DOI号：{{DOI}}</span>
+          </div>
         </div>
-        <!-- <div class="tool">
-            <a-button class="collect" @click="changeCollect">
-                <a-icon type="star" class="star"/>
-                <span class="collect-word" >收藏</span>
-            </a-button>
-            <a-button class="collect" @click="share">
-                <a-icon type="share-alt" class="star"/>
-                <span class="collect-word" >分享</span>
-            </a-button>
-        </div> -->
       </div>
       <div class="down-block">
         <div class="down-left-block" >
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-icon type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
               <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
@@ -84,43 +76,34 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="key" :style="{ fontSize: '20px', color: '#08c'}"/>
-              <a-descriptions title="关键词" style="margin: -25px 0px 0px 20px">
+              <a-icon type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-descriptions title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
-                  <div class="Keyword-frame">
-                   <span class="Keyword" >{{keyword}}</span>
-                  </div>
-                </a-descriptions-item>
-              </a-descriptions>
-              <a-icon type="snippets" :style="{ fontSize: '20px', color: '#08c'}"/>
-              <a-descriptions title="DOI" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="DOI-frame">
-                    <span class="DOI" >{{DOI}}</span>
+                  <div class="source-frame">
+                    <!-- <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span> -->
+                    <div class="source" v-if="Journal!=''">期刊：《{{Journal}}》</div>
+                    <div class="source" v-if="Conference!=''">会议：《{{Conference}}》</div>
+                    <div class="source" v-if="Volume!=''">卷号：第{{Volume}}卷</div>
+                    <div class="source" v-if="Issue!=''">期号：第{{Issue}}期</div>
+                    <div class="source" v-if="FirstPage!=''">开始页：{{FirstPage}}</div>
+                    <div class="source" v-if="LastPage!=''">结束页：{{LastPage}}</div>
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
             </div>
           </a-tab-pane>
-          <a-tab-pane key="2" tab="原文来源">
-            <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
-            <a-descriptions title="原文出处" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="source-frame">
-                  <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+          <a-tab-pane key="2" tab="原文链接">
+            <a-icon type="share-alt" :style="{ fontSize: '16px', color: '#08c'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
-                  <a :href="SourceUrl">链接</a>
+                  <a v-if="SourceUrl!=''" :href="SourceUrl">{{SourceUrl}}</a>
+                  <a v-if="SourceUrl==''" >暂时没有全文链接{{SourceUrl}}</a>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <a-tab-pane key="3" tab="引用助手" style="margin: 10px">
+          <!-- <a-tab-pane key="3" tab="推荐文献" style="margin: 10px">
             <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
@@ -131,14 +114,13 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-          </a-tab-pane>
+          </a-tab-pane> -->
           </a-tabs>
         </div>
         <div class="down-right-block">
-          <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
-          <span class = "title-echart">引用走势</span>
-          <!-- style="z-index:999;float:left;position:absolute" -->
-          <div class="echarts-infor-frame">
+          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
+          <span class = "title-echart">引用走势</span> -->
+          <!-- <div class="echarts-infor-frame">
             <div class="echarts-infor">
               <div class="echarts-infor-item">
                 <span class="echarts-infor-item_cnt" id="leijialiang">{{leijiliang}}</span> 
@@ -149,9 +131,9 @@
                 <span class="echarts-infor-item_cnt" id="mounian">{{mounian}}年被引量</span>
               </div>
             </div>
-          </div>
-          <div id="myChart" class="myChart">
-          </div>
+          </div> -->
+          <!-- <div id="myChart" class="myChart"> -->
+          <!-- </div> -->
         </div>
       </div>
     </div>
@@ -162,21 +144,24 @@
 //引入导航栏
 //import personNav from "@/components/personNav";
 import { getData } from "@/api/webget";
+import { putData } from "@/api/webput";
 import navSearch from "@/components/navSearch";
-require('echarts/lib/chart/bar')
-require('echarts/lib/component/tooltip')
-require('echarts/lib/component/title')
+// require('echarts/lib/chart/bar')
+// require('echarts/lib/component/tooltip')
+// require('echarts/lib/component/title')
 export default {
   components: {
     navSearch,
   },
   data() {
     return {
+      Like: false,
+      LikeDisplay:"收藏",
       paperID: this.$route.params.id,
       author_data : [],
       PaperTitle : "",
+      EngTitie: "",
       Abstract : "",
-      keyword : "",
       DOI : "",
       DocType : "",
       CitationCount	:	0,
@@ -189,9 +174,9 @@ export default {
       LastPage :	"",       //结束页
       SourceUrl :"",
       yinyong: "杨玲,  陈志刚. 陈志刚教授辨病论治周围神经病经验[J]. 中国当代医药. 2018,(12):112-115. ",
-      leijiliang : 0,
-      mounian : 2000,
-      mounianbeiyinliang : 2,
+      // leijiliang : 0,
+      // mounian : 2000,
+      // mounianbeiyinliang : 2,
     };
   },
   watch: {
@@ -200,121 +185,122 @@ export default {
     },
   },
   mounted(){
-    this.initCharts();
+    // this.initCharts();
     this.getPaper();
+    this.getLikeStatus();
   },
   methods: {
-    initCharts () {
-      // 基于准备好的dom，初始化echarts实例
-      let myChart = this.$echarts.init(document.getElementById('myChart'));
-      // 绘制图表
-      myChart.setOption({
-        title: {
-            text: '',
-            subtext: ''
-        },
-        tooltip: {
-            trigger: 'axis'
-        },
-        legend: {
-            data:['最高','最低']
-        },
-        splitLine:{//去掉网格线
-          show: false
-        },
-        toolbox: {
-            show: false,
-            feature: {
-                dataZoom: {
-                    yAxisIndex: 'none'
-                },
-                dataView: {readOnly: false},
-                magicType: {type: ['line', 'bar']},
-                saveAsImage: {}
-            }
-        },
-        xAxis:  {
-            type: 'category',
-            boundaryGap: false,
-            axisLabel: {
-                formatter: '{value}'
-            },
-            data: ['1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020']
-        },
-        yAxis: {
-            show: false,
-            type: 'value',
-            axisLabel: {
-                formatter: '{value}'
-            }
-        },
+    // initCharts () {
+    //   // 基于准备好的dom，初始化echarts实例
+    //   let myChart = this.$echarts.init(document.getElementById('myChart'));
+    //   // 绘制图表
+    //   myChart.setOption({
+    //     title: {
+    //         text: '',
+    //         subtext: ''
+    //     },
+    //     tooltip: {
+    //         trigger: 'axis'
+    //     },
+    //     legend: {
+    //         data:['最高','最低']
+    //     },
+    //     splitLine:{//去掉网格线
+    //       show: false
+    //     },
+    //     toolbox: {
+    //         show: false,
+    //         feature: {
+    //             dataZoom: {
+    //                 yAxisIndex: 'none'
+    //             },
+    //             dataView: {readOnly: false},
+    //             magicType: {type: ['line', 'bar']},
+    //             saveAsImage: {}
+    //         }
+    //     },
+    //     xAxis:  {
+    //         type: 'category',
+    //         boundaryGap: false,
+    //         axisLabel: {
+    //             formatter: '{value}'
+    //         },
+    //         data: ['1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020']
+    //     },
+    //     yAxis: {
+    //         show: false,
+    //         type: 'value',
+    //         axisLabel: {
+    //             formatter: '{value}'
+    //         }
+    //     },
         
-        series: [
-          {
-            name:'',
-            type:'line',
-            data:[0, 0, 1, 2, 4, 8, 9, 12, 14, 15, 19, 20, 21, 22, 23, 24, 26, 34, 46, 52, 60, 67],
-            markPoint: {
-              data: [
-                {type: 'max', name: '最大值'},
-                {type: 'min', name: '最小值'}
-              ]
-            },
-            markLine: {
-              data: [
-                // {type: 'average', name: '平均值'}
-              ]
-            },
-            tooltip: {
-              show: true,
-              trigger: 'axis',
-            },
-            itemStyle: {
-              normal: {
-                color: "#386db3",//折线点的颜色
-                lineStyle: {
-                color: "#386db3"//折线的颜色
-                }
-              }
-            }
-          },
+    //     series: [
+    //       {
+    //         name:'',
+    //         type:'line',
+    //         data:[0, 0, 1, 2, 4, 8, 9, 12, 14, 15, 19, 20, 21, 22, 23, 24, 26, 34, 46, 52, 60, 67],
+    //         markPoint: {
+    //           data: [
+    //             {type: 'max', name: '最大值'},
+    //             {type: 'min', name: '最小值'}
+    //           ]
+    //         },
+    //         markLine: {
+    //           data: [
+    //             // {type: 'average', name: '平均值'}
+    //           ]
+    //         },
+    //         tooltip: {
+    //           show: true,
+    //           trigger: 'axis',
+    //         },
+    //         itemStyle: {
+    //           normal: {
+    //             color: "#386db3",//折线点的颜色
+    //             lineStyle: {
+    //             color: "#386db3"//折线的颜色
+    //             }
+    //           }
+    //         }
+    //       },
           
-        ]
-      });
-      myChart.getZr().on('mousemove', function (params) { 
-      var pointInPixel= [params.offsetX, params.offsetY];
-        if (myChart.containPixel('grid',pointInPixel)) {
-          this.leijiliang = 10;
-          var pointInGrid=myChart.convertFromPixel({seriesIndex:0},pointInPixel);
-          var xIndex=pointInGrid[0];
-          var op=myChart.getOption();
-          var month = op.xAxis[0].data[xIndex];
-          var value = op.series[0].data[xIndex];
-          var num=0;
-          for (var i=0; i<=xIndex; i++){
-              num+=op.series[0].data[i];
-          }
-          this.mounian=month;
-          if(isNaN(num)){
-            num=0;
-          }
-          if(typeof(this.mounianbeiyinliang) == undefined){
-            this.mounianbeiyinliang = 0;
-          }
-          if(typeof(this.mounian) == undefined){
-            this.mounian = "0000";
-          }
-          this.mounianbeiyinliang = value;
-          var span = document.getElementById("leijialiang");
-          span.innerHTML = num;
-          span = document.getElementById("mounianbeiyinliang");
-          span.innerHTML = this.mounianbeiyinliang;
-          span = document.getElementById("mounian");
-          span.innerHTML = this.mounian+"年被引量";
-        }
-      });
+    //     ]
+    //   });
+    //   myChart.getZr().on('mousemove', function (params) { 
+    //   var pointInPixel= [params.offsetX, params.offsetY];
+    //     if (myChart.containPixel('grid',pointInPixel)) {
+    //       this.leijiliang = 10;
+    //       var pointInGrid=myChart.convertFromPixel({seriesIndex:0},pointInPixel);
+    //       var xIndex=pointInGrid[0];
+    //       var op=myChart.getOption();
+    //       var month = op.xAxis[0].data[xIndex];
+    //       var value = op.series[0].data[xIndex];
+    //       var num=0;
+    //       for (var i=0; i<=xIndex; i++){
+    //           num+=op.series[0].data[i];
+    //       }
+    //       this.mounian=month;
+    //       if(isNaN(num)){
+    //         num=0;
+    //       }
+    //       if(typeof(this.mounianbeiyinliang) == undefined){
+    //         this.mounianbeiyinliang = 0;
+    //       }
+    //       if(typeof(this.mounian) == undefined){
+    //         this.mounian = "0000";
+    //       }
+    //       this.mounianbeiyinliang = value;
+    //       var span = document.getElementById("leijialiang");
+    //       span.innerHTML = num;
+    //       span = document.getElementById("mounianbeiyinliang");
+    //       span.innerHTML = this.mounianbeiyinliang;
+    //       span = document.getElementById("mounian");
+    //       span.innerHTML = this.mounian+"年被引量";
+    //     }
+    //   });
       
-    },
+    // },
     
     handleClick(e) {
       console.log("click", e);
@@ -325,13 +311,71 @@ export default {
     callback(key) {
       console.log(key);
     },
-    gotoUser(){
+    gotoUser(scholarId,authorId){
       //去此人的主页
-      this.$router.push("/scholarIndex");
+      if(scholarId==-1){
+        this.$router.push("/authorIndex/" + authorId);
+      }
+      else if(authorId == -1){
+        this.$router.push("/scholarIndex/" + scholarId);
+      }
+    },
+    getLikeStatus(){
+      let params = new URLSearchParams();
+      params.append("paperId", this.paperID);
+      params.append("type", 0);
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          // this.$message.success(res.message);
+          console.log(res);
+          this.Like = true;
+          this.LikeDisplay = "取消收藏";
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else if(res.code === 404){
+          this.Like = false;
+          this.LikeDisplay = "收藏";
+          console.log(res.code);
+          // this.$message.success(res.message);
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     shoucang(){
-      this.$message.success("已收藏");
-      this.$message.success("已取消收藏");
+      let params = new URLSearchParams();
+      params={
+        "paperId": this.paperID,
+        "type": 0,
+      };
+      //调用封装的postData函数，获取服务器返回值 
+      let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
+      console.log(url);
+      putData(url,params).then(res => {
+        if (res.code === 1001) {
+          this.$message.success(res.message);
+          console.log(res);
+          if(this.Like){ 
+            this.LikeDisplay = "收藏";
+            // this.$message.success("已取消收藏");
+            this.Like = false;
+          }
+          else {
+            this.LikeDisplay = "取消收藏";
+            // this.$message.success("已收藏");
+            this.Like = true;
+          }
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     fenxiang(){
       var domUrl = document.createElement("input");
@@ -346,7 +390,7 @@ export default {
     },
     getPaper(){
       let params = new URLSearchParams();
-      params.append("paperId", this.paperID);
+      // params.append("paperId", this.paperID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getPaperById + this.paperID;
       console.log(url);
@@ -357,7 +401,6 @@ export default {
           console.log(res.data);
           this.PaperTitle = res.data.paper.paperTitle;
           this.Abstract = res.data.paper.paper_abstract;
-      // this.keyword : "财政支出结构 中国式分权 政府竞争",
           this.DOI = res.data.paper.doi,
           this.DocType = res.data.paper.doctype;
           this.CitationCount = res.data.paper.citationCount;
@@ -368,16 +411,41 @@ export default {
           this.Issue = res.data.paper.issue;
           this.FirstPage = res.data.paper.firstPage;
           this.LastPage = res.data.paper.lastPage;
-          this.SourceUrl = res.data.paper.sourceUrl;
-          this.$message.success(res.message);
+          this.SourceUrl = res.data.paper.sourceUrl==""?"https://doi.org/" + this.DOI:res.data.paper.sourceUrl;
+          var qiege = this.PaperTitle.length;
+          for(var k = this.PaperTitle.length; k >= 0; k --){
+            console.log(this.PaperTitle[k]);
+            var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+            if(reg.test(this.PaperTitle[k])){
+              qiege = k+1;
+              break;
+            }
+          }
+          if(qiege == 0){
+            this.EngTitie = "";
+          }
+          else if(qiege != this.PaperTitle.length){
+            this.EngTitie = this.PaperTitle.substring(qiege+1,this.PaperTitle.length+1);
+            var tempstr = this.PaperTitle.substring(qiege,qiege+1).toUpperCase();
+            this.EngTitie = tempstr + this.EngTitie;
+            this.PaperTitle = this.PaperTitle.substring(0,qiege);
+          }
+          else{
+            this.EngTitie = "";
+            var tempstr1 = this.PaperTitle.substring(0,1).toUpperCase();
+            this.PaperTitle = this.PaperTitle.substring(1,this.PaperTitle.length);
+            this.PaperTitle = tempstr1 + this.PaperTitle;
+          }
+          // this.$message.success(res.message);
           for(var i = 0; i < res.data.paperMap.authorList.length; i ++){
             var temp = {
               name: res.data.paperMap.authorList[i].name,
               paperCount: res.data.paperMap.authorList[i].paperCount,
               citationCount: res.data.paperMap.authorList[i].citationCount,
-              Hindex: res.data.paperMap.authorList[i].Hindex,
+              HIndex: res.data.paperMap.authorList[i].HIndex,
               src: "https:///resmod/smate-pc/img/logo_psndefault.png",
               authorId: res.data.paperMap.authorList[i].authorId,
+              scholarId: -1,
             }
             this.author_data.push(temp);
           } 
@@ -386,9 +454,10 @@ export default {
               name: res.data.paperMap.scholarList[j].name,
               paperCount: res.data.paperMap.scholarList[j].paperCount,
               citationCount: res.data.paperMap.scholarList[j].citationCount,
-              Hindex: res.data.paperMap.scholarList[j].Hindex,
+              HIndex: res.data.paperMap.scholarList[j].HIndex,
               src: "https:///resmod/smate-pc/img/logo_psndefault.png",
-              authorId: res.data.paperMap.scholarList[j].authorId,
+              authorId: -1,
+              scholarId: res.data.paperMap.scholarList[j].scholarId,
             }
             this.author_data.push(temp1);
           } 
@@ -409,80 +478,66 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1200px;
-  height: 1400px;
+  width: 1400px;
+  /* height: 1400px; */
   margin: auto;
   /* border: solid 1px black; */
 }
 .up-block {
   /* border: solid 1px black; */
-  width: 1100px;
-  height: 220px;
+  width: 1200px;
+  /* height: 220px; */
   margin: auto;
-  background-color: #f0f0f0f0;
+  background-color: #fafafa;
 }
 .down-block {
   /* border: solid 1px black; */
-  width: 1100px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: auto;
 }
 .down-left-block {
   /* border: solid 1px black; */
-  width: 750px;
-  height: 900px;
+  width: 1200px;
+  /* height: 900px; */
   margin: 0px 0px 0px 0px;
 }
 .down-right-block {
   /* border: solid 1px black; */
-  width: 350px;
-  height: 900px;
-  margin: -900px 10px 10px 750px;
+  width: 1200px;
+  height: 100px;
+  /* margin: 0px 10px 10px 750px; */
 }
 .artcle-info {
   /* border: solid 1px black; */
-  width: 950px;
-  height: 180px;
+  width: 1050px;
+  /* height: 180px; */
   margin: 10px;
-}
-.tool{
-  /* border: solid 1px black; */
-  width: 950px;
-  height: 40px;
-  margin: 10px;
-}
-.collect{
-  /* border: solid 1px black; */
-  width: 100px;
-  height: 40px;
-  margin: 0px;
-}
-.collect-word{
-  /* border: solid 1px black; */
-  width: 50px;
-  height: 35px;
-  margin: 0px 0px 0px -30px;
-  font-size: x-large;
-}
-.star{
-  /* border: solid 1px black; */
-  color: #08c;
-  width: 40px;
-  height: 40px;
-  margin: 0px 0px 0px -20px;
-  font-size: x-large;
 }
 .refer-num{
   /* border: solid 1px black; */
-  width: 100px;
+  /* width: 100px; */
   height: 25px;
   margin: 10px 10px 10px 10px;
-  font-size: small;
+  font-weight: 800;
 }
 .refer-num-dis{
   /* border: solid 1px black; */
-  width: 100px;
+  /* width: 100px; */
   height: 25px;
+  margin: 10px 10px 10px 10px;
+  font-weight: 800;
+}
+.refer-num1{
+  /* border: solid 1px black; */
+  width: 1000px;
+  height: 30px;
+  margin: 10px 10px 10px 10px;
+}
+.refer-num-dis1{
+  /* border: solid 1px black; */
+  width: 1000px;
+  height: 30px;
   margin: 10px 10px 10px 10px;
   font-size: medium;
 }
@@ -490,58 +545,55 @@ export default {
   /* border: solid 1px black; */
   width: 200px;
   height: 25px;
-  margin: 50px 0px 0px 0px;
-  font-size: small;
+  margin: 10px 0px 0px 0px;
 }
 .date-num{
   width: 200px;
   height: 25px;
   margin: 10px;
-  font-size: medium;
 }
 .title{
   /* border: solid 1px black; */
-  width: 800px;
-  height: 50px;
+  width: 1000px;
+  /* height: 50px; */
   margin: 10px;
-  font-size: x-large;
 }
 .title-name{
-  width: 800px;
-  height: 50px;
+  width: 1000px;
+  /* height: 50px; */
   margin: 10px;
-  font-size: xx-large;
+  font-size: x-large;
+  font-weight: 650;
 }
 .authors{
   /* border: solid 1px black; */
-  width: 900px;
-  height: 50px;
+  width: 1000px;
+  /* height: 50px; */
   margin: 10px;
 }
 .author {
   height: 40px;
-  width: 130px;
+  /* width: 130px; */
   margin: 5px;
   /*border: solid 1px black;*/
 }
 .author-name {
-  width: 95px;
+  /* width: 95px; */
   /*border: solid 1px black; */
-  margin: -37px auto 0 35px;
+  margin: -30px auto 0 35px;
   height: 40px;
-  font-size: x-large;
+  font-size: medium;
 }
 .author-name2 {
-  width: 95px;
+  width: 120px;
   /*border: solid 1px black; */
-  margin: -35px auto 0 40px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* width: 80%; */
+  margin: -30px auto 0 40px;
   height: 50px;
-  font-size: x-large;
-}
-.addLink{
-  width: 100px;
-  /*border: solid 1px black; */
-  margin: -50px auto 0 40px;
+  font-size: medium;
 }
 .myChart {
   /* border: solid 1px blue; */
@@ -561,40 +613,28 @@ export default {
 }
 
 .Abstract-frame{
-  width: 700px;
+  width: 1000px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 0px;
 }
 .Abstract{
-  width: 600px;
+  width: 900px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;
-  font-size: medium;
-}
-.Keyword-frame{
-  width: 700px;
-  /* border: solid 1px black; */
-  margin: 0px 0px 0px 0px;
-}
-.Keyword{
-  width: 600px;
-  /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
-  height: 30px;
-  font-size: medium;
+  /* font-size: medium; */
 }
 .DOI-frame{
   width: 700px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 0px;
+  margin: -25px 0px 0px 750px;
 }
 .DOI{
   width: 600px;
   /* border: solid 1px black; */
   margin: 0px 0px 0px 20px;
   height: 30px;
-  font-size: medium;
+  /* font-size: medium; */
 }
 .source-frame{
   width: 700px;
@@ -604,9 +644,9 @@ export default {
 .source{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  /* margin: 30px 0px 0px 20px; */
   height: 30px;
-  font-size: medium;
+  /* font-size: medium; */
 }
 .url-frame{
   width: 700px;
@@ -631,7 +671,7 @@ export default {
     font-size: 14px;
 }
 
-.echarts-infor-frame{
+/* .echarts-infor-frame{
   width: 50%;
   margin: 0px 0px 0px 0px;
 }
@@ -651,19 +691,10 @@ export default {
 .echarts-infor-item_cnt {
     color: #999;
     font-size: 14px;
-}
+} */
 .img {
   margin: auto;
   /* border: solid 1px red; */
-}
-.author-from {
-    color: #999;
-    /* border: solid 1px red; */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 80%;
-    margin: -30px 0px 0px 35px;
 }
 .actions {
   padding-top: 30px;
@@ -678,16 +709,5 @@ export default {
   width: 100px;
   /* border: solid 1px black; */
   margin: 15px;
-}
-
-.info-content-ins {
-  width: 100px;
-  /* border: solid 1px red; */
-  margin: -5px auto 10px 120px;
-}
-.info-content-index {
-  width: 250px;
-  /* border: solid 1px purple; */
-  margin: 20px auto 10px 120px;
 }
 </style>
