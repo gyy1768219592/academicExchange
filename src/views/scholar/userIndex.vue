@@ -313,6 +313,7 @@ export default {
         { value: 0, name: "专利" },
         { value: 0, name: "文献" },
       ],
+      instituition: [],
     };
   },
   mounted() {
@@ -480,13 +481,17 @@ export default {
         console.log("why got 400");
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.gotSList = res.data;
+          this.gotSList = res.data.dataScholars;
+          this.institution = res.data.institution;
+          console.log(res.data);
           this.gotSList = this.gotSList.map((item, index) => {
             item.lastKnownAffiliationId = "";
             item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "    引用数:" + item.citationCount;
             console.log(item.lastKnownAffiliationId);
-            if (res.data.instituition != null) {
-              item.lastKnownAffiliationId = res.data.instituition[index] + item.lastKnownAffiliationId;
+            console.log(this.institution);
+            if (res.data.institution != null) {
+              item.lastKnownAffiliationId = this.institution[index] + item.lastKnownAffiliationId;
+              console.log(index);
             }
             return item;
           });
@@ -698,7 +703,7 @@ export default {
 .info-content-ins {
   width: 100px;
   /* border: solid 1px red; */
-  margin: -5px auto 10px 120px;
+  margin: 0px auto 10px 120px;
 }
 .info-content-index {
   width: 250px;
@@ -714,21 +719,7 @@ export default {
   float: right;
   margin: -210px 20px 10px 10px;
 }
-.selections {
-  /* border: solid 1px black; */
-  width: 250px;
-  height: 800px;
-  margin: 10px 10px 10px 10px;
-}
-.results {
-  padding: 10px 15px 10px 15px;
-  /* border: solid 1px black; */
-  width: 900px;
-  height: 800px;
-  display: block;
-  float: right;
-  margin: -810px 10px 35px 280px;
-}
+
 .btn {
   width: 140px;
   /* border: solid 1px black; */

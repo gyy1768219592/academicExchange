@@ -341,15 +341,21 @@ export default {
           this.barData[1] = this.projectTotal;
           this.barData[2] = this.paperTotal;
           console.log(this.barData);
+          this.coData[0].name = this.scholar.name;
 
-          this.coAuthors.forEach((key, value) => {
-            console.log(key);
-            console.log(value);
-          });
-
+          for (let i = 0; i < this.coData.length; i++) {
+            if (i > this.coAuthors.length) break;
+            if (i == 0) {
+              this.coData[i].name = this.scholar.name;
+              this.coData[i].symbolSize = 60;
+            } else {
+              this.coData[i].name = this.coAuthors[2 * (i - 1)];
+              this.coData[i].symbolSize = this.coAuthors[2 * (i - 1) + 1] + 60;
+            }
+          }
+          console.log(this.coData);
           this.initEchart();
           this.drawLine();
-          console.log(this.coData);
         } else {
           this.$message.error(res.message);
         }
@@ -440,7 +446,7 @@ export default {
 .info-content-ins {
   width: 100px;
   /* border: solid 1px red; */
-  margin: -5px auto 10px 120px;
+  margin: 0px auto 10px 120px;
 }
 .info-content-index {
   width: 250px;
@@ -456,21 +462,7 @@ export default {
   float: right;
   margin: -210px 10px 10px 10px;
 }
-.selections {
-  /* border: solid 1px black; */
-  width: 250px;
-  height: 800px;
-  margin: 10px 10px 10px 10px;
-}
-.results {
-  padding: 10px 15px 10px 15px;
-  /* border: solid 1px black; */
-  width: 900px;
-  height: 800px;
-  display: block;
-  float: right;
-  margin: -810px 10px 35px 280px;
-}
+
 .btn {
   width: 100px;
   /* border: solid 1px black; */
@@ -485,7 +477,7 @@ export default {
 .self-intro {
   /* border: solid 1px green; */
   width: 700px;
-  height: 300px;
+  height: 150px;
   margin: 10px;
 }
 .echart {
