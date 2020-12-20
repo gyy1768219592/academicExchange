@@ -27,7 +27,7 @@
                             </a-avatar>
                             <h1 class="author-name">{{ item.name }}</h1>
                           </a>
-                          <a-menu slot="overlay">
+                          <a-menu slot="overlay" class="author-menu">
                             <a-menu-item>
                               <div class="author" @click="gotoUser(item.scholarId,item.authorId)">
                                 <!-- <a-avatar class="img" :size="30" icon="user" /> -->
@@ -49,10 +49,10 @@
                                   <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
                                   <span class="author-infor-item_cnt">被引</span>
                                 </div>
-                                <div class="author-infor-item">
+                                <!-- <div class="author-infor-item">
                                   <span class="author-infor-item_cnt">{{ item.HIndex }}</span> 
                                   <span class="author-infor-item_cnt">H指数</span>
-                                </div>
+                                </div> -->
                               </div>
                             </a-menu-item>
                           </a-menu>
@@ -608,6 +608,9 @@ export default {
   margin: 5px;
   /*border: solid 1px black;*/
 }
+.author-menu{
+  width: 170px;
+}
 .author-name {
   /* width: 95px; */
   /*border: solid 1px black; */
@@ -616,7 +619,7 @@ export default {
   font-size: medium;
 }
 .author-name2 {
-  width: 120px;
+  width: 100px;
   /*border: solid 1px black; */
   white-space: nowrap;
   overflow: hidden;
@@ -685,21 +688,24 @@ export default {
   margin: 0px 0px 0px 0px;
 }
 .author-infor {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin: 12px 0px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin: 12px 0px;
 }
 .author-infor-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: 52%;
+  border-left: 1px solid rgb(239, 239, 239);
+  border-right: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .author-infor-item_cnt {
-    color: #999;
-    font-size: 14px;
+  color: #999;
+  font-size: 16px;
 }
 
 /* .echarts-infor-frame{
