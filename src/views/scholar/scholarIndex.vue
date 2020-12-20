@@ -117,7 +117,7 @@ export default {
       isFollow: false,
       scholarid: 13,
       userid: 18,
-      coAuthors: new Map(),
+      coAuthors: [],
       workExperience: [],
       scholar: {
         scholarid: 13,
@@ -336,15 +336,20 @@ export default {
           this.workExperience = res.data.workExperience.reverse();
           console.log(res.data);
           this.coAuthors = res.data.coAuthors;
-          console.log(this.coAuthors[0]);
+          console.log(this.coAuthors);
           this.barData[0] = this.patentTotal;
           this.barData[1] = this.projectTotal;
           this.barData[2] = this.paperTotal;
           console.log(this.barData);
 
-          console.log(this.coData);
+          this.coAuthors.forEach((key, value) => {
+            console.log(key);
+            console.log(value);
+          });
+
           this.initEchart();
           this.drawLine();
+          console.log(this.coData);
         } else {
           this.$message.error(res.message);
         }
