@@ -48,7 +48,15 @@
                       <div
                         style="font-size: 16px; font-weight: 600; height: 30px"
                       >
-                        {{ item.Name }}
+                        <span
+                          style="
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                          "
+                        >
+                          {{ item.Name }}</span
+                        >
                       </div>
                       <div
                         v-if="
@@ -148,7 +156,15 @@
                       <div
                         style="font-size: 16px; font-weight: 600; height: 30px"
                       >
-                        {{ item.displayName }}
+                        <span
+                          style="
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                          "
+                        >
+                          {{ item.displayName }}</span
+                        >
                       </div>
                       <div
                         v-if="item.institution != ''"
@@ -301,7 +317,7 @@ export default {
         });
         window.open(url.href, "_blank");
       } else {
-        let url = this.$router.push({
+        let url = this.$router.resolve({
           path: "/scholarIndex",
           query: { scholarid: sid },
         });
