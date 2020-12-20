@@ -71,10 +71,7 @@ export default {
     getallM() {
       var _this = this;
       let url = _this.$urlPath.website.getMessage;
-      let params = {
-        userId: 15,
-      };
-      getData(url,params).then(res => {
+      getData(url,null).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
           _this.info = res.data
