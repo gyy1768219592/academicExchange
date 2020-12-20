@@ -23,9 +23,9 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling">{{renlingchar}}</a-button>
-              <a-button class="btn" @click="shoucang">{{LikeDisplay}}</a-button>
-              <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
+              <a-button class="btn" @click="renling"><a-icon type="heart" :theme="haveRen?'outlined':'filled'"/>{{renlingchar}}</a-button>
+              <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
+              <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
             </div>
             <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
             <div class="date">
@@ -41,7 +41,7 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="专利内容" force-render>
             <div class="base-info">
-              <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-icon type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
               <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
@@ -49,7 +49,7 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-icon type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
               <a-descriptions title="专利内容" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
@@ -60,7 +60,7 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="专利信息">
-            <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="file-protect" :style="{ fontSize: '16px', color: '#08c'}"/>
             <a-descriptions title="申请信息" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -70,7 +70,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="solution" :style="{ fontSize: '16px', color: '#08c'}"/>
             <a-descriptions title="代理与权利人" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -80,7 +80,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="deployment-unit" :style="{ fontSize: '16px', color: '#08c'}"/>
             <a-descriptions title="公布信息" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -90,7 +90,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="environment" :style="{ fontSize: '16px', color: '#08c'}"/>
             <a-descriptions title="地址" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -323,7 +323,7 @@ export default {
     },
     getPatent(){
       let params = new URLSearchParams();
-      params.append("patentID", this.patentID);
+      // params.append("patentID", this.patentID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getPatentById + this.patentID;
       getData(url, params).then(res => {

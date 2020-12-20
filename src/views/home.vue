@@ -2,7 +2,9 @@
   <div>
     <topNav></topNav>
     <div class="home-content">
-      <div v-bind:class="isSelected ? 'home-search-on' : 'home-search'">
+      <div
+        v-bind:class="isSelected ? 'homeIndex-search-on' : 'homeIndex-search'"
+      >
         <a-popover trigger="click" placement="bottomLeft">
           <template slot="content">
             <div class="home-searchCard">
@@ -181,7 +183,7 @@ export default {
   margin: 0 auto;
 }
 
-.home-search {
+.homeIndex-search {
   border-radius: 10px;
   margin: 100px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
@@ -189,11 +191,11 @@ export default {
   height: 50px;
 }
 
-.home-search:hover {
+.homeIndex-search:hover {
   border: solid 2px rgba(0, 0, 0, 0.5);
 }
 
-.home-search-on {
+.homeIndex-search-on {
   border-radius: 10px;
   margin: 100px auto;
   border: solid 2px #1890ff;

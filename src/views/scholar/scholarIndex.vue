@@ -54,6 +54,7 @@
           <a-tab-pane key="2" tab="项目">
             <div class="project-list">
               <scholarProject
+                :page="page"
                 :projectTotal="projectTotal"
                 :projectList="projectList"
                 :scholarid="scholarid"
@@ -62,12 +63,23 @@
           </a-tab-pane>
           <a-tab-pane key="3" tab="专利">
             <div class="patent-list">
-              <scholarPatent :patentTotal="patentTotal" :patentList="patentList" :scholarid="scholarid"></scholarPatent>
+              <scholarPatent
+                :page="page"
+                :patentTotal="patentTotal"
+                :patentList="patentList"
+                :scholarid="scholarid"
+              ></scholarPatent>
             </div>
           </a-tab-pane>
           <a-tab-pane key="4" tab="成果">
             <div class="paper-list">
-              <scholarPaper :paperTotal="paperTotal" :paperList="paperList" :scholarid="scholarid"></scholarPaper>
+              <scholarPaper
+                :page="page"
+                :paperTotal="paperTotal"
+                :nameList="nameList"
+                :paperList="paperList"
+                :scholarid="scholarid"
+              ></scholarPaper>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -100,42 +112,12 @@ export default {
       myChart: null,
       chartData: [],
       chartLink: [],
-      pageid: 0,
+      page: 1,
+      nameList: [],
       isFollow: false,
       scholarid: 13,
       userid: 18,
-      user: {
-        username: "陈志刚",
-        ins: "中南大学",
-        hindex: 1,
-        gindex: 2,
-        experience: [
-          {
-            position: "副教授",
-            organization: "中科院",
-            startyear: "2019",
-            endyear: "2020",
-          },
-          {
-            position: "研究员",
-            organization: "中科院",
-            startyear: "1998",
-            endyear: "2019",
-          },
-          {
-            position: "研究生",
-            organization: "中科大",
-            startyear: "1983",
-            endyear: "1986",
-          },
-          {
-            position: "本科生",
-            organization: "中科大",
-            startyear: "1979",
-            endyear: "1983",
-          },
-        ],
-      },
+      coAuthors: [],
       workExperience: [],
       scholar: {
         scholarid: 13,
@@ -159,7 +141,49 @@ export default {
       patentTotal: 0,
       projectList: [],
       projectTotal: 0,
-      barData: [],
+      barData: [1, 2, 3],
+      coData: [
+        {
+          name: "张1",
+          symbolSize: 76,
+          id: "1",
+        },
+        {
+          name: "张2",
+          symbolSize: 86,
+          id: "2",
+        },
+        {
+          name: "张3",
+          symbolSize: 96,
+          id: "3",
+        },
+        {
+          name: "张4",
+          symbolSize: 136,
+          id: "4",
+        },
+        {
+          name: "张5",
+          symbolSize: 136,
+          id: "5",
+        },
+        {
+          name: "张6",
+          symbolSize: 136,
+          id: "6",
+        },
+        {
+          name: "张7",
+          symbolSize: 136,
+          id: "7",
+        },
+        {
+          name: "张6",
+          symbolSize: 136,
+          id: "8",
+        },
+      ],
     };
   },
   watch: {
@@ -227,44 +251,7 @@ export default {
      * 数据集合
      */
     dataEChart() {
-      let data = [
-        {
-          name: "张1",
-          symbolSize: 76,
-          id: "1",
-        },
-        {
-          name: "张2",
-          symbolSize: 86,
-          id: "2",
-        },
-        {
-          name: "张3",
-          symbolSize: 96,
-          id: "3",
-        },
-        {
-          name: "张4",
-          symbolSize: 136,
-          id: "4",
-        },
-        {
-          name: "张5",
-          id: "5",
-        },
-        {
-          name: "张6",
-          id: "6",
-        },
-        {
-          name: "张7",
-          id: "7",
-        },
-        {
-          name: "张6",
-          id: "8",
-        },
-      ];
+      let data = this.coData;
       return data;
     },
     /**
@@ -327,9 +314,6 @@ export default {
       // this.$router.push("/Patent");
     },
 
-    //待补充好多好多好多获取数据的函数接口调用
-    //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
-
     //获取学者信息
     getScholarInfo() {
       let url = this.$urlPath.website.getScholarInfo;
@@ -341,19 +325,31 @@ export default {
           if (this.scholar.gindex == null) {
             this.scholar.gindex = 0;
           }
+          this.nameList = res.data.authorList;
           this.projectTotal = res.data.projectNum;
           this.projectList = res.data.project;
           this.patentTotal = res.data.patentNum;
           this.patentList = res.data.patent;
           this.paperList = res.data.paper;
           this.paperTotal = res.data.paperNum;
+          this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
+          this.workExperience = res.data.workExperience.reverse();
+          console.log(res.data);
+          this.coAuthors = res.data.coAuthors;
+          console.log(this.coAuthors);
           this.barData[0] = this.patentTotal;
           this.barData[1] = this.projectTotal;
           this.barData[2] = this.paperTotal;
-          this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
-          this.workExperience = res.data.workExperience.reverse();
-          console.log(this.scholar);
-          console.log(this.this.workExperience);
+          console.log(this.barData);
+
+          this.coAuthors.forEach((key, value) => {
+            console.log(key);
+            console.log(value);
+          });
+
+          this.initEchart();
+          this.drawLine();
+          console.log(this.coData);
         } else {
           this.$message.error(res.message);
         }
@@ -394,9 +390,8 @@ export default {
     },
   },
   mounted() {
+    this.scholarid = this.$route.query.scholarid;
     this.getScholarInfo();
-    this.initEchart();
-    this.drawLine();
   },
 };
 </script>

@@ -232,11 +232,21 @@ export default {
   methods: {
     gotoScholar(Id){
       //去此人的主页
-      this.$router.push("/scholarIndex/" + Id);
+      if(Id!=-1){
+        let routeUrl = this.$router.resolve({
+          path: "/scholarIndex/" + Id,
+        });
+        window.open(routeUrl.href, '_blank');
+        // this.$router.push("/scholarIndex/" + Id);
+      }
     },
     gotoAuthor(Id){
       //去此人的主页
-      this.$router.push("/authorIndex/" + Id);
+      let routeUrl = this.$router.resolve({
+        path: "/authorIndex/" + Id,
+      });
+      window.open(routeUrl.href, '_blank');
+      // this.$router.push("/authorIndex/" + Id);
     },
     changeMain(key,item){
       this.$set(this.scholarListMain,0,this.scholarList.scholarList1[key]);

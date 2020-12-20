@@ -61,6 +61,8 @@
               :description="
                 '   申诉者UID: ' + 
                 item.senderUserid +
+                '   申诉学者SID: ' + 
+                item.scholarId +
                 '   相关数据ID: ' +
                 (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid))) +
                 '   申诉类型: ' +
@@ -184,9 +186,12 @@ export default {
         }
       });
     },
+    giveFeedback(){
+      
+    },
     getAppeal(){
       let params = new URLSearchParams();
-      params.append("projectId", this.progID);
+      // params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getAppeal;
       getData(url, params).then(res => {

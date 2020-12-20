@@ -7,10 +7,14 @@
           <div class="avatar">
             <a-avatar class="img" :size="100" icon="user" />
             <h1 class="info-content-name">{{ dataScholar.displayName }}</h1>
-            <h4 class="info-content-ins">{{ instituition }}</h4>
+            <h2 class="info-content-ins">{{ instituition }}</h2>
             <ul class="index-table">
               <li class="index-item">
                 <p class="top-word">成果数</p>
+                <p class="index-number">{{ dataScholar.paperCount }}</p>
+              </li>
+              <li class="index-item">
+                <p class="top-word">引用数</p>
                 <p class="index-number">{{ dataScholar.citationCount }}</p>
               </li>
             </ul>
@@ -18,15 +22,27 @@
         </div>
         <div class="actions">
           <a-button v-if="!isClaim" @click="claimDataPortal" class="btn">我要认领<a-icon type="skin"/></a-button>
-          <a-button v-if="isClaim" class="btn">已被认领<a-icon type="skin" theme="filled"/></a-button>
-          <a-button v-if="isClaim" @click="report" class="btn" type="primary"
+          <a-button v-if="isClaim" class="btn" disabled>已被认领<a-icon type="skin" theme="filled"/></a-button>
+          <a-button v-if="isClaim" @click="showModal" class="btn" type="primary"
             >我要申诉<a-icon type="question-circle"
           /></a-button>
+          <appealGateway
+            :visible="appealVisible"
+            v-on:closeModal="closeModal"
+            :type="type"
+            :dataScholar_id="authorid"
+          ></appealGateway>
         </div>
       </div>
       <div class="down-block">
         <div class="paper-list">
-          <scholarPaper :paperTotal="paperTotal" :paperList="paperList" :scholarid="scholarid"></scholarPaper>
+          <dataScholarPaper
+            :page="page"
+            :paperTotal="paperTotal"
+            :nameList="nameList"
+            :paperList="paperList"
+            :scholarid="scholarid"
+          ></dataScholarPaper>
         </div>
       </div>
     </div>
@@ -36,22 +52,25 @@
 <script>
 //引入导航栏
 import navSearch from "@/components/navSearch";
-import scholarPaper from "@/components/scholarPaper.vue";
+import dataScholarPaper from "@/components/dataScholarPaper.vue";
 import { getData } from "@/api/webget";
 import { postData } from "@/api/webpost";
+import appealGateway from "@/views/appeal/appealGateway.vue";
 
 export default {
   components: {
     navSearch,
-    scholarPaper,
+    dataScholarPaper,
+    appealGateway,
   },
   data() {
     return {
+      appealVisible: false,
+      type: "dataScholar",
       pageid: 0,
-      scholarid: 13,
-      userid: 18,
       authorid: 2889275216,
       isClaim: false,
+      nameList: [],
       instituition: "",
       dataScholar: {
         scholarId: 13,
@@ -62,6 +81,7 @@ export default {
         citationCount: 0,
         paperCount: 0,
       },
+      page: 1,
       gotSList: [],
       count: 10,
       paperList: [],
@@ -74,6 +94,12 @@ export default {
     },
   },
   methods: {
+    closeModal() {
+      this.appealVisible = false;
+    },
+    showModal() {
+      this.appealVisible = true;
+    },
     handleClick(e) {
       console.log("click", e);
     },
@@ -115,9 +141,11 @@ export default {
           } else {
             this.isClaim = true;
           }
+          this.nameList = res.data.authorList;
+          this.instituition = res.data.instituition;
           this.paperList = res.data.paper;
-          this.paperTotal = res.data.dataScholar.paperCount;
-          console.log(this.dataScholar);
+          this.paperTotal = res.data.paperNum;
+          console.log(this.paperList);
         } else {
           this.$message.error(res.message);
         }
@@ -128,13 +156,8 @@ export default {
     claimDataPortal() {
       let params = new URLSearchParams();
       let url = this.$urlPath.website.claimDataPortal;
-      params.append("scholarId", this.scholarid);
+      params.append("scholarId", this.dataScholar.scholarId);
       params.append("authorId", this.authorid);
-      // let params = {
-      //   scholarId: 1,
-      //   authorId: this.sameNameSlist[index].authorId,
-      // };
-      // JSON.stringify(params);
       console.log(params);
       postData(url, params).then((res) => {
         console.log(res.code);
@@ -149,6 +172,7 @@ export default {
     },
   },
   mounted() {
+    this.authorid = this.$route.query.authorid;
     this.getAuthorInfo();
   },
 };

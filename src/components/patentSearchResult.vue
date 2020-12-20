@@ -32,7 +32,14 @@
         </a-sub-menu>
       </a-menu>
     </div>
-    <div class="homes-result-main">
+    <div
+      v-if="isok == false"
+      class="homes-result-main"
+      style="text-align: center; height: 700px"
+    >
+      <a-spin style="margin-top: 300px" tip="数据加载中，请稍候" size="large" />
+    </div>
+    <div v-else class="homes-result-main">
       <div class="topbar">
         <span style="display: inline-block; margin-top: 5px">
           检索到{{ total }}条结果</span
@@ -105,6 +112,7 @@ export default {
       startDate: "",
       endDate: "",
       selectedKey: [],
+      isok: false,
     };
   },
   methods: {
@@ -126,6 +134,7 @@ export default {
       this.searchPatent();
     },
     searchPatent() {
+      this.isok = false;
       let url;
       if (this.sortOption == 1) {
         url = this.$urlPath.website.searchPatent;
@@ -145,6 +154,7 @@ export default {
         if (res.code === 1001) {
           this.patentList = res.data.patenList;
           this.total = res.data.total;
+          this.isok = true;
           console.log(this.patentList);
         } else {
           console.log(res.code);

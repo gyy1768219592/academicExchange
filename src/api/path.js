@@ -82,6 +82,21 @@ let path = {
     getSameNameScholar: Ip.productIP + "scholar/sameName",
     subscribe: Ip.productIP + "scholar/subscribe",
     undoSubscribe: Ip.productIP + "scholar/subscribe",
+    //消息
+    sendMessage: Ip.productIP + "/message/user/one",
+    getMessage: Ip.productIP + "/message/user/inbox",
+    delMessage: Ip.productIP + "message/user/one",
+    //关注
+    getConcern: Ip.productIP + "/scholar/subscribe",
+    addConcern: Ip.productIP + "/scholar/subscribe",
+    delConcern: Ip.productIP + "/scholar/subscribe",
+    //收藏
+    addCollect: Ip.productIP + "/scholarship/starStatus",
+    getCollectPaper: Ip.productIP + "/scholarship/staredPaper",
+    getCollectPatent: Ip.productIP +"/scholarship/staredPatent",
+    getCollectProject: Ip.productIP +"/scholarship/staredProject",
+    delCollect: Ip.productIP + "/scholarship/starStatus",
+    
     getScholarInfo: Ip.productIP + "scholar/info",
     editScholarInfo: Ip.productIP + "scholar/infoUpdate",
     claimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",

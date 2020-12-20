@@ -17,19 +17,19 @@
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
-              <a href="#">个人设置</a>
+              <a @click="toPersonInfo()">个人设置</a>
             </a-menu-item>
             <a-menu-item>
               <a href="#">我的主页</a>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的私信</a>
+              <router-link to="/message">我的私信</router-link>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的收藏</a>
+              <router-link to="/collect">我的收藏</router-link>
             </a-menu-item>
             <a-menu-item>
-              <a href="#">我的关注</a>
+              <router-link to="/concern">我的关注</router-link>
             </a-menu-item>
             <a-menu-divider />
             <a-menu-item>
@@ -69,7 +69,14 @@ export default {
     logout() {
       this.isLogin = false;
       localStorage.removeItem("token");
+      localStorage.removeItem("aaa");
+      localStorage.removeItem("identification");
+      localStorage.removeItem("avatarUrl");
+      localStorage.removeItem("scholarId");
       this.$forceUpdate();
+    },
+    toPersonInfo() {
+      this.$router.push("/personInfo");
     },
   },
   created() {

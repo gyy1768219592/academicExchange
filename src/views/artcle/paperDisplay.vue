@@ -52,8 +52,8 @@
               </a-list>
           </div>
           <div class="actions">
-            <a-button class="btn" @click="shoucang">{{LikeDisplay}}</a-button>
-            <a-button class="btn" type="primary" @click="fenxiang">分享</a-button>
+            <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
+            <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
           </div>
           <div class="date">
             <span class="date-num">发表时间： {{date}}</span>
@@ -68,7 +68,7 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon type="pic-left" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-icon type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
               <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
@@ -76,7 +76,7 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="disconnect" :style="{ fontSize: '20px', color: '#08c'}"/>
+              <a-icon type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
               <a-descriptions title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="source-frame">
@@ -93,7 +93,7 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '16px', color: '#08c'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
@@ -390,7 +390,7 @@ export default {
     },
     getPaper(){
       let params = new URLSearchParams();
-      params.append("paperId", this.paperID);
+      // params.append("paperId", this.paperID);
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getPaperById + this.paperID;
       console.log(url);
@@ -425,11 +425,16 @@ export default {
             this.EngTitie = "";
           }
           else if(qiege != this.PaperTitle.length){
-            this.EngTitie = this.PaperTitle.substring(qiege,this.PaperTitle.length+1);
+            this.EngTitie = this.PaperTitle.substring(qiege+1,this.PaperTitle.length+1);
+            var tempstr = this.PaperTitle.substring(qiege,qiege+1).toUpperCase();
+            this.EngTitie = tempstr + this.EngTitie;
             this.PaperTitle = this.PaperTitle.substring(0,qiege);
           }
           else{
             this.EngTitie = "";
+            var tempstr1 = this.PaperTitle.substring(0,1).toUpperCase();
+            this.PaperTitle = this.PaperTitle.substring(1,this.PaperTitle.length);
+            this.PaperTitle = tempstr1 + this.PaperTitle;
           }
           // this.$message.success(res.message);
           for(var i = 0; i < res.data.paperMap.authorList.length; i ++){
