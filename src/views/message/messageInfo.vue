@@ -109,8 +109,8 @@ export default {
       let params = new URLSearchParams();
       params.append("messageTitle", _this.form.title);
       params.append("messageContent", _this.form.desc);
-      params.append("sender_userid", 15);
-      params.append("receiver_userid", 15);
+      //params.append("sender_userid", 15);
+      params.append("receiver_userid", this.letter.name);
       postData(url,params).then(res => {
         console.log(res);
         if (res.code === 1001) {
