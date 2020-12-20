@@ -25,7 +25,11 @@
                     :key="key"
                   >
                     <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #00a2ae'"
+                        >{{ item.name.substring(0, 3)  }}
+                      </a-avatar>
                     </div>
                     <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
@@ -69,7 +73,11 @@
                   :key="key"
                 >
                   <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                    <a-avatar :size="80" :src="item.src" />
+                    <a-avatar
+                      :size="80"
+                      :style="'backgroundColor: #00a2ae'"
+                      >{{ item.name.substring(0, 3)  }}
+                    </a-avatar>
                   </div>
                   <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
@@ -103,7 +111,11 @@
                   :key="key"
                 >
                   <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
-                    <a-avatar :size="80" :src="item.src" />
+                    <a-avatar
+                      :size="80"
+                      :style="'backgroundColor: #00a2ae'"
+                      >{{ item.name.substring(0, 3)  }}
+                    </a-avatar>
                   </div>
                   <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                     <span style="font-size: 16px; font-weight: 600"
@@ -159,7 +171,11 @@
                     :key="key"
                   >
                     <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #00a2ae'"
+                        >{{ item.name.substring(0, 3)  }}
+                      </a-avatar>
                     </div>
                     <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                       <span style="font-size: 16px; font-weight: 600"
