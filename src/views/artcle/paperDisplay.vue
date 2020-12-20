@@ -39,13 +39,13 @@
                                 <h1 class="author-name2">{{ item.name }}</h1>
                               </div>
                             </a-menu-item>
-                            <a-menu-item>
+                            <a-menu-item class="authors-down">
                               <div class="author-infor">
-                                <div class="author-infor-item">
+                                <div class="author-infor-item1">
                                   <span class="author-infor-item_cnt">{{ item.paperCount }}</span> 
                                   <span class="author-infor-item_cnt">论文</span>
                                 </div>
-                                <div class="author-infor-item">
+                                <div class="author-infor-item2">
                                   <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
                                   <span class="author-infor-item_cnt">被引</span>
                                 </div>
@@ -693,11 +693,19 @@ export default {
   align-items: center;
   width: 100%;
   margin: 12px 0px;
+  /* border-bottom: 1px solid rgb(239, 239, 239); */
 }
-.author-infor-item {
+.author-infor-item1 {
+  width: 52%;
+  border-right: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.author-infor-item2 {
   width: 52%;
   border-left: 1px solid rgb(239, 239, 239);
-  border-right: 1px solid rgb(239, 239, 239);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -705,7 +713,11 @@ export default {
 }
 .author-infor-item_cnt {
   color: #999;
-  font-size: 16px;
+  font-size: 14px;
+}
+.authors-down{
+  /* height: 50px; */
+  border-top: 1px solid rgb(239, 239, 239);
 }
 
 /* .echarts-infor-frame{
