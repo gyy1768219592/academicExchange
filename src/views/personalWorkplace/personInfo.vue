@@ -242,7 +242,7 @@ export default {
       postData(url, params).then(res => {
         if(res.code === 1001) {
           this.$message.success({
-            message: "请求成功",
+            message: '请求成功',
             duration: 1000,
             showClose: true
           });

@@ -107,6 +107,7 @@
   </div>
 </template>
 <script>
+import { postData } from "@/api/webpost";
 export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "changePwd" });
@@ -188,6 +189,25 @@ export default {
           this.pwd.old = values.password;
           this.pwd.new = values.newpassword;
           this.pwd.confirm = values.confirm;
+          let params = new URLSearchParams();
+          params.append("NewPassword",this.pwd.new);
+          params.append("OldPassword",this.pwd.old);
+          let url = this.$urlPath.website.modifyPassword;
+          postData(url, params).then(res => {
+            if(res.code === 1001) {
+              this.$message.success({
+                message: '请求成功',
+                duration: 1000,
+                showClose: true
+              });
+            } else {
+              this.$message.error({
+                message: res.message,
+                duration:1000,
+                showClose: true
+              });
+            }
+          })
           this.closeSelf();
         }
       });
