@@ -40,7 +40,7 @@
                       <a-avatar
                         v-else
                         :size="80"
-                        :style="'backgroundColor: #00a2ae'"
+                        :style="'backgroundColor: #c85554'"
                         >{{ item.Name.substring(0, 3) }}</a-avatar
                       >
                     </div>
@@ -140,7 +140,7 @@
                     <div class="card-avatar">
                       <a-avatar
                         :size="80"
-                        :style="'backgroundColor: #00a2ae'"
+                        :style="'backgroundColor: #c85554'"
                         >{{ item.displayName.substring(0, 3) }}</a-avatar
                       >
                     </div>
@@ -427,4 +427,5 @@ export default {
 .result-scholar-number {
   display: inline-block;
 }
+
 </style>

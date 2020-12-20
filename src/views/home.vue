@@ -188,7 +188,7 @@ export default {
 }
 .home-content {
   width: 1280px;
-  padding: 1px;
+  padding: 20px;
   margin: 60px auto;
   
 }
@@ -268,5 +268,6 @@ export default {
   background-color: white;
   opacity:0.9;
   padding: 10px;
+  border-radius: 10px;
 }
 </style>

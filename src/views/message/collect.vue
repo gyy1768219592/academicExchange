@@ -30,7 +30,7 @@
 </template>
 <script>
 
-import Nav from "../../components/nav.vue";
+import Nav from "../../components/navSearch.vue";
 import Collect from "./collectInfo.vue";
 export default {
   data() {

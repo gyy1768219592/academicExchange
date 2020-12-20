@@ -26,7 +26,7 @@
 import { getData } from "@/api/webget";
 import { deleteData } from "@/api/webdelete";
 //import { putData } from "@/api/webput";
-import Nav from "../../components/nav.vue";
+import Nav from "../../components//navSearch.vue";
 
 export default {
   

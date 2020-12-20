@@ -103,8 +103,9 @@ export default {
 .topNav {
   width: 100%;
   height: 60px;
-  border-bottom: solid 1px black;
-  background-color: 	#F5F5F5;
+  /*border-bottom: solid 1px black;*/
+  background-color: #F5F5F7;
+  
 }
 .topNav-box {
   width: 1280px;
