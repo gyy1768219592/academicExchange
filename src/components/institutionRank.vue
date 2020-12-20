@@ -30,6 +30,8 @@
   </div>
 </template>
 <script>
+import {getData} from "@/api/webget";
+
 let echarts = require("echarts/lib/echarts");
 require("echarts/lib/chart/bar");
 export default {
@@ -187,6 +189,7 @@ export default {
           },
         },
         xAxis: {
+          /*
           data: [
             "北京航空航天大学沙河校区特别特别特别长长长的名字",
             "北京大学",
@@ -199,6 +202,8 @@ export default {
             "名字特别特别特别特别特别长的大学",
             "Beihang University (BUAA)",
           ],
+           */
+          data: this.names,
           axisTick: {
             show: false,
           },
@@ -306,16 +311,36 @@ export default {
                 opacity: 1,
               },
             },
-            data: [363, 123, 60, 46, 30, 25, 23, 22, 19, 12],
+            // data: [363, 123, 60, 46, 30, 25, 23, 22, 19, 12],
+            data: this.natures,
             z: 10,
           },
         ],
       };
       this.chart.setOption(option);
     },
+    get() {
+      const url = this.$urlPath.website.getTopInstitution
+      getData(url).then(res => {
+        if (res.code === 1001) {
+          const names = []
+          const natures = []
+          res.data.forEach(item => {
+            // console.log(item)
+            names.push(item.institutionName)
+            natures.push(item.natureIndex)
+          })
+          this.names = names
+          this.natures = natures
+          this.initChart();
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    }
   },
   mounted() {
-    this.initChart();
+    this.get();
   },
 };
 </script>
