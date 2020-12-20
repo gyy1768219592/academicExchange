@@ -55,10 +55,10 @@
             <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
             <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
           </div>
-          <div class="date">
+          <div v-if="date!=''" class="date">
             <span class="date-num">发表时间： {{date}}</span>
           </div>
-          <div class="DOI-frame">
+          <div v-if="DOI!=''" class="DOI-frame">
             <span class="DOI" >DOI号：{{DOI}}</span>
           </div>
         </div>
@@ -68,16 +68,16 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="Abstract!=''" type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-descriptions v-if="Abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
                     <span class="Abstract" >{{Abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="发表位置" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-descriptions v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="source-frame">
                     <!-- <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span> -->
@@ -90,6 +90,9 @@
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
+              <div v-if="Abstract==''&&Journal==''&&Conference==''&&Volume==''&&Issue==''&&FirstPage==''&&LastPage==''" class="Abstract-frame">
+                <span class="Abstract" >无数据</span>
+              </div>
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
@@ -411,11 +414,11 @@ export default {
           this.Issue = res.data.paper.issue;
           this.FirstPage = res.data.paper.firstPage;
           this.LastPage = res.data.paper.lastPage;
-          this.SourceUrl = res.data.paper.sourceUrl==""?"https://doi.org/" + this.DOI:res.data.paper.sourceUrl;
+          this.SourceUrl = res.data.paper.sourceUrl==""?(this.DOI==""?"":"https://doi.org/" + this.DOI):res.data.paper.sourceUrl;
           var qiege = this.PaperTitle.length;
+          var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
           for(var k = this.PaperTitle.length; k >= 0; k --){
-            console.log(this.PaperTitle[k]);
-            var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+            // console.log(this.PaperTitle[k]);
             if(reg.test(this.PaperTitle[k])){
               qiege = k+1;
               break;
@@ -425,10 +428,16 @@ export default {
             this.EngTitie = "";
           }
           else if(qiege != this.PaperTitle.length){
-            this.EngTitie = this.PaperTitle.substring(qiege+1,this.PaperTitle.length+1);
-            var tempstr = this.PaperTitle.substring(qiege,qiege+1).toUpperCase();
+            this.EngTitie = this.PaperTitle.substring(qiege+2,this.PaperTitle.length+1);
+            var tempstr = this.PaperTitle.substring(qiege+1,qiege+2).toUpperCase();
+            // console.log("tempstr"+tempstr);
             this.EngTitie = tempstr + this.EngTitie;
             this.PaperTitle = this.PaperTitle.substring(0,qiege);
+            if(this.PaperTitle[0]>='a'&&this.PaperTitle[0]<='z'){
+              var tempstr2 = this.PaperTitle.substring(0,1).toUpperCase();
+              this.PaperTitle = this.PaperTitle.substring(1,this.PaperTitle.length);
+              this.PaperTitle = tempstr2 + this.PaperTitle;
+            }
           }
           else{
             this.EngTitie = "";
@@ -627,12 +636,12 @@ export default {
 .DOI-frame{
   width: 700px;
   /* border: solid 1px black; */
-  margin: -25px 0px 0px 750px;
+  margin: -25px 0px 0px 600px;
 }
 .DOI{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
   height: 30px;
   /* font-size: medium; */
 }
@@ -651,7 +660,7 @@ export default {
 .url-frame{
   width: 700px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
 }
 .author-infor {
     display: flex;

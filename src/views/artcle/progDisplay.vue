@@ -4,7 +4,7 @@
     <div class="main-block">
       <div class="up-block">
         <div class="artcle-info">
-            <div class="refer-num">
+            <div v-if="progData.supportTypeName!=''||progData.fundProjectCode!=''" class="refer-num">
                 <span class="refer-num-dis">{{progData.supportTypeName}}({{progData.fundProjectCode}})</span>
             </div>
             <div class="title">
@@ -30,11 +30,11 @@
               <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
               <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
             </div>
-            <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
-            <div class="date">
-              <span class="date-num">组织：{{progData.organization}}({{progData.organizationID}})</span>
+            <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="progID"></appeal-achievement>
+            <div v-if="progData.organization!=''||progData.organizationID!=''" class="date">
+              <span class="date-num">{{progData.organization}}({{progData.organizationID}})</span>
             </div>
-            <div class="organization">
+            <div v-if="progData.publishDate!=''" class="organization">
               <span class="organization-num">公布日期： {{progData.publishDate}}</span>
             </div>
         </div>
@@ -52,37 +52,6 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="发表位置" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="source-frame">
-                    <span class="source" >期刊：《{{progData.journal}}》</span>
-                  </div>
-                </a-descriptions-item>
-              </a-descriptions>
-              <a-icon type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="相关信息" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="source-frame">
-                    <span class="source" >项目编号：{{progData.fundProjectNo}}</span>
-                  </div>
-                  <div class="source-frame">
-                    <span class="source" >领域：{{progData.fieldName}}({{progData.fieldCode}})</span>
-                  </div>
-                  <div class="source-frame">
-                    <span class="source" >产品类型：{{progData.productType}}</span>
-                  </div>
-                  <div class="source-frame">
-                    <span class="source" >成果ID：{{progData.achievementID}}</span>
-                  </div>
-                  <div class="source-frame">
-                    <span class="source" >来源：{{progData.source}}</span>
-                  </div>
-                  <div class="source-frame">
-                    <span class="source" >DOI号：{{progData.doiUrl}}</span>
-                  </div>
-                </a-descriptions-item >
-              </a-descriptions>
               <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '16px', color: '#08c'}"/>
               <a-descriptions v-if="progData.zhKeyword!=''" title="关键词" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
@@ -91,6 +60,40 @@
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
+              <a-icon v-if="progData.journal!=''" type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-descriptions v-if="progData.journal!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="source-frame">
+                    <span class="source" >期刊：《{{progData.journal}}》</span>
+                  </div>
+                </a-descriptions-item>
+              </a-descriptions>
+              <a-icon v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-descriptions v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" title="相关信息" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div v-if="progData.fundProjectNo!=''" class="source-frame">
+                    <span class="source" >项目编号：{{progData.fundProjectNo}}</span>
+                  </div>
+                  <div v-if="progData.fieldName!=''||progData.fieldCode!=''" class="source-frame">
+                    <span class="source" >领域：{{progData.fieldName}}({{progData.fieldCode}})</span>
+                  </div>
+                  <div v-if="progData.productType!=''" class="source-frame">
+                    <span class="source" >产品类型：{{progData.productType}}</span>
+                  </div>
+                  <div v-if="progData.achievementID!=''" class="source-frame">
+                    <span class="source" >成果ID：{{progData.achievementID}}</span>
+                  </div>
+                  <div v-if="progData.source!=''" class="source-frame">
+                    <span class="source" >来源：{{progData.source}}</span>
+                  </div>
+                  <div v-if="progData.doiUrl!=''" class="source-frame">
+                    <span class="source" >DOI号：{{progData.doiUrl}}</span>
+                  </div>
+                </a-descriptions-item >
+              </a-descriptions>
+              <div v-if="progData.zhAbstract==''&&progData.zhKeyword==''&&progData.journal==''&&progData.fundProjectNo==''&&progData.fieldName==''&&progData.productType==''&&progData.achievementID==''&&progData.source==''&&progData.doiUrl==''&&progData.fieldCode==''" class="source-frame">
+                <span class="source" >无数据</span>
+              </div>
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
@@ -98,7 +101,8 @@
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
-                  <a :href="progData.doi">{{progData.doi}}</a>
+                  <a v-if="progData.doi!=''" :href="progData.doi">{{progData.doi}}</a>
+                  <a v-if="progData.doi==''" >暂时没有全文链接</a>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
@@ -128,6 +132,7 @@
 <script>
 //引入导航栏
 //import personNav from "@/components/personNav";
+import appealAchievement from '../appeal/appealAchievement.vue'
 import navSearch from "@/components/navSearch";
 import { getData } from "@/api/webget";
 import { postData } from "@/api/webpost";
@@ -135,11 +140,12 @@ import { putData } from "@/api/webput";
 export default {
   components: {
     navSearch,
+    appealAchievement
   },
   data() {
     return {
       visible:false,
-      type: 'patent',
+      type: 'project',
       Like: false,
       LikeDisplay:"收藏",
       canClaim: false,
@@ -525,7 +531,7 @@ export default {
 .Keyword{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  /* margin: 0px 0px 0px 20px; */
   height: 30px;
   /* font-size: medium; */
 }
@@ -537,7 +543,7 @@ export default {
 .DOI{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
   height: 30px;
   /* font-size: medium; */
 }
@@ -556,7 +562,7 @@ export default {
 .url-frame{
   width: 700px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
 }
 
 .img {

@@ -5,7 +5,8 @@
       <div class="up-block">
         <div class="artcle-info">
             <div class="refer-num">
-                <span class="refer-num-dis">状态：{{patentData.state}}</span>
+              <span v-if="patentData.state!=''" class="refer-num-dis">状态：{{patentData.state}}</span>
+              <span v-if="patentData.state==''" class="refer-num-dis">状态：未知</span>
             </div>
             <div class="title">
               <span class="title-name">{{patentData.title}}</span>
@@ -28,10 +29,10 @@
               <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
             </div>
             <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
-            <div class="date">
+            <div v-if="patentData.mainClassificationNumber!=''" class="date">
               <span class="date-num">主分类号： {{patentData.mainClassificationNumber}}</span>
             </div>
-            <div class="date">
+            <div v-if="patentData.classificationNumber!=''" class="date">
               <span class="date-num">分类号： {{patentData.classificationNumber}}</span>
             </div>
         </div>
@@ -41,22 +42,25 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="专利内容" force-render>
             <div class="base-info">
-              <a-icon type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="patentData.abstract!=''" type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-descriptions v-if="patentData.abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
                     <span class="Content" >{{patentData.abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="专利内容" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="patentData.content!=''" type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-descriptions v-if="patentData.content!=''" title="专利内容" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
                     <span class="Content" >{{patentData.content}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
+              <div v-if="patentData.content==''&&patentData.abstract==''" class="Content-frame">
+                <span class="Content" >无数据</span>
+              </div>
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="专利信息">
@@ -64,9 +68,12 @@
             <a-descriptions title="申请信息" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
-                  <div class="source" >申请号：{{patentData.applicationNumber}}</div>
-                  <div class="source" >申请人：{{patentData.applicant}}</div>
-                  <div class="source" >申请日期：{{patentData.applicationDate}}</div>
+                  <div v-if="patentData.applicationNumber!=''" class="source" >申请号：{{patentData.applicationNumber}}</div>
+                  <div v-if="patentData.applicationNumber==''" class="source" >申请号：无</div>
+                  <div v-if="patentData.applicant!=''" class="source" >申请人：{{patentData.applicant}}</div>
+                  <div v-if="patentData.applicant==''" class="source" >申请人：无</div>
+                  <div v-if="patentData.applicationDate!=''" class="source" >申请日期：{{patentData.applicationDate}}</div>
+                  <div v-if="patentData.applicationDate==''" class="source" >申请日期：无</div>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
@@ -74,9 +81,12 @@
             <a-descriptions title="代理与权利人" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
-                  <div class="source" >代理机构：{{patentData.agency}}</div>
-                  <div class="source" >代理人：{{patentData.agent}}</div>
-                  <div class="source" >当前权利人：{{patentData.currentObligee}}</div>
+                  <div v-if="patentData.agency!=''" class="source" >代理机构：{{patentData.agency}}</div>
+                  <div v-if="patentData.agency==''" class="source" >代理机构：无</div>
+                  <div v-if="patentData.agent!=''" class="source" >代理人：{{patentData.agent}}</div>
+                  <div v-if="patentData.agent==''" class="source" >代理人：无</div>
+                  <div v-if="patentData.currentObligee!=''" class="source" >当前权利人：{{patentData.currentObligee}}</div>
+                  <div v-if="patentData.currentObligee==''" class="source" >当前权利人：无</div>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
@@ -86,7 +96,7 @@
                 <div class="source-frame">
                   <div v-if="patentData.publishNumber!=''" class="source" >公布号：{{patentData.publishNumber}}</div>
                   <div v-if="patentData.publishDate!=''" class="source" >公布日期：{{patentData.publishDate}}</div>
-                  <div v-if="patentData.publishDate==''" class="source" >尚未公布</div>
+                  <div v-if="patentData.publishDate==''&&patentData.publishNumber==''" class="source" >尚未公布</div>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
@@ -94,8 +104,10 @@
             <a-descriptions title="地址" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
-                  <div class="source" >省份：{{patentData.province}}</div>
-                  <div class="source" >地址：{{patentData.location}}</div>
+                  <div v-if="patentData.province!=''" class="source" >省份：{{patentData.province}}</div>
+                  <div v-if="patentData.province==''" class="source" >省份：无</div>
+                  <div v-if="patentData.location!=''" class="source" >地址：{{patentData.location}}</div>
+                  <div v-if="patentData.location==''" class="source" >地址：无</div>
                 </div>
               </a-descriptions-item>
             </a-descriptions>
@@ -280,6 +292,7 @@ export default {
       });
     },
     shoucang(){
+      // this.showModal();
       let params = new URLSearchParams();
       params={
         "paperId": this.patentID,
@@ -488,7 +501,7 @@ export default {
 .Keyword{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
   height: 30px;
   /* font-size: medium; */
 }
@@ -500,7 +513,7 @@ export default {
 .DOI{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
   height: 30px;
   /* font-size: medium; */
 }
@@ -512,7 +525,7 @@ export default {
 .source{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
   height: 30px;
   /* font-size: medium; */
 }
