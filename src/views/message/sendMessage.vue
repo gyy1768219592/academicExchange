@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="al">
     <Nav></Nav>
     <Sider-nav></Sider-nav>
     <h2 style="margin-left: 250px;margin-top:1%">发送消息</h2>
@@ -38,15 +38,16 @@ import Nav from "../../components/nav.vue";
 import SiderNav from "../../components/siderNav.vue";
 
 export default {
+  inject: ['reload'],
   data() {
     return {
       labelCol: { span: 4 },
       wrapperCol: { span: 14 },
-      sender_userid: this.$route.query.ScholarId,
+      sender_userid: null,
       form: {
-        name: this.$route.query.name,
-        title: "",
-        desc: '',
+        name: null,
+        title: null,
+        desc: null,
       },
     };
   },
@@ -55,8 +56,8 @@ export default {
     SiderNav
   },
   mounted() {
-    console.log(this.$route.query.name)
-
+    this.form.name = this.$route.query.name;
+  
   },
   methods: {
     handleChange({ file, fileList }) {
@@ -67,22 +68,21 @@ export default {
     sendM(){
       var _this = this;
       let url = _this.$urlPath.website.sendMessage;
-      let params = {
-        messageTitle: _this.form.title,
-        messageContent: _this.form.desc,
-        sender_userid: 15,
-        receiver_userid: _this.sender_userid,
-      };
+      let params = new URLSearchParams();
+      params.append("messageTitle", _this.form.title);
+      params.append("messageContent", _this.form.desc);
+      params.append("sender_userid", 15);
+      params.append("receiver_userid", _this.$route.query.ScholarId);
       postData(url,params).then(res => {
-        console.log(res.data);
+        console.log(res);
         if (res.code === 1001) {
-          this.$message.success("发送成功");
+          _this.$message.success("发送成功");
         } 
         else {
-          //console.log(res.code);
           _this.$message.error("发送失败");
         }
       });
+      this.reload();
     },
     onSubmit() {
       console.log('submit!', this.form);
@@ -92,5 +92,13 @@ export default {
 };
 </script>
 <style scoped>
-
+.al ::-webkit-scrollbar{
+  display: none;
+}
+.al{
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 </style>

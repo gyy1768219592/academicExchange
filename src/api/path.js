@@ -74,26 +74,21 @@ let path = {
     getSameNameScholar: Ip.productIP + "scholar/sameName",
     subscribe: Ip.productIP + "scholar/subscribe",
     undoSubscribe: Ip.productIP + "scholar/subscribe",
-<<<<<<< HEAD
-    getScholarInfo: Ip.productIP + "scholar",
-    editScholarInfo: Ip.productIP + "scholar",
-    claimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
-    undoClaimDataPortal: Ip.productIP + "scholar/scholar_dataScholar",
-
     //消息
     sendMessage: Ip.productIP + "/message/user/one",
     getMessage: Ip.productIP + "/message/user/inbox",
-    delMessage: Ip.productIP + "/message/one",
+    delMessage: Ip.productIP + "message/user/one",
     //关注
     getConcern: Ip.productIP + "/scholar/subscribe",
     addConcern: Ip.productIP + "/scholar/subscribe",
     delConcern: Ip.productIP + "/scholar/subscribe",
     //收藏
-    addCollect: Ip.productIP + "",
-    getCollect: Ip.productIP + "",
-    delCollect: Ip.productIP + "",
+    addCollect: Ip.productIP + "/scholarship/starStatus",
+    getCollectPaper: Ip.productIP + "/scholarship/staredPaper",
+    getCollectPatent: Ip.productIP +"/scholarship/staredPatent",
+    getCollectProject: Ip.productIP +"/scholarship/staredProject",
+    delCollect: Ip.productIP + "/scholarship/starStatus",
     
-=======
     getScholarInfo: Ip.productIP + "scholar/info",
     editScholarInfo: Ip.productIP + "scholar/infoUpdate",
     claimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
@@ -102,7 +97,6 @@ let path = {
     addWorkExp: Ip.productIP + "scholar/workExperience",
     deleteWorkExp: Ip.productIP + "scholar/workExperience",
     getAuthorInfo: Ip.productIP + "scholar/dataScholar",
->>>>>>> 68fd5173f60a2e1dd6ea8ab830c3e40c53cc619c
   },
 };
 export default path;

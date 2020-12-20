@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="al">
     <Nav></Nav>
     <Sider-nav></Sider-nav>
-    <h2 style="margin-left: 250px;margin-top:10%">我的关注</h2>
-    <a-list item-layout="horizontal" :data-source="info">
-      <a-list-item slot="renderItem" slot-scope="item, index" :key="index">
-        <a-button @click="delConcern" type="danger" slot="actions" ghost>取消关注</a-button>
-        <a-button @click="toSendmessage" type="primary" slot="actions" ghost>发送私信</a-button>
+    <h2 style="margin-left: 250px;margin-top:1%">我的关注</h2>
+    <a-list item-layout="horizontal" pagination = true :data-source="info">
+      <a-list-item slot="renderItem" slot-scope="item, index" :key="item.ScholarId">
+        <a-button @click="delConcern(item.ScholarId)" type="danger" slot="actions" ghost>取消关注</a-button>
+        <a-button @click="toSendmessage(index)" type="primary" slot="actions" ghost>发送私信</a-button>
         <a-list-item-meta :description="item.Institution">
           <a slot="title" href="https://www.antdv.com/">{{ item.Name }}</a>
           <a-avatar
@@ -27,6 +27,7 @@ import Nav from "../../components/nav.vue";
 import SiderNav from "../../components/siderNav.vue";
 
 export default {
+  inject: ['reload'],
   data() {
     return {
       info: [],
@@ -55,32 +56,21 @@ export default {
         }
       });
     },
-    delConcern() {
-      let params = new URLSearchParams();
-      let userId = this.$route.query.userid;
-      let ScholarId = this.info.ScholarId;
-      params.append("userid", userId);
-      params.append("ScholarId", ScholarId);
-      let url = this.$urlPath.website.delConcern;
-      deleteData(url, params).then(res => {
+    delConcern(ScholarId) {
+      var _this = this;
+      let url = _this.$urlPath.website.delConcern;
+      deleteData(url+"/15/"+ScholarId,null).then(res => {
         console.log(res.data);
-        if (res.code === "1001") {
-           this.$message.success("取消关注成功");
-        } 
-        else {
-          console.log(res.code);
-          this.$message.error("获取数据失败");
-        }
+        this.reload();
       });
     },
-    toSendmessage(){
-      console.log(this.key)
-      this.$router.push({
+    toSendmessage(index){
+      var _this = this;
+      _this.$router.push({
         path: "/sendMessage",
         query: {
-          name: this.info[0].Name,
-          ScholarId: this.info[0].ScholarId,
-         
+          name: _this.info[index].Name,
+          ScholarId: _this.info[index].ScholarId,
         }
       });
     }
@@ -88,9 +78,30 @@ export default {
 };
 </script>
 <style scoped>
+.al ::-webkit-scrollbar{
+  display: none;
+}
+.al{
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .ant-list.ant-list-split {
   margin-left: 250px;
   margin-right: 2%;
   margin-top: 1%;
+}
+.ant-list-item-meta-description {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 500px;
+}
+.ant-list-item-meta-title{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 500px;
 }
 </style>

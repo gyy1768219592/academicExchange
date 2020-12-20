@@ -1,8 +1,19 @@
 <template>
-  <div>
+  <div class="al">
     <Nav></Nav>
     <Sider-nav></Sider-nav>
     <h2 style="margin-left: 250px;margin-top:1%">我的收藏</h2>
+    <a-menu v-model="current" mode="horizontal" style="margin-left: 250px;margin-top:1%">
+      <a-menu-item key="paper"> 
+          <a-icon type="copy" />文献
+      </a-menu-item>
+      <a-menu-item key="app" > 
+          <a-icon type="pie-chart" />专利
+      </a-menu-item>
+      <a-menu-item key="project" > 
+          <a-icon type="appstore" />项目
+      </a-menu-item>
+    </a-menu>
     <a-table :data-source="data" :columns="columns">
       <div
         slot="filterDropdown"
@@ -79,40 +90,25 @@
 </template>
 <script>
 //import { postData } from "@/api/webpost";
-//import { getData } from "@/api/webget";
+import { getData } from "@/api/webget";
 //import { deleteData } from "@/api/webdelete";
 //import { putData } from "@/api/webput";
 import Nav from "../../components/nav.vue";
 import SiderNav from "../../components/siderNav.vue";
-const data = [
-  {
-    key: "1",
-    name: "神经网络与神经计算机:第二讲 神经网络的学习算法",
-    author: "庄镇泉，王东生",
-    date: "1990-10-12",
-    description: "这里是论文的摘要"
-  },
-  {
-    key: "2",
-    name: "非制度性依赖:中国支持型社会组织与政府关系探索",
-    author: "魏瑛源，唐应辉，颐建雄",
-    date: "2011-12-12",
-    description:
-      '考虑带启动时间的N-策略离散时间Geo/G/i排队系统,使用全概率分解技术,从任意初始状态出发,研究了队长的瞬态和稳态性质,推导出了在任意时刻"瞬态队长分布的z-变换的递推表达式,稳态队长分布的递推表达式和附加队长分布的表达式,并获得稳态队长的随机分解结果.最后,通过数值实例,讨论了稳态队长分布对系统参数的敏感性,并阐述了获得便于计算的稳态队长分布的表达式在系统容量的优化设计中的重要应用价值.'
-  },
-  {
-    key: "3",
-    name: "伪双曲方程的新分裂式正定混合元方法",
-    author: "刘洋，李宏，高巍，何斯日古楞",
-    date: "2012-11-21",
-    description:
-      "提出一类二阶伪双曲型方程的新的分裂正定式混合有限元方法.给出了半离散和全离散格式误差估计及其格式的稳定性.与传统的混合元相比,所提出的格式有几个优点:首先所提出的格式能够分裂成两个独立的积分微分子格式并且不需要求解匹配方程组系统;其次不必满足LBB相容性条件."
-  }
-];
+
 export default {
   data() {
     return {
-      data,
+      current: ['paper'],
+      data: [
+        {
+          key: null,
+          name: null,
+          author: null,
+          date: null,
+          description: null,
+        }
+      ],
       searchText: "",
       searchInput: null,
       searchedColumn: "",
@@ -203,6 +199,9 @@ export default {
     Nav,
     SiderNav
   },
+  mounted() {
+    this.getCollectPaper();
+  },
   methods: {
     handleSearch(selectedKeys, confirm, dataIndex) {
       confirm();
@@ -213,14 +212,41 @@ export default {
       clearFilters();
       this.searchText = "";
     },
-    deleteCollect(){
-        //let params = new URLSearchParams();
-        //params.append("UserId", UserId);
-    },
+    getCollectPaper(){
+      var _this = this;
+      let url = _this.$urlPath.website.getCollectPaper;
+      getData(url,null).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          _this.data= res.data;
+          _this.data = res.data.
+        /*  key: "1",
+    name: "神经网络与神经计算机:第二讲 神经网络的学习算法",
+    author: "庄镇泉，王东生",
+    date: "1990-10-12",
+    description: "这里是论文的摘要"*/
+          console.log("获取成功");
+        } 
+        else {
+          //console.log(res.code);
+          _this.$message.error("获取数据失败");
+        }
+      });
+    }
+    
   }
 };
 </script>
 <style scoped>
+.al ::-webkit-scrollbar{
+  display: none;
+}
+.al{
+  scrollbar-width: none; /* firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
 .ant-table-wrapper {
   margin-left: 250px;
   margin-right: 2%;
