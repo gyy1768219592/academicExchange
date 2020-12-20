@@ -1,7 +1,7 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <Sider-nav></Sider-nav>
+
     <h2 style="margin-left: 250px;margin-top:1%">我的收藏</h2>
     <a-tabs style="margin-left: 250px;margin-top:1%" default-active-key="1">
       <a-tab-pane key="1">
@@ -31,7 +31,6 @@
 <script>
 
 import Nav from "../../components/nav.vue";
-import SiderNav from "../../components/siderNav.vue";
 import Collect from "./collectInfo.vue";
 export default {
   data() {
@@ -41,7 +40,6 @@ export default {
   },
   components: {
     Nav,
-    SiderNav,
     Collect
   },
   mounted() {
