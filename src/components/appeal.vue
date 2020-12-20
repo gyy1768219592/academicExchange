@@ -31,6 +31,32 @@
           </template>
         </a-sub-menu>
       </a-menu>
+      <!-- <a-menu
+        :default-open-keys="['sub3', 'sub4']"
+        mode="inline"
+        :inline-collapsed="collapsed"
+        v-model="selectedKey2"
+        class="sider-menu"
+      >
+        <a-sub-menu key="sub3">
+          <span slot="title"><span>申诉数据库门户</span></span>
+          <template v-for="item in paperTypeOptions2" @click="selectUnSolved(item.value)">
+            <a-menu-item :key="item.value" @click="selectUnSolved(item.value)">
+              {{ item.label }}
+              <span style="float: right">({{ item.count }})</span>
+            </a-menu-item>
+          </template>
+        </a-sub-menu>
+        <a-sub-menu key="sub4">
+          <span slot="title"><span>申诉学术成果</span></span>
+          <template v-for="item in paperYearOptions2">
+            <a-menu-item :key="item.value" @click="selectSolved(item.value)">
+              {{ item.label }}
+              <span style="float: right">({{ item.count }})</span>
+            </a-menu-item>
+          </template>
+        </a-sub-menu>
+      </a-menu> -->
     </div>
     <div class="result-main">
       <div class="topbar">
@@ -128,6 +154,25 @@ export default {
           count: 0,
         },
       ],
+      paperTypeOptions2: [
+        {
+          label: "申诉数据库门户",
+          value: 10,
+          count: 0,
+        },
+      ],
+      paperYearOptions2: [
+        {
+          label: "申诉项目",
+          value: 12,
+          count: 0,
+        },
+        {
+          label: "申诉专利",
+          value: 13,
+          count: 0,
+        },
+      ],
     };
   },
   props: ["word"],
@@ -185,9 +230,6 @@ export default {
           this.$message.error(res.message);
         }
       });
-    },
-    giveFeedback(){
-      
     },
     getAppeal(){
       let params = new URLSearchParams();

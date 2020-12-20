@@ -197,6 +197,18 @@ import { postData } from "@/api/webpost";
 export default {
   data() {
     return {
+      claimList: [
+        {
+          canClaim: false,
+          nowClaimNumber: -1,
+          maxClaimNumber: -1,
+        },
+        {
+          canClaim: false,
+          nowClaimNumber: -1,
+          maxClaimNumber: -1,
+        },
+      ],
       visible: false,
       isSelected3: false,
       isSelected4: false,
@@ -298,6 +310,35 @@ export default {
           this.$message.error(res.message);
         }
       });
+      this.checkrenling();
+    },
+    checkrenling(){
+      let params = new URLSearchParams();
+      let url = this.$urlPath.website.checkNum ;
+      if(this.paperTopList[0].progID!=-1){
+        url += "1/" + this.paperTopList[0].progID;
+      }
+      else if(this.paperTopList[0].patentID!=-1){
+        url += "2/" + this.paperTopList[0].patentID;
+      }
+      // params.append("projectId", this.progID);
+      //调用封装的postData函数，获取服务器返回值 
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.claimList[0].canClaim = res.data.canClaim;
+          this.claimList[0].nowClaimNumber = res.data.nowClaimNumber;
+          this.claimList[0].maxClaimNumber = res.data.maxClaimNumber;
+          this.claimList[1].canClaim = res.data.canClaim;
+          this.claimList[1].nowClaimNumber = res.data.nowClaimNumber;
+          this.claimList[1].maxClaimNumber = res.data.maxClaimNumber;
+          //window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
     },
     changePage() {
       console.log(this.currentPage);
@@ -366,9 +407,17 @@ export default {
       let url = "";
       if(this.paperTopList[0].progID!=-1){
         url += this.$urlPath.website.disrenlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+        this.claimList[0].nowClaimNumber --;
+        if(this.claimList[0].nowClaimNumber<this.claimList[0].maxClaimNumber){
+          this.claimList[0].canClaim = true;
+        }
       }
       else if(this.paperTopList[0].patentID!=-1){
         url += this.$urlPath.website.disrenlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+        this.claimList[1].nowClaimNumber --;
+        if(this.claimList[1].nowClaimNumber<this.claimList[1].maxClaimNumber){
+          this.claimList[1].canClaim = true;
+        }
       }
       postData(url, params).then(res => {
         if (res.code === 1001) {
@@ -388,49 +437,79 @@ export default {
       params.append("projectId", this.progID);
       let url = "";
       if(this.paperTopList[0].progID!=-1){
-        url += this.$urlPath.website.renlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+        if(this.claimList[0].canClaim){
+          url += this.$urlPath.website.renlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+          this.claimList[0].nowClaimNumber ++;
+          if(this.claimList[0].nowClaimNumber>=this.claimList[0].maxClaimNumber){
+            this.claimList[0].canClaim = false;
+          }
+        }
+        else{
+          url = "";
+        }
       }
       else if(this.paperTopList[0].patentID!=-1){
-        url += this.$urlPath.website.renlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
-      }
-      postData(url, params).then(res => {
-        if (res.code === 1001) {
-          this.AuthorList.AuthorList1.push(this.AuthorList.AuthorList2[key]);
-          this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
-          this.AuthorList.AuthorList2.splice(key, 1);
-          this.$set(this.AuthorList,"AuthorList2",this.AuthorList.AuthorList2);
-          this.$message.success("学者门户已添加");
-          //window.sessionStorage.setItem("UserId", res.data.userid);
-          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
-        } else {
-          console.log(res.code);
-          this.$message.error(res.message);
+        if(this.claimList[1].canClaim){
+          url += this.$urlPath.website.renlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+          this.claimList[1].nowClaimNumber ++;
+          if(this.claimList[1].nowClaimNumber>=this.claimList[1].maxClaimNumber){
+            this.claimList[1].canClaim = false;
+          }
         }
-      });
+        else{
+          url = "";
+        }
+      }
+      if(url!=""){
+        postData(url, params).then(res => {
+          if (res.code === 1001) {
+            this.AuthorList.AuthorList1.push(this.AuthorList.AuthorList2[key]);
+            this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
+            this.AuthorList.AuthorList2.splice(key, 1);
+            this.$set(this.AuthorList,"AuthorList2",this.AuthorList.AuthorList2);
+            this.$message.success("学者门户已添加");
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
+      else{
+        this.$message.error("名额已满，不能认领");
+      }
     },
     getProg(progID){
       let params = new URLSearchParams();
-      params.append("projectId", parseInt(progID));
+      // params.append("projectId", parseInt(progID));
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getProjectById + progID;
       console.log(url);
       getData(url, params).then(res => {
-        var newProg = {
-          progID: progID,
-          patentID: -1,
-          title: res.data.project.fundProject,
-          author: res.data.project.authors,
-          descrble: res.data.project.authors + ' - 机构: ' + res.data.project.organization,
-          abstract: res.data.project.zhAbstract,
-        }
-        if(this.getProgList.length === 0){
-          this.getProgList.push(newProg);
-        }
-        else{
-          this.$set(this.getProgList,0,newProg);
-        }
         console.log(res.code);
         if (res.code === 1001) {
+          if(res.data.project!=null){
+            var newProg = {
+              progID: progID,
+              patentID: -1,
+              title: res.data.project.fundProject,
+              author: res.data.project.authors,
+              descrble: res.data.project.authors + ' - 机构: ' + res.data.project.organization,
+              abstract: res.data.project.zhAbstract,
+            }
+            if(this.getProgList.length === 0){
+              this.getProgList.push(newProg);
+            }
+            else{
+              this.$set(this.getProgList,0,newProg);
+            }
+          }
+          else{
+            if(this.getProgList.length !== 0){
+              this.getProgList.pop();
+            }
+          }
           // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
@@ -442,26 +521,33 @@ export default {
     },
     getPatent(patentID){
       let params = new URLSearchParams();
-      params.append("patentID", parseInt(patentID));
+      // params.append("patentID", parseInt(patentID));
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getPatentById + patentID;
       getData(url, params).then(res => {
-        var newPatent = {
-          progID: -1,
-          patentID: patentID,
-          title: res.data.patent.title,
-          author: res.data.patent.inventor,
-          descrble: res.data.patent.inventor + ' - 发布日期' + res.data.patent.publishDate + ' - 状态: ' + res.data.patent.state,
-          abstract: res.data.patent.abstract,
-        }
-        if(this.getPatentList.length === 0){
-          this.getPatentList.push(newPatent);
-        }
-        else{
-          this.$set(this.getPatentList,0,newPatent);
-        }
         console.log(res.code);
         if (res.code === 1001) {
+          if(res.data.patent!=null){
+            var newPatent = {
+              progID: -1,
+              patentID: patentID,
+              title: res.data.patent.title,
+              author: res.data.patent.inventor,
+              descrble: res.data.patent.inventor + ' - 发布日期' + res.data.patent.publishDate + ' - 状态: ' + res.data.patent.state,
+              abstract: res.data.patent.abstract,
+            }
+            if(this.getPatentList.length === 0){
+              this.getPatentList.push(newPatent);
+            }
+            else{
+              this.$set(this.getPatentList,0,newPatent);
+            }
+          }
+          else{
+            if(this.getPatentList.length !== 0){
+              this.getPatentList.pop();
+            }
+          }
           // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
