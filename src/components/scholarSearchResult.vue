@@ -86,16 +86,6 @@
                           }"
                         />
                       </a-col>
-                      <a-col :span="7">
-                        <a-statistic
-                          class="result-scholar-number"
-                          title="hIndex"
-                          :value="item.hIndex == null ? 0 : item.hIndex"
-                          :value-style="{
-                            'text-align': 'center',
-                          }"
-                        />
-                      </a-col>
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 42px">
@@ -194,16 +184,6 @@
                           }"
                         />
                       </a-col>
-                      <a-col :span="7">
-                        <a-statistic
-                          class="result-scholar-number"
-                          title="hIndex"
-                          :value="item.hIndex == null ? 0 : item.hIndex"
-                          :value-style="{
-                            'text-align': 'center',
-                          }"
-                        />
-                      </a-col>
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 82px">
@@ -255,69 +235,14 @@ import { getData } from "@/api/webget";
 export default {
   data() {
     return {
+      wordKW: "",
       currentPage1: 1,
       currentPage2: 1,
       total1: 0,
       total2: 0,
       total: 0,
       sortOption: 1,
-      scholarList: [
-        {
-          name: "张帆",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "华中科技大学同济医学院附属同济医院",
-          paper: 4349,
-          citation: 70957,
-          field: "肿瘤学",
-        },
-        {
-          name: "张立群",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "北京化工大学",
-          paper: 695,
-          citation: 10067,
-          field: "工业催化",
-        },
-        {
-          name: "张鹏",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "郑州大学第一附属医院",
-          paper: 86,
-          citation: 200,
-          field: "肿瘤学",
-        },
-        {
-          name: "张磊",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "中国电子科技集团公司",
-          paper: 2148,
-          citation: 16081,
-          field: "通信与信息系统",
-        },
-
-        {
-          name: "张庆玲",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "东北大学理学院",
-          paper: 1360,
-          citation: 18959,
-          field: "系统工程",
-        },
-        {
-          name: "张波",
-          src:
-            "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-          institution: "电子科技大学电子薄膜与集成器件国家重点实验室",
-          paper: 1843,
-          citation: 10602,
-          field: "电路系统",
-        },
-      ],
+      scholarList: [],
       dataScholarList: [],
       colorList: [
         "#f56a00",
@@ -347,65 +272,94 @@ export default {
     },
     toDataScholar(sid, aid) {
       if (sid == -1) {
-        this.$router.push({ path: "/authorIndex", query: { authorid: aid } });
+        let url = this.$router.resolve({
+          path: "/authorIndex",
+          query: { authorid: aid },
+        });
+        window.open(url.href, "_blank");
       } else {
         if (sid == localStorage.getItem("scholarId")) {
-          this.$router.push({ path: "/userIndex", query: { scholarid: sid } });
+          let url = this.$router.resolve({
+            path: "/userIndex",
+            query: { scholarid: sid },
+          });
+          window.open(url.href, "_blank");
         } else {
-          this.$router.push({
+          let url = this.$router.resolve({
             path: "/scholarIndex",
             query: { scholarid: sid },
           });
+          window.open(url.href, "_blank");
         }
       }
     },
     toScholar(sid) {
       if (sid == localStorage.getItem("scholarId")) {
-        this.$router.push({ path: "/userIndex", query: { scholarid: sid } });
+        let url = this.$router.resolve({
+          path: "/userIndex",
+          query: { scholarid: sid },
+        });
+        window.open(url.href, "_blank");
       } else {
-        this.$router.push({ path: "/scholarIndex", query: { scholarid: sid } });
+        let url = this.$router.push({
+          path: "/scholarIndex",
+          query: { scholarid: sid },
+        });
+        window.open(url.href, "_blank");
       }
     },
     searchDataScholar() {
       this.isok2 = false;
-      let url = this.$urlPath.website.searchDataScholar;
-      let params = new URLSearchParams();
-      params.append("DataScholarName", this.wordKW);
-      params.append("orderType", this.sortOption);
-      params.append("pageNumber", this.currentPage2);
-      getData(url, params).then((res) => {
-        if (res.code === 1001) {
-          this.dataScholarList = res.data.dataScholars;
-          this.total2 = res.data.totalSize;
-          this.total = this.total1 + this.total2;
-          this.isok2 = true;
-          console.log(this.dataScholarList);
-        } else {
-          console.log(res.code);
-          this.$message.error("服务器返回出错");
-        }
-      });
+      if (this.wordKW == "") {
+        this.total2 = 0;
+        this.total = this.total1 + this.total2;
+        this.isok2 = true;
+      } else {
+        let url = this.$urlPath.website.searchDataScholar;
+        let params = new URLSearchParams();
+        params.append("DataScholarName", this.wordKW);
+        params.append("orderType", this.sortOption);
+        params.append("pageNumber", this.currentPage2);
+        getData(url, params).then((res) => {
+          if (res.code === 1001) {
+            this.dataScholarList = res.data.dataScholars;
+            this.total2 = res.data.totalSize;
+            this.total = this.total1 + this.total2;
+            this.isok2 = true;
+            console.log(this.dataScholarList);
+          } else {
+            console.log(res.code);
+            this.$message.error("服务器返回出错");
+          }
+        });
+      }
     },
     searchScholar() {
       this.isok1 = false;
-      let url = this.$urlPath.website.searchScholar;
-      let params = new URLSearchParams();
-      params.append("ScholarName", this.wordKW);
-      params.append("Institution", "");
-      params.append("orderType", this.sortOption);
-      params.append("pageNumber", this.currentPage1);
-      getData(url, params).then((res) => {
-        if (res.code === 1001) {
-          this.scholarList = res.data.scholars;
-          this.total1 = res.data.totalSize;
-          this.total = this.total1 + this.total2;
-          this.isok1 = true;
-          console.log(this.scholarList);
-        } else {
-          console.log(res.code);
-          this.$message.error("服务器返回出错");
-        }
-      });
+      if (this.wordKW == "") {
+        this.total1 = 0;
+        this.total = this.total1 + this.total2;
+        this.isok1 = true;
+      } else {
+        let url = this.$urlPath.website.searchScholar;
+        let params = new URLSearchParams();
+        params.append("ScholarName", this.wordKW);
+        params.append("Institution", "");
+        params.append("orderType", this.sortOption);
+        params.append("pageNumber", this.currentPage1);
+        getData(url, params).then((res) => {
+          if (res.code === 1001) {
+            this.scholarList = res.data.scholars;
+            this.total1 = res.data.totalSize;
+            this.total = this.total1 + this.total2;
+            this.isok1 = true;
+            console.log(this.scholarList);
+          } else {
+            console.log(res.code);
+            this.$message.error("服务器返回出错");
+          }
+        });
+      }
     },
   },
   created() {
