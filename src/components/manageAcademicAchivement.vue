@@ -233,7 +233,8 @@ export default {
       //去此人的主页
       if(Id!=-1){
         let routeUrl = this.$router.resolve({
-          path: "/scholarIndex/" + Id,
+          path: "/scholarIndex" ,
+          query: { scholarid: Id },
         });
         window.open(routeUrl.href, '_blank');
         // this.$router.push("/scholarIndex/" + Id);

@@ -45,10 +45,21 @@ export default {
       word: this.$route.query.word,
     };
   },
+  mounted(){
+    this.checkKey();
+  },
   methods: {
     good() {
       alert(1);
     },
+    checkKey(){
+      if(localStorage.getItem("identification")<2){
+        this.$message.error("没有权限！");
+        this.$router.push({
+          path: "/"
+        });
+      }
+    }
   },
 };
 </script>

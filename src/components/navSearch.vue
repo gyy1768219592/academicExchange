@@ -82,34 +82,78 @@
           @blur="undoSelected"
         />
       </div>
-      <div v-if="isLogin">
-        <a-dropdown class="topNav-dropDown">
+      <div v-if="isLogin" class="topNav-right">
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>我的收藏</span>
+          </template>
+          <a-button
+            icon="star"
+            size="large"
+            shape="circle"
+            class="topNav-otherButton"
+            @click="toCollection()"
+          >
+          </a-button>
+        </a-tooltip>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>我的关注</span>
+          </template>
+          <a-button
+            icon="heart"
+            size="large"
+            shape="circle"
+            class="topNav-otherButton"
+            @click="toConcern()"
+          >
+          </a-button>
+        </a-tooltip>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>我的私信</span>
+          </template>
+          <a-button
+            icon="mail"
+            size="large"
+            shape="circle"
+            class="topNav-otherButton"
+            @click="toMessage()"
+          >
+          </a-button>
+        </a-tooltip>
+        <a-tooltip placement="bottom">
+          <template slot="title">
+            <span>我的主页</span>
+          </template>
+          <a-button
+            icon="idcard"
+            size="large"
+            shape="circle"
+            class="topNav-otherButton"
+            @click="toUserIndex()"
+          >
+          </a-button>
+        </a-tooltip>
+        <a-dropdown placement="bottomRight">
           <a class="ant-dropdown-link" @click="(e) => e.preventDefault()">
             <a-avatar
               v-if="avatar == '' || avatar == 'null'"
-              :size="50"
+              :size="40"
               icon="user"
-              class="topNav-avatar"
+              class="topNav-otherButton"
             />
-            <a-avatar v-else :size="50" :src="avatar" class="topNav-avatar" />
+            <a-avatar
+              v-else
+              :size="40"
+              :src="avatar"
+              class="topNav-otherButton"
+            />
           </a>
           <a-menu slot="overlay">
             <a-menu-item>
               <a @click="toPersonInfo()">个人设置</a>
             </a-menu-item>
-            <a-menu-item>
-              <a @click="toUserIndex()">我的主页</a>
-            </a-menu-item>
-            <a-menu-item>
-              <router-link to="/message">我的私信</router-link>
-            </a-menu-item>
-            <a-menu-item>
-              <router-link to="/collect">我的收藏</router-link>
-            </a-menu-item>
-            <a-menu-item>
-              <router-link to="/concern">我的关注</router-link>
-            </a-menu-item>
-            <a-menu-divider />
             <a-menu-item>
               <a @click="logout()">退出登录</a>
             </a-menu-item>
@@ -238,6 +282,15 @@ export default {
         this.$message.info("请先进行学者认证");
       }
     },
+    toMessage() {
+      this.$router.push("/message");
+    },
+    toCollection() {
+      this.$router.push("/collect");
+    },
+    toConcern() {
+      this.$router.push("/concern");
+    },
   },
   created() {
     if (localStorage.getItem("token")) {
@@ -318,16 +371,17 @@ export default {
   width: 363px;
 }
 
-.topNav-dropDown {
-  float: right;
-}
-
-.topNav-avatar {
-  margin: 5px 20px;
+.topNav-otherButton {
+  margin: 10px 0;
+  margin-right: 20px;
+  vertical-align: bottom;
 }
 .topNav-LoginButton {
   float: right;
   font-size: 14px;
   margin: 14px 10px;
+}
+.topNav-right {
+  float: right;
 }
 </style>
