@@ -89,7 +89,7 @@ export default {
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
   border-color: #d9d9d9;
-  background: #1890ff;
+  background: #B22222;
   color: #fff;
 }
 </style>
