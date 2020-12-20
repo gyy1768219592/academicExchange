@@ -234,7 +234,8 @@ export default {
       //去此人的主页
       if(Id!=-1){
         let routeUrl = this.$router.resolve({
-          path: "/scholarIndex/" + Id,
+          path: "/scholarIndex/" ,
+          query: { scholarid: Id },
         });
         window.open(routeUrl.href, '_blank');
         // this.$router.push("/scholarIndex/" + Id);
@@ -243,7 +244,8 @@ export default {
     gotoAuthor(Id){
       //去此人的主页
       let routeUrl = this.$router.resolve({
-        path: "/authorIndex/" + Id,
+        path: "/authorIndex/" ,
+        query: { authorid: Id },
       });
       window.open(routeUrl.href, '_blank');
       // this.$router.push("/authorIndex/" + Id);

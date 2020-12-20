@@ -317,10 +317,16 @@ export default {
     gotoUser(scholarId,authorId){
       //去此人的主页
       if(scholarId==-1){
-        this.$router.push("/authorIndex/" + authorId);
+        this.$router.push({
+          path: "/authorIndex",
+          query: { authorid: authorId },
+        });
       }
       else if(authorId == -1){
-        this.$router.push("/scholarIndex/" + scholarId);
+        this.$router.push({
+          path: "/scholarIndex",
+          query: { scholarid: scholarId },
+        });
       }
     },
     getLikeStatus(){
