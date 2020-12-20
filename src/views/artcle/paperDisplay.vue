@@ -19,13 +19,23 @@
                       <div class="author">
                         <a-dropdown>
                           <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar class="img" :size="30" icon="user" />
+                            <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                            <a-avatar
+                              :size="30"
+                              :style="'backgroundColor: #00a2ae'"
+                              >{{ item.name.substring(0, 1)  }}
+                            </a-avatar>
                             <h1 class="author-name">{{ item.name }}</h1>
                           </a>
                           <a-menu slot="overlay">
                             <a-menu-item>
                               <div class="author" @click="gotoUser(item.scholarId,item.authorId)">
-                                <a-avatar class="img" :size="30" icon="user" />
+                                <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                                <a-avatar
+                                  :size="30"
+                                  :style="'backgroundColor: #00a2ae'"
+                                  >{{ item.name.substring(0, 1)  }}
+                                </a-avatar>
                                 <h1 class="author-name2">{{ item.name }}</h1>
                               </div>
                             </a-menu-item>

@@ -18,7 +18,12 @@
                   <a-list-item slot="renderItem" slot-scope="item">
                       <div class="author">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                          <a-avatar class="img" :size="30" icon="user" />
+                          <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                          <a-avatar
+                            :size="30"
+                            :style="'backgroundColor: #00a2ae'"
+                            >{{ item.substring(0, 1)  }}
+                          </a-avatar>
                           <h1 class="author-name">{{ item }}</h1>
                         </a>
                       </div>
@@ -197,7 +202,7 @@ export default {
             this.progData.doiUrl = this.progData.doi;
             this.progData.doi = "https://doi.org/" + this.progData.doi;
           }
-          this.author_data = this.progData.authors.split(";");
+          this.author_data = this.progData.authors.split(/\s*;\s*/);
           console.log(res.data.project);
           console.log(this.author_data);
           //this.$message.success(res.message);

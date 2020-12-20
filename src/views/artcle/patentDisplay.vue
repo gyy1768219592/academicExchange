@@ -16,7 +16,12 @@
                   <a-list-item slot="renderItem" slot-scope="item">
                       <div class="inventor">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                          <a-avatar class="img" :size="30" icon="user" />
+                          <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                          <a-avatar
+                            :size="30"
+                            :style="'backgroundColor: #00a2ae'"
+                            >{{ item.substring(0, 1)  }}
+                          </a-avatar>
                           <h1 class="inventor-name">{{ item }}</h1>
                         </a>
                       </div>
