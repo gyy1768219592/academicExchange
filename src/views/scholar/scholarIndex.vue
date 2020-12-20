@@ -341,7 +341,7 @@ export default {
     //关注学者
     subscribe() {
       let url = this.$urlPath.website.subscribe;
-      postData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
+      postData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
@@ -359,7 +359,7 @@ export default {
       params.append("UserId", 2);
       params.append("ScholarId", 1);
       let url = this.$urlPath.website.undoSubscribe;
-      deleteData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
+      deleteData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
