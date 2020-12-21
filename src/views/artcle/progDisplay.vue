@@ -31,8 +31,8 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
-              <a-button class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+              <a-button v-if="isLogin" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+              <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
             </div>
             <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="progID"></appeal-achievement>
@@ -112,18 +112,6 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <!-- <a-tab-pane key="3" tab="推荐项目" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: ' #B22222'}"/>
-            <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
-                  <span class="yinyong" onclick="oCopy(this)">
-                    
-                  </span>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-tab-pane> -->
           </a-tabs>
         </div>
         <div class="down-right-block">
@@ -149,6 +137,7 @@ export default {
   },
   data() {
     return {
+      isLogin:false,
       isLegal:true,
       visible:false,
       type: 'project',
@@ -158,7 +147,7 @@ export default {
       nowClaimNumber: -1,
       maxClaimNumber: -1,
       renlingchar: "我要认领",
-      haveRen: true,
+      haveRen: false,
       progID : this.$route.params.id,
       progData : {},
       author_data: [],
@@ -171,9 +160,12 @@ export default {
   },
   mounted(){
     this.getProg();
-    this.getRenlingStatus();
-    this.checkrenling();
-    this.getLikeStatus();
+    if(localStorage.getItem("identification")>0){
+      this.isLogin = true;
+      this.getRenlingStatus();
+      this.checkrenling();
+      this.getLikeStatus();
+    }
   },
   methods: {
     showModal() {
@@ -182,7 +174,7 @@ export default {
     closeModal() {
       this.visible = false;
     },
-    getProg(){//haveRenling
+    getProg(){
       let params = new URLSearchParams();
       // params.append("projectId", this.progID);
       //调用封装的postData函数，获取服务器返回值 

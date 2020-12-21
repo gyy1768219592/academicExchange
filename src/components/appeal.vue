@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="result-sider">
+    <div class="maneger-sider">
       <div class="sider-title">
         <a-icon type="read" />
         申诉信息
@@ -31,38 +31,12 @@
           </template>
         </a-sub-menu>
       </a-menu>
-      <!-- <a-menu
-        :default-open-keys="['sub3', 'sub4']"
-        mode="inline"
-        :inline-collapsed="collapsed"
-        v-model="selectedKey2"
-        class="sider-menu"
-      >
-        <a-sub-menu key="sub3">
-          <span slot="title"><span>申诉数据库门户</span></span>
-          <template v-for="item in paperTypeOptions2" @click="selectUnSolved(item.value)">
-            <a-menu-item :key="item.value" @click="selectUnSolved(item.value)">
-              {{ item.label }}
-              <span style="float: right">({{ item.count }})</span>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-        <a-sub-menu key="sub4">
-          <span slot="title"><span>申诉学术成果</span></span>
-          <template v-for="item in paperYearOptions2">
-            <a-menu-item :key="item.value" @click="selectSolved(item.value)">
-              {{ item.label }}
-              <span style="float: right">({{ item.count }})</span>
-            </a-menu-item>
-          </template>
-        </a-sub-menu>
-      </a-menu> -->
     </div>
-    <div class="result-main">
+    <div class="maneger-main">
       <div class="topbar">
         <span> 现有{{ total }}条申诉记录</span>
       </div>
-      <div class="result-list">
+      <div class="maneger-list">
         <a-list item-layout="vertical" size="large" :data-source="List.showList">
           <a-list-item slot="renderItem" key="item.title" slot-scope="item">
             <a-button
@@ -71,7 +45,7 @@
               slot="actions"
               v-if="item.msgstatus!=4"
               @click="appealAgree(item)"
-              :class = "{'result-list-button_l' : (item.msgstatus==1||item.msgstatus==0) , 'result-list-button_l_1': item.msgstatus==3 , 'result-list-button_l_2': item.msgstatus==4 }"
+              :class = "{'maneger-list-button_l' : (item.msgstatus==1||item.msgstatus==0) , 'maneger-list-button_l_1': item.msgstatus==3 , 'maneger-list-button_l_2': item.msgstatus==4 }"
               >申诉通过</a-button
             >
             <a-button 
@@ -80,7 +54,7 @@
                 slot="actions" 
                 v-if="item.msgstatus!=3"
                 @click="appealDisagree(item)"
-                :class = "{'result-list-button_r' : (item.msgstatus==1||item.msgstatus==0) , 'result-list-button_r_1': item.msgstatus==4 , 'result-list-button_r_2': item.msgstatus==3 }"
+                :class = "{'maneger-list-button_r' : (item.msgstatus==1||item.msgstatus==0) , 'maneger-list-button_r_1': item.msgstatus==4 , 'maneger-list-button_r_2': item.msgstatus==3 }"
                 >申诉驳回</a-button
             >
             <a-button 
@@ -166,25 +140,6 @@ export default {
         {
           label: "已驳回申诉",
           value: 4,
-          count: 0,
-        },
-      ],
-      paperTypeOptions2: [
-        {
-          label: "申诉数据库门户",
-          value: 10,
-          count: 0,
-        },
-      ],
-      paperYearOptions2: [
-        {
-          label: "申诉项目",
-          value: 12,
-          count: 0,
-        },
-        {
-          label: "申诉专利",
-          value: 13,
           count: 0,
         },
       ],
@@ -434,66 +389,66 @@ export default {
 </script>
 
 <style>
-.result-sider {
+.maneger-sider {
   float: left;
   width: 280px;
   margin-right: 20px;
 }
-.result-sider .sider-title {
+.maneger-sider .sider-title {
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu {
+.maneger-sider .sider-menu {
   margin-left: 20px;
   padding-right: 20px;
   border-right: 0;
 }
-.result-sider .sider-menu .ant-menu-submenu-title {
+.maneger-sider .sider-menu .ant-menu-submenu-title {
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu .ant-menu-item {
+.maneger-sider .sider-menu .ant-menu-item {
   margin: 0;
 }
-.result-sider .sider-menu .ant-menu-item-selected::after {
+.maneger-sider .sider-menu .ant-menu-item-selected::after {
   border: 0;
 }
-.result-main {
+.maneger-main {
   float: left;
   width: 980px;
   /* overflow: hidden; */
   padding-left: 20px;
   border-left: 1px solid #e3e3e3;
 }
-.result-main .topbar {
+.maneger-main .topbar {
   border-bottom: 1px solid #e3e3e3;
   height: 40px;
 }
-.result-main .topbar .topbar-select {
+.maneger-main .topbar .topbar-select {
   float: right;
   width: 100px;
   margin-right: 60px;
 }
-.result-main .ant-list-item-action {
+.maneger-main .ant-list-item-action {
   margin-top: 5px;
   margin-left: 700px
 }
-.result-main .result-list .result-list-button_l {
+.maneger-main .maneger-list .maneger-list-button_l {
   border: solid 1px blue;
   margin-right: 5px;
   padding: 0;
   color: blue;
   background-color: #0000ff10;
 }
-.result-main .result-list .result-list-button_l_1 {
+.maneger-main .maneger-list .maneger-list-button_l_1 {
   /* border: solid 1px blue; */
   margin-left: 40px;
   padding: 0;
   color: blue;
   /* background-color: #0000ff10; */
 }
-.result-main .result-list .result-list-button_l_2 {
+.maneger-main .maneger-list .maneger-list-button_l_2 {
   height: 0px;
   width: 0px;
   /* border: solid 1px blue; */
@@ -502,21 +457,21 @@ export default {
   /* color: blue; */
   /* background-color: #0000ff10; */
 }
-.result-main .result-list .result-list-button_r {
+.maneger-main .maneger-list .maneger-list-button_r {
   border: solid 1px red;
   margin-left: 5px;
   padding: 0;
   color: red;
   background-color: #ff000010;
 }
-.result-main .result-list .result-list-button_r_1 {
+.maneger-main .maneger-list .maneger-list-button_r_1 {
   /* border: solid 1px red; */
   margin-left: 40px;
   padding: 0;
   color: red;
   /* background-color: #ff000010; */
 }
-.result-main .result-list .result-list-button_r_2 {
+.maneger-main .maneger-list .maneger-list-button_r_2 {
   height: 0px;
   width: 0px;
   /* border: solid 1px red;
@@ -525,17 +480,17 @@ export default {
   color: red;
   background-color: #ff000010; */
 }
-.result-main .result-list .delete-button {
+.maneger-main .maneger-list .delete-button {
   border: solid 1px red;
   margin-left: 5px;
   padding: 0;
   color: white;
   background-color: #ff0000e0;
 }
-.result-main .result-list .ant-list-item {
+.maneger-main .maneger-list .ant-list-item {
   padding-left: 10px;
 }
-.result-main .result-list .ant-list-item:hover {
+.maneger-main .maneger-list .ant-list-item:hover {
   background-color: #fafafa;
   transition: all 0.5s;
 }
@@ -551,7 +506,7 @@ export default {
   /* -webkit-line-clamp: 2; */
   /* overflow: hidden; */
 }
-.result-list .result-list-pagination {
+.maneger-list .maneger-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }

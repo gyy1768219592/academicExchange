@@ -1,29 +1,29 @@
 <template>
   <div>
-    <div class="result-main-scholar">
-      <div class="home-content">
-        <div class = "left-block">
-          <div v-bind:class="isSelected3 ? 'home-search-on' : 'home-search'">
+    <div class="manager2-result-main-scholar">
+      <div class="manager2-content">
+        <div class = "left-block2">
+          <div v-bind:class="isSelected3 ? 'manager2-search-on' : 'manager2-search'">
             <a-input-search
-              class="home-searchBox3"
+              class="manager2-searchBox3"
               placeholder="通过ID搜索学术成果"
               @search="onSearch3"
               @focus="selected3"
               @blur="undoSelected3"
             />
           </div>
-          <div class="result-main-scholar">
+          <div class="manager2-result-main-scholar">
             <div class="topbar">
               <span style="margin-left: 20px">检索到的项目</span>
             </div>
-            <div class="result-list">
+            <div class="manager2-result-list">
                 <a-list item-layout="vertical" size="large" :data-source="getProgList">
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class = "item-list-item">
                     <a-button
                       type="link" 
                       icon="setting"  
                       slot="actions" 
-                      class="result-list-button_r"
+                      class="manager2-result-list-button_r"
                       @click="changeMain(item)"
                     >管理学术成果</a-button>
                     <a-list-item-meta
@@ -43,14 +43,14 @@
             <div class="topbar">
               <span style="margin-left: 20px">检索到的专利</span>
             </div>
-            <div class="result-list">
+            <div class="manager2-result-list">
                 <a-list item-layout="vertical" size="large" :data-source="getPatentList">
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class = "item-list-item">
                     <a-button
                       type="link" 
                       icon="setting"  
                       slot="actions" 
-                      class="result-list-button_r"
+                      class="manager2-result-list-button_r"
                       @click="changeMain(item)"
                     >管理学术成果</a-button>
                     <a-list-item-meta
@@ -69,7 +69,7 @@
             </div>
           </div>
         </div>
-        <div class = "middle-block">
+        <div class = "middle-block2">
           <a-list item-layout="vertical" size="large" :data-source="paperTopList">
             <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="item-list-item">
                 <a-list-item-meta
@@ -87,7 +87,7 @@
           <div class="topbar">
             <span style="margin-left: 20px"> 已经认领该学术成果的学者门户</span>
           </div>
-          <div class="result-list-scholar">
+          <div class="manager2-result-list-scholar">
             <div class="card-list">
               <a-card>
                 <a-card-grid
@@ -108,7 +108,7 @@
                     >
                     <div
                       v-if="
-                        item.Institution != '' && item.Institution != null
+                        item.institution != '' && item.institution != null
                       "
                       style="
                         height: 30px;
@@ -117,14 +117,14 @@
                         white-space: nowrap;
                       "
                     >
-                      {{ item.Institution }}
+                      {{ item.institution }}
                     </div>
                     <div v-else style="height: 30px">暂无科研机构数据</div>
                     <a-col :span="7">
                       <a-statistic
-                        class="result-scholar-number"
+                        class="manager2-result-scholar-number"
                         title="论文数"
-                        :value="item.paperCount == null ? 0 : item.paperCount"
+                        :value="item.paper == null ? 0 : item.paper"
                         :value-style="{
                           'text-align': 'center',
                         }"
@@ -132,10 +132,10 @@
                     </a-col>
                     <a-col :span="7">
                       <a-statistic
-                        class="result-scholar-number"
+                        class="manager2-result-scholar-number"
                         title="被引量"
                         :value="
-                          item.citationCount == null ? 0 : item.citationCount
+                          item.citation == null ? 0 : item.citation
                         "
                         :value-style="{
                           'text-align': 'center',
@@ -158,21 +158,21 @@
             </div>
           </div>
         </div>
-        <div class = "right-block">
-          <div v-bind:class="isSelected4 ? 'home-search-on' : 'home-search'">
+        <div class = "right-block2">
+          <div v-bind:class="isSelected4 ? 'manager2-search-on' : 'manager2-search'">
             <a-input-search
-              class="home-searchBox4"
+              class="manager2-searchBox4"
               placeholder="通过ID查询搜索学者门户"
               @search="onSearch4"
               @focus="selected4"
               @blur="undoSelected4"
             />
           </div>
-          <div class="result-main-scholar">
+          <div class="manager2-result-main-scholar">
             <div class="topbar">
               <span style="margin-left: 20px"> 检索到的学者门户</span>
             </div>
-            <div class="result-list-scholar">
+            <div class="manager2-result-list-scholar">
               <div class="card-list">
                 <a-card>
                   <a-card-grid
@@ -193,7 +193,7 @@
                       >
                       <div
                         v-if="
-                          item.Institution != '' && item.Institution != null
+                          item.institution != '' && item.institution != null
                         "
                         style="
                           height: 30px;
@@ -202,14 +202,14 @@
                           white-space: nowrap;
                         "
                       >
-                        {{ item.Institution }}
+                        {{ item.institution }}
                       </div>
                       <div v-else style="height: 30px">暂无科研机构数据</div>
                       <a-col :span="7">
                         <a-statistic
-                          class="result-scholar-number"
+                          class="manager2-result-scholar-number"
                           title="论文数"
-                          :value="item.paperCount == null ? 0 : item.paperCount"
+                          :value="item.paper == null ? 0 : item.paper"
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -217,10 +217,10 @@
                       </a-col>
                       <a-col :span="7">
                         <a-statistic
-                          class="result-scholar-number"
+                          class="manager2-result-scholar-number"
                           title="被引量"
                           :value="
-                            item.citationCount == null ? 0 : item.citationCount
+                            item.citation == null ? 0 : item.citation
                           "
                           :value-style="{
                             'text-align': 'center',
@@ -354,7 +354,7 @@ export default {
               ScholarId: res.data[i].scholarId,
               name: res.data[i].name,
               src: res.data[i].avatarUrl!=null?res.data[i].avatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-              institution: res.data[i].institution!=null?res.data[i].institution:"暂时没有机构",
+              institution: res.data[i].institution,
               // paper: res.data[0].dataScholar.paperCount,
               // citation: res.data[0].dataScholar.citationCount,
               // Hindex: res.data[0].dataScholar.hindex,
@@ -441,7 +441,7 @@ export default {
             ScholarId: res.data[0].ScholarId,
             name: res.data[0].Name,
             src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+            institution: res.data[0].institution,
             // paper: res.data[0].dataScholar.paperCount,
             // citation: res.data[0].dataScholar.citationCount,
             // Hindex: res.data[0].dataScholar.hindex,
@@ -631,51 +631,51 @@ export default {
 </script>
 
 <style>
-.left-block{
+.left-block2{
   width: 33%;
   height: 1350px;
   border: solid 1px white;
 }
-.middle-block{
+.middle-block2{
   width: 34%;
   height: 1350px;
   border: solid 1px white;
   margin: -1350px 0px 0px 33%;
 }
-.right-block{
+.right-block2{
   width: 33%;
   height: 1350px;
   margin: -1350px 0px 0px 67%;
   border: solid 1px white;
 }
-.result-main-scholar .topbar {
+.manager2-result-main-scholar .topbar {
   width: 100%;
   border-bottom: 1px solid #e3e3e3;
   /* border: solid 1px black; */
   height: 40px;
 }
-.result-list-scholar .card-list {
+.manager2-result-list-scholar .card-list {
   /* border: solid 1px black; */
   width: 90%;
   margin: 20px auto;
 }
-.result-list-scholar .card-list .card-avatar {
+.manager2-result-list-scholar .card-list .card-avatar {
   float: left;
   width: 20%;
 }
-.result-list-scholar .card-list .card-info {
+.manager2-result-list-scholar .card-list .card-info {
   float: left;
   margin-left: 5%;
   width: 65%;
 }
-.result-list-scholar .card-list .card-info span {
+.manager2-result-list-scholar .card-list .card-info span {
   display: inline-block;
   width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.result-list-scholar .card-list .card-button {
+.manager2-result-list-scholar .card-list .card-button {
   float: right;
   width: 10%;
 }
@@ -685,16 +685,16 @@ small-card-list{
   height: 1000px;
   /* margin: auto; */
 }
-.result-list-scholar .result-list-pagination {
+.manager2-result-list-scholar .manager2-result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }
-.home-content {
+.manager2-content {
   width: 1280px;
   margin: 0 auto;
 }
 
-.home-search {
+.manager2-search {
   border-radius: 10px;
   margin: 20px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
@@ -702,126 +702,126 @@ small-card-list{
   height: 40px;
 }
 
-.home-search:hover {
+.manager2-search:hover {
   border: solid 2px rgba(0, 0, 0, 0.5);
 }
 
-.home-search-on {
+.manager2-search-on {
   border-radius: 10px;
   margin: 20px auto;
   border: solid 2px #B22222;
   width: 100%;
   height: 40px;
 }
-.home-searchBox3 {
+.manager2-searchBox3 {
   width: 99%;
   margin-left: 1%;
   height: 100%;
 }
-.home-searchBox4 {
+.manager2-searchBox4 {
   width: 99%;
   margin-left: 1%;
   height: 100%;
 }
-.home-searchButton {
+.manager2-searchButton {
   font-size: 14px;
   margin-top: 7px;
   height: 32px;
   border: 0;
   border-right: 2px solid #e3e3e3;
 }
-.home-searchButton:hover {
+.manager2-searchButton:hover {
   border-right: 2px solid #e3e3e3;
 }
-.home-searchButton:focus {
+.manager2-searchButton:focus {
   border-right: 2px solid #e3e3e3;
 }
 
-.home-searchBox3 .ant-input {
+.manager2-searchBox3 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox3 .ant-input:focus {
+.manager2-searchBox3 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
-.home-searchBox4 .ant-input {
+.manager2-searchBox4 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox4 .ant-input:focus {
+.manager2-searchBox4 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
-.home-searchCard {
+.manager2-searchCard {
   width: 663px;
 }
 .item-list-item{
   margin-right: 5%;
   margin-left: 5%;
 }
-.result-sider {
+.manager2-result-sider {
   float: left;
   width: 280px;
   margin-right: 20px;
 }
-.result-sider .sider-title {
+.manager2-result-sider .sider-title {
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu {
+.manager2-result-sider .sider-menu {
   margin-left: 20px;
   padding-right: 20px;
   border-right: 0;
 }
-.result-sider .sider-menu .ant-menu-submenu-title {
+.manager2-result-sider .sider-menu .ant-menu-submenu-title {
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu .ant-menu-item {
+.manager2-result-sider .sider-menu .ant-menu-item {
   margin: 0;
 }
-.result-sider .sider-menu .ant-menu-item-selected::after {
+.manager2-result-sider .sider-menu .ant-menu-item-selected::after {
   border: 0;
 }
-.result-main {
+.manager2-result-main {
   float: left;
   width: 980px;
   overflow: hidden;
   padding-left: 20px;
   border-left: 1px solid #e3e3e3;
 }
-.result-main .topbar {
+.manager2-result-main .topbar {
   border-bottom: 1px solid #e3e3e3;
   height: 40px;
 }
-.result-main .topbar .topbar-select {
+.manager2-result-main .topbar .topbar-select {
   float: right;
   width: 100px;
   margin-right: 60px;
 }
-.result-main .ant-list-item-action {
+.manager2-result-main .ant-list-item-action {
   margin-top: 5px;
 }
-.result-list{
+.manager2-result-list{
   margin-right: 5px;
   margin-left: 5px;
 }
-.result-main .result-list .result-list-button {
+.manager2-result-main .manager2-result-list .manager2-result-list-button {
   margin-right: 5px;
   padding: 0;
 }
-.result-main .result-list .ant-list-item {
+.manager2-result-main .manager2-result-list .ant-list-item {
   padding-left: 10px;
 }
-.result-main .result-list .ant-list-item:hover {
+.manager2-result-main .manager2-result-list .ant-list-item:hover {
   background-color: #fafafa;
   transition: all 0.5s;
 }
@@ -839,44 +839,11 @@ small-card-list{
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.result-list .result-list-pagination {
+.manager2-result-list .manager2-result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }
-.topNav-search {
-  float: left;
-  margin: 12px 0 8px 50px;
-  border-radius: 10px;
-  border: solid 2px rgba(0, 0, 0, 0.3);
-  width: 400px;
-}
-
-.topNav-search:hover {
-  border: solid 2px rgba(0, 0, 0, 0.5);
-}
-.topNav-search-on {
-  float: left;
-  margin: 12px 0 8px 50px;
-  border-radius: 10px;
-  border: solid 2px #B22222;
-  width: 400px;
-}
-.topNav-searchBox {
-  width: 305px;
-}
-.topNav-searchButton {
-  font-size: 14px;
-  height: 22px;
-  border: 0;
-  border-right: 2px solid #e3e3e3;
-}
-.topNav-searchButton:hover {
-  border-right: 2px solid #e3e3e3;
-}
-.topNav-searchButton:focus {
-  border-right: 2px solid #e3e3e3;
-}
-.result-scholar-number {
+.manager2-result-scholar-number {
   display: inline-block;
 }
 

@@ -9,17 +9,17 @@
         animated
       >
         <a-tab-pane key="1" tab="申诉信息">
-          <div class="result-content">
+          <div class="maneger-content">
             <appeal></appeal>
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="管理门户">
-          <div class="result-content">
+          <div class="maneger-content">
             <manageScholarGate></manageScholarGate>
           </div>
         </a-tab-pane>
         <a-tab-pane key="3" tab="管理成果">
-          <div class="result-content">
+          <div class="maneger-content">
             <manageAcademicAchivement :word="word"></manageAcademicAchivement>
           </div>
         </a-tab-pane>
@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style>
-.result-content {
+.maneger-content {
   width: 1280px;
   margin: 0 auto;
   overflow: hidden;
