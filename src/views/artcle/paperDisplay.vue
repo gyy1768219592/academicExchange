@@ -62,7 +62,7 @@
               </a-list>
           </div>
           <div class="actions">
-            <a-button class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+            <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
             <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
           </div>
           <div v-if="date!=''" class="date">
@@ -116,18 +116,6 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <!-- <a-tab-pane key="3" tab="推荐文献" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: ' #B22222'}"/>
-            <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
-                  <span class="yinyong" onclick="oCopy(this)">
-                    {{yinyong}}
-                  </span>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-tab-pane> -->
           </a-tabs>
         </div>
         <div class="down-right-block">
@@ -168,6 +156,7 @@ export default {
   },
   data() {
     return {
+      isLogin:false,
       isLegal:true,
       Like: false,
       LikeDisplay:"收藏",
@@ -201,7 +190,10 @@ export default {
   mounted(){
     // this.initCharts();
     this.getPaper();
-    this.getLikeStatus();
+    if(localStorage.getItem("identification")>0){
+      this.isLogin = true;
+      this.getLikeStatus();
+    }
   },
   methods: {
     // initCharts () {
