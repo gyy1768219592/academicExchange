@@ -49,11 +49,11 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon v-if="renling_author_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="renling_author_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="ll.renling_author_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions v-if="ll.renling_author_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="authors">
-                    <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="renling_author_data">
+                    <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="ll.renling_author_data">
                       <a-list-item slot="renderItem" slot-scope="item">
                         <div class="author" @click="gotoUser(item.scholarId)">
                           <a class="ant-dropdown-link" @click="e => e.preventDefault()">
@@ -174,7 +174,9 @@ export default {
       progID : this.$route.params.id,
       progData : {},
       author_data: [],
-      renling_author_data:[],
+      ll:{
+        renling_author_data:[],
+      },
     };
   },
   watch: {
@@ -303,6 +305,8 @@ export default {
               if(this.nowClaimNumber>=this.maxClaimNumber){
                 this.canClaim = false;
               }
+              this.getRenling();
+              this.$set(this.ll,"renling_author_data",this.ll.renling_author_data);
               //window.sessionStorage.setItem("UserId", res.data.userid);
               // const webAdrs = window.sessionStorage.getItem("WebAdrs");
             } else {
@@ -328,6 +332,8 @@ export default {
             if(this.nowClaimNumber<this.maxClaimNumber){
               this.canClaim = true;
             }
+            this.getRenling();
+            this.$set(this.ll,"renling_author_data",this.ll.renling_author_data);
             //window.sessionStorage.setItem("UserId", res.data.userid);
             // const webAdrs = window.sessionStorage.getItem("WebAdrs");
           } else {
@@ -415,8 +421,8 @@ export default {
       getData(url, params).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
-          this.renling_author_data = res.data;
-          this.renlingScholar += "（" + this.renling_author_data.length + "）";
+          this.ll.renling_author_data = res.data;
+          this.renlingScholar = "已认领者（" + this.ll.renling_author_data.length + "）";
         } else {
           console.log(res.code);
           this.$message.error(res.message);
