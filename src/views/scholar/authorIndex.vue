@@ -7,7 +7,7 @@
           <div class="avatar">
             <a-avatar class="img" :size="100" icon="user" />
             <h1 class="info-content-name">{{ dataScholar.displayName }}</h1>
-            <h2 class="info-content-ins">{{ instituition }}</h2>
+            <h2 class="info-content-ins">{{ institution }}</h2>
             <ul class="index-table">
               <li class="index-item">
                 <p class="top-word">成果数</p>
@@ -72,7 +72,7 @@ export default {
       isClaim: false,
       isLogin: false,
       nameList: [],
-      instituition: "",
+      institution: "",
       scholarid: 13,
       dataScholar: {
         scholarId: 13,
@@ -138,16 +138,18 @@ export default {
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           this.dataScholar = res.data.dataScholar;
+          console.log(res.data);
           if (this.dataScholar.scholarId == -1) {
             this.isClaim = false;
           } else {
             this.isClaim = true;
           }
           this.nameList = res.data.authorList;
-          this.instituition = res.data.instituition;
+          this.institution = res.data.institution;
+
           this.paperList = res.data.paper;
           this.paperTotal = res.data.paperNum;
-          console.log(this.paperList);
+          console.log(res.data);
         } else {
           this.$message.error(res.message);
         }
@@ -221,7 +223,7 @@ export default {
   /* border: solid 1px red; */
 }
 .info-content-name {
-  width: 200px;
+  width: 500px;
   /* border: solid 1px black; */
   margin: -100px auto 0 120px;
 }

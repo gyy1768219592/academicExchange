@@ -21,7 +21,6 @@
           </div>
         </div>
         <div class="actions" v-if="isLogin">
-          <a-button class="btn" @click="toPersonInfo">我要认证<a-icon type="user"/></a-button>
           <a-button v-if="!isFollow" class="btn" @click="subscribe">关注<a-icon type="star"/></a-button>
           <a-button v-else class="btn" @click="undoSubscribe">取消关注<a-icon type="star" theme="filled"/></a-button>
           <a-button class="btn" type="primary" @click="sendMsg">发送私信<a-icon type="message"/></a-button>
@@ -120,7 +119,7 @@ export default {
       coAuthors: [],
       workExperience: [],
       scholar: {
-        scholarid: 13,
+        scholarId: 13,
         name: "",
         englishName: "",
         title: "",
@@ -246,7 +245,7 @@ export default {
         path: "/sendMessage",
         query: {
           name: this.scholar.name,
-          ScholarId: this.scholar.scholarid,
+          ScholarId: this.scholar.scholarId,
         },
       });
     },
@@ -342,9 +341,6 @@ export default {
 
     //取消关注学者
     undoSubscribe() {
-      let params = new URLSearchParams();
-      params.append("UserId", 2);
-      params.append("ScholarId", 1);
       let url = this.$urlPath.website.undoSubscribe;
       deleteData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
