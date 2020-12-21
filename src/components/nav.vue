@@ -118,6 +118,7 @@ export default {
       localStorage.removeItem("avatarUrl");
       localStorage.removeItem("scholarId");
       this.$forceUpdate();
+      this.$router.push("/");
     },
     toPersonInfo() {
       this.$router.push("/personInfo");
@@ -157,8 +158,7 @@ export default {
   width: 100%;
   height: 60px;
   /*border-bottom: solid 1px black;*/
-  background-color: #F5F5F7;
-  
+  background-color: #f5f5f7;
 }
 .topNav-box {
   width: 1280px;

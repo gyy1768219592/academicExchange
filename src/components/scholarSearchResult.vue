@@ -227,13 +227,12 @@
           <div slot="tabBarExtraContent">
             <div class="scholarSearch-topbar">
               <a-select
-                :default-value="1"
+                :default-value="2"
                 @change="changeSortOption"
                 v-model="sortOption"
                 class="topbar-select"
               >
                 <a-icon slot="suffixIcon" type="swap" rotate="90" />
-                <a-select-option :value="1"> H-index </a-select-option>
                 <a-select-option :value="2"> 论文数 </a-select-option>
                 <a-select-option :value="3"> 被引量 </a-select-option>
               </a-select>
@@ -257,7 +256,7 @@ export default {
       total1: 0,
       total2: 0,
       total: 0,
-      sortOption: 1,
+      sortOption: 2,
       scholarList: [],
       dataScholarList: [],
       colorList: [
@@ -388,7 +387,7 @@ export default {
       this.wordKW = this.$route.query.word;
       this.currentPage1 = 1;
       this.currentPage2 = 1;
-      this.sortOption = 1;
+      this.sortOption = 2;
       this.searchDataScholar();
       this.searchScholar();
     },
@@ -443,5 +442,4 @@ export default {
 .result-scholar-number {
   display: inline-block;
 }
-
 </style>
