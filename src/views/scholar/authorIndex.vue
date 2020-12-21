@@ -225,11 +225,13 @@ export default {
 }
 .info-content-name {
   width: 500px;
+  text-overflow: ellipsis;
   /* border: solid 1px black; */
   margin: -100px auto 0 120px;
 }
 .info-content-ins {
-  width: 100px;
+  width: 500px;
+  text-overflow: ellipsis;
   /* border: solid 1px red; */
   margin: -5px auto 10px 120px;
 }
