@@ -248,14 +248,14 @@ export default {
           });
         } else if(res.code === 1002) {
           this.$message.success({
-            message: "认证成功,稍后为您跳转到认领门户界面",
+            message: '认证成功,稍后为您跳转到认领门户界面',
             duration: 1000,
             showClose: true
           });
           this.toClaimScholar();
         } else {
           this.$message.error({
-            message: res.message,
+            message: '这个邮箱被用过了',
             duration: 1000,
             showClose: true
           });
@@ -281,15 +281,15 @@ export default {
       this.showEmail = !this.showEmail;
     },
     toPwd() {
-      this.showPwd = !this.Pwd;
+      this.showPwd = !this.showPwd;
     },
     closePwd() {
-      let res = this.$refs.choosePwd.getChoose();
+      //let res = this.$refs.choosePwd.getChoose();
       this.showPwd = !this.showPwd;
-      console.log(res);
+     /* console.log(res);
       if (res.flag === 0) {
         this.changePa(res.old, res.new);
-      }
+      }*/
     },
     closeEmail() {
       let res = this.$refs.chooseE.getChoose();
