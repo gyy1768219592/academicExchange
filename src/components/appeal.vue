@@ -87,7 +87,8 @@
             <div @click="Seek(item)">
               <a-collapse accordion >
                 <a-collapse-panel key="1" header= "打开查看申诉具体信息">
-                  <div class="appealText">{{ item.msgcontent }}</div>
+                  <a-textarea class="appealText" disabled :defaultValue="item.msgcontent" auto-size />
+                  <!-- <div class="appealText">{{ item.msgcontent }}</div> -->
                   <img v-if="item.complaintMaterialUrl!=''" :src="item.complaintMaterialUrl" style="width:100%; height:100%"/>
                   <div v-if="item.downloadurl!=''" class="url-frame">
                     <a-icon v-if="item.downloadstatus==2" type="cloud-download" />
@@ -499,8 +500,12 @@ export default {
 }
 .appealText {
   /* height: 40px;  */
-  width: 900px;
+  color:black;
+  font-size:16px;
+  font-weight:600;
+  width: 920px;
   line-height: 20px;
+  background-color: #fafafa;
   /* display: -webkit-box; */
   /* -webkit-box-orient: vertical; */
   /* -webkit-line-clamp: 2; */
