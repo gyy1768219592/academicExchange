@@ -1,11 +1,14 @@
 <template>
   <div>
     <navSearch></navSearch>
+    <!-- <div><a-icon type="left" @click="goBack" /></div> -->
     <div class="main-block">
       <div class="up-block">
         <div class="user-info">
           <div class="avatar">
-            <a-avatar class="img" :size="100" icon="user" />
+            <a-avatar :size="100" :style="'backgroundColor: #c85554;font-size:26px'">{{
+              dataScholar.displayName.substring(0, 3)
+            }}</a-avatar>
             <h1 class="info-content-name">{{ dataScholar.displayName }}</h1>
             <h2 class="info-content-ins">{{ institution }}</h2>
             <ul class="index-table">
@@ -174,6 +177,9 @@ export default {
           this.$message.error(res.message);
         }
       });
+    },
+    goBack() {
+      this.$router.go(-1);
     },
   },
   mounted() {

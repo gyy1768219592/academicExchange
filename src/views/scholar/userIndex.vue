@@ -5,7 +5,7 @@
       <div class="up-block">
         <div class="user-info">
           <div class="avatar">
-            <a-avatar class="img" :size="100" icon="user" />
+            <uploadPhoto :imgUrl="scholar.avatarUrl"></uploadPhoto>
             <h1 class="info-content-name">{{ scholar.name }}</h1>
             <h4 class="info-content-ins">{{ scholar.organization }}</h4>
             <ul class="index-table">
@@ -51,8 +51,9 @@
                     <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
                     <a-list-item-meta :description="item.lastKnownAffiliationId">
                       <a slot="title" @click="toAuthorIndex(item.authorId)"><span v-html="item.displayName"></span></a>
-
-                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                      <a-avatar slot="avatar" :style="'backgroundColor: #c85554'">{{
+                        item.displayName.substring(0, 3)
+                      }}</a-avatar>
                     </a-list-item-meta>
                   </a-list-item>
                 </a-list>
@@ -65,8 +66,9 @@
                     <a slot="actions" v-else>已被认领</a>
                     <a-list-item-meta :description="item.lastKnownAffiliationId">
                       <a slot="title" @click="toAuthorIndex(item.authorId)"><span v-html="item.displayName"></span></a>
-
-                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                      <a-avatar slot="avatar" :style="'backgroundColor: #c85554'">{{
+                        item.displayName.substring(0, 3)
+                      }}</a-avatar>
                     </a-list-item-meta>
                   </a-list-item>
                 </a-list>
@@ -82,23 +84,58 @@
               :visible="editInfoVisi"
               :footer="null"
             >
-              <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
-                <a-form-model-item label="学者姓名" prop="scholarname">
-                  <a-input v-model="form.scholarname" />
-                </a-form-model-item>
-                <a-form-model-item label="工作机构" prop="institution">
-                  <a-input v-model="form.institution" />
-                </a-form-model-item>
-                <a-form-model-item label="职务/身份" prop="position">
-                  <a-input v-model="form.position" />
-                </a-form-model-item>
-                <a-form-item label="个人简介" prop="intro">
-                  <a-textarea v-model="form.intro" placeholder :rows="4" />
-                </a-form-item>
-                <a-form-model-item :wrapper-col="{ span: 14, offset: 10 }">
-                  <a-button type="primary" @click="onSubmit"> 保存 </a-button>
-                </a-form-model-item>
-              </a-form-model>
+              <div v-if="isFirst">
+                <div>
+                  <a-button
+                    style="float: right;margin-top:-40px;position: relative;"
+                    type="default"
+                    @click="changePageTwo"
+                    >管理工作经历<a-icon type="right-square"
+                  /></a-button>
+                </div>
+                <a-form-model
+                  ref="ruleForm"
+                  :model="form"
+                  :rules="rules"
+                  :label-col="labelCol"
+                  :wrapper-col="wrapperCol"
+                  style="margin-top:40px"
+                >
+                  <a-form-model-item label="学者姓名" prop="scholarname">
+                    <a-input v-model="form.scholarname" />
+                  </a-form-model-item>
+                  <a-form-model-item label="组织/机构" prop="institution">
+                    <a-input v-model="form.institution" />
+                  </a-form-model-item>
+                  <a-form-model-item label="职务/身份" prop="position">
+                    <a-input v-model="form.position" />
+                  </a-form-model-item>
+                  <a-form-item label="个人简介" prop="intro">
+                    <a-textarea v-model="form.intro" placeholder :rows="4" />
+                  </a-form-item>
+                  <a-form-model-item :wrapper-col="{ span: 14, offset: 10 }">
+                    <a-button type="primary" @click="onSubmit"> 保存 </a-button>
+                  </a-form-model-item>
+                </a-form-model>
+              </div>
+
+              <div v-else>
+                <a-button type="default" @click="changePageTwo"><a-icon type="left-square" />管理基本信息</a-button>
+                <a-table
+                  :pagination="Bpagination"
+                  style="margin-top:20px"
+                  :columns="columns"
+                  :data-source="workExperience"
+                >
+                  <a slot="yearStart" slot-scope="text">{{ text }}</a>
+                  <a slot="yearEnd" slot-scope="text">{{ text }}</a>
+                  <a slot="organization" slot-scope="text">{{ text }}</a>
+                  <a slot="introduction" slot-scope="text">{{ text }}</a>
+                  <span slot="action" slot-scope="text, record">
+                    <a @click="deleteWorkExp(record)">删除</a>
+                  </span>
+                </a-table>
+              </div>
             </a-modal>
           </div>
           <div class="pop-modal">
@@ -108,6 +145,7 @@
               title="添加个人经历"
               :visible="visible"
               @ok="handleOk"
+              width="600px"
               @cancel="handleCancel"
               cancelText="取消"
               okText="提交"
@@ -203,42 +241,54 @@ import navSearch from "@/components/navSearch";
 import scholarPaper from "@/components/scholarPaper.vue";
 import scholarProject from "@/components/scholarProject.vue";
 import scholarPatent from "@/components/scholarPatent.vue";
-const data = [
+import uploadPhoto from "@/components/scholarUploadPhoto";
+
+const columns = [
   {
-    title: "成果 1",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    title: "起始年份",
+    dataIndex: "yearStart",
+    key: "yearStart",
+    width: 60,
   },
   {
-    title: "成果 2",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    title: "终止年份",
+    dataIndex: "yearEnd",
+    key: "yearEnd",
+    width: 60,
   },
   {
-    title: "成果 3",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    title: "组织/机构",
+    dataIndex: "organization",
+    key: "organization",
+    width: 100,
+    ellipsis: true,
   },
   {
-    title: "成果 4",
-    description: "学术成果的摘要可以放在这里",
-    src:
-      "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1606019232343&di=3fae55827adac999ab7f744d5e8caf7f&imgtype=0&src=http%3A%2F%2Fku.90sjimg.com%2Felement_origin_min_pic%2F00%2F33%2F94%2F9256d3d2d8b0fae.jpg",
+    title: "职务/身份",
+    dataIndex: "introduction",
+    key: "introduction",
+    width: 100,
+    ellipsis: true,
+  },
+  {
+    title: "操作",
+    key: "action",
+    width: 60,
+    scopedSlots: { customRender: "action" },
   },
 ];
+
 export default {
   components: {
     navSearch,
     scholarPaper,
     scholarProject,
     scholarPatent,
+    uploadPhoto,
   },
   data() {
     return {
-      data,
+      columns,
       editInfoVisi: false,
       manageVisible: false,
       visible: false,
@@ -269,6 +319,12 @@ export default {
         endyear: null,
       },
       Upagination: {
+        onChange: (page) => {
+          console.log(page);
+        },
+        pageSize: 5,
+      },
+      Bpagination: {
         onChange: (page) => {
           console.log(page);
         },
@@ -305,6 +361,7 @@ export default {
       patentTotal: 2,
       projectList: [],
       projectTotal: 3,
+      isFirst: Boolean,
       seriData: [
         { value: 0, name: "项目" },
         { value: 0, name: "专利" },
@@ -323,6 +380,9 @@ export default {
     this.seriData[2].value = this.paperTotal;
   },
   methods: {
+    changePageTwo() {
+      this.isFirst = !this.isFirst;
+    },
     changePage() {
       this.isDelete = !this.isDelete;
       if (this.isDelete) {
@@ -633,18 +693,18 @@ export default {
     },
 
     //删除学者工作经历
-    deleteWorkExp() {
+    deleteWorkExp(item) {
       let url = this.$urlPath.website.deleteWorkExp;
       let params = {
         scholarId: this.scholarid,
-        introduction: this.crtexperience.position,
-        organization: this.crtexperience.organization,
-        yearStart: this.crtexperience.startyear,
-        yearEnd: this.crtexperience.endyear,
+        introduction: item.introduction,
+        organization: item.organization,
+        yearStart: item.yearStart,
+        yearEnd: item.yearEnd,
       };
       JSON.stringify(params);
       console.log(params);
-      postData(url, params).then((res) => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");

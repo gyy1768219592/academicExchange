@@ -97,7 +97,7 @@ let path = {
     getCollectPatent: Ip.productIP + "/scholarship/staredPatent",
     getCollectProject: Ip.productIP + "/scholarship/staredProject",
     delCollect: Ip.productIP + "/scholarship/starStatus",
-
+    //学者
     getInfoByUser: Ip.productIP + "scholar/info",
     editScholarInfo: Ip.productIP + "scholar/infoUpdate",
     claimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
@@ -107,6 +107,7 @@ let path = {
     deleteWorkExp: Ip.productIP + "scholar/workExperience",
     getAuthorInfo: Ip.productIP + "scholar/dataScholar",
     getInfoByTourist: Ip.productIP + "scholar/tourist/info",
+    scholarAvatar: Ip.productIP + "scholar/avatar",
   },
 };
 export default path;

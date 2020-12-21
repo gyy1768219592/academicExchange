@@ -5,7 +5,10 @@
       <div class="up-block">
         <div class="user-info">
           <div class="avatar">
-            <a-avatar class="img" :size="100" icon="user" />
+            <a-avatar v-if="scholar.avatarUrl != ''" :src="scholar.avatarUrl" :size="100" />
+            <a-avatar v-else :size="100" :style="'backgroundColor: #c85554;font-size:26px'">{{
+              scholar.name.substring(0, 3)
+            }}</a-avatar>
             <h1 class="info-content-name">{{ scholar.name }}</h1>
             <h4 class="info-content-ins">{{ scholar.organization }}</h4>
             <ul class="index-table">
