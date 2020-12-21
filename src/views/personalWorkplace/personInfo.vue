@@ -213,6 +213,11 @@ export default {
     };
   },
   methods: {
+    isScholar() {
+      console.log(localStorage.getItem("shcolarId")===undefined);
+      console.log(localStorage.getItem("shcolarId")===undefined ? false:true);
+      return localStorage.getItem("shcolarId")===undefined ? false:true;
+    },
     setModalVisible(modalVisible) {
       this.modalVisible = modalVisible;
       console.log(this.info.email.match(/@\S+edu/));
@@ -247,24 +252,12 @@ export default {
       let url = this.$urlPath.website.toBeScholar;
       postData(url, params).then(res => {
         if(res.code === 1001) {
-          this.$message.success({
-            message: '请求成功',
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.success("请求成功");
         } else if(res.code === 1002) {
-          this.$message.success({
-            message: '认证成功,稍后为您跳转到认领门户界面',
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.success("认证成功,稍后为您跳转到认领门户界面");
           this.toClaimScholar();
         } else {
-          this.$message.error({
-            message: '这个邮箱被用过了',
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.error("这个邮箱被用过了");
         }
       });
     },
@@ -298,10 +291,8 @@ export default {
       }*/
     },
     closeEmail() {
-      let res = this.$refs.chooseE.getChoose();
+      //let res = this.$refs.chooseE.getChoose();
       this.showEmail = !this.showEmail;
-      console.log(res);
-      if (res.email != "") this.changeEmail();
     },
     getInfo() {
       let params = new URLSearchParams();
@@ -316,11 +307,7 @@ export default {
           this.info.userid = res.data.uid;
           this.info.password = "●●●●●●";
         } else {
-          this.$message.error({
-            message: "抱歉，获取用户信息失败",
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.error("抱歉，获取用户信息失败");
         }
       });
     },
@@ -343,6 +330,13 @@ export default {
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "scholarIdentify" });
+  },
+  mounted() {
+    window.addEventListener('setItem', (e) => {
+      if(e.key === 'scholarId') {
+        this.info.isScholar = true;
+      }
+    });
   }
 };
 </script>
