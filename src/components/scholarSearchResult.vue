@@ -327,6 +327,7 @@ export default {
       this.isok2 = false;
       if (this.wordKW == "") {
         this.total2 = 0;
+        this.dataScholarList = [];
         this.total = this.total1 + this.total2;
         this.isok2 = true;
       } else {
@@ -352,6 +353,7 @@ export default {
     searchScholar() {
       this.isok1 = false;
       if (this.wordKW == "") {
+        this.scholarList = [];
         this.total1 = 0;
         this.total = this.total1 + this.total2;
         this.isok1 = true;

@@ -127,7 +127,6 @@ export default {
     logout() {
       this.isLogin = false;
       localStorage.removeItem("token");
-      localStorage.removeItem("aaa");
       localStorage.removeItem("identification");
       localStorage.removeItem("avatarUrl");
       localStorage.removeItem("scholarId");
@@ -166,7 +165,7 @@ export default {
       this.isLogin = true;
       this.avatar = localStorage.getItem("avatarUrl");
     }
-    if (localStorage.getItem("identification") == 2){
+    if (localStorage.getItem("identification") == 2) {
       this.isManager = true;
     }
   },
