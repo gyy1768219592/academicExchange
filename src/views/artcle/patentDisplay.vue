@@ -1,7 +1,7 @@
 <template>
   <div>
     <navSearch></navSearch>
-    <div class="main-block">
+    <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
             <div class="refer-num">
@@ -16,7 +16,12 @@
                   <a-list-item slot="renderItem" slot-scope="item">
                       <div class="inventor">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                          <a-avatar class="img" :size="30" icon="user" />
+                          <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                          <a-avatar
+                            :size="30"
+                            :style="'backgroundColor: #B22222'"
+                            >{{ item.substring(0, 1)  }}
+                          </a-avatar>
                           <h1 class="inventor-name">{{ item }}</h1>
                         </a>
                       </div>
@@ -24,9 +29,9 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling"><a-icon type="heart" :theme="haveRen?'outlined':'filled'"/>{{renlingchar}}</a-button>
-              <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
-              <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
+              <a-button class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+              <a-button class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+              <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
             </div>
             <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
             <div v-if="patentData.mainClassificationNumber!=''" class="date">
@@ -42,7 +47,7 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="专利内容" force-render>
             <div class="base-info">
-              <a-icon v-if="patentData.abstract!=''" type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="patentData.abstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="patentData.abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
@@ -50,7 +55,7 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon v-if="patentData.content!=''" type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="patentData.content!=''" type="branches" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="patentData.content!=''" title="专利内容" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Content-frame">
@@ -64,7 +69,7 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="专利信息">
-            <a-icon type="file-protect" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="file-protect" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="申请信息" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -77,7 +82,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-icon type="solution" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="solution" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="代理与权利人" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -90,7 +95,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-icon type="deployment-unit" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="deployment-unit" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="公布信息" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -100,7 +105,7 @@
                 </div>
               </a-descriptions-item>
             </a-descriptions>
-            <a-icon type="environment" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="environment" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="地址" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="source-frame">
@@ -113,7 +118,7 @@
             </a-descriptions>
           </a-tab-pane>
           <!-- <a-tab-pane key="3" tab="推荐专利" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '20px', color: ' #B22222'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
@@ -150,6 +155,7 @@ export default {
   },
   data() {
     return {
+      isLegal:true,
       visible:false,
       type: 'patent',
       Like: false,
@@ -341,6 +347,10 @@ export default {
       let url = this.$urlPath.website.getPatentById + this.patentID;
       getData(url, params).then(res => {
         if (res.code === 1001) {
+          if(res.data.patent==null){
+            this.isLegal = false;
+            return;
+          }
           this.patentData = res.data.patent;
           this.author_data = res.data.patent.inventor.split(";");
           console.log(res.data.patent);

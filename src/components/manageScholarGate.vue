@@ -25,23 +25,52 @@
                     :key="key"
                   >
                     <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #B22222'"
+                        >{{ item.name.substring(0, 3)  }}
+                      </a-avatar>
                     </div>
                     <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                      ><br />
-                      <span>
-                        <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
+                      <div
+                        v-if="
+                          item.Institution != '' && item.Institution != null
+                        "
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.Institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="论文数"
+                          :value="item.paperCount == null ? 0 : item.paperCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="被引量"
+                          :value="
+                            item.citationCount == null ? 0 : item.citationCount
+                          "
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 42px">
@@ -69,23 +98,52 @@
                   :key="key"
                 >
                   <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                    <a-avatar :size="80" :src="item.src" />
+                    <a-avatar
+                      :size="80"
+                      :style="'backgroundColor: #B22222'"
+                      >{{ item.name.substring(0, 3)  }}
+                    </a-avatar>
                   </div>
                   <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
-                    ><br />
-                    <span>{{ item.institution }}</span
-                    ><br />
-                    <span>
-                      <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                    ><br />
-                    <span
-                      ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                    ><br />
-                    <span>
-                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
+                    <div
+                      v-if="
+                        item.Institution != '' && item.Institution != null
+                      "
+                      style="
+                        height: 30px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                      "
+                    >
+                      {{ item.Institution }}
+                    </div>
+                    <div v-else style="height: 30px">暂无科研机构数据</div>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="result-scholar-number"
+                        title="论文数"
+                        :value="item.paperCount == null ? 0 : item.paperCount"
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="result-scholar-number"
+                        title="被引量"
+                        :value="
+                          item.citationCount == null ? 0 : item.citationCount
+                        "
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
                   </div>
                 </a-card-grid>
               </a-card>
@@ -103,23 +161,52 @@
                   :key="key"
                 >
                   <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
-                    <a-avatar :size="80" :src="item.src" />
+                    <a-avatar
+                      :size="80"
+                      :style="'backgroundColor: #B22222'"
+                      >{{ item.name.substring(0, 3)  }}
+                    </a-avatar>
                   </div>
                   <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
-                    ><br />
-                    <span>{{ item.institution }}</span
-                    ><br />
-                    <span>
-                      <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                    ><br />
-                    <span
-                      ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                    ><br />
-                    <span>
-                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
+                    <div
+                      v-if="
+                        item.Institution != '' && item.Institution != null
+                      "
+                      style="
+                        height: 30px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                      "
+                    >
+                      {{ item.Institution }}
+                    </div>
+                    <div v-else style="height: 30px">暂无科研机构数据</div>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="result-scholar-number"
+                        title="论文数"
+                        :value="item.paperCount == null ? 0 : item.paperCount"
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="result-scholar-number"
+                        title="被引量"
+                        :value="
+                          item.citationCount == null ? 0 : item.citationCount
+                        "
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
                   </div>
                   <div class="card-button" @click="deleteScholar(key,item)">
                     <p style="margin-top: 42px">
@@ -159,23 +246,52 @@
                     :key="key"
                   >
                     <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #B22222'"
+                        >{{ item.name.substring(0, 3)  }}
+                      </a-avatar>
                     </div>
                     <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                      ><br />
-                      <span>
-                        <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
+                      <div
+                        v-if="
+                          item.Institution != '' && item.Institution != null
+                        "
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.Institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="论文数"
+                          :value="item.paperCount == null ? 0 : item.paperCount"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="result-scholar-number"
+                          title="被引量"
+                          :value="
+                            item.citationCount == null ? 0 : item.citationCount
+                          "
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button" @click="addScholar(key,item)">
                       <p style="margin-top: 42px">
@@ -266,7 +382,7 @@ export default {
               AuthorId: res.data.dataScholars[i].authorId,
               name: res.data.dataScholars[i].displayName,
               src: /*res.data[i].avatarUrl!=null?res.data[i].avatarUrl:*/"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-              institution: res.data.dataScholars[i].institution!=null?res.data[i].institution:"暂时没有机构",
+              institution: res.data.institution[i]!=null?res.data.institution[i]:"暂时没有机构",
               paper: res.data.dataScholars[i].paperCount,
               citation: res.data.dataScholars[i].citationCount,
               Hindex: res.data.dataScholars[i].hindex,
@@ -334,6 +450,11 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       params.append("ScholarName", "");
       params.append("ScholarId", value);
@@ -367,6 +488,11 @@ export default {
       });
     },
     onSearch2(value) {//查找之后要结果
+      if (isNaN(Number(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       // params.append("value", value);
       //调用封装的putData函数，获取服务器返回值 
@@ -503,7 +629,7 @@ export default {
 .home-search-on {
   border-radius: 10px;
   margin: 20px auto;
-  border: solid 2px #1890ff;
+  border: solid 2px #B22222;
   width: 100%;
   height: 50px;
 }
@@ -569,7 +695,7 @@ export default {
   float: left;
   margin: 12px 0 8px 50px;
   border-radius: 10px;
-  border: solid 2px #1890ff;
+  border: solid 2px #B22222;
   width: 400px;
 }
 .topNav-searchBox {
@@ -586,6 +712,9 @@ export default {
 }
 .topNav-searchButton:focus {
   border-right: 2px solid #e3e3e3;
+}
+.result-scholar-number {
+  display: inline-block;
 }
 
 </style>

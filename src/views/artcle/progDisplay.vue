@@ -1,7 +1,7 @@
 <template>
   <div>
     <navSearch></navSearch>
-    <div class="main-block">
+    <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
             <div v-if="progData.supportTypeName!=''||progData.fundProjectCode!=''" class="refer-num">
@@ -18,7 +18,12 @@
                   <a-list-item slot="renderItem" slot-scope="item">
                       <div class="author">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                          <a-avatar class="img" :size="30" icon="user" />
+                          <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                          <a-avatar
+                            :size="30"
+                            :style="'backgroundColor: #B22222'"
+                            >{{ item.substring(0, 1)  }}
+                          </a-avatar>
                           <h1 class="author-name">{{ item }}</h1>
                         </a>
                       </div>
@@ -26,9 +31,9 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button class="btn" @click="renling"><a-icon type="heart" :theme="haveRen?'outlined':'filled'"/>{{renlingchar}}</a-button>
-              <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
-              <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
+              <a-button class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+              <a-button class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+              <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
             </div>
             <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="progID"></appeal-achievement>
             <div v-if="progData.organization!=''||progData.organizationID!=''" class="date">
@@ -44,7 +49,7 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon v-if="progData.zhAbstract!=''" type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.zhAbstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.zhAbstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
@@ -52,7 +57,7 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.zhKeyword!=''" title="关键词" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Keyword-frame">
@@ -60,7 +65,7 @@
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
-              <a-icon v-if="progData.journal!=''" type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.journal!=''" type="paper-clip" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.journal!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="source-frame">
@@ -68,7 +73,7 @@
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
-              <a-icon v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" type="branches" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" title="相关信息" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div v-if="progData.fundProjectNo!=''" class="source-frame">
@@ -97,7 +102,7 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
-            <a-icon type="share-alt" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
@@ -108,7 +113,7 @@
             </a-descriptions>
           </a-tab-pane>
           <!-- <a-tab-pane key="3" tab="推荐项目" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '20px', color: ' #B22222'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
@@ -144,6 +149,7 @@ export default {
   },
   data() {
     return {
+      isLegal:true,
       visible:false,
       type: 'project',
       Like: false,
@@ -184,6 +190,10 @@ export default {
       console.log(url);
       getData(url, params).then(res => {
         if (res.code === 1001) {
+          if(res.data.project==null){
+            this.isLegal=false;
+            return;
+          }
           this.progData = res.data.project;
           if(this.progData.doi[0]=='h'){
             this.progData.doiUrl = this.progData.doi.substring(16,this.progData.doi.length+1);
@@ -192,7 +202,7 @@ export default {
             this.progData.doiUrl = this.progData.doi;
             this.progData.doi = "https://doi.org/" + this.progData.doi;
           }
-          this.author_data = this.progData.authors.split(";");
+          this.author_data = this.progData.authors.split(/\s*;\s*/);
           console.log(res.data.project);
           console.log(this.author_data);
           //this.$message.success(res.message);

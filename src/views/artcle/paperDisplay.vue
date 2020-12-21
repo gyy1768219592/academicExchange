@@ -1,7 +1,7 @@
 <template>
   <div>
     <navSearch></navSearch>
-    <div class="main-block">
+    <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
           <div class="refer-num">
@@ -19,30 +19,40 @@
                       <div class="author">
                         <a-dropdown>
                           <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar class="img" :size="30" icon="user" />
+                            <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                            <a-avatar
+                              :size="30"
+                              :style="'backgroundColor: #B22222'"
+                              >{{ item.name.substring(0, 1)  }}
+                            </a-avatar>
                             <h1 class="author-name">{{ item.name }}</h1>
                           </a>
-                          <a-menu slot="overlay">
+                          <a-menu slot="overlay" class="author-menu">
                             <a-menu-item>
                               <div class="author" @click="gotoUser(item.scholarId,item.authorId)">
-                                <a-avatar class="img" :size="30" icon="user" />
+                                <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                                <a-avatar
+                                  :size="30"
+                                  :style="'backgroundColor: #B22222'"
+                                  >{{ item.name.substring(0, 1)  }}
+                                </a-avatar>
                                 <h1 class="author-name2">{{ item.name }}</h1>
                               </div>
                             </a-menu-item>
-                            <a-menu-item>
+                            <a-menu-item class="authors-down">
                               <div class="author-infor">
-                                <div class="author-infor-item">
+                                <div class="author-infor-item1">
                                   <span class="author-infor-item_cnt">{{ item.paperCount }}</span> 
                                   <span class="author-infor-item_cnt">论文</span>
                                 </div>
-                                <div class="author-infor-item">
+                                <div class="author-infor-item2">
                                   <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
                                   <span class="author-infor-item_cnt">被引</span>
                                 </div>
-                                <div class="author-infor-item">
+                                <!-- <div class="author-infor-item">
                                   <span class="author-infor-item_cnt">{{ item.HIndex }}</span> 
                                   <span class="author-infor-item_cnt">H指数</span>
-                                </div>
+                                </div> -->
                               </div>
                             </a-menu-item>
                           </a-menu>
@@ -52,8 +62,8 @@
               </a-list>
           </div>
           <div class="actions">
-            <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
-            <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
+            <a-button class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+            <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
           </div>
           <div v-if="date!=''" class="date">
             <span class="date-num">发表时间： {{date}}</span>
@@ -68,7 +78,7 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon v-if="Abstract!=''" type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="Abstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="Abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
@@ -76,7 +86,7 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" type="paper-clip" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="source-frame">
@@ -96,7 +106,7 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
-            <a-icon type="share-alt" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
@@ -107,7 +117,7 @@
             </a-descriptions>
           </a-tab-pane>
           <!-- <a-tab-pane key="3" tab="推荐文献" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '20px', color: ' #B22222'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
@@ -121,7 +131,7 @@
           </a-tabs>
         </div>
         <div class="down-right-block">
-          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
+          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: ' #B22222'}"/>
           <span class = "title-echart">引用走势</span> -->
           <!-- <div class="echarts-infor-frame">
             <div class="echarts-infor">
@@ -158,6 +168,7 @@ export default {
   },
   data() {
     return {
+      isLegal:true,
       Like: false,
       LikeDisplay:"收藏",
       paperID: this.$route.params.id,
@@ -405,6 +416,11 @@ export default {
       console.log(url);
       getData(url, params).then(res => {
         if (res.code === 1001) {
+          if(res.data.paper==null){
+            this.isLegal=false;
+            this.$message.error("不存在该学术成果！");
+            return;
+          }
           // this.progData = res.data.project;
           // this.author_data = this.progData.authors.split("; ");
           console.log(res.data);
@@ -592,6 +608,9 @@ export default {
   margin: 5px;
   /*border: solid 1px black;*/
 }
+.author-menu{
+  width: 170px;
+}
 .author-name {
   /* width: 95px; */
   /*border: solid 1px black; */
@@ -600,7 +619,7 @@ export default {
   font-size: medium;
 }
 .author-name2 {
-  width: 120px;
+  width: 100px;
   /*border: solid 1px black; */
   white-space: nowrap;
   overflow: hidden;
@@ -669,21 +688,36 @@ export default {
   margin: 0px 0px 0px 0px;
 }
 .author-infor {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin: 12px 0px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin: 12px 0px;
+  /* border-bottom: 1px solid rgb(239, 239, 239); */
 }
-.author-infor-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.author-infor-item1 {
+  width: 52%;
+  border-right: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.author-infor-item2 {
+  width: 52%;
+  border-left: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .author-infor-item_cnt {
-    color: #999;
-    font-size: 14px;
+  color: #999;
+  font-size: 14px;
+}
+.authors-down{
+  /* height: 50px; */
+  border-top: 1px solid rgb(239, 239, 239);
 }
 
 /* .echarts-infor-frame{

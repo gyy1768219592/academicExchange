@@ -45,10 +45,21 @@ export default {
       word: this.$route.query.word,
     };
   },
+  mounted(){
+    this.checkKey();
+  },
   methods: {
     good() {
       alert(1);
     },
+    checkKey(){
+      if(localStorage.getItem("identification")<2){
+        this.$message.error("没有权限！");
+        this.$router.push({
+          path: "/"
+        });
+      }
+    }
   },
 };
 </script>
@@ -78,7 +89,7 @@ export default {
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
   border-color: #d9d9d9;
-  background: #1890ff;
+  background: #B22222;
   color: #fff;
 }
 </style>
