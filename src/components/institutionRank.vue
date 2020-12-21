@@ -172,7 +172,7 @@ export default {
         grid: {
           top: "5%",
           right: "0%",
-          left: "10%",
+          left: "9.2%",
           bottom: "17.5%",
         },
         tooltip: {
@@ -373,7 +373,7 @@ export default {
 .irank-main .ant-tabs-left-bar .ant-tabs-nav .ant-tabs-tab-active {
   padding-left: 23px;
   border: solid 1px #d5d5d5;
-  border-left: solid 2px #DC143C;
+  border-left: solid 2px #dc143c;
   padding-top: 0;
   padding-bottom: 0;
   height: 50px;
