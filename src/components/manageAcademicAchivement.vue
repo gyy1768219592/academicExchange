@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="manager2-result-main-scholar">
+    <div class="main">
       <div class="manager2-content">
         <div class = "left-block2">
           <div v-bind:class="isSelected3 ? 'manager2-search-on' : 'manager2-search'">
@@ -634,17 +634,21 @@ export default {
 .left-block2{
   width: 33%;
   height: 1350px;
+  border-right: 1px solid rgb(239, 239, 239);
   border: solid 1px white;
 }
 .middle-block2{
   width: 34%;
   height: 1350px;
   border: solid 1px white;
+  border-right: 1px solid rgb(239, 239, 239);
+  border-left: 1px solid rgb(239, 239, 239);
   margin: -1350px 0px 0px 33%;
 }
 .right-block2{
   width: 33%;
   height: 1350px;
+  border-left: 1px solid rgb(239, 239, 239);
   margin: -1350px 0px 0px 67%;
   border: solid 1px white;
 }
@@ -657,7 +661,9 @@ export default {
 .manager2-result-list-scholar .card-list {
   /* border: solid 1px black; */
   width: 90%;
+  height: 1100px;
   margin: 20px auto;
+  overflow-y: auto;
 }
 .manager2-result-list-scholar .card-list .card-avatar {
   float: left;
@@ -846,5 +852,4 @@ small-card-list{
 .manager2-result-scholar-number {
   display: inline-block;
 }
-
 </style>
