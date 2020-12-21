@@ -1,7 +1,7 @@
 <template>
   <div>
     <navSearch></navSearch>
-    <div class="main-block">
+    <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
           <div class="refer-num">
@@ -19,30 +19,40 @@
                       <div class="author">
                         <a-dropdown>
                           <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar class="img" :size="30" icon="user" />
+                            <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                            <a-avatar
+                              :size="30"
+                              :style="'backgroundColor: #B22222'"
+                              >{{ item.name.substring(0, 1)  }}
+                            </a-avatar>
                             <h1 class="author-name">{{ item.name }}</h1>
                           </a>
-                          <a-menu slot="overlay">
+                          <a-menu slot="overlay" class="author-menu">
                             <a-menu-item>
                               <div class="author" @click="gotoUser(item.scholarId,item.authorId)">
-                                <a-avatar class="img" :size="30" icon="user" />
+                                <!-- <a-avatar class="img" :size="30" icon="user" /> -->
+                                <a-avatar
+                                  :size="30"
+                                  :style="'backgroundColor: #B22222'"
+                                  >{{ item.name.substring(0, 1)  }}
+                                </a-avatar>
                                 <h1 class="author-name2">{{ item.name }}</h1>
                               </div>
                             </a-menu-item>
-                            <a-menu-item>
+                            <a-menu-item class="authors-down">
                               <div class="author-infor">
-                                <div class="author-infor-item">
+                                <div class="author-infor-item1">
                                   <span class="author-infor-item_cnt">{{ item.paperCount }}</span> 
                                   <span class="author-infor-item_cnt">论文</span>
                                 </div>
-                                <div class="author-infor-item">
+                                <div class="author-infor-item2">
                                   <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
                                   <span class="author-infor-item_cnt">被引</span>
                                 </div>
-                                <div class="author-infor-item">
+                                <!-- <div class="author-infor-item">
                                   <span class="author-infor-item_cnt">{{ item.HIndex }}</span> 
                                   <span class="author-infor-item_cnt">H指数</span>
-                                </div>
+                                </div> -->
                               </div>
                             </a-menu-item>
                           </a-menu>
@@ -52,13 +62,13 @@
               </a-list>
           </div>
           <div class="actions">
-            <a-button class="btn" @click="shoucang"><a-icon type="star" :theme="Like?'filled':'outlined'"/>{{LikeDisplay}}</a-button>
-            <a-button class="btn" type="primary" @click="fenxiang"><a-icon type="fire" theme="filled"/>分享</a-button>
+            <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+            <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
           </div>
-          <div class="date">
+          <div v-if="date!=''" class="date">
             <span class="date-num">发表时间： {{date}}</span>
           </div>
-          <div class="DOI-frame">
+          <div v-if="DOI!=''" class="DOI-frame">
             <span class="DOI" >DOI号：{{DOI}}</span>
           </div>
         </div>
@@ -68,16 +78,16 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="摘要" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="Abstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions v-if="Abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
                     <span class="Abstract" >{{Abstract}}</span>
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
-              <a-descriptions title="发表位置" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" type="paper-clip" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="source-frame">
                     <!-- <span class="source" >《{{Journal}}》-{{Volume}}卷-{{Issue}}期-{{FirstPage}}-{{LastPage}}</span> -->
@@ -90,10 +100,13 @@
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
+              <div v-if="Abstract==''&&Journal==''&&Conference==''&&Volume==''&&Issue==''&&FirstPage==''&&LastPage==''" class="Abstract-frame">
+                <span class="Abstract" >无数据</span>
+              </div>
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
-            <a-icon type="share-alt" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
@@ -103,22 +116,10 @@
               </a-descriptions-item>
             </a-descriptions>
           </a-tab-pane>
-          <!-- <a-tab-pane key="3" tab="推荐文献" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
-            <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
-                  <span class="yinyong" onclick="oCopy(this)">
-                    {{yinyong}}
-                  </span>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-tab-pane> -->
           </a-tabs>
         </div>
         <div class="down-right-block">
-          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
+          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: ' #B22222'}"/>
           <span class = "title-echart">引用走势</span> -->
           <!-- <div class="echarts-infor-frame">
             <div class="echarts-infor">
@@ -155,6 +156,8 @@ export default {
   },
   data() {
     return {
+      isLogin:false,
+      isLegal:true,
       Like: false,
       LikeDisplay:"收藏",
       paperID: this.$route.params.id,
@@ -187,7 +190,10 @@ export default {
   mounted(){
     // this.initCharts();
     this.getPaper();
-    this.getLikeStatus();
+    if(localStorage.getItem("identification")>0){
+      this.isLogin = true;
+      this.getLikeStatus();
+    }
   },
   methods: {
     // initCharts () {
@@ -314,10 +320,16 @@ export default {
     gotoUser(scholarId,authorId){
       //去此人的主页
       if(scholarId==-1){
-        this.$router.push("/authorIndex/" + authorId);
+        this.$router.push({
+          path: "/authorIndex",
+          query: { authorid: authorId },
+        });
       }
       else if(authorId == -1){
-        this.$router.push("/scholarIndex/" + scholarId);
+        this.$router.push({
+          path: "/scholarIndex",
+          query: { scholarid: scholarId },
+        });
       }
     },
     getLikeStatus(){
@@ -396,6 +408,11 @@ export default {
       console.log(url);
       getData(url, params).then(res => {
         if (res.code === 1001) {
+          if(res.data.paper==null){
+            this.isLegal=false;
+            this.$message.error("不存在该学术成果！");
+            return;
+          }
           // this.progData = res.data.project;
           // this.author_data = this.progData.authors.split("; ");
           console.log(res.data);
@@ -411,11 +428,11 @@ export default {
           this.Issue = res.data.paper.issue;
           this.FirstPage = res.data.paper.firstPage;
           this.LastPage = res.data.paper.lastPage;
-          this.SourceUrl = res.data.paper.sourceUrl==""?"https://doi.org/" + this.DOI:res.data.paper.sourceUrl;
+          this.SourceUrl = res.data.paper.sourceUrl==""?(this.DOI==""?"":"https://doi.org/" + this.DOI):res.data.paper.sourceUrl;
           var qiege = this.PaperTitle.length;
+          var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
           for(var k = this.PaperTitle.length; k >= 0; k --){
-            console.log(this.PaperTitle[k]);
-            var reg = new RegExp("[\\u4E00-\\u9FFF]+","g");
+            // console.log(this.PaperTitle[k]);
             if(reg.test(this.PaperTitle[k])){
               qiege = k+1;
               break;
@@ -425,10 +442,16 @@ export default {
             this.EngTitie = "";
           }
           else if(qiege != this.PaperTitle.length){
-            this.EngTitie = this.PaperTitle.substring(qiege+1,this.PaperTitle.length+1);
-            var tempstr = this.PaperTitle.substring(qiege,qiege+1).toUpperCase();
+            this.EngTitie = this.PaperTitle.substring(qiege+2,this.PaperTitle.length+1);
+            var tempstr = this.PaperTitle.substring(qiege+1,qiege+2).toUpperCase();
+            // console.log("tempstr"+tempstr);
             this.EngTitie = tempstr + this.EngTitie;
             this.PaperTitle = this.PaperTitle.substring(0,qiege);
+            if(this.PaperTitle[0]>='a'&&this.PaperTitle[0]<='z'){
+              var tempstr2 = this.PaperTitle.substring(0,1).toUpperCase();
+              this.PaperTitle = this.PaperTitle.substring(1,this.PaperTitle.length);
+              this.PaperTitle = tempstr2 + this.PaperTitle;
+            }
           }
           else{
             this.EngTitie = "";
@@ -577,6 +600,9 @@ export default {
   margin: 5px;
   /*border: solid 1px black;*/
 }
+.author-menu{
+  width: 170px;
+}
 .author-name {
   /* width: 95px; */
   /*border: solid 1px black; */
@@ -585,7 +611,7 @@ export default {
   font-size: medium;
 }
 .author-name2 {
-  width: 120px;
+  width: 100px;
   /*border: solid 1px black; */
   white-space: nowrap;
   overflow: hidden;
@@ -627,12 +653,12 @@ export default {
 .DOI-frame{
   width: 700px;
   /* border: solid 1px black; */
-  margin: -25px 0px 0px 750px;
+  margin: -25px 0px 0px 600px;
 }
 .DOI{
   width: 600px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
   height: 30px;
   /* font-size: medium; */
 }
@@ -651,24 +677,39 @@ export default {
 .url-frame{
   width: 700px;
   /* border: solid 1px black; */
-  margin: 0px 0px 0px 20px;
+  margin: 0px 0px 0px 0px;
 }
 .author-infor {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    margin: 12px 0px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin: 12px 0px;
+  /* border-bottom: 1px solid rgb(239, 239, 239); */
 }
-.author-infor-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+.author-infor-item1 {
+  width: 52%;
+  border-right: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.author-infor-item2 {
+  width: 52%;
+  border-left: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .author-infor-item_cnt {
-    color: #999;
-    font-size: 14px;
+  color: #999;
+  font-size: 14px;
+}
+.authors-down{
+  /* height: 50px; */
+  border-top: 1px solid rgb(239, 239, 239);
 }
 
 /* .echarts-infor-frame{

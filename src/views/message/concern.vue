@@ -1,7 +1,6 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <Sider-nav></Sider-nav>
     <h2 style="margin-left: 250px;margin-top:1%">我的关注</h2>
     <a-list item-layout="horizontal" pagination = true :data-source="info">
       <a-list-item slot="renderItem" slot-scope="item, index" :key="item.ScholarId">
@@ -23,8 +22,7 @@
 import { getData } from "@/api/webget";
 import { deleteData } from "@/api/webdelete";
 //import { putData } from "@/api/webput";
-import Nav from "../../components/nav.vue";
-import SiderNav from "../../components/siderNav.vue";
+import Nav from "../../components//navSearch.vue";
 
 export default {
   inject: ['reload'],
@@ -35,7 +33,7 @@ export default {
   },
   components: {
     Nav,
-    SiderNav
+
   },
   mounted() {
     this.getConcern();
@@ -44,7 +42,7 @@ export default {
    getConcern() {
       var _this = this;
       let url = _this.$urlPath.website.getConcern;
-      getData(url+"/15",null).then(res => {
+      getData(url+"/",null).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
           _this.info = res.data
@@ -59,7 +57,7 @@ export default {
     delConcern(ScholarId) {
       var _this = this;
       let url = _this.$urlPath.website.delConcern;
-      deleteData(url+"/15/"+ScholarId,null).then(res => {
+      deleteData(url+"/"+ScholarId,null).then(res => {
         console.log(res.data);
         this.reload();
       });

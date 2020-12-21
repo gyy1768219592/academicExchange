@@ -125,7 +125,8 @@ export default {
   },
   methods: {
     toProject(id) {
-      this.$router.push("/progDisplay/" + id);
+      let url = this.$router.resolve("/progDisplay/" + id);
+      window.open(url.href, "_blank");
     },
     changeSortOption(value) {
       this.sortOption = value;

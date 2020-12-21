@@ -1,29 +1,29 @@
 <template>
   <div>
-    <div class="result-main-scholar">
-      <div class="home-content">
-        <div class = "left-block">
-          <div v-bind:class="isSelected3 ? 'home-search-on' : 'home-search'">
+    <div class="manager2-result-main-scholar">
+      <div class="manager2-content">
+        <div class = "left-block2">
+          <div v-bind:class="isSelected3 ? 'manager2-search-on' : 'manager2-search'">
             <a-input-search
-              class="home-searchBox3"
+              class="manager2-searchBox3"
               placeholder="通过ID搜索学术成果"
               @search="onSearch3"
               @focus="selected3"
               @blur="undoSelected3"
             />
           </div>
-          <div class="result-main-scholar">
+          <div class="manager2-result-main-scholar">
             <div class="topbar">
               <span style="margin-left: 20px">检索到的项目</span>
             </div>
-            <div class="result-list">
+            <div class="manager2-result-list">
                 <a-list item-layout="vertical" size="large" :data-source="getProgList">
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class = "item-list-item">
                     <a-button
                       type="link" 
                       icon="setting"  
                       slot="actions" 
-                      class="result-list-button_r"
+                      class="manager2-result-list-button_r"
                       @click="changeMain(item)"
                     >管理学术成果</a-button>
                     <a-list-item-meta
@@ -43,14 +43,14 @@
             <div class="topbar">
               <span style="margin-left: 20px">检索到的专利</span>
             </div>
-            <div class="result-list">
+            <div class="manager2-result-list">
                 <a-list item-layout="vertical" size="large" :data-source="getPatentList">
                   <a-list-item slot="renderItem" key="item.title" slot-scope="item" class = "item-list-item">
                     <a-button
                       type="link" 
                       icon="setting"  
                       slot="actions" 
-                      class="result-list-button_r"
+                      class="manager2-result-list-button_r"
                       @click="changeMain(item)"
                     >管理学术成果</a-button>
                     <a-list-item-meta
@@ -69,7 +69,7 @@
             </div>
           </div>
         </div>
-        <div class = "middle-block">
+        <div class = "middle-block2">
           <a-list item-layout="vertical" size="large" :data-source="paperTopList">
             <a-list-item slot="renderItem" key="item.title" slot-scope="item" class="item-list-item">
                 <a-list-item-meta
@@ -87,7 +87,7 @@
           <div class="topbar">
             <span style="margin-left: 20px"> 已经认领该学术成果的学者门户</span>
           </div>
-          <div class="result-list-scholar">
+          <div class="manager2-result-list-scholar">
             <div class="card-list">
               <a-card>
                 <a-card-grid
@@ -96,23 +96,52 @@
                   :key="key"
                 >
                   <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                    <a-avatar :size="80" :src="item.src" />
+                    <a-avatar
+                      :size="80"
+                      :style="'backgroundColor: #B22222'"
+                      >{{ item.name.substring(0, 3)  }}
+                    </a-avatar>
                   </div>
                   <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
-                    ><br />
-                    <span>{{ item.institution }}</span
-                    ><br />
-                    <span>
-                      <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                    ><br />
-                    <span
-                      ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                    ><br />
-                    <span>
-                      <a-col :span="10">H指数：{{ item.field }}</a-col></span
                     >
+                    <div
+                      v-if="
+                        item.institution != '' && item.institution != null
+                      "
+                      style="
+                        height: 30px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                      "
+                    >
+                      {{ item.institution }}
+                    </div>
+                    <div v-else style="height: 30px">暂无科研机构数据</div>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="manager2-result-scholar-number"
+                        title="论文数"
+                        :value="item.paper == null ? 0 : item.paper"
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="manager2-result-scholar-number"
+                        title="被引量"
+                        :value="
+                          item.citation == null ? 0 : item.citation
+                        "
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
                   </div>
                   <div class="card-button" @click="deleteAuthor(key,item)">
                     <p style="margin-top: 42px">
@@ -129,21 +158,21 @@
             </div>
           </div>
         </div>
-        <div class = "right-block">
-          <div v-bind:class="isSelected4 ? 'home-search-on' : 'home-search'">
+        <div class = "right-block2">
+          <div v-bind:class="isSelected4 ? 'manager2-search-on' : 'manager2-search'">
             <a-input-search
-              class="home-searchBox4"
+              class="manager2-searchBox4"
               placeholder="通过ID查询搜索学者门户"
               @search="onSearch4"
               @focus="selected4"
               @blur="undoSelected4"
             />
           </div>
-          <div class="result-main-scholar">
+          <div class="manager2-result-main-scholar">
             <div class="topbar">
               <span style="margin-left: 20px"> 检索到的学者门户</span>
             </div>
-            <div class="result-list-scholar">
+            <div class="manager2-result-list-scholar">
               <div class="card-list">
                 <a-card>
                   <a-card-grid
@@ -152,23 +181,52 @@
                     :key="key"
                   >
                     <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #B22222'"
+                        >{{ item.name.substring(0, 3)  }}
+                      </a-avatar>
                     </div>
                     <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                      ><br />
-                      <span>
-                        <a-col :span="10">H指数：{{ item.field }}</a-col></span
                       >
+                      <div
+                        v-if="
+                          item.institution != '' && item.institution != null
+                        "
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="manager2-result-scholar-number"
+                          title="论文数"
+                          :value="item.paper == null ? 0 : item.paper"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="manager2-result-scholar-number"
+                          title="被引量"
+                          :value="
+                            item.citation == null ? 0 : item.citation
+                          "
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button" @click="addAuthor(key,item)">
                       <p style="margin-top: 42px">
@@ -197,6 +255,18 @@ import { postData } from "@/api/webpost";
 export default {
   data() {
     return {
+      claimList: [
+        {
+          canClaim: false,
+          nowClaimNumber: -1,
+          maxClaimNumber: -1,
+        },
+        {
+          canClaim: false,
+          nowClaimNumber: -1,
+          maxClaimNumber: -1,
+        },
+      ],
       visible: false,
       isSelected3: false,
       isSelected4: false,
@@ -221,7 +291,8 @@ export default {
       //去此人的主页
       if(Id!=-1){
         let routeUrl = this.$router.resolve({
-          path: "/scholarIndex/" + Id,
+          path: "/scholarIndex" ,
+          query: { scholarid: Id },
         });
         window.open(routeUrl.href, '_blank');
         // this.$router.push("/scholarIndex/" + Id);
@@ -283,7 +354,7 @@ export default {
               ScholarId: res.data[i].scholarId,
               name: res.data[i].name,
               src: res.data[i].avatarUrl!=null?res.data[i].avatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-              institution: res.data[i].institution!=null?res.data[i].institution:"暂时没有机构",
+              institution: res.data[i].institution,
               // paper: res.data[0].dataScholar.paperCount,
               // citation: res.data[0].dataScholar.citationCount,
               // Hindex: res.data[0].dataScholar.hindex,
@@ -292,6 +363,35 @@ export default {
           }
           this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
           // window.sessionStorage.setItem("UserId", res.data.userid);
+          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+      this.checkrenling();
+    },
+    checkrenling(){
+      let params = new URLSearchParams();
+      let url = this.$urlPath.website.checkNum ;
+      if(this.paperTopList[0].progID!=-1){
+        url += "1/" + this.paperTopList[0].progID;
+      }
+      else if(this.paperTopList[0].patentID!=-1){
+        url += "2/" + this.paperTopList[0].patentID;
+      }
+      // params.append("projectId", this.progID);
+      //调用封装的postData函数，获取服务器返回值 
+      console.log(url);
+      getData(url, params).then(res => {
+        if (res.code === 1001) {
+          this.claimList[0].canClaim = res.data.canClaim;
+          this.claimList[0].nowClaimNumber = res.data.nowClaimNumber;
+          this.claimList[0].maxClaimNumber = res.data.maxClaimNumber;
+          this.claimList[1].canClaim = res.data.canClaim;
+          this.claimList[1].nowClaimNumber = res.data.nowClaimNumber;
+          this.claimList[1].maxClaimNumber = res.data.maxClaimNumber;
+          //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {
           console.log(res.code);
@@ -315,10 +415,20 @@ export default {
       this.isSelected4 = false;
     },
     onSearch3(value) {
+      if(!(/^\d+$/.test(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       this.getProg(value);
       this.getPatent(value);
     },
     onSearch4(value) {
+      if(!(/^\d+$/.test(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       params.append("ScholarName", "");
       params.append("ScholarId", value);
@@ -331,7 +441,7 @@ export default {
             ScholarId: res.data[0].ScholarId,
             name: res.data[0].Name,
             src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+            institution: res.data[0].institution,
             // paper: res.data[0].dataScholar.paperCount,
             // citation: res.data[0].dataScholar.citationCount,
             // Hindex: res.data[0].dataScholar.hindex,
@@ -366,9 +476,17 @@ export default {
       let url = "";
       if(this.paperTopList[0].progID!=-1){
         url += this.$urlPath.website.disrenlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+        this.claimList[0].nowClaimNumber --;
+        if(this.claimList[0].nowClaimNumber<this.claimList[0].maxClaimNumber){
+          this.claimList[0].canClaim = true;
+        }
       }
       else if(this.paperTopList[0].patentID!=-1){
         url += this.$urlPath.website.disrenlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+        this.claimList[1].nowClaimNumber --;
+        if(this.claimList[1].nowClaimNumber<this.claimList[1].maxClaimNumber){
+          this.claimList[1].canClaim = true;
+        }
       }
       postData(url, params).then(res => {
         if (res.code === 1001) {
@@ -388,49 +506,79 @@ export default {
       params.append("projectId", this.progID);
       let url = "";
       if(this.paperTopList[0].progID!=-1){
-        url += this.$urlPath.website.renlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+        if(this.claimList[0].canClaim){
+          url += this.$urlPath.website.renlingProgAm + item.ScholarId + "/" + this.paperTopList[0].progID;
+          this.claimList[0].nowClaimNumber ++;
+          if(this.claimList[0].nowClaimNumber>=this.claimList[0].maxClaimNumber){
+            this.claimList[0].canClaim = false;
+          }
+        }
+        else{
+          url = "";
+        }
       }
       else if(this.paperTopList[0].patentID!=-1){
-        url += this.$urlPath.website.renlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
-      }
-      postData(url, params).then(res => {
-        if (res.code === 1001) {
-          this.AuthorList.AuthorList1.push(this.AuthorList.AuthorList2[key]);
-          this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
-          this.AuthorList.AuthorList2.splice(key, 1);
-          this.$set(this.AuthorList,"AuthorList2",this.AuthorList.AuthorList2);
-          this.$message.success("学者门户已添加");
-          //window.sessionStorage.setItem("UserId", res.data.userid);
-          // const webAdrs = window.sessionStorage.getItem("WebAdrs");
-        } else {
-          console.log(res.code);
-          this.$message.error(res.message);
+        if(this.claimList[1].canClaim){
+          url += this.$urlPath.website.renlingPatentAm + item.ScholarId + "/" + this.paperTopList[0].patentID;
+          this.claimList[1].nowClaimNumber ++;
+          if(this.claimList[1].nowClaimNumber>=this.claimList[1].maxClaimNumber){
+            this.claimList[1].canClaim = false;
+          }
         }
-      });
+        else{
+          url = "";
+        }
+      }
+      if(url!=""){
+        postData(url, params).then(res => {
+          if (res.code === 1001) {
+            this.AuthorList.AuthorList1.push(this.AuthorList.AuthorList2[key]);
+            this.$set(this.AuthorList,"AuthorList1",this.AuthorList.AuthorList1);
+            this.AuthorList.AuthorList2.splice(key, 1);
+            this.$set(this.AuthorList,"AuthorList2",this.AuthorList.AuthorList2);
+            this.$message.success("学者门户已添加");
+            //window.sessionStorage.setItem("UserId", res.data.userid);
+            // const webAdrs = window.sessionStorage.getItem("WebAdrs");
+          } else {
+            console.log(res.code);
+            this.$message.error(res.message);
+          }
+        });
+      }
+      else{
+        this.$message.error("名额已满，不能认领");
+      }
     },
     getProg(progID){
       let params = new URLSearchParams();
-      params.append("projectId", parseInt(progID));
+      // params.append("projectId", parseInt(progID));
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getProjectById + progID;
       console.log(url);
       getData(url, params).then(res => {
-        var newProg = {
-          progID: progID,
-          patentID: -1,
-          title: res.data.project.fundProject,
-          author: res.data.project.authors,
-          descrble: res.data.project.authors + ' - 机构: ' + res.data.project.organization,
-          abstract: res.data.project.zhAbstract,
-        }
-        if(this.getProgList.length === 0){
-          this.getProgList.push(newProg);
-        }
-        else{
-          this.$set(this.getProgList,0,newProg);
-        }
         console.log(res.code);
         if (res.code === 1001) {
+          if(res.data.project!=null){
+            var newProg = {
+              progID: progID,
+              patentID: -1,
+              title: res.data.project.fundProject,
+              author: res.data.project.authors,
+              descrble: res.data.project.authors + ' - 机构: ' + res.data.project.organization,
+              abstract: res.data.project.zhAbstract,
+            }
+            if(this.getProgList.length === 0){
+              this.getProgList.push(newProg);
+            }
+            else{
+              this.$set(this.getProgList,0,newProg);
+            }
+          }
+          else{
+            if(this.getProgList.length !== 0){
+              this.getProgList.pop();
+            }
+          }
           // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
@@ -442,26 +590,33 @@ export default {
     },
     getPatent(patentID){
       let params = new URLSearchParams();
-      params.append("patentID", parseInt(patentID));
+      // params.append("patentID", parseInt(patentID));
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getPatentById + patentID;
       getData(url, params).then(res => {
-        var newPatent = {
-          progID: -1,
-          patentID: patentID,
-          title: res.data.patent.title,
-          author: res.data.patent.inventor,
-          descrble: res.data.patent.inventor + ' - 发布日期' + res.data.patent.publishDate + ' - 状态: ' + res.data.patent.state,
-          abstract: res.data.patent.abstract,
-        }
-        if(this.getPatentList.length === 0){
-          this.getPatentList.push(newPatent);
-        }
-        else{
-          this.$set(this.getPatentList,0,newPatent);
-        }
         console.log(res.code);
         if (res.code === 1001) {
+          if(res.data.patent!=null){
+            var newPatent = {
+              progID: -1,
+              patentID: patentID,
+              title: res.data.patent.title,
+              author: res.data.patent.inventor,
+              descrble: res.data.patent.inventor + ' - 发布日期' + res.data.patent.publishDate + ' - 状态: ' + res.data.patent.state,
+              abstract: res.data.patent.abstract,
+            }
+            if(this.getPatentList.length === 0){
+              this.getPatentList.push(newPatent);
+            }
+            else{
+              this.$set(this.getPatentList,0,newPatent);
+            }
+          }
+          else{
+            if(this.getPatentList.length !== 0){
+              this.getPatentList.pop();
+            }
+          }
           // this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
@@ -476,51 +631,51 @@ export default {
 </script>
 
 <style>
-.left-block{
+.left-block2{
   width: 33%;
   height: 1350px;
   border: solid 1px white;
 }
-.middle-block{
+.middle-block2{
   width: 34%;
   height: 1350px;
   border: solid 1px white;
   margin: -1350px 0px 0px 33%;
 }
-.right-block{
+.right-block2{
   width: 33%;
   height: 1350px;
   margin: -1350px 0px 0px 67%;
   border: solid 1px white;
 }
-.result-main-scholar .topbar {
+.manager2-result-main-scholar .topbar {
   width: 100%;
   border-bottom: 1px solid #e3e3e3;
   /* border: solid 1px black; */
   height: 40px;
 }
-.result-list-scholar .card-list {
+.manager2-result-list-scholar .card-list {
   /* border: solid 1px black; */
   width: 90%;
   margin: 20px auto;
 }
-.result-list-scholar .card-list .card-avatar {
+.manager2-result-list-scholar .card-list .card-avatar {
   float: left;
   width: 20%;
 }
-.result-list-scholar .card-list .card-info {
+.manager2-result-list-scholar .card-list .card-info {
   float: left;
   margin-left: 5%;
   width: 65%;
 }
-.result-list-scholar .card-list .card-info span {
+.manager2-result-list-scholar .card-list .card-info span {
   display: inline-block;
   width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.result-list-scholar .card-list .card-button {
+.manager2-result-list-scholar .card-list .card-button {
   float: right;
   width: 10%;
 }
@@ -530,16 +685,16 @@ small-card-list{
   height: 1000px;
   /* margin: auto; */
 }
-.result-list-scholar .result-list-pagination {
+.manager2-result-list-scholar .manager2-result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }
-.home-content {
+.manager2-content {
   width: 1280px;
   margin: 0 auto;
 }
 
-.home-search {
+.manager2-search {
   border-radius: 10px;
   margin: 20px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
@@ -547,126 +702,126 @@ small-card-list{
   height: 40px;
 }
 
-.home-search:hover {
+.manager2-search:hover {
   border: solid 2px rgba(0, 0, 0, 0.5);
 }
 
-.home-search-on {
+.manager2-search-on {
   border-radius: 10px;
   margin: 20px auto;
-  border: solid 2px #1890ff;
+  border: solid 2px #B22222;
   width: 100%;
   height: 40px;
 }
-.home-searchBox3 {
+.manager2-searchBox3 {
   width: 99%;
   margin-left: 1%;
   height: 100%;
 }
-.home-searchBox4 {
+.manager2-searchBox4 {
   width: 99%;
   margin-left: 1%;
   height: 100%;
 }
-.home-searchButton {
+.manager2-searchButton {
   font-size: 14px;
   margin-top: 7px;
   height: 32px;
   border: 0;
   border-right: 2px solid #e3e3e3;
 }
-.home-searchButton:hover {
+.manager2-searchButton:hover {
   border-right: 2px solid #e3e3e3;
 }
-.home-searchButton:focus {
+.manager2-searchButton:focus {
   border-right: 2px solid #e3e3e3;
 }
 
-.home-searchBox3 .ant-input {
+.manager2-searchBox3 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox3 .ant-input:focus {
+.manager2-searchBox3 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
-.home-searchBox4 .ant-input {
+.manager2-searchBox4 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox4 .ant-input:focus {
+.manager2-searchBox4 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
-.home-searchCard {
+.manager2-searchCard {
   width: 663px;
 }
 .item-list-item{
   margin-right: 5%;
   margin-left: 5%;
 }
-.result-sider {
+.manager2-result-sider {
   float: left;
   width: 280px;
   margin-right: 20px;
 }
-.result-sider .sider-title {
+.manager2-result-sider .sider-title {
   font-size: 18px;
   font-weight: 700;
   padding: 10px;
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu {
+.manager2-result-sider .sider-menu {
   margin-left: 20px;
   padding-right: 20px;
   border-right: 0;
 }
-.result-sider .sider-menu .ant-menu-submenu-title {
+.manager2-result-sider .sider-menu .ant-menu-submenu-title {
   border-bottom: 1px solid #e3e3e3;
 }
-.result-sider .sider-menu .ant-menu-item {
+.manager2-result-sider .sider-menu .ant-menu-item {
   margin: 0;
 }
-.result-sider .sider-menu .ant-menu-item-selected::after {
+.manager2-result-sider .sider-menu .ant-menu-item-selected::after {
   border: 0;
 }
-.result-main {
+.manager2-result-main {
   float: left;
   width: 980px;
   overflow: hidden;
   padding-left: 20px;
   border-left: 1px solid #e3e3e3;
 }
-.result-main .topbar {
+.manager2-result-main .topbar {
   border-bottom: 1px solid #e3e3e3;
   height: 40px;
 }
-.result-main .topbar .topbar-select {
+.manager2-result-main .topbar .topbar-select {
   float: right;
   width: 100px;
   margin-right: 60px;
 }
-.result-main .ant-list-item-action {
+.manager2-result-main .ant-list-item-action {
   margin-top: 5px;
 }
-.result-list{
+.manager2-result-list{
   margin-right: 5px;
   margin-left: 5px;
 }
-.result-main .result-list .result-list-button {
+.manager2-result-main .manager2-result-list .manager2-result-list-button {
   margin-right: 5px;
   padding: 0;
 }
-.result-main .result-list .ant-list-item {
+.manager2-result-main .manager2-result-list .ant-list-item {
   padding-left: 10px;
 }
-.result-main .result-list .ant-list-item:hover {
+.manager2-result-main .manager2-result-list .ant-list-item:hover {
   background-color: #fafafa;
   transition: all 0.5s;
 }
@@ -684,42 +839,12 @@ small-card-list{
   -webkit-line-clamp: 2;
   overflow: hidden;
 }
-.result-list .result-list-pagination {
+.manager2-result-list .manager2-result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }
-.topNav-search {
-  float: left;
-  margin: 12px 0 8px 50px;
-  border-radius: 10px;
-  border: solid 2px rgba(0, 0, 0, 0.3);
-  width: 400px;
-}
-
-.topNav-search:hover {
-  border: solid 2px rgba(0, 0, 0, 0.5);
-}
-.topNav-search-on {
-  float: left;
-  margin: 12px 0 8px 50px;
-  border-radius: 10px;
-  border: solid 2px #1890ff;
-  width: 400px;
-}
-.topNav-searchBox {
-  width: 305px;
-}
-.topNav-searchButton {
-  font-size: 14px;
-  height: 22px;
-  border: 0;
-  border-right: 2px solid #e3e3e3;
-}
-.topNav-searchButton:hover {
-  border-right: 2px solid #e3e3e3;
-}
-.topNav-searchButton:focus {
-  border-right: 2px solid #e3e3e3;
+.manager2-result-scholar-number {
+  display: inline-block;
 }
 
 </style>

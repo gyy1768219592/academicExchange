@@ -7,7 +7,7 @@
           <div class="avatar">
             <a-avatar class="img" :size="100" icon="user" />
             <h1 class="info-content-name">{{ dataScholar.displayName }}</h1>
-            <h2 class="info-content-ins">{{ instituition }}</h2>
+            <h2 class="info-content-ins">{{ institution }}</h2>
             <ul class="index-table">
               <li class="index-item">
                 <p class="top-word">成果数</p>
@@ -20,7 +20,7 @@
             </ul>
           </div>
         </div>
-        <div class="actions">
+        <div class="actions" v-if="isLogin">
           <a-button v-if="!isClaim" @click="claimDataPortal" class="btn">我要认领<a-icon type="skin"/></a-button>
           <a-button v-if="isClaim" class="btn" disabled>已被认领<a-icon type="skin" theme="filled"/></a-button>
           <a-button v-if="isClaim" @click="showModal" class="btn" type="primary"
@@ -70,12 +70,14 @@ export default {
       pageid: 0,
       authorid: 2889275216,
       isClaim: false,
+      isLogin: false,
       nameList: [],
-      instituition: "",
+      institution: "",
+      scholarid: 13,
       dataScholar: {
         scholarId: 13,
-        displayName: "路路路",
-        normalizedName: "lululu",
+        displayName: "",
+        normalizedName: "",
         introduction: "",
         avatarUrl: "",
         citationCount: 0,
@@ -130,22 +132,25 @@ export default {
 
     //获取学者信息
     getAuthorInfo() {
+      let id = this.$route.query.authorid;
       let url = this.$urlPath.website.getAuthorInfo;
-      getData(url + "/" + this.authorid).then((res) => {
+      getData(url + "/" + id).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           this.dataScholar = res.data.dataScholar;
+          console.log(res.data);
           if (this.dataScholar.scholarId == -1) {
             this.isClaim = false;
           } else {
             this.isClaim = true;
           }
           this.nameList = res.data.authorList;
-          this.instituition = res.data.instituition;
+          this.institution = res.data.institution;
+
           this.paperList = res.data.paper;
           this.paperTotal = res.data.paperNum;
-          console.log(this.paperList);
+          console.log(res.data);
         } else {
           this.$message.error(res.message);
         }
@@ -156,7 +161,7 @@ export default {
     claimDataPortal() {
       let params = new URLSearchParams();
       let url = this.$urlPath.website.claimDataPortal;
-      params.append("scholarId", this.dataScholar.scholarId);
+      params.append("scholarId", this.scholarid);
       params.append("authorId", this.authorid);
       console.log(params);
       postData(url, params).then((res) => {
@@ -173,13 +178,17 @@ export default {
   },
   mounted() {
     this.authorid = this.$route.query.authorid;
+    if (localStorage.getItem("scholarId")) {
+      this.isLogin = true;
+    }
+    this.scholarid = localStorage.getItem("scholarId");
     this.getAuthorInfo();
   },
 };
 </script>
 <style scoped>
 .main-block {
-  width: 1400px;
+  width: 1280px;
   height: 2000px;
   margin: auto;
   /* border: solid 1px grey; */
@@ -215,7 +224,7 @@ export default {
   /* border: solid 1px red; */
 }
 .info-content-name {
-  width: 200px;
+  width: 500px;
   /* border: solid 1px black; */
   margin: -100px auto 0 120px;
 }

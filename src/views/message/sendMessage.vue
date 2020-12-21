@@ -1,7 +1,6 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <Sider-nav></Sider-nav>
     <h2 style="margin-left: 250px;margin-top:1%">发送消息</h2>
     <a-form-model style="margin-left: 200px;margin-top:50px;width:1000px" :model="form" :label-col="labelCol" :wrapper-col="wrapperCol">
         <a-form-model-item label="收件人">
@@ -34,8 +33,8 @@ import { postData } from "@/api/webpost";
 //import { getData } from "@/api/webget";
 //import { deleteData } from "@/api/webdelete";
 //import { putData } from "@/api/webput";
-import Nav from "../../components/nav.vue";
-import SiderNav from "../../components/siderNav.vue";
+import Nav from "../../components//navSearch.vue";
+
 
 export default {
   inject: ['reload'],
@@ -53,7 +52,7 @@ export default {
   },
   components: {
     Nav,
-    SiderNav
+
   },
   mounted() {
     this.form.name = this.$route.query.name;
@@ -71,7 +70,7 @@ export default {
       let params = new URLSearchParams();
       params.append("messageTitle", _this.form.title);
       params.append("messageContent", _this.form.desc);
-      params.append("sender_userid", 15);
+      //params.append("sender_userid", 15);
       params.append("receiver_userid", _this.$route.query.ScholarId);
       postData(url,params).then(res => {
         console.log(res);

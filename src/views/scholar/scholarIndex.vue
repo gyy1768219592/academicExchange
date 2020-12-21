@@ -20,11 +20,10 @@
             </ul>
           </div>
         </div>
-        <div class="actions">
-          <a-button class="btn" @click="toPersonInfo">我要认证<a-icon type="user"/></a-button>
+        <div class="actions" v-if="isLogin">
           <a-button v-if="!isFollow" class="btn" @click="subscribe">关注<a-icon type="star"/></a-button>
           <a-button v-else class="btn" @click="undoSubscribe">取消关注<a-icon type="star" theme="filled"/></a-button>
-          <a-button class="btn" type="primary">发送私信<a-icon type="message"/></a-button>
+          <a-button class="btn" type="primary" @click="sendMsg">发送私信<a-icon type="message"/></a-button>
         </div>
       </div>
       <div class="down-block">
@@ -93,7 +92,6 @@
 import navSearch from "@/components/navSearch";
 import { postData } from "@/api/webpost";
 import { getData } from "@/api/webget";
-// import { putData } from "@/api/webput";
 import scholarPatent from "@/components/scholarPatent.vue";
 import scholarPaper from "@/components/scholarPaper.vue";
 import scholarProject from "@/components/scholarProject.vue";
@@ -109,6 +107,7 @@ export default {
   },
   data() {
     return {
+      isLogin: false,
       myChart: null,
       chartData: [],
       chartLink: [],
@@ -120,9 +119,9 @@ export default {
       coAuthors: [],
       workExperience: [],
       scholar: {
-        scholarid: 13,
-        name: "路路路",
-        englishName: "lululu",
+        scholarId: 13,
+        name: "",
+        englishName: "",
         title: "",
         organization: "",
         email: "",
@@ -142,48 +141,8 @@ export default {
       projectList: [],
       projectTotal: 0,
       barData: [1, 2, 3],
-      coData: [
-        {
-          name: "张1",
-          symbolSize: 76,
-          id: "1",
-        },
-        {
-          name: "张2",
-          symbolSize: 86,
-          id: "2",
-        },
-        {
-          name: "张3",
-          symbolSize: 96,
-          id: "3",
-        },
-        {
-          name: "张4",
-          symbolSize: 136,
-          id: "4",
-        },
-        {
-          name: "张5",
-          symbolSize: 136,
-          id: "5",
-        },
-        {
-          name: "张6",
-          symbolSize: 136,
-          id: "6",
-        },
-        {
-          name: "张7",
-          symbolSize: 136,
-          id: "7",
-        },
-        {
-          name: "张6",
-          symbolSize: 136,
-          id: "8",
-        },
-      ],
+      coData: [],
+      dataLink: [],
     };
   },
   watch: {
@@ -258,15 +217,7 @@ export default {
      * 关系数据集合
      */
     linkEChart() {
-      let dataLink = [
-        { value: "合作学者", source: "1", target: "2" },
-        { value: "合作学者", source: "1", target: "3" },
-        { value: "合作学者", source: "1", target: "4" },
-        { value: "合作学者", source: "1", target: "5" },
-        { value: "合作学者", source: "1", target: "6" },
-        { value: "合作学者", source: "1", target: "7" },
-        { value: "合作学者", source: "1", target: "8" },
-      ];
+      let dataLink = this.dataLink;
       return dataLink;
     },
     drawLine() {
@@ -289,6 +240,15 @@ export default {
         ],
       });
     },
+    sendMsg() {
+      this.$router.push({
+        path: "/sendMessage",
+        query: {
+          name: this.scholar.name,
+          ScholarId: this.scholar.scholarId,
+        },
+      });
+    },
     handleClick(e) {
       console.log("click", e);
     },
@@ -301,23 +261,13 @@ export default {
     toPersonInfo() {
       this.$router.push("/personInfo");
     },
-    toPro() {
-      //跳转到项目展示页面，带参数
-      // this.$router.push("/Pro");
-    },
-    toPaper() {
-      //跳转到项目文献页面，带参数
-      // this.$router.push("/Paper");
-    },
-    toPatent() {
-      //跳转到专利展示页面，带参数
-      // this.$router.push("/Patent");
-    },
 
     //获取学者信息
     getScholarInfo() {
+      this.scholarid = this.$route.query.scholarid;
+      let id = this.$route.query.scholarid;
       let url = this.$urlPath.website.getScholarInfo;
-      getData(url + "/" + this.scholarid).then((res) => {
+      getData(url + "/" + id).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
@@ -341,15 +291,35 @@ export default {
           this.barData[1] = this.projectTotal;
           this.barData[2] = this.paperTotal;
           console.log(this.barData);
-
-          this.coAuthors.forEach((key, value) => {
-            console.log(key);
-            console.log(value);
-          });
-
+          let high = 8;
+          if (this.coAuthors.length / 2 < 8) high = this.coAuthors.length / 2;
+          for (let i = 0; i <= high; i++) {
+            if (i == 0) {
+              let tmp = {
+                name: this.scholar.name,
+                symbolSize: 60,
+                id: i + 1,
+              };
+              this.coData[i] = tmp;
+            } else {
+              let tmp = {
+                name: this.coAuthors[2 * (i - 1)],
+                symbolSize: this.coAuthors[2 * (i - 1) + 1] + 60,
+                id: i + 1,
+              };
+              console.log(i + 1);
+              this.coData[i] = tmp;
+              let link = {
+                value: "合作学者",
+                source: 1,
+                target: i + 1,
+              };
+              this.dataLink[i - 1] = link;
+            }
+          }
+          console.log(this.coData);
           this.initEchart();
           this.drawLine();
-          console.log(this.coData);
         } else {
           this.$message.error(res.message);
         }
@@ -359,7 +329,7 @@ export default {
     //关注学者
     subscribe() {
       let url = this.$urlPath.website.subscribe;
-      postData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
+      postData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
@@ -373,11 +343,8 @@ export default {
 
     //取消关注学者
     undoSubscribe() {
-      let params = new URLSearchParams();
-      params.append("UserId", 2);
-      params.append("ScholarId", 1);
       let url = this.$urlPath.website.undoSubscribe;
-      deleteData(url + "/" + this.userid + "/" + this.scholarid).then((res) => {
+      deleteData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
@@ -391,13 +358,14 @@ export default {
   },
   mounted() {
     this.scholarid = this.$route.query.scholarid;
+    if (localStorage.getItem("scholarId")) this.isLogin = true;
     this.getScholarInfo();
   },
 };
 </script>
 <style scoped>
 .main-block {
-  width: 1400px;
+  width: 1280px;
   height: 2000px;
   margin: auto;
   /* border: solid 1px grey; */
@@ -440,7 +408,7 @@ export default {
 .info-content-ins {
   width: 100px;
   /* border: solid 1px red; */
-  margin: -5px auto 10px 120px;
+  margin: 0px auto 10px 120px;
 }
 .info-content-index {
   width: 250px;
@@ -456,21 +424,7 @@ export default {
   float: right;
   margin: -210px 10px 10px 10px;
 }
-.selections {
-  /* border: solid 1px black; */
-  width: 250px;
-  height: 800px;
-  margin: 10px 10px 10px 10px;
-}
-.results {
-  padding: 10px 15px 10px 15px;
-  /* border: solid 1px black; */
-  width: 900px;
-  height: 800px;
-  display: block;
-  float: right;
-  margin: -810px 10px 35px 280px;
-}
+
 .btn {
   width: 100px;
   /* border: solid 1px black; */
@@ -485,7 +439,7 @@ export default {
 .self-intro {
   /* border: solid 1px green; */
   width: 700px;
-  height: 300px;
+  height: 150px;
   margin: 10px;
 }
 .echart {

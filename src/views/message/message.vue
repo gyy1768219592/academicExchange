@@ -1,8 +1,7 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <Sider-nav></Sider-nav>
-    <h2 style="margin-left: 250px;margin-top:1%">我的消息</h2>
+    <h1 style="margin-left: 12%;margin-top:2%">我的消息</h1>
     <a-list item-layout="horizontal" 
     pagination = true
     :data-source="info">
@@ -27,8 +26,7 @@
 import { getData } from "@/api/webget";
 import { deleteData } from "@/api/webdelete";
 //import { putData } from "@/api/webput";
-import Nav from "../../components/nav.vue";
-import SiderNav from "../../components/siderNav.vue";
+import Nav from "../../components//navSearch.vue";
 
 export default {
   
@@ -54,7 +52,6 @@ export default {
   },
   components: {
     Nav,
-    SiderNav
   },
   methods: {
     seeM(index) {
@@ -67,16 +64,14 @@ export default {
           content: _this.info[index].msgcontent,
           receiverUserid: _this.info[index].receiverUserid,
           senderUserid: _this.info[index].senderUserid,
+          senderUsername: _this.info[index].senderUsername,
         }
       });
     },
     getallM() {
       var _this = this;
       let url = _this.$urlPath.website.getMessage;
-      let params = {
-        userId: 15,
-      };
-      getData(url,params).then(res => {
+      getData(url,null).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
           _this.info = res.data
@@ -115,7 +110,7 @@ export default {
   overflow-y: auto;
 }
 .ant-list.ant-list-split {
-  margin-left: 250px;
+  margin-left: 12%;
   margin-right: 2%;
   margin-top: 1%;
 }

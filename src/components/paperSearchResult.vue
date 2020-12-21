@@ -170,7 +170,8 @@ export default {
   },
   methods: {
     toPaper(paperId) {
-      this.$router.push("/paperDisplay/" + paperId);
+      let url = this.$router.resolve("/paperDisplay/" + paperId);
+      window.open(url.href, "_blank");
     },
     selectDocType(value) {
       this.doctype = value;
@@ -209,8 +210,8 @@ export default {
       let params = new URLSearchParams();
       params.append("titleKW", this.titleKW);
       params.append("abstractKW", this.abstractKW);
-      params.append("organizationKW", this.organizationKW);
-      params.append("authorKW", this.authorKW);
+      params.append("organizationKW", "");
+      params.append("authorKW", "");
       params.append("startDate", this.startDate);
       params.append("endDate", this.endDate);
       params.append("page", this.currentPage);
@@ -231,15 +232,24 @@ export default {
     },
     toScholar(type, id) {
       if (type == 0) {
-        this.$router.push({ path: "/authorIndex", query: { authorid: id } });
+        let url = this.$router.resolve({
+          path: "/authorIndex",
+          query: { authorid: id },
+        });
+        window.open(url.href, "_blank");
       } else {
         if (id == localStorage.getItem("scholarId")) {
-          this.$router.push({ path: "/userIndex", query: { scholarid: id } });
+          let url = this.$router.resolve({
+            path: "/userIndex",
+            query: { scholarid: id },
+          });
+          window.open(url.href, "_blank");
         } else {
-          this.$router.push({
+          let url = this.$router.resolve({
             path: "/scholarIndex",
             query: { scholarid: id },
           });
+          window.open(url.href, "_blank");
         }
       }
     },
@@ -301,6 +311,7 @@ export default {
   border-bottom: 1px solid #e3e3e3;
 }
 .homes-result-sider .sider-menu .ant-menu-item {
+  background: #fff;
   margin: 0;
 }
 .homes-result-sider .sider-menu .ant-menu-item-selected::after {

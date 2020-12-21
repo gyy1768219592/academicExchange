@@ -9,17 +9,17 @@
         animated
       >
         <a-tab-pane key="1" tab="申诉信息">
-          <div class="result-content">
+          <div class="maneger-content">
             <appeal></appeal>
           </div>
         </a-tab-pane>
         <a-tab-pane key="2" tab="管理门户">
-          <div class="result-content">
+          <div class="maneger-content">
             <manageScholarGate></manageScholarGate>
           </div>
         </a-tab-pane>
         <a-tab-pane key="3" tab="管理成果">
-          <div class="result-content">
+          <div class="maneger-content">
             <manageAcademicAchivement :word="word"></manageAcademicAchivement>
           </div>
         </a-tab-pane>
@@ -45,16 +45,27 @@ export default {
       word: this.$route.query.word,
     };
   },
+  mounted(){
+    this.checkKey();
+  },
   methods: {
     good() {
       alert(1);
     },
+    checkKey(){
+      if(localStorage.getItem("identification")<2){
+        this.$message.error("没有权限！");
+        this.$router.push({
+          path: "/"
+        });
+      }
+    }
   },
 };
 </script>
 
 <style>
-.result-content {
+.maneger-content {
   width: 1280px;
   margin: 0 auto;
   overflow: hidden;
@@ -78,7 +89,7 @@ export default {
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {
   border-color: #d9d9d9;
-  background: #1890ff;
+  background: #B22222;
   color: #fff;
 }
 </style>

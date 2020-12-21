@@ -32,6 +32,7 @@ let path = {
     getProjectById: Ip.productIP + "scholarship/getProjectById/",
     getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
     getPaperById: Ip.productIP + "scholarship/getPaperByPaperId/",
+    getTopInstitution: Ip.productIP + "scholarship/topInstitution",
 
     //获取学者门户下属数据库门户
     getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar",
@@ -41,7 +42,7 @@ let path = {
 
     //申诉列表
     getAppeal: Ip.productIP + "message/admin/appeal/all/",
-    updateAppeal: Ip.productIP + "message/admin/appeal/one/", 
+    updateAppeal: Ip.productIP + "message/admin/appeal/one/",
     searchDataScholar: Ip.productIP + "scholar/SearchDataScholar",
     searchScholar: Ip.productIP + "scholar/Search",
     getHotFields: Ip.productIP + "scholarship/hotFields/",
@@ -96,7 +97,7 @@ let path = {
     getCollectPatent: Ip.productIP +"/scholarship/staredPatent",
     getCollectProject: Ip.productIP +"/scholarship/staredProject",
     delCollect: Ip.productIP + "/scholarship/starStatus",
-    
+
     getScholarInfo: Ip.productIP + "scholar/info",
     editScholarInfo: Ip.productIP + "scholar/infoUpdate",
     claimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",

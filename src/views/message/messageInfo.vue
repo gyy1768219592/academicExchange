@@ -1,13 +1,14 @@
 <template>
   <div class = "al">
     <Nav></Nav>
-    <Sider-nav></Sider-nav>
+
     <div class = "email">
-      <h2>邮件信息</h2>
+
+      <h2><a-icon @click="toBefore"  type="arrow-left" />    邮件信息</h2>
       </br>
       <h3>标题：{{letter.title}}</h3>
       </br>
-      <p style="float:left;">发送人：{{letter.name}}</p>
+      <p style="float:left;">发送人：{{letter.senderUsername}}</p>
       <p style="float:right;margin-right:50%">发送时间：{{letter.time}}</p>
       </br>
       </br>
@@ -43,8 +44,8 @@ import { postData } from "@/api/webpost";
 //import { getData } from "@/api/webget";
 //import { deleteData } from "@/api/webdelete";
 //import { putData } from "@/api/webput";
-import Nav from "../../components/nav.vue";
-import SiderNav from "../../components/siderNav.vue";
+import Nav from "../../components//navSearch.vue";
+
 
 export default {
   inject: ['reload'],
@@ -67,7 +68,7 @@ export default {
   },
   components: {
     Nav,
-    SiderNav
+
   },
   mounted() {
     this.letter.title = this.$route.query.title;
@@ -75,8 +76,14 @@ export default {
     var date = new Date(this.$route.query.sendtime);
     this.letter.name = this.$route.query.senderUserid;
     this.letter.time = this.format(date);
+    this.letter.senderUsername = this.$route.query.senderUsername;
   },
   methods: {
+    toBefore(){
+      this.$router.push({
+        path: "/message",
+      });
+    },
     format(date) {
       var y = date.getFullYear();
       var m = date.getMonth() + 1;
@@ -102,8 +109,8 @@ export default {
       let params = new URLSearchParams();
       params.append("messageTitle", _this.form.title);
       params.append("messageContent", _this.form.desc);
-      params.append("sender_userid", 15);
-      params.append("receiver_userid", 15);
+      //params.append("sender_userid", 15);
+      params.append("receiver_userid", this.letter.name);
       postData(url,params).then(res => {
         console.log(res);
         if (res.code === 1001) {

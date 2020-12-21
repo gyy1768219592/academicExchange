@@ -1,22 +1,22 @@
 <template>
   <div>
-    <div class="result-main-scholar">
-      <div class="home-content">
-        <div class = "left-block">
-          <div v-bind:class="isSelected1 ? 'home-search-on' : 'home-search'">
+    <div class="manager-result-main-scholar">
+      <div class="manager-content">
+        <div class = "left-block1">
+          <div v-bind:class="isSelected1 ? 'manager-search-on' : 'manager-search'">
             <a-input-search
-              class="home-searchBox-1"
+              class="manager-searchBox-1"
               placeholder="通过ID搜索学者门户"
               @search="onSearch1"
               @focus="selected1"
               @blur="undoSelected1"
             />
           </div>
-          <div class="result-main-scholar">
+          <div class="manager-result-main-scholar">
             <div class="topbar">
               <span style="margin-left: 20px"> 检索到的学者门户</span>
             </div>
-            <div class="result-list-scholar">
+            <div class="manager-result-list-scholar">
               <div class="card-list">
                 <a-card>
                   <a-card-grid
@@ -25,23 +25,52 @@
                     :key="key"
                   >
                     <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #B22222'"
+                        >{{ item.name.substring(0, 3)  }}
+                      </a-avatar>
                     </div>
                     <div class="card-info" @click="gotoScholar(item.ScholarId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                      ><br />
-                      <span>
-                        <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
+                      <div
+                        v-if="
+                          item.institution != '' && item.institution != null
+                        "
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="manager-result-scholar-number"
+                          title="论文数"
+                          :value="item.paper == null ? 0 : item.paper"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="manager-result-scholar-number"
+                          title="被引量"
+                          :value="
+                            item.citation == null ? 0 : item.citation
+                          "
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button">
                       <p style="margin-top: 42px">
@@ -59,8 +88,8 @@
             </div>
           </div>
         </div>
-        <div class = "middle-block">
-          <div class="result-list-scholar">
+        <div class = "middle-block1">
+          <div class="manager-result-list-scholar">
             <div class="card-list">
               <a-card>
                 <a-card-grid
@@ -69,23 +98,52 @@
                   :key="key"
                 >
                   <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
-                    <a-avatar :size="80" :src="item.src" />
+                    <a-avatar
+                      :size="80"
+                      :style="'backgroundColor: #B22222'"
+                      >{{ item.name.substring(0, 3)  }}
+                    </a-avatar>
                   </div>
                   <div class="card-info" @click="gotoScholar(item.ScholarId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
-                    ><br />
-                    <span>{{ item.institution }}</span
-                    ><br />
-                    <span>
-                      <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                    ><br />
-                    <span
-                      ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                    ><br />
-                    <span>
-                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
+                    <div
+                      v-if="
+                        item.institution != '' && item.institution != null
+                      "
+                      style="
+                        height: 30px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                      "
+                    >
+                      {{ item.institution }}
+                    </div>
+                    <div v-else style="height: 30px">暂无科研机构数据</div>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="manager-result-scholar-number"
+                        title="论文数"
+                        :value="item.paper == null ? 0 : item.paper"
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="manager-result-scholar-number"
+                        title="被引量"
+                        :value="
+                          item.citation == null ? 0 : item.citation
+                        "
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
                   </div>
                 </a-card-grid>
               </a-card>
@@ -94,7 +152,7 @@
           <div class="topbar">
             <span style="margin-left: 20px"> 下属的数据库门户</span>
           </div>
-          <div class="result-list-scholar">
+          <div class="manager-result-list-scholar">
             <div class="card-list">
               <a-card>
                 <a-card-grid
@@ -103,23 +161,52 @@
                   :key="key"
                 >
                   <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
-                    <a-avatar :size="80" :src="item.src" />
+                    <a-avatar
+                      :size="80"
+                      :style="'backgroundColor: #B22222'"
+                      >{{ item.name.substring(0, 3)  }}
+                    </a-avatar>
                   </div>
                   <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                     <span style="font-size: 16px; font-weight: 600"
                       >{{ item.name }} </span
-                    ><br />
-                    <span>{{ item.institution }}</span
-                    ><br />
-                    <span>
-                      <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                    ><br />
-                    <span
-                      ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                    ><br />
-                    <span>
-                      <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                     >
+                    <div
+                      v-if="
+                        item.institution != '' && item.institution != null
+                      "
+                      style="
+                        height: 30px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                      "
+                    >
+                      {{ item.institution }}
+                    </div>
+                    <div v-else style="height: 30px">暂无科研机构数据</div>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="manager-result-scholar-number"
+                        title="论文数"
+                        :value="item.paper == null ? 0 : item.paper"
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
+                    <a-col :span="7">
+                      <a-statistic
+                        class="manager-result-scholar-number"
+                        title="被引量"
+                        :value="
+                          item.citation == null ? 0 : item.citation
+                        "
+                        :value-style="{
+                          'text-align': 'center',
+                        }"
+                      />
+                    </a-col>
                   </div>
                   <div class="card-button" @click="deleteScholar(key,item)">
                     <p style="margin-top: 42px">
@@ -136,21 +223,21 @@
             </div>
           </div>
         </div>
-        <div class = "right-block">
-          <div v-bind:class="isSelected2 ? 'home-search-on' : 'home-search'">
+        <div class = "right-block1">
+          <div v-bind:class="isSelected2 ? 'manager-search-on' : 'manager-search'">
             <a-input-search
-              class="home-searchBox-2"
+              class="manager-searchBox-2"
               placeholder="通过ID搜索数据库门户"
               @search="onSearch2"
               @focus="selected2"
               @blur="undoSelected2"
             />
           </div>
-          <div class="result-main-scholar">
+          <div class="manager-result-main-scholar">
             <div class="topbar">
               <span style="margin-left: 20px"> 检索到的数据库门户</span>
             </div>
-            <div class="result-list-scholar">
+            <div class="manager-result-list-scholar">
               <div class="card-list">
                 <a-card>
                   <a-card-grid
@@ -159,23 +246,52 @@
                     :key="key"
                   >
                     <div class="card-avatar" @click="gotoAuthor(item.AuthorId)">
-                      <a-avatar :size="80" :src="item.src" />
+                      <a-avatar
+                        :size="80"
+                        :style="'backgroundColor: #B22222'"
+                        >{{ item.name.substring(0, 3)  }}
+                      </a-avatar>
                     </div>
                     <div class="card-info" @click="gotoAuthor(item.AuthorId)">
                       <span style="font-size: 16px; font-weight: 600"
                         >{{ item.name }} </span
-                      ><br />
-                      <span>{{ item.institution }}</span
-                      ><br />
-                      <span>
-                        <a-col :span="10"> 发表论文：{{ item.paper }} </a-col></span
-                      ><br />
-                      <span
-                        ><a-col :span="10">被引量：{{ item.citation }}</a-col></span
-                      ><br />
-                      <span>
-                        <a-col :span="10">H指数：{{ item.Hindex }}</a-col></span
                       >
+                      <div
+                        v-if="
+                          item.institution != '' && item.institution != null
+                        "
+                        style="
+                          height: 30px;
+                          overflow: hidden;
+                          text-overflow: ellipsis;
+                          white-space: nowrap;
+                        "
+                      >
+                        {{ item.institution }}
+                      </div>
+                      <div v-else style="height: 30px">暂无科研机构数据</div>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="manager-result-scholar-number"
+                          title="论文数"
+                          :value="item.paper == null ? 0 : item.paper"
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
+                      <a-col :span="7">
+                        <a-statistic
+                          class="manager-result-scholar-number"
+                          title="被引量"
+                          :value="
+                            item.citation == null ? 0 : item.citation
+                          "
+                          :value-style="{
+                            'text-align': 'center',
+                          }"
+                        />
+                      </a-col>
                     </div>
                     <div class="card-button" @click="addScholar(key,item)">
                       <p style="margin-top: 42px">
@@ -216,9 +332,9 @@ export default {
         ScholarId: -1,
         name: "无名氏",
         src: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        institution: "暂时没有机构",
-        // paper: res.data[0].dataScholar.paperCount,
-        // citation: res.data[0].dataScholar.citationCount,
+        institution: "暂无科研机构数据",
+        paper: 0,
+        citation: 0,
         // Hindex: res.data[0].dataScholar.hindex,
       }],
       scholarList:{
@@ -234,7 +350,8 @@ export default {
       //去此人的主页
       if(Id!=-1){
         let routeUrl = this.$router.resolve({
-          path: "/scholarIndex/" + Id,
+          path: "/scholarIndex/" ,
+          query: { scholarid: Id },
         });
         window.open(routeUrl.href, '_blank');
         // this.$router.push("/scholarIndex/" + Id);
@@ -243,7 +360,8 @@ export default {
     gotoAuthor(Id){
       //去此人的主页
       let routeUrl = this.$router.resolve({
-        path: "/authorIndex/" + Id,
+        path: "/authorIndex/" ,
+        query: { authorid: Id },
       });
       window.open(routeUrl.href, '_blank');
       // this.$router.push("/authorIndex/" + Id);
@@ -259,15 +377,15 @@ export default {
         if (res.code === 1001) {
           // this.$message.success(res.message);
           this.scholarList.scholarList2.splice(0,this.scholarList.scholarList2.length);
-          for(var i = 0; i < res.data.length; i ++){
+          for(var i = 0; i < res.data.dataScholars.length; i ++){
             var newAuthor = {
-              AuthorId: res.data[i].authorId,
-              name: res.data[i].displayName,
-              src: res.data[i].avatarUrl!=null?res.data[i].avatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-              institution: res.data[i].institution!=null?res.data[i].institution:"暂时没有机构",
-              paper: res.data[i].paperCount,
-              citation: res.data[i].citationCount,
-              Hindex: res.data[i].hindex,
+              AuthorId: res.data.dataScholars[i].authorId,
+              name: res.data.dataScholars[i].displayName,
+              src: /*res.data[i].avatarUrl!=null?res.data[i].avatarUrl:*/"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+              institution: res.data.institution[i],
+              paper: res.data.dataScholars[i].paperCount,
+              citation: res.data.dataScholars[i].citationCount,
+              Hindex: res.data.dataScholars[i].hindex,
             };
             this.scholarList.scholarList2.push(newAuthor);
           }
@@ -332,6 +450,11 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
+      if(!(/^\d+$/.test(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       params.append("ScholarName", "");
       params.append("ScholarId", value);
@@ -345,7 +468,7 @@ export default {
             ScholarId: res.data[0].ScholarId,
             name: res.data[0].Name,
             src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: res.data[0].institution!=null?res.data[0].institution:"暂时没有机构",
+            institution: res.data[0].institution,
             // paper: res.data[0].dataScholar.paperCount,
             // citation: res.data[0].dataScholar.citationCount,
             // Hindex: res.data[0].dataScholar.hindex,
@@ -365,6 +488,11 @@ export default {
       });
     },
     onSearch2(value) {//查找之后要结果
+      if(!(/^\d+$/.test(value)))
+      {
+        this.$message.error("输入非法！");
+        return;
+      }
       let params = new URLSearchParams();
       // params.append("value", value);
       //调用封装的putData函数，获取服务器返回值 
@@ -410,180 +538,148 @@ export default {
 </script>
 
 <style>
-.left-block{
+.left-block1{
   width: 33%;
   height: 1350px;
   border: solid 1px white;
 }
-.middle-block{
+.middle-block1{
   width: 34%;
   height: 1350px;
   border: solid 1px white;
-  /* margin: -1350px 0px 0px 33%; */
+  margin: -1350px 0px 0px 33%;
 }
-.right-block{
+.right-block1{
   width: 33%;
   height: 1350px;
-  /* margin: -1350px 0px 0px 67%; */
+  margin: -1350px 0px 0px 67%;
   border: solid 1px white;
 }
-.result-main-scholar .topbar {
+.manager-result-main-scholar .topbar {
   width: 100%;
   border-bottom: 1px solid #e3e3e3;
   /* border: solid 1px black; */
   height: 40px;
 }
-.result-list-scholar .card-list {
+.manager-result-list-scholar .card-list {
   /* border: solid 1px black; */
-  width: 100%;
+  width: 90%;
   margin: 20px auto;
 }
-.result-list-scholar .card-list .card-avatar {
+.manager-result-list-scholar .card-list .card-avatar {
   float: left;
   width: 20%;
 }
-.result-list-scholar .card-list .card-avatar-main {
+.manager-result-list-scholar .card-list .card-avatar-main {
   float: left;
   width: 20%;
 }
-.result-list-scholar .card-list .card-info {
+.manager-result-list-scholar .card-list .card-info {
   float: left;
   margin-left: 5%;
   width: 65%;
 }
-.result-list-scholar .card-list .card-info-main {
+.manager-result-list-scholar .card-list .card-info-main {
   float: left;
   margin-left: 5%;
   width: 50%;
 }
-.result-list-scholar .card-list .card-info span {
+.manager-result-list-scholar .card-list .card-info span {
   display: inline-block;
-  width: 100%;
+  width: 90%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.result-list-scholar .card-list .card-button {
+.manager-result-list-scholar .card-list .card-button {
   float: right;
   width: 10%;
 }
 
-/* .main-scholar-name{
-  margin: -100px -100px -100px 100px;
-} */
 .small-card-list{
   border: solid 1px black;
   width: 600px;
   height: 1000px;
   /* margin: auto; */
 }
-.result-list-scholar .result-list-pagination {
+.manager-result-list-scholar .manager-result-list-pagination {
   margin: 10px 0 30px 0;
   text-align: center;
 }
-.home-content {
+.manager-content {
   width: 1280px;
   margin: 0 auto;
 }
 
-.home-search {
+.manager-search {
   border-radius: 10px;
   margin: 20px auto;
   border: solid 2px rgba(0, 0, 0, 0.3);
   width: 100%;
-  height: 50px;
+  height: 40px;
 }
 
-.home-search:hover {
+.manager-search:hover {
   border: solid 2px rgba(0, 0, 0, 0.5);
 }
 
-.home-search-on {
+.manager-search-on {
   border-radius: 10px;
   margin: 20px auto;
-  border: solid 2px #1890ff;
+  border: solid 2px #B22222;
   width: 100%;
-  height: 50px;
+  height: 40px;
 }
-.home-searchBox-1 {
-  margin-left: 2%;
-  width: 98%;
+.manager-searchBox-1 {
+  width: 99%;
+  margin-left: 1%;
+  height: 100%;
 }
-.home-searchBox-2 {
-  margin-left: 2%;
-  width: 98%;
+.manager-searchBox-2 {
+  width: 99%;
+  margin-left: 1%;
+  height: 100%;
 }
-.home-searchButton {
+.manager-searchButton {
   font-size: 14px;
   margin-top: 7px;
   height: 32px;
   border: 0;
   border-right: 2px solid #e3e3e3;
 }
-.home-searchButton:hover {
+.manager-searchButton:hover {
   border-right: 2px solid #e3e3e3;
 }
-.home-searchButton:focus {
+.manager-searchButton:focus {
   border-right: 2px solid #e3e3e3;
 }
 
-.home-searchBox-1 .ant-input {
+.manager-searchBox-1 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox-1 .ant-input:focus {
+.manager-searchBox-1 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
 
-.home-searchBox-2 .ant-input {
+.manager-searchBox-2 .ant-input {
   margin-top: 1px;
   border-radius: 0 10px 10px 0;
   border: none;
   display: inline-block;
 }
-.home-searchBox-2 .ant-input:focus {
+.manager-searchBox-2 .ant-input:focus {
   border: none;
   box-shadow: none;
 }
-.home-searchCard {
+.manager-searchCard {
   width: 663px;
 }
-
-.topNav-search {
-  float: left;
-  margin: 12px 0 8px 50px;
-  border-radius: 10px;
-  border: solid 2px rgba(0, 0, 0, 0.3);
-  width: 400px;
-}
-
-.topNav-search:hover {
-  border: solid 2px rgba(0, 0, 0, 0.5);
-}
-.topNav-search-on {
-  float: left;
-  margin: 12px 0 8px 50px;
-  border-radius: 10px;
-  border: solid 2px #1890ff;
-  width: 400px;
-}
-.topNav-searchBox {
-  width: 305px;
-}
-.topNav-searchButton {
-  font-size: 14px;
-  height: 22px;
-  border: 0;
-  border-right: 2px solid #e3e3e3;
-}
-.topNav-searchButton:hover {
-  border-right: 2px solid #e3e3e3;
-}
-.topNav-searchButton:focus {
-  border-right: 2px solid #e3e3e3;
+.manager-result-scholar-number {
+  display: inline-block;
 }
 
 </style>

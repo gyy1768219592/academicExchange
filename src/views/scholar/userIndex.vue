@@ -26,7 +26,7 @@
               ><a-icon type="folder-open" />管理学术成果</a-button
             >
             <a-modal
-              style="z-index:100000000;position:relative"
+              style="z-index: 100000000; position: relative"
               width="600px"
               v-model="manageVisible"
               title="管理学术成果"
@@ -36,37 +36,72 @@
             >
               <div v-if="isDelete">
                 <div>
-                  <a-button style="float: right;margin-top:-40px" type="default" @click="changePage"
+                  <a-button
+                    style="float: right; margin-top: -40px"
+                    type="default"
+                    @click="changePage"
                     >认领同名门户<a-icon type="right-square"
                   /></a-button>
                 </div>
                 <a-list
-                  style="margin-top:30px"
+                  style="margin-top: 30px"
                   :pagination="Upagination"
                   item-layout="horizontal"
                   :data-source="gotSList"
                 >
                   <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarid == -1">认领</a>
-                    <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
-                    <a-list-item-meta :description="item.lastKnownAffiliationId">
-                      <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
+                    <a
+                      slot="actions"
+                      @click="claimDataPortal(index)"
+                      v-if="item.scholarid == -1"
+                      >认领</a
+                    >
+                    <a slot="actions" @click="undoClaimDataPortal(index)" v-else
+                      >退领</a
+                    >
+                    <a-list-item-meta
+                      :description="item.lastKnownAffiliationId"
+                    >
+                      <a slot="title" href="https://www.antdv.com/">{{
+                        item.displayName
+                      }}</a>
 
-                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                      <a-avatar
+                        slot="avatar"
+                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      />
                     </a-list-item-meta>
                   </a-list-item>
                 </a-list>
               </div>
               <div v-else>
-                <a-button type="default" @click="changePage"><a-icon type="left-square" />退领已认领门户</a-button>
-                <a-list item-layout="horizontal" :pagination="Cpagination" :data-source="sameNameSlist">
+                <a-button type="default" @click="changePage"
+                  ><a-icon type="left-square" />退领已认领门户</a-button
+                >
+                <a-list
+                  item-layout="horizontal"
+                  :pagination="Cpagination"
+                  :data-source="sameNameSlist"
+                >
                   <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarId === -1">认领</a>
+                    <a
+                      slot="actions"
+                      @click="claimDataPortal(index)"
+                      v-if="item.scholarId === -1"
+                      >认领</a
+                    >
                     <a slot="actions" v-else>已被认领</a>
-                    <a-list-item-meta :description="item.lastKnownAffiliationId">
-                      <a slot="title" href="https://www.antdv.com/">{{ item.displayName }}</a>
+                    <a-list-item-meta
+                      :description="item.lastKnownAffiliationId"
+                    >
+                      <a slot="title" href="https://www.antdv.com/">{{
+                        item.displayName
+                      }}</a>
 
-                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                      <a-avatar
+                        slot="avatar"
+                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                      />
                     </a-list-item-meta>
                   </a-list-item>
                 </a-list>
@@ -74,23 +109,28 @@
             </a-modal>
           </div>
           <div class="info-modal">
-            <a-button class="btn" @click="showEditInfoModal"><a-icon type="edit" />修改个人信息</a-button>
+            <a-button class="btn" @click="showEditInfoModal"
+              ><a-icon type="edit" />修改个人信息</a-button
+            >
             <a-modal
-              style="z-index:100000000;position:relative"
+              style="z-index: 100000000; position: relative"
               title="修改门户信息"
               @cancel="handleInfoCancel"
               :visible="editInfoVisi"
               :footer="null"
             >
-              <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
+              <a-form-model
+                ref="ruleForm"
+                :model="form"
+                :rules="rules"
+                :label-col="labelCol"
+                :wrapper-col="wrapperCol"
+              >
                 <a-form-model-item label="学者姓名" prop="scholarname">
                   <a-input v-model="form.scholarname" />
                 </a-form-model-item>
-                <a-form-model-item label="邮箱" prop="email">
-                  <a-input v-model="form.email" />
-                </a-form-model-item>
-                <a-form-model-item label="工作机构" prop="instituition">
-                  <a-input v-model="form.instituition" />
+                <a-form-model-item label="工作机构" prop="institution">
+                  <a-input v-model="form.institution" />
                 </a-form-model-item>
                 <a-form-model-item label="职务/身份" prop="position">
                   <a-input v-model="form.position" />
@@ -99,17 +139,17 @@
                   <a-textarea v-model="form.intro" placeholder :rows="4" />
                 </a-form-item>
                 <a-form-model-item :wrapper-col="{ span: 14, offset: 10 }">
-                  <a-button type="primary" @click="onSubmit">
-                    保存
-                  </a-button>
+                  <a-button type="primary" @click="onSubmit"> 保存 </a-button>
                 </a-form-model-item>
               </a-form-model>
             </a-modal>
           </div>
           <div class="pop-modal">
-            <a-button class="btn" type="primary" @click="showModal"><a-icon type="plus-circle" />添加个人经历</a-button>
+            <a-button class="btn" type="primary" @click="showModal"
+              ><a-icon type="plus-circle" />添加个人经历</a-button
+            >
             <a-modal
-              style="z-index:100000000"
+              style="z-index: 100000000"
               title="添加个人经历"
               :visible="visible"
               @ok="handleOk"
@@ -120,19 +160,32 @@
               <div class="input-list">
                 <div class="ex-input">
                   <label>单位名称：</label>
-                  <a-input style="width:100px;" v-model="crtexperience.organization"> </a-input>
+                  <a-input
+                    style="width: 100px"
+                    v-model="crtexperience.organization"
+                  >
+                  </a-input>
                 </div>
                 <div class="ex-input">
                   <label>职务/身份：</label>
-                  <a-input style="width:100px;" v-model="crtexperience.position"> </a-input>
+                  <a-input
+                    style="width: 100px"
+                    v-model="crtexperience.position"
+                  >
+                  </a-input>
                 </div>
                 <div class="ex-input">
                   <label>起始时间：</label>
-                  <a-input style="width:100px;" v-model="crtexperience.startyear"> </a-input>
+                  <a-input
+                    style="width: 100px"
+                    v-model="crtexperience.startyear"
+                  >
+                  </a-input>
                 </div>
                 <div class="ex-input">
                   <label>结束时间：</label>
-                  <a-input style="width:100px;" v-model="crtexperience.endyear"> </a-input>
+                  <a-input style="width: 100px" v-model="crtexperience.endyear">
+                  </a-input>
                 </div>
               </div>
             </a-modal>
@@ -148,7 +201,11 @@
             </div>
             <div class="experience">
               <a-timeline>
-                <a-timeline-item v-for="(item, i) in workExperience" :key="i" :color="i == 0 ? 'blue' : 'gray'">
+                <a-timeline-item
+                  v-for="(item, i) in workExperience"
+                  :key="i"
+                  :color="i == 0 ? 'blue' : 'gray'"
+                >
                   <div>
                     <p>{{ item.yearStart }} - {{ item.yearEnd }}</p>
                     <p>{{ item.organization }} - {{ item.introduction }}</p>
@@ -289,17 +346,15 @@ export default {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 },
       form: {
-        email: "",
         position: "",
         scholarname: "",
-        instituition: "",
+        institution: "",
         intro: "",
       },
       rules: {
         position: [{ required: true, message: "Title is required!" }],
-        instituition: [{ required: true, message: "Instituition is required!" }],
+        institution: [{ required: true, message: "Institution is required!" }],
         scholarname: [{ required: true, message: "Username is required!" }],
-        email: [{ required: true, message: "Please input your E-mail!" }],
       },
       page: 1,
       paperList: [],
@@ -313,6 +368,7 @@ export default {
         { value: 0, name: "专利" },
         { value: 0, name: "文献" },
       ],
+      institution: [],
     };
   },
   mounted() {
@@ -369,7 +425,7 @@ export default {
       };
       myChart.setOption(option);
       let currentIndex = -1;
-      setInterval(function() {
+      setInterval(function () {
         var dataLen = option.series[0].data.length;
         // 取消之前高亮的图形
         myChart.dispatchAction({
@@ -443,29 +499,35 @@ export default {
     //获取同名数据库门户
     getSameNameScholar() {
       let url = this.$urlPath.website.getSameNameScholar;
-      getData(url + "/" + this.scholar.englishName + "/" + this.scholarid).then((res) => {
-        console.log(res.code);
-        if (res.code === 1001) {
-          // this.$message.success("获取数据成功");
-          console.log(res.data.instituition);
-          console.log(this.pos);
-          this.sameNameSlist = res.data.dataScholar;
-          this.pos = res.data.pos;
-          console.log(res.data.instituition);
-          console.log(this.pos);
-          this.sameNameSlist = this.sameNameSlist.map((item, index) => {
-            // console.log(index, res.data.instituition[index]);
-            item.lastKnownAffiliationId = "";
-            item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "   引用数:" + item.citationCount;
-            if (res.data.instituition != null)
-              item.lastKnownAffiliationId = res.data.instituition[index] + item.lastKnownAffiliationId;
-            console.log(item.lastKnownAffiliationId);
-            return item;
-          });
-        } else {
-          this.$message.error(res.message);
+      getData(url + "/" + this.scholar.englishName + "/" + this.scholarid).then(
+        (res) => {
+          console.log(res.code);
+          if (res.code === 1001) {
+            // this.$message.success("获取数据成功");
+            console.log(res.data.institution);
+            console.log(this.pos);
+            this.sameNameSlist = res.data.dataScholar;
+            this.pos = res.data.pos;
+            console.log(res.data.institution);
+            console.log(this.pos);
+            this.sameNameSlist = this.sameNameSlist.map((item, index) => {
+              item.lastKnownAffiliationId = "";
+              item.lastKnownAffiliationId +=
+                "    成果数:" +
+                item.paperCount +
+                "   引用数:" +
+                item.citationCount;
+              if (res.data.institution != null)
+                item.lastKnownAffiliationId =
+                  res.data.institution[index] + item.lastKnownAffiliationId;
+              console.log(item.lastKnownAffiliationId);
+              return item;
+            });
+          } else {
+            this.$message.error(res.message);
+          }
         }
-      });
+      );
     },
 
     //获取已认领数据库门户
@@ -480,13 +542,22 @@ export default {
         console.log("why got 400");
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          this.gotSList = res.data;
+          this.gotSList = res.data.dataScholars;
+          this.institution = res.data.institution;
+          console.log(res.data);
           this.gotSList = this.gotSList.map((item, index) => {
             item.lastKnownAffiliationId = "";
-            item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "    引用数:" + item.citationCount;
+            item.lastKnownAffiliationId +=
+              "    成果数:" +
+              item.paperCount +
+              "    引用数:" +
+              item.citationCount;
             console.log(item.lastKnownAffiliationId);
-            if (res.data.instituition != null) {
-              item.lastKnownAffiliationId = res.data.instituition[index] + item.lastKnownAffiliationId;
+            console.log(this.institution);
+            if (res.data.institution != null) {
+              item.lastKnownAffiliationId =
+                this.institution[index] + item.lastKnownAffiliationId;
+              console.log(index);
             }
             return item;
           });
@@ -501,7 +572,7 @@ export default {
     claimDataPortal(index) {
       let params = new URLSearchParams();
       let url = this.$urlPath.website.claimDataPortal;
-      params.append("scholarId", 13);
+      params.append("scholarId", this.scholarid);
       params.append("authorId", this.sameNameSlist[index].authorId);
       // let params = {
       //   scholarId: 1,
@@ -548,10 +619,9 @@ export default {
       this.getScholarInfo();
       let params = {
         name: this.form.scholarname,
-        email: this.form.email,
         title: this.form.position,
         introduction: this.form.intro,
-        organization: this.form.instituition,
+        organization: this.form.institution,
       };
       JSON.stringify(params);
       let url = this.$urlPath.website.editScholarInfo;
@@ -579,7 +649,8 @@ export default {
             this.scholar.gindex = 0;
           }
           this.nameList = res.data.authorList;
-          this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
+          this.count =
+            res.data.paperNum + res.data.patentNum + res.data.projectNum;
           console.log(this.scholar.citations);
           this.coAuthors = res.data.coAuthors;
           console.log(this.coAuthors);
@@ -587,7 +658,7 @@ export default {
           this.form.email = this.scholar.email;
           this.form.scholarname = this.scholar.name;
           this.form.position = this.scholar.title;
-          this.form.instituition = this.scholar.organization;
+          this.form.institution = this.scholar.organization;
           this.form.intro = this.scholar.introduction;
 
           this.projectTotal = res.data.projectNum;
@@ -596,7 +667,9 @@ export default {
           this.patentList = res.data.patent;
           this.paperList = res.data.paper;
           this.paperTotal = res.data.paperNum;
-
+          this.seriData[0].value = this.projectTotal;
+          this.seriData[1].value = this.patentTotal;
+          this.seriData[2].value = this.paperTotal;
           console.log(this.scholar);
           console.log(this.workExperience);
         } else {
@@ -655,7 +728,7 @@ export default {
 </script>
 <style scoped>
 .main-block {
-  width: 1400px;
+  width: 1280px;
   height: 2500px;
   margin: auto;
   /* border: solid 1px grey; */
@@ -698,7 +771,7 @@ export default {
 .info-content-ins {
   width: 100px;
   /* border: solid 1px red; */
-  margin: -5px auto 10px 120px;
+  margin: 0px auto 10px 120px;
 }
 .info-content-index {
   width: 250px;
@@ -714,21 +787,7 @@ export default {
   float: right;
   margin: -210px 20px 10px 10px;
 }
-.selections {
-  /* border: solid 1px black; */
-  width: 250px;
-  height: 800px;
-  margin: 10px 10px 10px 10px;
-}
-.results {
-  padding: 10px 15px 10px 15px;
-  /* border: solid 1px black; */
-  width: 900px;
-  height: 800px;
-  display: block;
-  float: right;
-  margin: -810px 10px 35px 280px;
-}
+
 .btn {
   width: 140px;
   /* border: solid 1px black; */
