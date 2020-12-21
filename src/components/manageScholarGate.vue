@@ -450,7 +450,7 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;
@@ -488,7 +488,7 @@ export default {
       });
     },
     onSearch2(value) {//查找之后要结果
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;

@@ -415,7 +415,7 @@ export default {
       this.isSelected4 = false;
     },
     onSearch3(value) {
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;
@@ -424,7 +424,7 @@ export default {
       this.getPatent(value);
     },
     onSearch4(value) {
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;
