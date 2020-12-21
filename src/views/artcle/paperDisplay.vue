@@ -22,7 +22,7 @@
                             <!-- <a-avatar class="img" :size="30" icon="user" /> -->
                             <a-avatar
                               :size="30"
-                              :style="'backgroundColor: #00a2ae'"
+                              :style="'backgroundColor: #B22222'"
                               >{{ item.name.substring(0, 1)  }}
                             </a-avatar>
                             <h1 class="author-name">{{ item.name }}</h1>
@@ -33,7 +33,7 @@
                                 <!-- <a-avatar class="img" :size="30" icon="user" /> -->
                                 <a-avatar
                                   :size="30"
-                                  :style="'backgroundColor: #00a2ae'"
+                                  :style="'backgroundColor: #B22222'"
                                   >{{ item.name.substring(0, 1)  }}
                                 </a-avatar>
                                 <h1 class="author-name2">{{ item.name }}</h1>
@@ -78,7 +78,7 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon v-if="Abstract!=''" type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="Abstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="Abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
@@ -86,7 +86,7 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" type="paper-clip" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="Journal!=''||Conference!=''||Volume!=''||Issue!=''||FirstPage!=''||LastPage!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="source-frame">
@@ -106,7 +106,7 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
-            <a-icon type="share-alt" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
@@ -117,7 +117,7 @@
             </a-descriptions>
           </a-tab-pane>
           <!-- <a-tab-pane key="3" tab="推荐文献" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '20px', color: ' #B22222'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
@@ -131,7 +131,7 @@
           </a-tabs>
         </div>
         <div class="down-right-block">
-          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: '#08c'}"/>
+          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: ' #B22222'}"/>
           <span class = "title-echart">引用走势</span> -->
           <!-- <div class="echarts-infor-frame">
             <div class="echarts-infor">

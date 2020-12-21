@@ -21,7 +21,7 @@
                           <!-- <a-avatar class="img" :size="30" icon="user" /> -->
                           <a-avatar
                             :size="30"
-                            :style="'backgroundColor: #00a2ae'"
+                            :style="'backgroundColor: #B22222'"
                             >{{ item.substring(0, 1)  }}
                           </a-avatar>
                           <h1 class="author-name">{{ item }}</h1>
@@ -49,7 +49,7 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
-              <a-icon v-if="progData.zhAbstract!=''" type="read" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.zhAbstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.zhAbstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Abstract-frame">
@@ -57,7 +57,7 @@
                   </div>
                 </a-descriptions-item >
               </a-descriptions>
-              <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.zhKeyword!=''" title="关键词" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="Keyword-frame">
@@ -65,7 +65,7 @@
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
-              <a-icon v-if="progData.journal!=''" type="paper-clip" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.journal!=''" type="paper-clip" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.journal!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="source-frame">
@@ -73,7 +73,7 @@
                   </div>
                 </a-descriptions-item>
               </a-descriptions>
-              <a-icon v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" type="branches" :style="{ fontSize: '16px', color: '#08c'}"/>
+              <a-icon v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" type="branches" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" title="相关信息" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div v-if="progData.fundProjectNo!=''" class="source-frame">
@@ -102,7 +102,7 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="2" tab="原文链接">
-            <a-icon type="share-alt" :style="{ fontSize: '16px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '16px', color: ' #B22222'}"/>
             <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="url-frame">
@@ -113,7 +113,7 @@
             </a-descriptions>
           </a-tab-pane>
           <!-- <a-tab-pane key="3" tab="推荐项目" style="margin: 10px">
-            <a-icon type="share-alt" :style="{ fontSize: '20px', color: '#08c'}"/>
+            <a-icon type="share-alt" :style="{ fontSize: '20px', color: ' #B22222'}"/>
             <a-descriptions title="引用" style="margin: -25px 0px 0px 20px">
               <a-descriptions-item >
                 <div class="new-quote_container" style="left: 172px; bottom: 168.5px;">
