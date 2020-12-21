@@ -24,7 +24,12 @@
               <div style="margin-bottom: 0.5em">
                 <uploadPhoto></uploadPhoto>
               </div>
-              <div style="margin-left: -0.55em" v-show="!this.info.isScholar">
+              <div v-if="isManager" style="margin-left: -0.55em" >
+                <a-button type="primary" >
+                  管理账号
+                </a-button>
+              </div>
+              <div v-if="!isManager" style="margin-left: -0.55em" v-show="!this.info.isScholar">
                 <a-button type="primary" @click="() => setModalVisible(true)">
                   学者认证
                 </a-button>
@@ -195,6 +200,7 @@ export default {
   },
   data() {
     return {
+      isManager:false,
       info: {
         username: '',
         email: '',
@@ -242,20 +248,20 @@ export default {
       postData(url, params).then(res => {
         if(res.code === 1001) {
           this.$message.success({
-            message: "请求成功",
+            message: '请求成功',
             duration: 1000,
             showClose: true
           });
         } else if(res.code === 1002) {
           this.$message.success({
-            message: "认证成功,稍后为您跳转到认领门户界面",
+            message: '认证成功,稍后为您跳转到认领门户界面',
             duration: 1000,
             showClose: true
           });
           this.toClaimScholar();
         } else {
           this.$message.error({
-            message: res.message,
+            message: '这个邮箱被用过了',
             duration: 1000,
             showClose: true
           });
@@ -281,15 +287,15 @@ export default {
       this.showEmail = !this.showEmail;
     },
     toPwd() {
-      this.showPwd = !this.Pwd;
+      this.showPwd = !this.showPwd;
     },
     closePwd() {
-      let res = this.$refs.choosePwd.getChoose();
+      //let res = this.$refs.choosePwd.getChoose();
       this.showPwd = !this.showPwd;
-      console.log(res);
+     /* console.log(res);
       if (res.flag === 0) {
         this.changePa(res.old, res.new);
-      }
+      }*/
     },
     closeEmail() {
       let res = this.$refs.chooseE.getChoose();
@@ -331,6 +337,9 @@ export default {
   },
   created() {
     this.getInfo();
+    if (localStorage.getItem("identification") == 2) {
+      this.isManager = true;
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "scholarIdentify" });

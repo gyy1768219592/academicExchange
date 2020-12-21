@@ -31,7 +31,7 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button v-if="isLogin" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+              <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
               <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
             </div>
@@ -49,6 +49,27 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="基本信息" force-render>
             <div class="base-info">
+              <a-icon v-if="ll.renling_author_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions v-if="ll.renling_author_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="authors">
+                    <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="ll.renling_author_data">
+                      <a-list-item slot="renderItem" slot-scope="item">
+                        <div class="author" @click="gotoUser(item.scholarId)">
+                          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                            <a-avatar
+                              :size="30"
+                              :style="'backgroundColor: #B22222'"
+                              >{{ item.name.substring(0, 1)  }}
+                            </a-avatar>
+                            <h1 class="author-name">{{ item.name }}</h1>
+                          </a>
+                        </div>
+                      </a-list-item>
+                    </a-list>
+                  </div>
+                </a-descriptions-item >
+              </a-descriptions>
               <a-icon v-if="progData.zhAbstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="progData.zhAbstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
@@ -137,6 +158,8 @@ export default {
   },
   data() {
     return {
+      renlingScholar:"已认领者",
+      isScholar:false,
       isLogin:false,
       isLegal:true,
       visible:false,
@@ -151,6 +174,9 @@ export default {
       progID : this.$route.params.id,
       progData : {},
       author_data: [],
+      ll:{
+        renling_author_data:[],
+      },
     };
   },
   watch: {
@@ -160,11 +186,16 @@ export default {
   },
   mounted(){
     this.getProg();
-    if(localStorage.getItem("identification")>0){
+    this.getRenling();
+    if(localStorage.getItem("identification")==1){
       this.isLogin = true;
+      this.isScholar = true;
       this.getRenlingStatus();
       this.checkrenling();
       this.getLikeStatus();
+    }
+    else if(localStorage.getItem("identification")){
+      this.isLogin = true;
     }
   },
   methods: {
@@ -231,9 +262,12 @@ export default {
     callback(key) {
       console.log(key);
     },
-    gotoUser(){
+    gotoUser(scholarId){
       //去此人的主页
-      this.$router.push("/scholarIndex");
+      this.$router.push({
+        path: "/scholarIndex",
+        query: { scholarid: scholarId },
+      });
     },
     checkrenling(){
       let params = new URLSearchParams();
@@ -271,6 +305,8 @@ export default {
               if(this.nowClaimNumber>=this.maxClaimNumber){
                 this.canClaim = false;
               }
+              this.getRenling();
+              this.$set(this.ll,"renling_author_data",this.ll.renling_author_data);
               //window.sessionStorage.setItem("UserId", res.data.userid);
               // const webAdrs = window.sessionStorage.getItem("WebAdrs");
             } else {
@@ -296,6 +332,8 @@ export default {
             if(this.nowClaimNumber<this.maxClaimNumber){
               this.canClaim = true;
             }
+            this.getRenling();
+            this.$set(this.ll,"renling_author_data",this.ll.renling_author_data);
             //window.sessionStorage.setItem("UserId", res.data.userid);
             // const webAdrs = window.sessionStorage.getItem("WebAdrs");
           } else {
@@ -375,8 +413,22 @@ export default {
     },
     oCopy(obj){
         obj.select();    // 选中输入框中的内容
-    }
-
+    },
+    getRenling(){
+      let params = new URLSearchParams();
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getScholarByPaper + "1/" + this.progID;
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.ll.renling_author_data = res.data;
+          this.renlingScholar = "已认领者（" + this.ll.renling_author_data.length + "）";
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+    },
   },
 };
 </script>
@@ -393,6 +445,23 @@ export default {
   /* height: 220px; */
   margin: auto;
   background-color: #fafafa;
+}
+.renlingzhe{
+  /* border: solid 1px black; */
+  width: 1200px;
+  /* height: 220px; */
+  margin: auto;
+  background-color: #fafafa;
+  border-top: solid 1px #cccccc;
+}
+.renlingzhe-frame{
+  /* border: solid 1px black; */
+  font-weight: 600;
+  margin: auto;
+  /* height: 220px; */
+  margin: auto;
+  background-color: #fcfcfc;
+  font-size: 15px;
 }
 .down-block {
   /* border: solid 1px black; */
@@ -505,6 +574,17 @@ export default {
   height: 40px;
   font-size: medium;
 }
+.author-name2 {
+  width: 100px;
+  /*border: solid 1px black; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* width: 80%; */
+  margin: -30px auto 0 40px;
+  height: 50px;
+  font-size: medium;
+}
 .yinyong {
     width: 80%;
     color: #333 !important;
@@ -593,5 +673,37 @@ export default {
   width: 100px;
   /* border: solid 1px black; */
   margin: 15px;
+}
+.author-infor {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin: 12px 0px;
+  /* border-bottom: 1px solid rgb(239, 239, 239); */
+}
+.author-infor-item1 {
+  width: 52%;
+  border-right: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.author-infor-item2 {
+  width: 52%;
+  border-left: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.author-infor-item_cnt {
+  color: #999;
+  font-size: 14px;
+}
+.authors-down{
+  /* height: 50px; */
+  border-top: 1px solid rgb(239, 239, 239);
 }
 </style>

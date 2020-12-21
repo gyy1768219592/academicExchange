@@ -49,10 +49,6 @@
                                   <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
                                   <span class="author-infor-item_cnt">被引</span>
                                 </div>
-                                <!-- <div class="author-infor-item">
-                                  <span class="author-infor-item_cnt">{{ item.HIndex }}</span> 
-                                  <span class="author-infor-item_cnt">H指数</span>
-                                </div> -->
                               </div>
                             </a-menu-item>
                           </a-menu>
@@ -119,22 +115,7 @@
           </a-tabs>
         </div>
         <div class="down-right-block">
-          <!-- <a-icon type="stock" :style="{ fontSize: '20px', color: ' #B22222'}"/>
-          <span class = "title-echart">引用走势</span> -->
-          <!-- <div class="echarts-infor-frame">
-            <div class="echarts-infor">
-              <div class="echarts-infor-item">
-                <span class="echarts-infor-item_cnt" id="leijialiang">{{leijiliang}}</span> 
-                <span class="echarts-infor-item_cnt">累计被引量</span>
-              </div>
-              <div class="echarts-infor-item">
-                <span class="echarts-infor-item_cnt" id="mounianbeiyinliang">{{mounianbeiyinliang}}</span> 
-                <span class="echarts-infor-item_cnt" id="mounian">{{mounian}}年被引量</span>
-              </div>
-            </div>
-          </div> -->
-          <!-- <div id="myChart" class="myChart"> -->
-          <!-- </div> -->
+
         </div>
       </div>
     </div>
@@ -147,9 +128,6 @@
 import { getData } from "@/api/webget";
 import { putData } from "@/api/webput";
 import navSearch from "@/components/navSearch";
-// require('echarts/lib/chart/bar')
-// require('echarts/lib/component/tooltip')
-// require('echarts/lib/component/title')
 export default {
   components: {
     navSearch,
@@ -177,9 +155,6 @@ export default {
       LastPage :	"",       //结束页
       SourceUrl :"",
       yinyong: "杨玲,  陈志刚. 陈志刚教授辨病论治周围神经病经验[J]. 中国当代医药. 2018,(12):112-115. ",
-      // leijiliang : 0,
-      // mounian : 2000,
-      // mounianbeiyinliang : 2,
     };
   },
   watch: {
@@ -190,124 +165,15 @@ export default {
   mounted(){
     // this.initCharts();
     this.getPaper();
-    if(localStorage.getItem("identification")>0){
+    if(localStorage.getItem("identification")==1){
       this.isLogin = true;
       this.getLikeStatus();
     }
+    else if(localStorage.getItem("identification")){
+      this.isLogin = true;
+    }
   },
   methods: {
-    // initCharts () {
-    //   // 基于准备好的dom，初始化echarts实例
-    //   let myChart = this.$echarts.init(document.getElementById('myChart'));
-    //   // 绘制图表
-    //   myChart.setOption({
-    //     title: {
-    //         text: '',
-    //         subtext: ''
-    //     },
-    //     tooltip: {
-    //         trigger: 'axis'
-    //     },
-    //     legend: {
-    //         data:['最高','最低']
-    //     },
-    //     splitLine:{//去掉网格线
-    //       show: false
-    //     },
-    //     toolbox: {
-    //         show: false,
-    //         feature: {
-    //             dataZoom: {
-    //                 yAxisIndex: 'none'
-    //             },
-    //             dataView: {readOnly: false},
-    //             magicType: {type: ['line', 'bar']},
-    //             saveAsImage: {}
-    //         }
-    //     },
-    //     xAxis:  {
-    //         type: 'category',
-    //         boundaryGap: false,
-    //         axisLabel: {
-    //             formatter: '{value}'
-    //         },
-    //         data: ['1999','2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020']
-    //     },
-    //     yAxis: {
-    //         show: false,
-    //         type: 'value',
-    //         axisLabel: {
-    //             formatter: '{value}'
-    //         }
-    //     },
-        
-    //     series: [
-    //       {
-    //         name:'',
-    //         type:'line',
-    //         data:[0, 0, 1, 2, 4, 8, 9, 12, 14, 15, 19, 20, 21, 22, 23, 24, 26, 34, 46, 52, 60, 67],
-    //         markPoint: {
-    //           data: [
-    //             {type: 'max', name: '最大值'},
-    //             {type: 'min', name: '最小值'}
-    //           ]
-    //         },
-    //         markLine: {
-    //           data: [
-    //             // {type: 'average', name: '平均值'}
-    //           ]
-    //         },
-    //         tooltip: {
-    //           show: true,
-    //           trigger: 'axis',
-    //         },
-    //         itemStyle: {
-    //           normal: {
-    //             color: "#386db3",//折线点的颜色
-    //             lineStyle: {
-    //             color: "#386db3"//折线的颜色
-    //             }
-    //           }
-    //         }
-    //       },
-          
-    //     ]
-    //   });
-    //   myChart.getZr().on('mousemove', function (params) { 
-    //   var pointInPixel= [params.offsetX, params.offsetY];
-    //     if (myChart.containPixel('grid',pointInPixel)) {
-    //       this.leijiliang = 10;
-    //       var pointInGrid=myChart.convertFromPixel({seriesIndex:0},pointInPixel);
-    //       var xIndex=pointInGrid[0];
-    //       var op=myChart.getOption();
-    //       var month = op.xAxis[0].data[xIndex];
-    //       var value = op.series[0].data[xIndex];
-    //       var num=0;
-    //       for (var i=0; i<=xIndex; i++){
-    //           num+=op.series[0].data[i];
-    //       }
-    //       this.mounian=month;
-    //       if(isNaN(num)){
-    //         num=0;
-    //       }
-    //       if(typeof(this.mounianbeiyinliang) == undefined){
-    //         this.mounianbeiyinliang = 0;
-    //       }
-    //       if(typeof(this.mounian) == undefined){
-    //         this.mounian = "0000";
-    //       }
-    //       this.mounianbeiyinliang = value;
-    //       var span = document.getElementById("leijialiang");
-    //       span.innerHTML = num;
-    //       span = document.getElementById("mounianbeiyinliang");
-    //       span.innerHTML = this.mounianbeiyinliang;
-    //       span = document.getElementById("mounian");
-    //       span.innerHTML = this.mounian+"年被引量";
-    //     }
-    //   });
-      
-    // },
-    
     handleClick(e) {
       console.log("click", e);
     },
