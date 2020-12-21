@@ -47,8 +47,8 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="专利内容" force-render>
             <div class="base-info">
-              <a-icon v-if="renling_inventor_data!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="renling_inventor_data!=0" title="已领学者" style="margin: -25px 0px 0px 20px">
+              <a-icon v-if="renling_inventor_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions v-if="renling_inventor_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
                   <div class="inventors">
                     <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="renling_inventor_data">
@@ -164,6 +164,7 @@ export default {
   },
   data() {
     return {
+      renlingScholar:"已认领者",
       isScholar:false,
       isLogin:false,
       isLegal:true,
@@ -413,6 +414,7 @@ export default {
         console.log(res.data);
         if (res.code === 1001) {
           this.renling_inventor_data = res.data;
+          this.renlingScholar += "（" + this.renling_inventor_data.length + "）"
         } else {
           console.log(res.code);
           this.$message.error(res.message);
