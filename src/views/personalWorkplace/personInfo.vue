@@ -24,7 +24,12 @@
               <div style="margin-bottom: 0.5em">
                 <uploadPhoto></uploadPhoto>
               </div>
-              <div style="margin-left: -0.55em" v-show="!this.info.isScholar">
+              <div v-if="isManager" style="margin-left: -0.55em" >
+                <a-button type="primary" >
+                  管理账号
+                </a-button>
+              </div>
+              <div v-if="!isManager" style="margin-left: -0.55em" v-show="!this.info.isScholar">
                 <a-button type="primary" @click="() => setModalVisible(true)">
                   学者认证
                 </a-button>
@@ -195,6 +200,7 @@ export default {
   },
   data() {
     return {
+      isManager:false,
       info: {
         username: '',
         email: '',
@@ -331,6 +337,9 @@ export default {
   },
   created() {
     this.getInfo();
+    if (localStorage.getItem("identification") == 2) {
+      this.isManager = true;
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "scholarIdentify" });

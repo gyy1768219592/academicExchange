@@ -190,7 +190,7 @@ export default {
   mounted(){
     // this.initCharts();
     this.getPaper();
-    if(localStorage.getItem("identification")>0){
+    if(localStorage.getItem("identification")==1){
       this.isLogin = true;
       this.getLikeStatus();
     }

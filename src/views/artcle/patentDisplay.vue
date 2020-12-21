@@ -166,7 +166,7 @@ export default {
   },
   mounted(){
     this.getPatent();
-    if(localStorage.getItem("identification")>0){
+    if(localStorage.getItem("identification")==1){
       this.isLogin = true;
       this.getRenlingStatus();
       this.checkrenling();
