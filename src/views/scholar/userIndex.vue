@@ -86,11 +86,8 @@
                 <a-form-model-item label="学者姓名" prop="scholarname">
                   <a-input v-model="form.scholarname" />
                 </a-form-model-item>
-                <a-form-model-item label="邮箱" prop="email">
-                  <a-input v-model="form.email" />
-                </a-form-model-item>
-                <a-form-model-item label="工作机构" prop="instituition">
-                  <a-input v-model="form.instituition" />
+                <a-form-model-item label="工作机构" prop="institution">
+                  <a-input v-model="form.institution" />
                 </a-form-model-item>
                 <a-form-model-item label="职务/身份" prop="position">
                   <a-input v-model="form.position" />
@@ -289,17 +286,15 @@ export default {
       labelCol: { span: 8 },
       wrapperCol: { span: 12 },
       form: {
-        email: "",
         position: "",
         scholarname: "",
-        instituition: "",
+        institution: "",
         intro: "",
       },
       rules: {
         position: [{ required: true, message: "Title is required!" }],
-        instituition: [{ required: true, message: "Instituition is required!" }],
+        institution: [{ required: true, message: "Institution is required!" }],
         scholarname: [{ required: true, message: "Username is required!" }],
-        email: [{ required: true, message: "Please input your E-mail!" }],
       },
       page: 1,
       paperList: [],
@@ -313,7 +308,7 @@ export default {
         { value: 0, name: "专利" },
         { value: 0, name: "文献" },
       ],
-      instituition: [],
+      institution: [],
     };
   },
   mounted() {
@@ -448,18 +443,17 @@ export default {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          console.log(res.data.instituition);
+          console.log(res.data.institution);
           console.log(this.pos);
           this.sameNameSlist = res.data.dataScholar;
           this.pos = res.data.pos;
-          console.log(res.data.instituition);
+          console.log(res.data.institution);
           console.log(this.pos);
           this.sameNameSlist = this.sameNameSlist.map((item, index) => {
-            // console.log(index, res.data.instituition[index]);
             item.lastKnownAffiliationId = "";
             item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "   引用数:" + item.citationCount;
-            if (res.data.instituition != null)
-              item.lastKnownAffiliationId = res.data.instituition[index] + item.lastKnownAffiliationId;
+            if (res.data.institution != null)
+              item.lastKnownAffiliationId = res.data.institution[index] + item.lastKnownAffiliationId;
             console.log(item.lastKnownAffiliationId);
             return item;
           });
@@ -553,10 +547,9 @@ export default {
       this.getScholarInfo();
       let params = {
         name: this.form.scholarname,
-        email: this.form.email,
         title: this.form.position,
         introduction: this.form.intro,
-        organization: this.form.instituition,
+        organization: this.form.institution,
       };
       JSON.stringify(params);
       let url = this.$urlPath.website.editScholarInfo;
@@ -592,7 +585,7 @@ export default {
           this.form.email = this.scholar.email;
           this.form.scholarname = this.scholar.name;
           this.form.position = this.scholar.title;
-          this.form.instituition = this.scholar.organization;
+          this.form.institution = this.scholar.organization;
           this.form.intro = this.scholar.introduction;
 
           this.projectTotal = res.data.projectNum;

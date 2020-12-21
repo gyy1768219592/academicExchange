@@ -264,8 +264,10 @@ export default {
 
     //获取学者信息
     getScholarInfo() {
+      this.scholarid = this.$route.query.scholarid;
+      let id = this.$route.query.scholarid;
       let url = this.$urlPath.website.getScholarInfo;
-      getData(url + "/" + this.scholarid).then((res) => {
+      getData(url + "/" + id).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");

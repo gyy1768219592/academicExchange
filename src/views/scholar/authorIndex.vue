@@ -132,8 +132,9 @@ export default {
 
     //获取学者信息
     getAuthorInfo() {
+      let id = this.$route.query.authorid;
       let url = this.$urlPath.website.getAuthorInfo;
-      getData(url + "/" + this.authorid).then((res) => {
+      getData(url + "/" + id).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
