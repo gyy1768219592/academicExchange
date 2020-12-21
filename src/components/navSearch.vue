@@ -83,6 +83,19 @@
         />
       </div>
       <div v-if="isLogin" class="topNav-right">
+        <a-tooltip v-if="isManager" placement="bottom">
+          <template slot="title">
+            <span>管理员控制台</span>
+          </template>
+          <a-button
+            icon="setting"
+            size="large"
+            shape="circle"
+            class="topNav-otherButton"
+            @click="toManager()"
+          >
+          </a-button>
+        </a-tooltip>
         <a-tooltip placement="bottom">
           <template slot="title">
             <span>我的收藏</span>
@@ -181,6 +194,7 @@ export default {
       isSelected: false,
       form: this.$form.createForm(this, { name: "advancedSearchTop" }),
       yearValue: [],
+      isManager: false,
       isLogin: false,
       avatar: null,
     };
@@ -292,11 +306,17 @@ export default {
     toConcern() {
       this.$router.push("/concern");
     },
+    toManager() {
+      this.$router.push("/Manager");
+    },
   },
   created() {
     if (localStorage.getItem("token")) {
       this.isLogin = true;
       this.avatar = localStorage.getItem("avatarUrl");
+    }
+    if (localStorage.getItem("identification") == 2){
+      this.isManager = true;
     }
   },
 };
