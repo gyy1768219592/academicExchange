@@ -24,6 +24,7 @@
           :columns="columns"
           :data-source="ranklist"
           @change="onChange"
+          :pagination="false"
         />
       </a-tab-pane>
     </a-tabs>
@@ -146,14 +147,14 @@ export default {
         },
         {
           title: "论文数",
-          width: "155px",
+          width: "145px",
           align: "center",
           dataIndex: "paperCount",
           sorter: (a, b) => a.paperCount - b.paperCount,
         },
         {
           title: "第一作者数",
-          width: "155px",
+          width: "145px",
           align: "center",
           dataIndex: "firstAuthor",
           sorter: (a, b) => a.firstAuthor - b.firstAuthor,
@@ -168,12 +169,12 @@ export default {
     initChart() {
       this.chart = echarts.init(document.getElementById("echart-rankbar"));
       let option = {
-        width: "600px",
+        width: "590px",
         grid: {
           top: "5%",
-          right: "0%",
+          right: "15%",
           left: "9.2%",
-          bottom: "17.5%",
+          bottom: "17.1%",
         },
         tooltip: {
           trigger: "axis",
@@ -393,8 +394,8 @@ export default {
   padding-bottom: 10px;
 }
 .irank-main .irank-table {
-  width: 650px;
-  margin-left: 20px;
+  width: 640px;
+  margin-left: 10px;
 }
 #echart-rankbar {
   width: 690px;
