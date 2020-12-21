@@ -97,11 +97,11 @@ let path = {
     //收藏
     addCollect: Ip.productIP + "/scholarship/starStatus",
     getCollectPaper: Ip.productIP + "/scholarship/staredPaper",
-    getCollectPatent: Ip.productIP +"/scholarship/staredPatent",
-    getCollectProject: Ip.productIP +"/scholarship/staredProject",
+    getCollectPatent: Ip.productIP + "/scholarship/staredPatent",
+    getCollectProject: Ip.productIP + "/scholarship/staredProject",
     delCollect: Ip.productIP + "/scholarship/starStatus",
 
-    getScholarInfo: Ip.productIP + "scholar/info",
+    getInfoByUser: Ip.productIP + "scholar/info",
     editScholarInfo: Ip.productIP + "scholar/infoUpdate",
     claimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
     undoClaimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
@@ -109,6 +109,7 @@ let path = {
     addWorkExp: Ip.productIP + "scholar/workExperience",
     deleteWorkExp: Ip.productIP + "scholar/workExperience",
     getAuthorInfo: Ip.productIP + "scholar/dataScholar",
+    getInfoByTourist: Ip.productIP + "scholar/tourist/info",
   },
 };
 export default path;

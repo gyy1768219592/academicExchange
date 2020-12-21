@@ -36,10 +36,7 @@
             >
               <div v-if="isDelete">
                 <div>
-                  <a-button
-                    style="float: right; margin-top: -40px"
-                    type="default"
-                    @click="changePage"
+                  <a-button style="float: right; margin-top: -40px" type="default" @click="changePage"
                     >认领同名门户<a-icon type="right-square"
                   /></a-button>
                 </div>
@@ -50,58 +47,26 @@
                   :data-source="gotSList"
                 >
                   <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a
-                      slot="actions"
-                      @click="claimDataPortal(index)"
-                      v-if="item.scholarid == -1"
-                      >认领</a
-                    >
-                    <a slot="actions" @click="undoClaimDataPortal(index)" v-else
-                      >退领</a
-                    >
-                    <a-list-item-meta
-                      :description="item.lastKnownAffiliationId"
-                    >
-                      <a slot="title" href="https://www.antdv.com/">{{
-                        item.displayName
-                      }}</a>
+                    <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarid == -1">认领</a>
+                    <a slot="actions" @click="undoClaimDataPortal(index)" v-else>退领</a>
+                    <a-list-item-meta :description="item.lastKnownAffiliationId">
+                      <a slot="title" @click="toAuthorIndex(item.authorId)"><span v-html="item.displayName"></span></a>
 
-                      <a-avatar
-                        slot="avatar"
-                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                      />
+                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                     </a-list-item-meta>
                   </a-list-item>
                 </a-list>
               </div>
               <div v-else>
-                <a-button type="default" @click="changePage"
-                  ><a-icon type="left-square" />退领已认领门户</a-button
-                >
-                <a-list
-                  item-layout="horizontal"
-                  :pagination="Cpagination"
-                  :data-source="sameNameSlist"
-                >
+                <a-button type="default" @click="changePage"><a-icon type="left-square" />退领已认领门户</a-button>
+                <a-list item-layout="horizontal" :pagination="Cpagination" :data-source="sameNameSlist">
                   <a-list-item slot="renderItem" slot-scope="item, index">
-                    <a
-                      slot="actions"
-                      @click="claimDataPortal(index)"
-                      v-if="item.scholarId === -1"
-                      >认领</a
-                    >
+                    <a slot="actions" @click="claimDataPortal(index)" v-if="item.scholarId === -1">认领</a>
                     <a slot="actions" v-else>已被认领</a>
-                    <a-list-item-meta
-                      :description="item.lastKnownAffiliationId"
-                    >
-                      <a slot="title" href="https://www.antdv.com/">{{
-                        item.displayName
-                      }}</a>
+                    <a-list-item-meta :description="item.lastKnownAffiliationId">
+                      <a slot="title" @click="toAuthorIndex(item.authorId)"><span v-html="item.displayName"></span></a>
 
-                      <a-avatar
-                        slot="avatar"
-                        src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                      />
+                      <a-avatar slot="avatar" src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                     </a-list-item-meta>
                   </a-list-item>
                 </a-list>
@@ -109,9 +74,7 @@
             </a-modal>
           </div>
           <div class="info-modal">
-            <a-button class="btn" @click="showEditInfoModal"
-              ><a-icon type="edit" />修改个人信息</a-button
-            >
+            <a-button class="btn" @click="showEditInfoModal"><a-icon type="edit" />修改个人信息</a-button>
             <a-modal
               style="z-index: 100000000; position: relative"
               title="修改门户信息"
@@ -119,13 +82,7 @@
               :visible="editInfoVisi"
               :footer="null"
             >
-              <a-form-model
-                ref="ruleForm"
-                :model="form"
-                :rules="rules"
-                :label-col="labelCol"
-                :wrapper-col="wrapperCol"
-              >
+              <a-form-model ref="ruleForm" :model="form" :rules="rules" :label-col="labelCol" :wrapper-col="wrapperCol">
                 <a-form-model-item label="学者姓名" prop="scholarname">
                   <a-input v-model="form.scholarname" />
                 </a-form-model-item>
@@ -145,9 +102,7 @@
             </a-modal>
           </div>
           <div class="pop-modal">
-            <a-button class="btn" type="primary" @click="showModal"
-              ><a-icon type="plus-circle" />添加个人经历</a-button
-            >
+            <a-button class="btn" type="primary" @click="showModal"><a-icon type="plus-circle" />添加个人经历</a-button>
             <a-modal
               style="z-index: 100000000"
               title="添加个人经历"
@@ -160,32 +115,19 @@
               <div class="input-list">
                 <div class="ex-input">
                   <label>单位名称：</label>
-                  <a-input
-                    style="width: 100px"
-                    v-model="crtexperience.organization"
-                  >
-                  </a-input>
+                  <a-input style="width: 100px" v-model="crtexperience.organization"> </a-input>
                 </div>
                 <div class="ex-input">
                   <label>职务/身份：</label>
-                  <a-input
-                    style="width: 100px"
-                    v-model="crtexperience.position"
-                  >
-                  </a-input>
+                  <a-input style="width: 100px" v-model="crtexperience.position"> </a-input>
                 </div>
                 <div class="ex-input">
                   <label>起始时间：</label>
-                  <a-input
-                    style="width: 100px"
-                    v-model="crtexperience.startyear"
-                  >
-                  </a-input>
+                  <a-input style="width: 100px" v-model="crtexperience.startyear"> </a-input>
                 </div>
                 <div class="ex-input">
                   <label>结束时间：</label>
-                  <a-input style="width: 100px" v-model="crtexperience.endyear">
-                  </a-input>
+                  <a-input style="width: 100px" v-model="crtexperience.endyear"> </a-input>
                 </div>
               </div>
             </a-modal>
@@ -195,17 +137,17 @@
       <div class="down-block">
         <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="主页" force-render>
+            <div class="self-intro">
+              <h2>个人简介</h2>
+              <p>{{ scholar.introduction }}</p>
+            </div>
+            <a-divider></a-divider>
             <div class="intro">
               <div class="echart" id="main"></div>
-              <a-divider></a-divider>
             </div>
             <div class="experience">
               <a-timeline>
-                <a-timeline-item
-                  v-for="(item, i) in workExperience"
-                  :key="i"
-                  :color="i == 0 ? 'blue' : 'gray'"
-                >
+                <a-timeline-item v-for="(item, i) in workExperience" :key="i" :color="i == 0 ? 'blue' : 'gray'">
                   <div>
                     <p>{{ item.yearStart }} - {{ item.yearEnd }}</p>
                     <p>{{ item.organization }} - {{ item.introduction }}</p>
@@ -373,13 +315,12 @@ export default {
   },
   mounted() {
     this.scholarid = localStorage.getItem("scholarId");
-    this.getScholarInfo();
+    this.getInfoByUser();
     this.getDataPortal();
     this.getSameNameScholar();
     this.seriData[0].value = this.projectTotal;
     this.seriData[1].value = this.patentTotal;
     this.seriData[2].value = this.paperTotal;
-    this.drawLine();
   },
   methods: {
     changePage() {
@@ -425,7 +366,7 @@ export default {
       };
       myChart.setOption(option);
       let currentIndex = -1;
-      setInterval(function () {
+      setInterval(function() {
         var dataLen = option.series[0].data.length;
         // 取消之前高亮的图形
         myChart.dispatchAction({
@@ -492,42 +433,42 @@ export default {
         }
       });
     },
-
+    toAuthorIndex(id) {
+      this.$router.push({
+        path: "/authorIndex",
+        query: {
+          authorid: id,
+        },
+      });
+    },
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
 
     //获取同名数据库门户
     getSameNameScholar() {
       let url = this.$urlPath.website.getSameNameScholar;
-      getData(url + "/" + this.scholar.englishName + "/" + this.scholarid).then(
-        (res) => {
-          console.log(res.code);
-          if (res.code === 1001) {
-            // this.$message.success("获取数据成功");
-            console.log(res.data.institution);
-            console.log(this.pos);
-            this.sameNameSlist = res.data.dataScholar;
-            this.pos = res.data.pos;
-            console.log(res.data.institution);
-            console.log(this.pos);
-            this.sameNameSlist = this.sameNameSlist.map((item, index) => {
-              item.lastKnownAffiliationId = "";
-              item.lastKnownAffiliationId +=
-                "    成果数:" +
-                item.paperCount +
-                "   引用数:" +
-                item.citationCount;
-              if (res.data.institution != null)
-                item.lastKnownAffiliationId =
-                  res.data.institution[index] + item.lastKnownAffiliationId;
-              console.log(item.lastKnownAffiliationId);
-              return item;
-            });
-          } else {
-            this.$message.error(res.message);
-          }
+      getData(url + "/" + this.scholar.englishName + "/" + this.scholarid).then((res) => {
+        console.log(res.code);
+        if (res.code === 1001) {
+          // this.$message.success("获取数据成功");
+          console.log(res.data.institution);
+          console.log(this.pos);
+          this.sameNameSlist = res.data.dataScholar;
+          this.pos = res.data.pos;
+          console.log(res.data.institution);
+          console.log(this.pos);
+          this.sameNameSlist = this.sameNameSlist.map((item, index) => {
+            item.lastKnownAffiliationId = "";
+            item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "   引用数:" + item.citationCount;
+            if (res.data.institution != null)
+              item.lastKnownAffiliationId = res.data.institution[index] + item.lastKnownAffiliationId;
+            console.log(item.lastKnownAffiliationId);
+            return item;
+          });
+        } else {
+          this.$message.error(res.message);
         }
-      );
+      });
     },
 
     //获取已认领数据库门户
@@ -547,16 +488,11 @@ export default {
           console.log(res.data);
           this.gotSList = this.gotSList.map((item, index) => {
             item.lastKnownAffiliationId = "";
-            item.lastKnownAffiliationId +=
-              "    成果数:" +
-              item.paperCount +
-              "    引用数:" +
-              item.citationCount;
+            item.lastKnownAffiliationId += "    成果数:" + item.paperCount + "    引用数:" + item.citationCount;
             console.log(item.lastKnownAffiliationId);
             console.log(this.institution);
             if (res.data.institution != null) {
-              item.lastKnownAffiliationId =
-                this.institution[index] + item.lastKnownAffiliationId;
+              item.lastKnownAffiliationId = this.institution[index] + item.lastKnownAffiliationId;
               console.log(index);
             }
             return item;
@@ -574,11 +510,6 @@ export default {
       let url = this.$urlPath.website.claimDataPortal;
       params.append("scholarId", this.scholarid);
       params.append("authorId", this.sameNameSlist[index].authorId);
-      // let params = {
-      //   scholarId: 1,
-      //   authorId: this.sameNameSlist[index].authorId,
-      // };
-      // JSON.stringify(params);
       console.log(params);
       postData(url, params).then((res) => {
         console.log(res.code);
@@ -616,7 +547,7 @@ export default {
 
     //修改学者信息
     editScholarInfo() {
-      this.getScholarInfo();
+      this.getInfoByUser();
       let params = {
         name: this.form.scholarname,
         title: this.form.position,
@@ -630,7 +561,7 @@ export default {
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           console.log("修改成功");
-          this.getScholarInfo();
+          this.getInfoByUser();
         } else {
           this.$message.error(res.message);
         }
@@ -638,8 +569,8 @@ export default {
     },
 
     //获取学者信息
-    getScholarInfo() {
-      let url = this.$urlPath.website.getScholarInfo;
+    getInfoByUser() {
+      let url = this.$urlPath.website.getInfoByUser;
       getData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
@@ -649,8 +580,7 @@ export default {
             this.scholar.gindex = 0;
           }
           this.nameList = res.data.authorList;
-          this.count =
-            res.data.paperNum + res.data.patentNum + res.data.projectNum;
+          this.count = res.data.paperNum + res.data.patentNum + res.data.projectNum;
           console.log(this.scholar.citations);
           this.coAuthors = res.data.coAuthors;
           console.log(this.coAuthors);
@@ -672,6 +602,7 @@ export default {
           this.seriData[2].value = this.paperTotal;
           console.log(this.scholar);
           console.log(this.workExperience);
+          this.drawLine();
         } else {
           this.$message.error(res.message);
         }
@@ -694,7 +625,7 @@ export default {
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
           console.log(this.this.workExperience);
-          this.getScholarInfo();
+          this.getInfoByUser();
         } else {
           this.$message.error(res.message);
         }
@@ -764,12 +695,14 @@ export default {
   /* border: solid 1px red; */
 }
 .info-content-name {
-  width: 200px;
+  width: 500px;
+  text-overflow: ellipsis;
   /* border: solid 1px black; */
   margin: -100px auto 0 120px;
 }
 .info-content-ins {
-  width: 100px;
+  width: 500px;
+  text-overflow: ellipsis;
   /* border: solid 1px red; */
   margin: 0px auto 10px 120px;
 }
@@ -864,5 +797,11 @@ li {
 .manage-btn {
   float: right;
   margin: -35px 0 10px 0;
+}
+.self-intro {
+  /* border: solid 1px green; */
+  width: 700px;
+  height: 150px;
+  margin: 10px;
 }
 </style>

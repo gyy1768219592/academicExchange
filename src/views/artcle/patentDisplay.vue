@@ -12,7 +12,7 @@
               <span class="title-name">{{patentData.title}}</span>
             </div>
             <div class="inventors">
-                <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
+                <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="inventor_data">
                   <a-list-item slot="renderItem" slot-scope="item">
                       <div class="inventor">
                         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
@@ -29,7 +29,7 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button v-if="isLogin" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+              <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
               <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
             </div>
@@ -47,6 +47,27 @@
           <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="专利内容" force-render>
             <div class="base-info">
+              <a-icon v-if="ll.renling_inventor_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions v-if="ll.renling_inventor_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="inventors">
+                    <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="ll.renling_inventor_data">
+                      <a-list-item slot="renderItem" slot-scope="item">
+                        <div class="inventor" @click="gotoUser(item.scholarId)">
+                          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                            <a-avatar
+                              :size="30"
+                              :style="'backgroundColor: #B22222'"
+                              >{{ item.name.substring(0, 1)  }}
+                            </a-avatar>
+                            <h1 class="inventor-name">{{ item.name }}</h1>
+                          </a>
+                        </div>
+                      </a-list-item>
+                    </a-list>
+                  </div>
+                </a-descriptions-item >
+              </a-descriptions>
               <a-icon v-if="patentData.abstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
               <a-descriptions v-if="patentData.abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
                 <a-descriptions-item >
@@ -143,6 +164,8 @@ export default {
   },
   data() {
     return {
+      renlingScholar:"已认领者",
+      isScholar:false,
       isLogin:false,
       isLegal:true,
       visible:false,
@@ -156,7 +179,10 @@ export default {
       haveRen: false,
       patentID: this.$route.params.id,
       patentData : {},
-      author_data: [],
+      inventor_data: [],
+      ll:{
+        renling_inventor_data:[],
+      }
     }
   },
   watch: {
@@ -166,11 +192,16 @@ export default {
   },
   mounted(){
     this.getPatent();
-    if(localStorage.getItem("identification")>0){
+    this.getRenling();
+    if(localStorage.getItem("identification")==1){
       this.isLogin = true;
+      this.isScholar = true;
       this.getRenlingStatus();
       this.checkrenling();
       this.getLikeStatus();
+    }
+    else if(localStorage.getItem("identification")){
+      this.isLogin = true;
     }
   },
   methods: {    
@@ -189,9 +220,12 @@ export default {
     callback(key) {
       console.log(key);
     },
-    gotoUser(){
+    gotoUser(scholarId){
       //去此人的主页
-      this.$router.push("/scholarIndex");
+      this.$router.push({
+        path: "/scholarIndex",
+        query: { scholarid: scholarId },
+      });
     },
     checkrenling(){
       let params = new URLSearchParams();
@@ -229,6 +263,8 @@ export default {
               if(this.nowClaimNumber>=this.maxClaimNumber){
                 this.canClaim = false;
               }
+              this.getRenling();
+              this.$set(this.ll,"renling_inventor_data",this.ll.renling_inventor_data);
               //window.sessionStorage.setItem("UserId", res.data.userid);
               // const webAdrs = window.sessionStorage.getItem("WebAdrs");
             } else {
@@ -254,6 +290,8 @@ export default {
             if(this.nowClaimNumber<this.maxClaimNumber){
               this.canClaim = true;
             }
+            this.getRenling();
+            this.$set(this.ll,"renling_inventor_data",this.ll.renling_inventor_data);
             //window.sessionStorage.setItem("UserId", res.data.userid);
             // const webAdrs = window.sessionStorage.getItem("WebAdrs");
           } else {
@@ -344,9 +382,9 @@ export default {
             return;
           }
           this.patentData = res.data.patent;
-          this.author_data = res.data.patent.inventor.split(";");
+          this.inventor_data = res.data.patent.inventor.split(";");
           console.log(res.data.patent);
-          console.log(this.author_data);
+          console.log(this.inventor_data);
           //this.$message.success(res.message);
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
@@ -374,8 +412,22 @@ export default {
     },
     oCopy(obj){
         obj.select();    // 选中输入框中的内容
-    }
-
+    },
+    getRenling(){
+      let params = new URLSearchParams();
+      //调用封装的putData函数，获取服务器返回值 
+      let url = this.$urlPath.website.getScholarByPaper + "2/" + this.patentID;
+      getData(url, params).then(res => {
+        console.log(res.data);
+        if (res.code === 1001) {
+          this.ll.renling_inventor_data = res.data;
+          this.renlingScholar = "已认领者（" + this.ll.renling_inventor_data.length + "）";
+        } else {
+          console.log(res.code);
+          this.$message.error(res.message);
+        }
+      });
+    },
   },
 };
 </script>
@@ -582,5 +634,54 @@ export default {
   /* border: solid 1px black; */
   margin: 15px;
 }
-
+.inventor-infor {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  margin: 12px 0px;
+  /* border-bottom: 1px solid rgb(239, 239, 239); */
+}
+.inventor-infor-item1 {
+  width: 52%;
+  border-right: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.inventor-infor-item2 {
+  width: 52%;
+  border-left: 1px solid rgb(239, 239, 239);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.inventor-infor-item_cnt {
+  color: #999;
+  font-size: 14px;
+}
+.inventors-down{
+  /* height: 50px; */
+  border-top: 1px solid rgb(239, 239, 239);
+}
+.inventor-name {
+  /* width: 95px; */
+  /*border: solid 1px black; */
+  margin: -30px auto 0 35px;
+  height: 40px;
+  font-size: medium;
+}
+.inventor-name2 {
+  width: 100px;
+  /*border: solid 1px black; */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* width: 80%; */
+  margin: -30px auto 0 40px;
+  height: 50px;
+  font-size: medium;
+}
 </style>
