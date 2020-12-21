@@ -192,6 +192,7 @@ export default {
     this.getPatent();
     this.getRenling();
     if(localStorage.getItem("identification")==1){
+      this.isLogin = true;
       this.isScholar = true;
       this.getRenlingStatus();
       this.checkrenling();
