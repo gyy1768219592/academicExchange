@@ -96,7 +96,7 @@
           >
           </a-button>
         </a-tooltip>
-        <a-tooltip v-if="!isManager" placement="bottom">
+        <a-tooltip placement="bottom">
           <template slot="title">
             <span>我的收藏</span>
           </template>
@@ -109,7 +109,7 @@
           >
           </a-button>
         </a-tooltip>
-        <a-tooltip v-if="!isManager" placement="bottom">
+        <a-tooltip placement="bottom">
           <template slot="title">
             <span>我的关注</span>
           </template>
@@ -135,7 +135,7 @@
           >
           </a-button>
         </a-tooltip>
-        <a-tooltip v-if="!isManager" placement="bottom">
+        <a-tooltip placement="bottom">
           <template slot="title">
             <span>我的主页</span>
           </template>

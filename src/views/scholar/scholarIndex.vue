@@ -358,7 +358,7 @@ export default {
   },
   mounted() {
     this.scholarid = this.$route.query.scholarid;
-    if (localStorage.getItem("scholarId")) this.isLogin = true;
+    if (localStorage.getItem("identification")) this.isLogin = true;
     this.getScholarInfo();
   },
 };

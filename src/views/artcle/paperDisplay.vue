@@ -191,8 +191,10 @@ export default {
     // this.initCharts();
     this.getPaper();
     if(localStorage.getItem("identification")==1){
-      this.isLogin = true;
       this.getLikeStatus();
+    }
+    else if(localStorage.getItem("identification")){
+      this.isLogin = true;
     }
   },
   methods: {

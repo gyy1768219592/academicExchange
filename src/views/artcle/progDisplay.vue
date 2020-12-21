@@ -31,7 +31,7 @@
               </a-list>
             </div>
             <div class="actions">
-              <a-button v-if="isLogin" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+              <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
               <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
               <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
             </div>
@@ -137,6 +137,7 @@ export default {
   },
   data() {
     return {
+      isScholar:false,
       isLogin:false,
       isLegal:true,
       visible:false,
@@ -161,10 +162,13 @@ export default {
   mounted(){
     this.getProg();
     if(localStorage.getItem("identification")==1){
-      this.isLogin = true;
+      this.isScholar = true;
       this.getRenlingStatus();
       this.checkrenling();
       this.getLikeStatus();
+    }
+    else if(localStorage.getItem("identification")){
+      this.isLogin = true;
     }
   },
   methods: {
