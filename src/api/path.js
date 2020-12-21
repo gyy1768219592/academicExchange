@@ -21,6 +21,9 @@ let path = {
     scholarVerify: Ip.productIP + "user/scholar/verify",
     getInfo: Ip.productIP + "user/getInfo",
     userAvatar: Ip.productIP + "user/avatar",
+    findPassword: Ip.productIP + "user/findPassword",
+    modifyEmail: Ip.productIP + "user/modifyEmail",
+    emailVerify: Ip.productIP + "user/link/modifyEmail",
     //检索
     searchProject: Ip.productIP + "scholarship/advancedSearchProject",
     searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",

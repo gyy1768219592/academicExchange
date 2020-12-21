@@ -71,6 +71,7 @@
   </div>
 </template>
 <script>
+import {postData} from "@/api/webpost";
 export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "changeEmail" });
@@ -101,6 +102,18 @@ export default {
       this.form.validateFieldsAndScroll(err => {
         if (!err) {
           this.closeSelf();
+          let params = new URLSearchParams();
+          params.append("Email",this.form.getFieldValue("email"));
+          let url = this.$urlPath.website.modifyEmail;
+          postData(url, params).then(res => {
+            if(res.code === 1001) {
+              this.$message.success("请求成功");
+            } else if(res.code === 500) {
+              this.$message.error("发送失败");
+            } else if(res.code === 501) {
+              this.$message.error("该邮箱已被使用");
+            }
+          });
         }
       });
     }
