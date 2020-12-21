@@ -85,28 +85,12 @@
             </button>
           </div>
         </a-form>
-        <!--<a-input style="width:250px; margin-bottom:20px" type="password"  v-model="pwd.old" placeholder="请输入原密码">
-                <a-icon slot="prefix" type="unlock" />
-                <a-tooltip slot="suffix" title="Extra information">
-                </a-tooltip>
-            </a-input>
-            
-            <a-input style="width:250px;margin-bottom:20px" type="password"  v-model="pwd.new" placeholder="请输入新密码">
-                <a-icon slot="prefix" type="lock" />
-                <a-tooltip slot="suffix" title="Extra information">
-                </a-tooltip>
-            </a-input>
-            
-            <a-input style="width:250px" type="password"  v-model="pwd.confirm" placeholder="请确认新密码">
-                <a-icon slot="prefix" type="check-circle" />
-                <a-tooltip slot="suffix" title="Extra information">
-                </a-tooltip>
-            </a-input>-->
       </div>
     </div>
   </div>
 </template>
 <script>
+import { postData } from "@/api/webpost";
 export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "changePwd" });
@@ -188,6 +172,17 @@ export default {
           this.pwd.old = values.password;
           this.pwd.new = values.newpassword;
           this.pwd.confirm = values.confirm;
+          let params = new URLSearchParams();
+          params.append("NewPassword",this.$md5(this.pwd.new));
+          params.append("OldPassword",this.$md5(this.pwd.old));
+          let url = this.$urlPath.website.modifyPassword;
+          postData(url, params).then(res => {
+            if(res.code === 1001) {
+              this.$message.success("密码修改成功！");
+            } else {
+              this.$message.error(res.message);
+            }
+          })
           this.closeSelf();
         }
       });

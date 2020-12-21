@@ -8,7 +8,7 @@ let path = {
     login: Ip.productIP + "user/login",
     register: Ip.productIP + "user/register",
     getUserInfo: Ip.productIP + "getUserInfo",
-    alterPassword: Ip.productIP + "alterPassword",
+    modifyPassword: Ip.productIP + "user/modifyPassword",
     uploadUserImage: Ip.productIP + "uploadUserImage",
     updateUserImgPath: Ip.productIP + "updateUserImgPath",
     updateUserInfo: Ip.productIP + "updateUserInfo",
