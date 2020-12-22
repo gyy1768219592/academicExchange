@@ -400,7 +400,7 @@ export default {
       postData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
-          // this.$message.success("获取数据成功");
+          this.$message.success("已关注");
           this.scholar.isSubscribed = !this.scholar.isSubscribed;
           console.log(this.scholar.isSubscribed);
 
@@ -417,7 +417,7 @@ export default {
       deleteData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
-          // this.$message.success("获取数据成功");
+          this.$message.success("已取消关注");
           this.scholar.isSubscribed = !this.scholar.isSubscribed;
           this.getInfoByUser();
           console.log(this.scholar.isSubscribed);
@@ -429,7 +429,7 @@ export default {
   },
   mounted() {
     this.scholarid = this.$route.query.scholarid;
-    if (localStorage.getItem("scholarId")) this.isLogin = true;
+    if (localStorage.getItem("identification")) this.isLogin = true;
     if (this.isLogin == true) {
       this.getInfoByUser();
     } else {
