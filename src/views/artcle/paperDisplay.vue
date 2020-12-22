@@ -57,16 +57,16 @@
                   </a-list-item>
               </a-list>
           </div>
-          <div class="actions">
-            <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
-            <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
-          </div>
           <div v-if="date!=''" class="date">
             <span class="date-num">发表时间： {{date}}</span>
           </div>
           <div v-if="DOI!=''" class="DOI-frame">
             <span class="DOI" >DOI号：{{DOI}}</span>
           </div>
+        </div>
+        <div class="actions">
+          <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+          <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
         </div>
       </div>
       <div class="down-block">
@@ -610,7 +610,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -170px -105px 10px 10px;
+  margin: -21% 0px 10px 10px;
 }
 .btn {
   width: 100px;

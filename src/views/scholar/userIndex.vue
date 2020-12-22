@@ -175,12 +175,12 @@
       <div class="down-block">
         <a-tabs default-active-key="1" @change="callback">
           <a-tab-pane key="1" tab="主页" force-render>
-            <div class="self-intro">
-              <h2>个人简介</h2>
-              <p>{{ scholar.introduction }}</p>
-            </div>
-            <a-divider></a-divider>
             <div class="intro">
+              <div class="self-intro">
+                <h2>个人简介</h2>
+                <p>{{ scholar.introduction }}</p>
+              </div>
+              <a-divider></a-divider>
               <div class="echart" id="main"></div>
             </div>
             <div class="experience">

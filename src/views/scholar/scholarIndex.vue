@@ -408,14 +408,13 @@ export default {
 
     //关注学者
     subscribe() {
+      this.scholar.isSubscribed = !this.scholar.isSubscribed;
       let url = this.$urlPath.website.subscribe;
       postData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
-          this.$message.success("已关注");
-          this.scholar.isSubscribed = !this.scholar.isSubscribed;
           console.log(this.scholar.isSubscribed);
-
+          this.$message.success("已关注");
           this.getInfoByUser();
         } else {
           this.$message.error(res.message);
@@ -425,12 +424,12 @@ export default {
 
     //取消关注学者
     undoSubscribe() {
+      this.scholar.isSubscribed = !this.scholar.isSubscribed;
       let url = this.$urlPath.website.undoSubscribe;
       deleteData(url + "/" + this.scholarid).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           this.$message.success("已取消关注");
-          this.scholar.isSubscribed = !this.scholar.isSubscribed;
           this.getInfoByUser();
           console.log(this.scholar.isSubscribed);
         } else {

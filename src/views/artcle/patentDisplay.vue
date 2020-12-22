@@ -4,140 +4,144 @@
     <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
-            <div class="refer-num">
-              <span v-if="patentData.state!=''" class="refer-num-dis">状态：{{patentData.state}}</span>
-              <span v-if="patentData.state==''" class="refer-num-dis">状态：未知</span>
-            </div>
-            <div class="title">
-              <span class="title-name">{{patentData.title}}</span>
-            </div>
-            <div class="inventors">
-                <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="inventor_data">
-                  <a-list-item slot="renderItem" slot-scope="item">
-                      <div class="inventor">
-                        <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                          <!-- <a-avatar class="img" :size="30" icon="user" /> -->
-                          <a-avatar
-                            :size="30"
-                            :style="'backgroundColor: #B22222'"
-                            >{{ item.substring(0, 1)  }}
-                          </a-avatar>
-                          <h1 class="inventor-name">{{ item }}</h1>
-                        </a>
-                      </div>
-                  </a-list-item>
-              </a-list>
-            </div>
-            <div class="actions">
-              <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
-              <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
-              <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
-            </div>
-            <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
-            <div v-if="patentData.mainClassificationNumber!=''" class="date">
-              <span class="date-num">主分类号： {{patentData.mainClassificationNumber}}</span>
-            </div>
-            <div v-if="patentData.classificationNumber!=''" class="date">
-              <span class="date-num">分类号： {{patentData.classificationNumber}}</span>
-            </div>
+          <div class="refer-num">
+            <span v-if="patentData.state!=''" class="refer-num-dis">状态：{{patentData.state}}</span>
+            <span v-if="patentData.state==''" class="refer-num-dis">状态：未知</span>
+          </div>
+          <div class="title">
+            <span class="title-name">{{patentData.title}}</span>
+          </div>
+          <div class="inventors">
+            <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="inventor_data">
+              <a-list-item slot="renderItem" slot-scope="item">
+                <div class="inventor">
+                  <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                    <a-avatar
+                      :size="30"
+                      :style="'backgroundColor: #B22222'"
+                      >{{ item.substring(0, 1)  }}
+                    </a-avatar>
+                    <h1 class="inventor-name">{{ item }}</h1>
+                  </a>
+                </div>
+              </a-list-item>
+            </a-list>
+          </div>
+          <!-- <div class="actions">
+            <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+            <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+            <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
+          </div> -->
+          <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
+          <div v-if="patentData.mainClassificationNumber!=''" class="date">
+            <span class="date-num">主分类号： {{patentData.mainClassificationNumber}}</span>
+          </div>
+          <div v-if="patentData.classificationNumber!=''" class="date">
+            <span class="date-num">分类号： {{patentData.classificationNumber}}</span>
+          </div>
+        </div>
+        <div class="actions">
+          <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+          <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+          <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
         </div>
       </div>
       <div class="down-block">
         <div class="down-left-block" >
           <a-tabs default-active-key="1" @change="callback">
-          <a-tab-pane key="1" tab="专利内容" force-render>
-            <div class="base-info">
-              <a-icon v-if="ll.renling_inventor_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="ll.renling_inventor_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="inventors">
-                    <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="ll.renling_inventor_data">
-                      <a-list-item slot="renderItem" slot-scope="item">
-                        <div class="inventor" @click="gotoUser(item.scholarId)">
-                          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar
-                              :size="30"
-                              :style="'backgroundColor: #B22222'"
-                              >{{ item.name.substring(0, 1)  }}
-                            </a-avatar>
-                            <h1 class="inventor-name">{{ item.name }}</h1>
-                          </a>
-                        </div>
-                      </a-list-item>
-                    </a-list>
-                  </div>
-                </a-descriptions-item >
-              </a-descriptions>
-              <a-icon v-if="patentData.abstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="patentData.abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="Content-frame">
-                    <span class="Content" >{{patentData.abstract}}</span>
-                  </div>
-                </a-descriptions-item >
-              </a-descriptions>
-              <a-icon v-if="patentData.content!=''" type="branches" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="patentData.content!=''" title="专利内容" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="Content-frame">
-                    <span class="Content" >{{patentData.content}}</span>
-                  </div>
-                </a-descriptions-item >
-              </a-descriptions>
-              <div v-if="patentData.content==''&&patentData.abstract==''" class="Content-frame">
-                <span class="Content" >无数据</span>
+            <a-tab-pane key="1" tab="专利内容" force-render>
+              <div class="base-info">
+                <a-icon v-if="ll.renling_inventor_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="ll.renling_inventor_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div class="inventors">
+                      <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="ll.renling_inventor_data">
+                        <a-list-item slot="renderItem" slot-scope="item">
+                          <div class="inventor" @click="gotoUser(item.scholarId)">
+                            <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                              <a-avatar
+                                :size="30"
+                                :style="'backgroundColor: #B22222'"
+                                >{{ item.name.substring(0, 1)  }}
+                              </a-avatar>
+                              <h1 class="inventor-name">{{ item.name }}</h1>
+                            </a>
+                          </div>
+                        </a-list-item>
+                      </a-list>
+                    </div>
+                  </a-descriptions-item >
+                </a-descriptions>
+                <a-icon v-if="patentData.abstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="patentData.abstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div class="Content-frame">
+                      <span class="Content" >{{patentData.abstract}}</span>
+                    </div>
+                  </a-descriptions-item >
+                </a-descriptions>
+                <a-icon v-if="patentData.content!=''" type="branches" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="patentData.content!=''" title="专利内容" style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div class="Content-frame">
+                      <span class="Content" >{{patentData.content}}</span>
+                    </div>
+                  </a-descriptions-item >
+                </a-descriptions>
+                <div v-if="patentData.content==''&&patentData.abstract==''" class="Content-frame">
+                  <span class="Content" >无数据</span>
+                </div>
               </div>
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="2" tab="专利信息">
-            <a-icon type="file-protect" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-            <a-descriptions title="申请信息" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="source-frame">
-                  <div v-if="patentData.applicationNumber!=''" class="source" >申请号：{{patentData.applicationNumber}}</div>
-                  <div v-if="patentData.applicationNumber==''" class="source" >申请号：无</div>
-                  <div v-if="patentData.applicant!=''" class="source" >申请人：{{patentData.applicant}}</div>
-                  <div v-if="patentData.applicant==''" class="source" >申请人：无</div>
-                  <div v-if="patentData.applicationDate!=''" class="source" >申请日期：{{patentData.applicationDate}}</div>
-                  <div v-if="patentData.applicationDate==''" class="source" >申请日期：无</div>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-icon type="solution" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-            <a-descriptions title="代理与权利人" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="source-frame">
-                  <div v-if="patentData.agency!=''" class="source" >代理机构：{{patentData.agency}}</div>
-                  <div v-if="patentData.agency==''" class="source" >代理机构：无</div>
-                  <div v-if="patentData.agent!=''" class="source" >代理人：{{patentData.agent}}</div>
-                  <div v-if="patentData.agent==''" class="source" >代理人：无</div>
-                  <div v-if="patentData.currentObligee!=''" class="source" >当前权利人：{{patentData.currentObligee}}</div>
-                  <div v-if="patentData.currentObligee==''" class="source" >当前权利人：无</div>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-icon type="deployment-unit" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-            <a-descriptions title="公布信息" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="source-frame">
-                  <div v-if="patentData.publishNumber!=''" class="source" >公布号：{{patentData.publishNumber}}</div>
-                  <div v-if="patentData.publishDate!=''" class="source" >公布日期：{{patentData.publishDate}}</div>
-                  <div v-if="patentData.publishDate==''&&patentData.publishNumber==''" class="source" >尚未公布</div>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-            <a-icon type="environment" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-            <a-descriptions title="地址" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="source-frame">
-                  <div v-if="patentData.province!=''" class="source" >省份：{{patentData.province}}</div>
-                  <div v-if="patentData.province==''" class="source" >省份：无</div>
-                  <div v-if="patentData.location!=''" class="source" >地址：{{patentData.location}}</div>
-                  <div v-if="patentData.location==''" class="source" >地址：无</div>
-                </div>
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-tab-pane>
+            </a-tab-pane>
+            <a-tab-pane key="2" tab="专利信息">
+              <a-icon type="file-protect" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions title="申请信息" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="source-frame">
+                    <div v-if="patentData.applicationNumber!=''" class="source" >申请号：{{patentData.applicationNumber}}</div>
+                    <div v-if="patentData.applicationNumber==''" class="source" >申请号：无</div>
+                    <div v-if="patentData.applicant!=''" class="source" >申请人：{{patentData.applicant}}</div>
+                    <div v-if="patentData.applicant==''" class="source" >申请人：无</div>
+                    <div v-if="patentData.applicationDate!=''" class="source" >申请日期：{{patentData.applicationDate}}</div>
+                    <div v-if="patentData.applicationDate==''" class="source" >申请日期：无</div>
+                  </div>
+                </a-descriptions-item>
+              </a-descriptions>
+              <a-icon type="solution" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions title="代理与权利人" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="source-frame">
+                    <div v-if="patentData.agency!=''" class="source" >代理机构：{{patentData.agency}}</div>
+                    <div v-if="patentData.agency==''" class="source" >代理机构：无</div>
+                    <div v-if="patentData.agent!=''" class="source" >代理人：{{patentData.agent}}</div>
+                    <div v-if="patentData.agent==''" class="source" >代理人：无</div>
+                    <div v-if="patentData.currentObligee!=''" class="source" >当前权利人：{{patentData.currentObligee}}</div>
+                    <div v-if="patentData.currentObligee==''" class="source" >当前权利人：无</div>
+                  </div>
+                </a-descriptions-item>
+              </a-descriptions>
+              <a-icon type="deployment-unit" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions title="公布信息" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="source-frame">
+                    <div v-if="patentData.publishNumber!=''" class="source" >公布号：{{patentData.publishNumber}}</div>
+                    <div v-if="patentData.publishDate!=''" class="source" >公布日期：{{patentData.publishDate}}</div>
+                    <div v-if="patentData.publishDate==''&&patentData.publishNumber==''" class="source" >尚未公布</div>
+                  </div>
+                </a-descriptions-item>
+              </a-descriptions>
+              <a-icon type="environment" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions title="地址" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="source-frame">
+                    <div v-if="patentData.province!=''" class="source" >省份：{{patentData.province}}</div>
+                    <div v-if="patentData.province==''" class="source" >省份：无</div>
+                    <div v-if="patentData.location!=''" class="source" >地址：{{patentData.location}}</div>
+                    <div v-if="patentData.location==''" class="source" >地址：无</div>
+                  </div>
+                </a-descriptions-item>
+              </a-descriptions>
+            </a-tab-pane>
           </a-tabs>
         </div>
         <div class="down-right-block">
@@ -627,7 +631,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -180px -105px 10px 10px;
+  margin: -21% 0px 10px 10px;
 }
 .btn {
   width: 100px;

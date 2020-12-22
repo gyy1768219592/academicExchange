@@ -26,7 +26,6 @@
               <div v-else class="card-list">
                 <a-card>
                   <a-card-grid
-                    @click="toScholar(item.ScholarId)"
                     style="width: 50%; height: 180px"
                     v-for="(item, index) in scholarList"
                     :key="index"
@@ -54,6 +53,7 @@
                             text-overflow: ellipsis;
                             white-space: nowrap;
                           "
+                          @click="toScholar(item.ScholarId)"
                         >
                           {{ item.Name }}</span
                         >
@@ -104,7 +104,11 @@
                         />
                       </p>
                       <p style="margin-top: -5px">
-                        <a-button shape="circle" icon="mail" />
+                        <a-button
+                          shape="circle"
+                          icon="mail"
+                          @click="toSendmessage(item.Name, item.ScholarId)"
+                        />
                       </p>
                     </div>
                   </a-card-grid>
@@ -140,7 +144,6 @@
               <div v-else class="card-list">
                 <a-card>
                   <a-card-grid
-                    @click="toDataScholar(item.scholarId, item.authorId)"
                     style="width: 50%; height: 180px"
                     v-for="(item, index) in dataScholarList"
                     :key="index"
@@ -162,6 +165,7 @@
                             text-overflow: ellipsis;
                             white-space: nowrap;
                           "
+                          @click="toDataScholar(item.scholarId, item.authorId)"
                         >
                           {{ item.displayName }}</span
                         >
@@ -377,6 +381,16 @@ export default {
           }
         });
       }
+    },
+    toSendmessage(name, id) {
+      let url = this.$router.resolve({
+        path: "/sendMessage",
+        query: {
+          name: name,
+          ScholarId: id,
+        },
+      });
+      window.open(url.href, "_blank");
     },
   },
   created() {

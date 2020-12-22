@@ -4,135 +4,134 @@
     <div v-if="isLegal" class="main-block">
       <div class="up-block">
         <div class="artcle-info">
-            <div v-if="progData.supportTypeName!=''||progData.fundProjectCode!=''" class="refer-num">
-                <span class="refer-num-dis">{{progData.supportTypeName}}({{progData.fundProjectCode}})</span>
-            </div>
-            <div class="title">
-              <span class="title-name">{{progData.fundProject}}</span>
-            </div>
-            <div class="refer-num1">
-                <span class="refer-num-dis1">{{progData.chineseTitle}}</span>
-            </div>
-            <div class="authors">
-              <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
-                  <a-list-item slot="renderItem" slot-scope="item">
-                      <div class="author">
-                        <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                          <!-- <a-avatar class="img" :size="30" icon="user" /> -->
-                          <a-avatar
-                            :size="30"
-                            :style="'backgroundColor: #B22222'"
-                            >{{ item.substring(0, 1)  }}
-                          </a-avatar>
-                          <h1 class="author-name">{{ item }}</h1>
-                        </a>
-                      </div>
-                  </a-list-item>
-              </a-list>
-            </div>
-            <div class="actions">
-              <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
-              <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
-              <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
-            </div>
-            <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="progID"></appeal-achievement>
-            <div v-if="progData.organization!=''||progData.organizationID!=''" class="date">
-              <span class="date-num">{{progData.organization}}({{progData.organizationID}})</span>
-            </div>
-            <div v-if="progData.publishDate!=''" class="organization">
-              <span class="organization-num">公布日期： {{progData.publishDate}}</span>
-            </div>
+          <div v-if="progData.supportTypeName!=''||progData.fundProjectCode!=''" class="refer-num">
+            <span class="refer-num-dis">{{progData.supportTypeName}}({{progData.fundProjectCode}})</span>
+          </div>
+          <div class="title">
+            <span class="title-name">{{progData.fundProject}}</span>
+          </div>
+          <div class="refer-num1">
+              <span class="refer-num-dis1">{{progData.chineseTitle}}</span>
+          </div>
+          <div class="authors">
+            <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
+              <a-list-item slot="renderItem" slot-scope="item">
+                <div class="author">
+                  <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                    <a-avatar
+                      :size="30"
+                      :style="'backgroundColor: #B22222'"
+                      >{{ item.substring(0, 1)  }}
+                    </a-avatar>
+                    <h1 class="author-name">{{ item }}</h1>
+                  </a>
+                </div>
+              </a-list-item>
+            </a-list>
+          </div>
+          <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="progID"></appeal-achievement>
+          <div v-if="progData.organization!=''||progData.organizationID!=''" class="date">
+            <span class="date-num">{{progData.organization}}({{progData.organizationID}})</span>
+          </div>
+          <div v-if="progData.publishDate!=''" class="organization">
+            <span class="organization-num">公布日期： {{progData.publishDate}}</span>
+          </div>
+        </div>
+        <div class="actions">
+          <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
+          <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
+          <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
         </div>
       </div>
       <div class="down-block">
         <div class="down-left-block" >
           <a-tabs default-active-key="1" @change="callback">
-          <a-tab-pane key="1" tab="基本信息" force-render>
-            <div class="base-info">
-              <a-icon v-if="ll.renling_author_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="ll.renling_author_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="authors">
-                    <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="ll.renling_author_data">
-                      <a-list-item slot="renderItem" slot-scope="item">
-                        <div class="author" @click="gotoUser(item.scholarId)">
-                          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-                            <a-avatar
-                              :size="30"
-                              :style="'backgroundColor: #B22222'"
-                              >{{ item.name.substring(0, 1)  }}
-                            </a-avatar>
-                            <h1 class="author-name">{{ item.name }}</h1>
-                          </a>
-                        </div>
-                      </a-list-item>
-                    </a-list>
-                  </div>
-                </a-descriptions-item >
-              </a-descriptions>
-              <a-icon v-if="progData.zhAbstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="progData.zhAbstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="Abstract-frame">
-                    <span class="Abstract" >{{progData.zhAbstract}}</span>
-                  </div>
-                </a-descriptions-item >
-              </a-descriptions>
-              <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="progData.zhKeyword!=''" title="关键词" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="Keyword-frame">
-                   <span class="Keyword" >{{progData.zhKeyword}}</span>
-                  </div>
-                </a-descriptions-item>
-              </a-descriptions>
-              <a-icon v-if="progData.journal!=''" type="paper-clip" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="progData.journal!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div class="source-frame">
-                    <span class="source" >期刊：《{{progData.journal}}》</span>
-                  </div>
-                </a-descriptions-item>
-              </a-descriptions>
-              <a-icon v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" type="branches" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-              <a-descriptions v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" title="相关信息" style="margin: -25px 0px 0px 20px">
-                <a-descriptions-item >
-                  <div v-if="progData.fundProjectNo!=''" class="source-frame">
-                    <span class="source" >项目编号：{{progData.fundProjectNo}}</span>
-                  </div>
-                  <div v-if="progData.fieldName!=''||progData.fieldCode!=''" class="source-frame">
-                    <span class="source" >领域：{{progData.fieldName}}({{progData.fieldCode}})</span>
-                  </div>
-                  <div v-if="progData.productType!=''" class="source-frame">
-                    <span class="source" >产品类型：{{progData.productType}}</span>
-                  </div>
-                  <div v-if="progData.achievementID!=''" class="source-frame">
-                    <span class="source" >成果ID：{{progData.achievementID}}</span>
-                  </div>
-                  <div v-if="progData.source!=''" class="source-frame">
-                    <span class="source" >来源：{{progData.source}}</span>
-                  </div>
-                  <div v-if="progData.doiUrl!=''" class="source-frame">
-                    <span class="source" >DOI号：{{progData.doiUrl}}</span>
-                  </div>
-                </a-descriptions-item >
-              </a-descriptions>
-              <div v-if="progData.zhAbstract==''&&progData.zhKeyword==''&&progData.journal==''&&progData.fundProjectNo==''&&progData.fieldName==''&&progData.productType==''&&progData.achievementID==''&&progData.source==''&&progData.doiUrl==''&&progData.fieldCode==''" class="source-frame">
-                <span class="source" >无数据</span>
-              </div>
-            </div>
-          </a-tab-pane>
-          <a-tab-pane key="2" tab="原文链接">
-            <a-icon type="share-alt" :style="{ fontSize: '16px', color: ' #B22222'}"/>
-            <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
-              <a-descriptions-item >
-                <div class="url-frame">
-                  <a v-if="progData.doi!=''" :href="progData.doi">{{progData.doi}}</a>
-                  <a v-if="progData.doi==''" >暂时没有全文链接</a>
+            <a-tab-pane key="1" tab="基本信息" force-render>
+              <div class="base-info">
+                <a-icon v-if="ll.renling_author_data.length!=0" type="team" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="ll.renling_author_data.length!=0" :title=renlingScholar style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div class="authors">
+                      <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 5, xxl: 5 }" :data-source="ll.renling_author_data">
+                        <a-list-item slot="renderItem" slot-scope="item">
+                          <div class="author" @click="gotoUser(item.scholarId)">
+                            <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+                              <a-avatar
+                                :size="30"
+                                :style="'backgroundColor: #B22222'"
+                                >{{ item.name.substring(0, 1)  }}
+                              </a-avatar>
+                              <h1 class="author-name">{{ item.name }}</h1>
+                            </a>
+                          </div>
+                        </a-list-item>
+                      </a-list>
+                    </div>
+                  </a-descriptions-item >
+                </a-descriptions>
+                <a-icon v-if="progData.zhAbstract!=''" type="read" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="progData.zhAbstract!=''" title="摘要" style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div class="Abstract-frame">
+                      <span class="Abstract" >{{progData.zhAbstract}}</span>
+                    </div>
+                  </a-descriptions-item >
+                </a-descriptions>
+                <a-icon v-if="progData.zhKeyword!=''" type="key" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="progData.zhKeyword!=''" title="关键词" style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div class="Keyword-frame">
+                      <span class="Keyword" >{{progData.zhKeyword}}</span>
+                    </div>
+                  </a-descriptions-item>
+                </a-descriptions>
+                <a-icon v-if="progData.journal!=''" type="paper-clip" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="progData.journal!=''" title="发表位置" style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div class="source-frame">
+                      <span class="source" >期刊：《{{progData.journal}}》</span>
+                    </div>
+                  </a-descriptions-item>
+                </a-descriptions>
+                <a-icon v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" type="branches" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+                <a-descriptions v-if="progData.fundProjectNo!=''||progData.fieldName!=''||progData.productType!=''||progData.achievementID!=''||progData.source!=''||progData.doiUrl!=''||progData.fieldCode!=''" title="相关信息" style="margin: -25px 0px 0px 20px">
+                  <a-descriptions-item >
+                    <div v-if="progData.fundProjectNo!=''" class="source-frame">
+                      <span class="source" >项目编号：{{progData.fundProjectNo}}</span>
+                    </div>
+                    <div v-if="progData.fieldName!=''||progData.fieldCode!=''" class="source-frame">
+                      <span class="source" >领域：{{progData.fieldName}}({{progData.fieldCode}})</span>
+                    </div>
+                    <div v-if="progData.productType!=''" class="source-frame">
+                      <span class="source" >产品类型：{{progData.productType}}</span>
+                    </div>
+                    <div v-if="progData.achievementID!=''" class="source-frame">
+                      <span class="source" >成果ID：{{progData.achievementID}}</span>
+                    </div>
+                    <div v-if="progData.source!=''" class="source-frame">
+                      <span class="source" >来源：{{progData.source}}</span>
+                    </div>
+                    <div v-if="progData.doiUrl!=''" class="source-frame">
+                      <span class="source" >DOI号：{{progData.doiUrl}}</span>
+                    </div>
+                  </a-descriptions-item >
+                </a-descriptions>
+                <div v-if="progData.zhAbstract==''&&progData.zhKeyword==''&&progData.journal==''&&progData.fundProjectNo==''&&progData.fieldName==''&&progData.productType==''&&progData.achievementID==''&&progData.source==''&&progData.doiUrl==''&&progData.fieldCode==''" class="source-frame">
+                  <span class="source" >无数据</span>
                 </div>
-              </a-descriptions-item>
-            </a-descriptions>
-          </a-tab-pane>
+              </div>
+            </a-tab-pane>
+            <a-tab-pane key="2" tab="原文链接">
+              <a-icon type="share-alt" :style="{ fontSize: '16px', color: ' #B22222'}"/>
+              <a-descriptions title="全文链接" style="margin: -25px 0px 0px 20px">
+                <a-descriptions-item >
+                  <div class="url-frame">
+                    <a v-if="progData.doi!=''" :href="progData.doi">{{progData.doi}}</a>
+                    <a v-if="progData.doi==''" >暂时没有全文链接</a>
+                  </div>
+                </a-descriptions-item>
+              </a-descriptions>
+            </a-tab-pane>
           </a-tabs>
         </div>
         <div class="down-right-block">
@@ -667,7 +666,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -21% -105px 10px 10px;
+  margin: -21% 0px 10px 10px;
 }
 .btn {
   width: 100px;
