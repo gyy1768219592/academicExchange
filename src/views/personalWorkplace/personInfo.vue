@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Nav></Nav>
     <div class= "control" style="height: 100vh; overflow: hidden;">
       <div class="Info_container">
         <a-breadcrumb separator=">">
@@ -193,11 +194,13 @@ import { postData } from "@/api/webpost";
 import uploadPhoto from "@/components/uploadPhoto";
 import inputEmail from "@/components/inputEmail";
 import inputPwd from "@/components/inputPwd";
+import Nav from "@/components/navSearch.vue";
 export default {
   components: {
     uploadPhoto,
     inputEmail,
     inputPwd,
+    Nav,
   },
   data() {
     return {

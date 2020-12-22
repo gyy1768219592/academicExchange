@@ -46,9 +46,7 @@ export default {
         if (res.code === 1001) {
           this.imgUrl = res.data.url;
           localStorage.setItem("avatarUrl", this.imgUrl);
-          this.$message.success({
-            message: res.message,
-          });
+          this.$message.success("头像修改成功");
         } else {
           console.log(res.code);
           this.$message.error("上传失败");
