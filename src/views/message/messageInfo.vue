@@ -113,7 +113,7 @@ export default {
         } 
         else {
           //console.log(res.code);
-          _this.$message.error("发送失败");
+          _this.$message.error("请进行学者认证，发送失败");
         }
       });
       this.reload();
