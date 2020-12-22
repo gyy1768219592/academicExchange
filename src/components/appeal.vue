@@ -88,11 +88,11 @@
                       '申诉者UID:  ' + 
                       item.senderUserid +
                       '\n申诉学者SID:  ' + 
-                      item.scholarId +
+                      (item.scholarId!=null?item.scholarId:'NULL') +
                       '\n申诉类型:  ' +
-                      (item.dataScholarId!=null?'申诉冒领数据库门户':(item.paperid!=null?'申诉冒领论文':(item.patentid!=null?'申诉冒领专利':'申诉冒领项目'))) +
-                      '\n' + (item.dataScholarId!=null?'Author':(item.paperid!=null?'Paper':(item.patentid!=null?'Patent':'Project'))) + 'ID:  ' +
-                      (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid))) +
+                      (item.dataScholarId!=null?'申诉冒领数据库门户':(item.paperid!=null?'申诉冒领论文':(item.patentid!=null?'申诉冒领专利':(item.projectid!=null?'申诉冒领项目':'不知道要干啥')))) +
+                      '\n' + (item.dataScholarId!=null?'Author':(item.paperid!=null?'Paper':(item.patentid!=null?'Patent':(item.projectid!=null?'Project':'NO')))) + 'ID:  ' +
+                      (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:(item.projectid!=null?item.projectid:'NULL')))) +
                       '\n-------------------------------------------------------------------------------------\n' +
                       item.msgcontent +
                       '\n                                                                           -------------------------------------------------------------------------------------' +
