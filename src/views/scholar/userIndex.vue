@@ -722,7 +722,6 @@ export default {
 <style scoped>
 .main-block {
   width: 1280px;
-  height: 2500px;
   margin: auto;
   /* border: solid 1px grey; */
 }
