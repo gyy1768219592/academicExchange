@@ -248,26 +248,26 @@ const columns = [
     title: "起始年份",
     dataIndex: "yearStart",
     key: "yearStart",
-    width: 60,
+    width: 70,
   },
   {
     title: "终止年份",
     dataIndex: "yearEnd",
     key: "yearEnd",
-    width: 60,
+    width: 70,
   },
   {
     title: "组织/机构",
     dataIndex: "organization",
     key: "organization",
-    width: 100,
+    width: 90,
     ellipsis: true,
   },
   {
     title: "职务/身份",
     dataIndex: "introduction",
     key: "introduction",
-    width: 100,
+    width: 90,
     ellipsis: true,
   },
   {
@@ -378,6 +378,8 @@ export default {
     this.seriData[0].value = this.projectTotal;
     this.seriData[1].value = this.patentTotal;
     this.seriData[2].value = this.paperTotal;
+    let url = window.location.href;
+    console.log(url);
   },
   methods: {
     changePageTwo() {
@@ -494,12 +496,13 @@ export default {
       });
     },
     toAuthorIndex(id) {
-      this.$router.push({
+      let url = this.$router.resolve({
         path: "/authorIndex",
         query: {
           authorid: id,
         },
       });
+      window.open(url.href, "_blank");
     },
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
