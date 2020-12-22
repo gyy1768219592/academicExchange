@@ -51,6 +51,7 @@ export default {
           this.title = '认证失败';
           this.show = false;
           this.sub_title = res.message;
+          this.$router.push("/");
         }
     });
   },

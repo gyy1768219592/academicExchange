@@ -13,10 +13,9 @@
       />
       <img
         style="height:100%;width:100%;border-radius:50%"
-        v-if="imgUrl != ''"
         :src="imgUrl"
       />
-      <a-avatar v-if="imgUrl === '' " icon="user" :size=70 />
+      <!--<a-avatar v-if="imgUrl === '' " icon="user" :size=70 />-->
     </div> 
   </div>
 </template>
@@ -25,10 +24,14 @@ import { postData } from "@/api/webpost";
 //import { putData } from "@/api/webput";
 //import { getData } from "@/api/webget";
 export default {
+  created() {
+    console.log(require('../assets/user.png'));
+  },
   data() {
     return {
       isSelectFile: false,
       imgUrl: localStorage.getItem("avatarUrl").length>0 ? localStorage.getItem('avatarUrl'):'',
+     //imgUrl: require('../assets/user.png'),
     };
   },
   methods: {
