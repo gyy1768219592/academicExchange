@@ -610,7 +610,7 @@ export default {
   height: 200px;
   display: block;
   float: right;
-  margin: -21% 0px 10px 10px;
+  margin: -18% 0px 10px 10px;
 }
 .btn {
   width: 100px;
