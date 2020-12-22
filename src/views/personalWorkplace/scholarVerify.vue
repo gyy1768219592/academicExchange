@@ -37,6 +37,7 @@ export default {
           this.title = "认证成功";
           this.show = true;
           this.$addStorageValue('scholarId',res.data.scholarId,true);
+          localStorage.setItem('identification',1);
           //window.localStorage.setItem("scholarId",res.data.scholarId);
           this.goClaimScholar(res.data.englishname);
           console.log(res);
