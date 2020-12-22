@@ -1,20 +1,20 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <h1 style="margin-left: 12%;margin-top:2%">我的消息</h1>
+    <h1 style="margin-left: 12%;margin-top:2%;">我的消息</h1>
     <a-list item-layout="horizontal" 
     pagination = true
     :data-source="info">
       <a-list-item slot="renderItem" slot-scope="item,index" :key="item.msgid">
         <a-button @click="delM(item.msgid)" type="danger" slot="actions" ghost>删除</a-button>
-        <a-button @click="seeM(index)" type="primary" slot="actions" ghost>查看</a-button>
+        <a-button @click="seeM(index)" slot="actions" style="color:	#696969;border-color:	#696969">查看</a-button>
         <a-list-item-meta 
         :description="item.msgcontent">
-          <a slot="title" href="https://www.antdv.com/"
+          <a slot="title" @click="seeM(index)"
           >{{ item.msgtitle }}</a>
           <a-avatar
             slot="avatar"
-            :src= 'info.url'
+            :src= 'item.senderAvatar'
           />
         </a-list-item-meta>
       </a-list-item>
@@ -54,6 +54,7 @@ export default {
     Nav,
   },
   methods: {
+    
     seeM(index) {
       var _this = this;
       _this.$router.push({
@@ -65,6 +66,7 @@ export default {
           receiverUserid: _this.info[index].receiverUserid,
           senderUserid: _this.info[index].senderUserid,
           senderUsername: _this.info[index].senderUsername,
+          img: _this.info[index].complaintMaterialUrl
         }
       });
     },
@@ -100,6 +102,10 @@ export default {
 };
 </script>
 <style scoped>
+body{
+  width: 1280px;
+  margin: 0 auto;
+}
 .al ::-webkit-scrollbar{
   display: none;
 }
@@ -111,8 +117,9 @@ export default {
 }
 .ant-list.ant-list-split {
   margin-left: 12%;
-  margin-right: 2%;
+  margin-right: 12%;
   margin-top: 1%;
+  width:1280px;
 }
 .ant-list-item-meta-description {
   text-overflow: ellipsis;

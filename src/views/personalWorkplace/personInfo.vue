@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div style="height: 100vh; overflow: hidden; background-color: #f7f7f7f7">
+    <div class= "control" style="height: 100vh; overflow: hidden;">
       <div class="Info_container">
         <a-breadcrumb separator=">">
           <a-breadcrumb-item
-            ><span @click="toLast" style="cursor: pointer"
+            ><span @click="toLast" style="cursor: pointer;font-size:20px;"
               >返回</span
             ></a-breadcrumb-item
           >
-          <a-breadcrumb-item>个人信息</a-breadcrumb-item>
+          <a-breadcrumb-item style="font-size:20px">个人信息</a-breadcrumb-item>
         </a-breadcrumb>
         <div>
           <a-card
@@ -17,6 +17,7 @@
               height: 26em;
               box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
               margin-top: 1em;
+              opacity: 0.9;
             "
           >
             <!--分割线左侧，包括头像和学者认证按钮-->
@@ -340,7 +341,14 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
+.control{
+  background: url("../../assets/bg.jpeg");
+  opacity: 0.9;
+  height: auto;
+  width: 100%;
+  background-size: cover;
+}
 .Info_container {
   width: 40em;
   border-radius: 3px;
@@ -348,5 +356,8 @@ export default {
   left: 30%;
   right: 30%;
   top: 10%;
+  font-size:30px;
+  color: #000000;
+  
 }
 </style>
