@@ -11,7 +11,7 @@
             <span class="title-name">{{progData.fundProject}}</span>
           </div>
           <div class="refer-num1">
-              <span class="refer-num-dis1">{{progData.chineseTitle}}</span>
+            <span class="refer-num-dis1">{{progData.chineseTitle}}</span>
           </div>
           <div class="authors">
             <a-list item-layout="vertical" :grid="{ gutter: 0, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 4 }" :data-source="author_data">
@@ -230,7 +230,12 @@ export default {
             this.progData.doiUrl = this.progData.doi;
             this.progData.doi = "https://doi.org/" + this.progData.doi;
           }
-          this.author_data = this.progData.authors.split(/\s*,\s*|\s*;\s*|\s*，\s*|\s*；\s*/);
+          if(this.progData.authors!=""){
+            this.author_data = this.progData.authors.split(/\s*,\s*|\s*;\s*|\s*，\s*|\s*；\s*/);
+          }
+          else{
+            this.author_data = [];
+          }
           console.log(res.data.project);
           console.log(this.author_data);
           //this.$message.success(res.message);
