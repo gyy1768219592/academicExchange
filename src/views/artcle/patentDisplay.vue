@@ -392,7 +392,7 @@ export default {
             return;
           }
           this.patentData = res.data.patent;
-          this.inventor_data = res.data.patent.inventor.split(";");
+          this.inventor_data = res.data.patent.inventor.split(/\s*,\s*|\s*;\s*|\s*，\s*|\s*；\s*/);
           console.log(res.data.patent);
           console.log(this.inventor_data);
           //this.$message.success(res.message);
