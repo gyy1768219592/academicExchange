@@ -87,8 +87,8 @@ let path = {
     subscribe: Ip.productIP + "scholar/subscribe",
     undoSubscribe: Ip.productIP + "scholar/subscribe",
     //消息
-    sendMessage: Ip.productIP + "/message/user/one",
-    getMessage: Ip.productIP + "/message/user/inbox",
+    sendMessage: Ip.productIP + "message/user/one",
+    getMessage: Ip.productIP + "message/user/inbox",
     delMessage: Ip.productIP + "message/user/one",
     //关注
     getConcern: Ip.productIP + "/scholar/subscribe",

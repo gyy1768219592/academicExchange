@@ -69,7 +69,6 @@ export default {
 .card-container {
   overflow: hidden;
   margin-top: 20px;
-  min-height: 810px;
 }
 .card-container > .ant-tabs-card > .ant-tabs-bar {
   min-width: 1280px;
