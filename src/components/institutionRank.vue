@@ -41,71 +41,20 @@ export default {
     return {
       chart: null,
       arealist: [],
-      ranklist: [
-        {
-          institution: "北京航空航天大学",
-          paperCount: 129,
-          firstAuthor: 30,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 139,
-          firstAuthor: 23,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 129,
-          firstAuthor: 60,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 169,
-          firstAuthor: 30,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 129,
-          firstAuthor: 30,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 29,
-          firstAuthor: 34,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 129,
-          firstAuthor: 30,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 129,
-          firstAuthor: 30,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 129,
-          firstAuthor: 30,
-        },
-        {
-          institution: "北京航空航天大学",
-          paperCount: 129,
-          firstAuthor: 30,
-        },
-      ],
+      ranklist: [],
       columns: [
         {
           title: "科研机构",
           width: "350px",
-          dataIndex: "institution",
+          dataIndex: "institutionName",
           ellipsis: true,
         },
         {
           title: "论文数",
           width: "145px",
           align: "center",
-          dataIndex: "paperCount",
-          sorter: (a, b) => a.paperCount - b.paperCount,
+          dataIndex: "paperNum",
+          sorter: (a, b) => a.paperNum - b.paperNum,
         },
         {
           title: "第一作者数",
@@ -303,20 +252,13 @@ export default {
         }
       });
     },
-    getRank() {
+    getRank(id) {
       const url = this.$urlPath.website.getTopInstitutionByField;
-      getData(url).then((res) => {
+      let params = new URLSearchParams();
+      params.append("fieldId", id);
+      getData(url, params).then((res) => {
         if (res.code === 1001) {
-          const names = [];
-          const natures = [];
-          res.data.forEach((item) => {
-            // console.log(item)
-            names.push(item.institutionName);
-            natures.push(item.natureIndex);
-          });
-          this.names = names;
-          this.natures = natures;
-          this.initChart();
+          this.ranklist = res.data;
         } else {
           this.$message.error(res.message);
         }
@@ -333,13 +275,14 @@ export default {
     },
     changeTab(key) {
       if (key != "all") {
-        console.log(this.arealist[key].displayName);
+        this.getRank(this.arealist[key].fieldsId);
       }
     },
   },
   mounted() {
     this.get();
     this.getArea();
+    this.getRank(154945302);
   },
 };
 </script>
@@ -353,7 +296,7 @@ export default {
   padding-top: 0;
   padding-bottom: 0;
   height: 50px;
-  width: 120px;
+  width: 125px;
   line-height: 50px;
   text-align: left;
   overflow: hidden;
