@@ -1,5 +1,6 @@
 <template>
   <div class="total">
+    <Nav></Nav>
     <div class="register_container">
       <p>注 册</p>
       <a-form :form="form" @submit="handleSubmit">
@@ -152,7 +153,11 @@
 
 <script>
 import { postData } from "@/api/webpost";
+import Nav from "@/components/navSearch.vue";
 export default {
+  components: {
+    Nav,
+  },
   data() {
     return {
       confirmDirty: false,
@@ -201,11 +206,7 @@ export default {
       postData(url, params).then(res => {
         console.log(res);
         if(res.code == 1001) {
-          this.$message.success({
-            message:"请求成功",
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.success("请求成功");
           this.$router.push("/login");
           /*let verifyparams = new URLSearchParams();
           verifyparams.append("Code","signUPComplete/"+this.$md5(values.email));
