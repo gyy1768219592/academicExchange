@@ -90,7 +90,7 @@
                     style="float: right;margin-top:-40px;position: relative;"
                     type="default"
                     @click="changePageTwo"
-                    >管理工作经历<a-icon type="right-square"
+                    >管理个人经历<a-icon type="right-square"
                   /></a-button>
                 </div>
                 <a-form-model
@@ -684,7 +684,6 @@ export default {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          console.log(this.this.workExperience);
           this.getInfoByUser();
         } else {
           this.$message.error(res.message);
@@ -704,11 +703,11 @@ export default {
       };
       JSON.stringify(params);
       console.log(params);
-      deleteData(url, { data: params }).then((res) => {
+      deleteData(url, params).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
-          console.log(this.this.workExperience);
+          this.getInfoByUser();
         } else {
           this.$message.error(res.message);
         }
