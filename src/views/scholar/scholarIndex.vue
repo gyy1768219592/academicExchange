@@ -305,7 +305,7 @@ export default {
               let tmp = {
                 name: this.scholar.name,
                 symbolSize: 60,
-                id: i + 1,
+                id: 1,
               };
               this.coData[i] = tmp;
             } else {
@@ -314,17 +314,17 @@ export default {
                 symbolSize: this.coAuthors[2 * (i - 1) + 1] + 60,
                 id: i + 1,
               };
-              console.log(i + 1);
               this.coData[i] = tmp;
               let link = {
                 value: "合作学者",
-                source: 1,
-                target: i + 1,
+                source: 0,
+                target: i,
               };
               this.dataLink[i - 1] = link;
             }
           }
           console.log(this.coData);
+          console.log(this.dataLink);
           this.initEchart();
           this.drawLine();
         } else {
@@ -365,13 +365,22 @@ export default {
           let high = 8;
           if (this.coAuthors.length / 2 < 8) high = this.coAuthors.length / 2;
           for (let i = 0; i <= high; i++) {
+            console.log(i);
             if (i == 0) {
+              debugger;
               let tmp = {
                 name: this.scholar.name,
                 symbolSize: 60,
                 id: i + 1,
               };
               this.coData[i] = tmp;
+              let link = {
+                value: "合作学者",
+                source: 1,
+                target: 1,
+              };
+              this.dataLink[0] = link;
+              console.log(this.dataLink);
             } else {
               let tmp = {
                 name: this.coAuthors[2 * (i - 1)],
@@ -385,7 +394,7 @@ export default {
                 source: 1,
                 target: i + 1,
               };
-              this.dataLink[i - 1] = link;
+              this.dataLink[i] = link;
             }
           }
           console.log(this.coData);
@@ -519,7 +528,7 @@ export default {
 .self-intro {
   /* border: solid 1px green; */
   width: 700px;
-  height: 150px;
+  min-height: 150px;
   margin: 10px;
 }
 .echart {

@@ -704,7 +704,7 @@ export default {
       };
       JSON.stringify(params);
       console.log(params);
-      deleteData(url, params).then((res) => {
+      deleteData(url, { data: params }).then((res) => {
         console.log(res.code);
         if (res.code === 1001) {
           // this.$message.success("获取数据成功");
@@ -861,7 +861,7 @@ li {
 .self-intro {
   /* border: solid 1px green; */
   width: 700px;
-  height: 150px;
+  min-height: 150px;
   margin: 10px;
 }
 </style>
