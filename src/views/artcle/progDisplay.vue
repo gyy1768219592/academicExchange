@@ -230,7 +230,7 @@ export default {
             this.progData.doiUrl = this.progData.doi;
             this.progData.doi = "https://doi.org/" + this.progData.doi;
           }
-          this.author_data = this.progData.authors.split(/\s*;\s*/);
+          this.author_data = this.progData.authors.split(/\s*,\s*|\s*;\s*|\s*，\s*|\s*；\s*/);
           console.log(res.data.project);
           console.log(this.author_data);
           //this.$message.success(res.message);
