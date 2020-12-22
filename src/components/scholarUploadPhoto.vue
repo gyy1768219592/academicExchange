@@ -2,8 +2,8 @@
   <div class="photo">
     <div style="width:5em;height:5em;text-align:center;border-radius:50%;cursor:pointer" @click="openImg">
       <input v-show="false" type="file" accept="image/*" @change="tirggerFile($event)" ref="input" />
-      <img style="height:120%;width:120%;border-radius:50%" v-if="imgUrl != ''" :src="imgUrl" />
-      <a-avatar v-if="imgUrl === ''" icon="user" :size="90" />
+      <img style="height:120%;width:120%;border-radius:50%" v-if="imgUrl != null" :src="imgUrl" />
+      <a-avatar v-if="imgUrl === null" icon="user" :size="90" />
     </div>
   </div>
 </template>
