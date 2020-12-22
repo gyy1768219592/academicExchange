@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="manager2-result-main-scholar">
+    <div class="main">
       <div class="manager2-content">
         <div class = "left-block2">
           <div v-bind:class="isSelected3 ? 'manager2-search-on' : 'manager2-search'">
@@ -97,6 +97,12 @@
                 >
                   <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                     <a-avatar
+                      v-if="item.AvatarUrl != null"
+                      :size="80"
+                      :src="item.AvatarUrl"
+                    />
+                    <a-avatar
+                      v-else
                       :size="80"
                       :style="'backgroundColor: #B22222'"
                       >{{ item.name.substring(0, 3)  }}
@@ -182,6 +188,12 @@
                   >
                     <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                       <a-avatar
+                        v-if="item.AvatarUrl != null"
+                        :size="80"
+                        :src="item.AvatarUrl"
+                      />
+                      <a-avatar
+                        v-else
                         :size="80"
                         :style="'backgroundColor: #B22222'"
                         >{{ item.name.substring(0, 3)  }}
@@ -353,8 +365,8 @@ export default {
             var newAuthor = {
               ScholarId: res.data[i].scholarId,
               name: res.data[i].name,
-              src: res.data[i].avatarUrl!=null?res.data[i].avatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-              institution: res.data[i].institution,
+              AvatarUrl: res.data[i].avatarUrl,
+              institution: res.data[i].organization,
               // paper: res.data[0].dataScholar.paperCount,
               // citation: res.data[0].dataScholar.citationCount,
               // Hindex: res.data[0].dataScholar.hindex,
@@ -415,7 +427,7 @@ export default {
       this.isSelected4 = false;
     },
     onSearch3(value) {
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;
@@ -424,7 +436,7 @@ export default {
       this.getPatent(value);
     },
     onSearch4(value) {
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;
@@ -440,8 +452,8 @@ export default {
           var newAuthor = {
             ScholarId: res.data[0].ScholarId,
             name: res.data[0].Name,
-            src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: res.data[0].institution,
+            AvatarUrl: res.data[0].AvatarUrl,
+            institution: res.data[0].Institution,
             // paper: res.data[0].dataScholar.paperCount,
             // citation: res.data[0].dataScholar.citationCount,
             // Hindex: res.data[0].dataScholar.hindex,
@@ -634,17 +646,21 @@ export default {
 .left-block2{
   width: 33%;
   height: 1350px;
+  border-right: 1px solid rgb(239, 239, 239);
   border: solid 1px white;
 }
 .middle-block2{
   width: 34%;
   height: 1350px;
   border: solid 1px white;
+  border-right: 1px solid rgb(239, 239, 239);
+  border-left: 1px solid rgb(239, 239, 239);
   margin: -1350px 0px 0px 33%;
 }
 .right-block2{
   width: 33%;
   height: 1350px;
+  border-left: 1px solid rgb(239, 239, 239);
   margin: -1350px 0px 0px 67%;
   border: solid 1px white;
 }
@@ -657,7 +673,9 @@ export default {
 .manager2-result-list-scholar .card-list {
   /* border: solid 1px black; */
   width: 90%;
+  height: 1100px;
   margin: 20px auto;
+  overflow-y: auto;
 }
 .manager2-result-list-scholar .card-list .card-avatar {
   float: left;
@@ -846,5 +864,4 @@ small-card-list{
 .manager2-result-scholar-number {
   display: inline-block;
 }
-
 </style>

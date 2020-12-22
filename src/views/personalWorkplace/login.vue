@@ -1,5 +1,6 @@
 <template>
   <div class="total">
+    <Nav></Nav>
     <div class="login_container">
       <div>
         <p>登 录</p>
@@ -77,8 +78,11 @@
 
 <script>
 import { postData } from "@/api/webpost";
-
+import Nav from "@/components/navSearch.vue";
 export default {
+  components: {
+    Nav,
+  },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
@@ -103,7 +107,9 @@ export default {
           window.localStorage.setItem("avatarUrl",res.data.avatar);
           window.localStorage.setItem("identification",res.data.identification);
           if(res.data.scholarId != undefined)
-          window.localStorage.setItem("scholarId",res.data.scholarId);
+            window.localStorage.setItem("scholarId",res.data.scholarId);
+          else 
+            window.localStorage.removeItem("scholarId");
           //window.sessionStorage.setItem("UserId", res.data.userid);
           //const webAdrs = window.sessionStorage.getItem("WebAdrs");
           /*if (webAdrs) {
@@ -113,7 +119,7 @@ export default {
             console.log("this way");
             this.$router.push("/used");
           }*/
-          this.$router.push("/");
+          this.$router.go(-1);
         /*} else if (res.code === "1" || res.code === "2") {
           this.$message.error("用户名或密码错误");*/
         } else {

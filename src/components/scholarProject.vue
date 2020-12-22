@@ -42,7 +42,8 @@ export default {
       console.log(this.currentPage);
     },
     toProject(id) {
-      this.$router.push("/progDisplay/" + id);
+      let url = this.$router.resolve("/progDisplay/" + id);
+      window.open(url.href, "_blank");
     },
   },
   mounted() {

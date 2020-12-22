@@ -1,14 +1,15 @@
 <template>
   <div>
-    <div style="height: 100vh; overflow: hidden; background-color: #f7f7f7f7">
+    <Nav></Nav>
+    <div class= "control" style="height: 100vh; overflow: hidden;">
       <div class="Info_container">
         <a-breadcrumb separator=">">
           <a-breadcrumb-item
-            ><span @click="toLast" style="cursor: pointer"
+            ><span @click="toLast" style="cursor: pointer;font-size:20px;"
               >返回</span
             ></a-breadcrumb-item
           >
-          <a-breadcrumb-item>个人信息</a-breadcrumb-item>
+          <a-breadcrumb-item style="font-size:20px">个人信息</a-breadcrumb-item>
         </a-breadcrumb>
         <div>
           <a-card
@@ -17,6 +18,7 @@
               height: 26em;
               box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
               margin-top: 1em;
+              opacity: 0.9;
             "
           >
             <!--分割线左侧，包括头像和学者认证按钮-->
@@ -24,7 +26,12 @@
               <div style="margin-bottom: 0.5em">
                 <uploadPhoto></uploadPhoto>
               </div>
-              <div style="margin-left: -0.55em" v-show="!this.info.isScholar">
+              <div v-if="isManager" style="margin-left: -0.55em" >
+                <a-button type="primary" >
+                  管理账号
+                </a-button>
+              </div>
+              <div v-if="!isManager" style="margin-left: -0.55em" v-show="!this.info.isScholar">
                 <a-button type="primary" @click="() => setModalVisible(true)">
                   学者认证
                 </a-button>
@@ -187,14 +194,17 @@ import { postData } from "@/api/webpost";
 import uploadPhoto from "@/components/uploadPhoto";
 import inputEmail from "@/components/inputEmail";
 import inputPwd from "@/components/inputPwd";
+import Nav from "@/components/navSearch.vue";
 export default {
   components: {
     uploadPhoto,
     inputEmail,
     inputPwd,
+    Nav,
   },
   data() {
     return {
+      isManager:false,
       info: {
         username: '',
         email: '',
@@ -207,6 +217,11 @@ export default {
     };
   },
   methods: {
+    isScholar() {
+      console.log(localStorage.getItem("shcolarId")===undefined);
+      console.log(localStorage.getItem("shcolarId")===undefined ? false:true);
+      return localStorage.getItem("shcolarId")===undefined ? false:true;
+    },
     setModalVisible(modalVisible) {
       this.modalVisible = modalVisible;
       console.log(this.info.email.match(/@\S+edu/));
@@ -241,24 +256,12 @@ export default {
       let url = this.$urlPath.website.toBeScholar;
       postData(url, params).then(res => {
         if(res.code === 1001) {
-          this.$message.success({
-            message: "请求成功",
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.success("请求成功");
         } else if(res.code === 1002) {
-          this.$message.success({
-            message: "认证成功,稍后为您跳转到认领门户界面",
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.success("认证成功,稍后为您跳转到认领门户界面");
           this.toClaimScholar();
         } else {
-          this.$message.error({
-            message: res.message,
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.error("这个邮箱被用过了");
         }
       });
     },
@@ -281,21 +284,19 @@ export default {
       this.showEmail = !this.showEmail;
     },
     toPwd() {
-      this.showPwd = !this.Pwd;
+      this.showPwd = !this.showPwd;
     },
     closePwd() {
-      let res = this.$refs.choosePwd.getChoose();
+      //let res = this.$refs.choosePwd.getChoose();
       this.showPwd = !this.showPwd;
-      console.log(res);
+     /* console.log(res);
       if (res.flag === 0) {
         this.changePa(res.old, res.new);
-      }
+      }*/
     },
     closeEmail() {
-      let res = this.$refs.chooseE.getChoose();
+      //let res = this.$refs.chooseE.getChoose();
       this.showEmail = !this.showEmail;
-      console.log(res);
-      if (res.email != "") this.changeEmail();
     },
     getInfo() {
       let params = new URLSearchParams();
@@ -310,11 +311,7 @@ export default {
           this.info.userid = res.data.uid;
           this.info.password = "●●●●●●";
         } else {
-          this.$message.error({
-            message: "抱歉，获取用户信息失败",
-            duration: 1000,
-            showClose: true
-          });
+          this.$message.error("抱歉，获取用户信息失败");
         }
       });
     },
@@ -331,13 +328,33 @@ export default {
   },
   created() {
     this.getInfo();
+    if (localStorage.getItem("identification") == 2) {
+      this.isManager = true;
+    }
   },
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: "scholarIdentify" });
+  },
+  mounted() {
+    window.addEventListener('setItem', (e) => {
+      console.log(e.key);
+      if(e.key === 'scholarId') {
+        console.log("personInfo的342行执行了吗");
+        this.info.isScholar = true;
+        this.$router.go(0);
+      }
+    });
   }
 };
 </script>
-<style>
+<style lang="scss" scoped>
+.control{
+  background: url("../../assets/bg.jpeg");
+  opacity: 0.9;
+  height: auto;
+  width: 100%;
+  background-size: cover;
+}
 .Info_container {
   width: 40em;
   border-radius: 3px;
@@ -345,5 +362,8 @@ export default {
   left: 30%;
   right: 30%;
   top: 10%;
+  font-size:30px;
+  color: #000000;
+  
 }
 </style>

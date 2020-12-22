@@ -2,8 +2,8 @@
   <div class="al">
     <Nav></Nav>
 
-    <h2 style="margin-left: 250px;margin-top:1%">我的收藏</h2>
-    <a-tabs style="margin-left: 250px;margin-top:1%" default-active-key="1">
+    <h1 style="margin-left: 12%;margin-top:1%">我的收藏</h1>
+    <a-tabs style="margin-left: 12%;margin-top:1%;width:1280px" default-active-key="1">
       <a-tab-pane key="1">
         <span slot="tab">
           <a-icon type="copy" />

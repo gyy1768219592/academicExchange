@@ -1,16 +1,16 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <h2 style="margin-left: 250px;margin-top:1%">我的关注</h2>
+    <h1 style="margin-left: 12%;margin-top:1%">我的关注</h1>
     <a-list item-layout="horizontal" pagination = true :data-source="info">
       <a-list-item slot="renderItem" slot-scope="item, index" :key="item.ScholarId">
         <a-button @click="delConcern(item.ScholarId)" type="danger" slot="actions" ghost>取消关注</a-button>
-        <a-button @click="toSendmessage(index)" type="primary" slot="actions" ghost>发送私信</a-button>
+        <a-button @click="toSendmessage(index)" slot="actions" style="color:	#696969;border-color:	#696969">发送私信</a-button>
         <a-list-item-meta :description="item.Institution">
-          <a slot="title" href="https://www.antdv.com/">{{ item.Name }}</a>
+          <a slot="title" @click="toPerson(item.ScholarId)">{{ item.Name }}</a>
           <a-avatar
             slot="avatar"
-            :src= 'info.AvatarUrl'
+            :src= 'item.AvatarUrl'
           />
         </a-list-item-meta>
       </a-list-item>
@@ -71,6 +71,21 @@ export default {
           ScholarId: _this.info[index].ScholarId,
         }
       });
+    },
+    toPerson(sid){
+      if (sid == localStorage.getItem("scholarId")) {
+        let url = this.$router.resolve({
+          path: "/userIndex",
+          query: { scholarid: sid },
+        });
+        window.open(url.href, "_blank");
+      } else {
+        let url = this.$router.resolve({
+          path: "/scholarIndex",
+          query: { scholarid: sid },
+        });
+        window.open(url.href, "_blank");
+      }
     }
   }
 };
@@ -86,9 +101,10 @@ export default {
   overflow-y: auto;
 }
 .ant-list.ant-list-split {
-  margin-left: 250px;
-  margin-right: 2%;
+  margin-left: 12%;
+  margin-right: 12%;
   margin-top: 1%;
+  width:1280px;
 }
 .ant-list-item-meta-description {
   text-overflow: ellipsis;

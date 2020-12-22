@@ -45,7 +45,7 @@
         type="search"
         :style="{ color: filtered ? '#108ee9' : undefined }"
       />
-      <a slot="customRender" slot-scope="text, record, index, column">
+      <a slot="customRender" slot-scope="text, record, index, column" >
         <span v-if="searchText && searchedColumn === column.dataIndex">
           <template
             v-for="(fragment, i) in text
@@ -58,10 +58,10 @@
               class="highlight"
               >{{ fragment }}</mark
             >
-            <template v-else>{{ fragment }}</template>
+            <template v-else >{{ fragment }}</template>
           </template>
         </span>
-        <template v-else>
+        <template v-else >
           {{ text }}
         </template>
         
@@ -69,9 +69,15 @@
       <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
         {{ record.description }}
       </p>
-      <a-button @click="deleteCollect(record)" slot-scope="text, record" slot="action" type="danger" ghost>
+      <span slot="action" slot-scope=" record">
+      <a-button @click="deleteCollect(record)"  type="danger" ghost>
         取消收藏
       </a-button>
+      <a-divider type="vertical" />
+      <a-button @click="toPaper(record)" style="color:	#696969;border-color:	#696969">
+        查看
+      </a-button>
+      </span>
     </a-table>
   </div>
 </template>
@@ -93,7 +99,7 @@ export default {
           title: "名称",
           dataIndex: "name",
           key: "name",
-          width: 380,
+          width: 550,
           ellipsis: true,
           scopedSlots: {
             filterDropdown: "filterDropdown",
@@ -116,7 +122,7 @@ export default {
         {
           title: "作者",
           dataIndex: "author",
-          width: 240,
+          width: 300,
           ellipsis: true,
           key: "author",
           scopedSlots: {
@@ -142,7 +148,7 @@ export default {
           dataIndex: "date",
           key: "date",
           ellipsis: true,
-          width: 200,
+          width: 180,
           scopedSlots: {
             filterDropdown: "filterDropdown",
             filterIcon: "filterIcon",
@@ -211,7 +217,8 @@ export default {
                 author: "121212",
                 date:"12112",
                 description: res.data.paperList[i].paper_abstract,
-                id: res.data.paperList[i].paperId
+                id: res.data.paperList[i].paperId,
+
             });
         }
           console.log("获取成功");
@@ -287,7 +294,17 @@ export default {
         }
         this.reload();
       });
-    }
+    },
+    toPaper(index) {
+      var _this = this;
+      if(_this.ch == 0){
+        this.$router.push("/paperDisplay/" + index.id);
+      }else if(_this.ch == 1){
+        this.$router.push("/patentDisplay/" + index.id);
+      }else{
+        this.$router.push("/progDisplay/" + index.id);
+      }
+    },
   }
 };
 </script>
@@ -301,6 +318,7 @@ export default {
   overflow-x: hidden;
   overflow-y: auto;
 }
+
 /*.ant-table-wrapper {
   margin-left: 250px;
   margin-right: 2%;

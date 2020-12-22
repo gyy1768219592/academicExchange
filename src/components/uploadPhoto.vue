@@ -62,9 +62,7 @@ export default {
           //console.log(res.data.userimgpath);
           this.imgUrl = res.data.url;
           localStorage.setItem("avatarUrl",this.imgUrl);
-          this.$message.success({
-            message: res.message,
-          });
+          this.$message.success("头像修改成功");
           //this.putPhoto(res.data.userimgpath);
         } else {
           console.log(res.code);

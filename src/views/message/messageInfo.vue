@@ -4,7 +4,7 @@
 
     <div class = "email">
 
-      <h2><a-icon @click="toBefore"  type="arrow-left" />    邮件信息</h2>
+      <h1><a-icon @click="toBefore"  type="arrow-left" />    邮件信息</h1>
       </br>
       <h3>标题：{{letter.title}}</h3>
       </br>
@@ -24,13 +24,6 @@
           <a-input placeholder="请输入正文" v-model="form.desc" type="textarea"  :rows="7"/>
           </br>
           </br>
-          <a-upload
-              style="float:left"
-              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              :default-file-list="defaultFileList"
-          >
-              <a-button> <a-icon type="upload" /> 上传图片</a-button>
-          </a-upload>
           <a-button type="primary" @click="onSubmit" style="float:right">
               发送
           </a-button>
@@ -77,6 +70,7 @@ export default {
     this.letter.name = this.$route.query.senderUserid;
     this.letter.time = this.format(date);
     this.letter.senderUsername = this.$route.query.senderUsername;
+    this.letter.img = this.$route.query.img;
   },
   methods: {
     toBefore(){
@@ -119,7 +113,7 @@ export default {
         } 
         else {
           //console.log(res.code);
-          _this.$message.error("发送失败");
+          _this.$message.error("请进行学者认证，发送失败");
         }
       });
       this.reload();

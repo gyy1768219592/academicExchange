@@ -8,7 +8,7 @@ let path = {
     login: Ip.productIP + "user/login",
     register: Ip.productIP + "user/register",
     getUserInfo: Ip.productIP + "getUserInfo",
-    alterPassword: Ip.productIP + "alterPassword",
+    modifyPassword: Ip.productIP + "user/modifyPassword",
     uploadUserImage: Ip.productIP + "uploadUserImage",
     updateUserImgPath: Ip.productIP + "updateUserImgPath",
     updateUserInfo: Ip.productIP + "updateUserInfo",
@@ -21,6 +21,9 @@ let path = {
     scholarVerify: Ip.productIP + "user/scholar/verify",
     getInfo: Ip.productIP + "user/getInfo",
     userAvatar: Ip.productIP + "user/avatar",
+    findPassword: Ip.productIP + "user/findPassword",
+    modifyEmail: Ip.productIP + "user/modifyEmail",
+    emailVerify: Ip.productIP + "user/link/modifyEmail",
     //检索
     searchProject: Ip.productIP + "scholarship/advancedSearchProject",
     searchProjectSortByDate: Ip.productIP + "scholarship/advancedSearchProjectSortByDate",
@@ -84,8 +87,8 @@ let path = {
     subscribe: Ip.productIP + "scholar/subscribe",
     undoSubscribe: Ip.productIP + "scholar/subscribe",
     //消息
-    sendMessage: Ip.productIP + "/message/user/one",
-    getMessage: Ip.productIP + "/message/user/inbox",
+    sendMessage: Ip.productIP + "message/user/one",
+    getMessage: Ip.productIP + "message/user/inbox",
     delMessage: Ip.productIP + "message/user/one",
     //关注
     getConcern: Ip.productIP + "/scholar/subscribe",
@@ -94,11 +97,11 @@ let path = {
     //收藏
     addCollect: Ip.productIP + "/scholarship/starStatus",
     getCollectPaper: Ip.productIP + "/scholarship/staredPaper",
-    getCollectPatent: Ip.productIP +"/scholarship/staredPatent",
-    getCollectProject: Ip.productIP +"/scholarship/staredProject",
+    getCollectPatent: Ip.productIP + "/scholarship/staredPatent",
+    getCollectProject: Ip.productIP + "/scholarship/staredProject",
     delCollect: Ip.productIP + "/scholarship/starStatus",
-
-    getScholarInfo: Ip.productIP + "scholar/info",
+    //学者
+    getInfoByUser: Ip.productIP + "scholar/info",
     editScholarInfo: Ip.productIP + "scholar/infoUpdate",
     claimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
     undoClaimDataPortal: Ip.productIP + "scholar/Scholar_DataScholar",
@@ -106,6 +109,8 @@ let path = {
     addWorkExp: Ip.productIP + "scholar/workExperience",
     deleteWorkExp: Ip.productIP + "scholar/workExperience",
     getAuthorInfo: Ip.productIP + "scholar/dataScholar",
+    getInfoByTourist: Ip.productIP + "scholar/tourist/info",
+    scholarAvatar: Ip.productIP + "scholar/avatar",
   },
 };
 export default path;

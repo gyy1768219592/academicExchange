@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="manager-result-main-scholar">
+    <div class="main">
       <div class="manager-content">
         <div class = "left-block1">
           <div v-bind:class="isSelected1 ? 'manager-search-on' : 'manager-search'">
@@ -26,6 +26,12 @@
                   >
                     <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                       <a-avatar
+                        v-if="item.AvatarUrl != null"
+                        :size="80"
+                        :src="item.AvatarUrl"
+                      />
+                      <a-avatar
+                        v-else
                         :size="80"
                         :style="'backgroundColor: #B22222'"
                         >{{ item.name.substring(0, 3)  }}
@@ -90,7 +96,7 @@
         </div>
         <div class = "middle-block1">
           <div class="manager-result-list-scholar">
-            <div class="card-list">
+            <div class="card-list1">
               <a-card>
                 <a-card-grid
                   style="width: 100%"
@@ -99,6 +105,12 @@
                 >
                   <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                     <a-avatar
+                      v-if="item.AvatarUrl != null"
+                      :size="80"
+                      :src="item.AvatarUrl"
+                    />
+                    <a-avatar
+                      v-else
                       :size="80"
                       :style="'backgroundColor: #B22222'"
                       >{{ item.name.substring(0, 3)  }}
@@ -381,7 +393,7 @@ export default {
             var newAuthor = {
               AuthorId: res.data.dataScholars[i].authorId,
               name: res.data.dataScholars[i].displayName,
-              src: /*res.data[i].avatarUrl!=null?res.data[i].avatarUrl:*/"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+              // AvatarUrl: res.data[i].AvatarUrl,
               institution: res.data.institution[i],
               paper: res.data.dataScholars[i].paperCount,
               citation: res.data.dataScholars[i].citationCount,
@@ -450,7 +462,7 @@ export default {
       this.isSelected2 = false;
     },
     onSearch1(value) {//查找之后要结果
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;
@@ -467,8 +479,8 @@ export default {
           var newAuthor = {
             ScholarId: res.data[0].ScholarId,
             name: res.data[0].Name,
-            src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-            institution: res.data[0].institution,
+            AvatarUrl: res.data[0].AvatarUrl,
+            institution: res.data[0].Institution,
             // paper: res.data[0].dataScholar.paperCount,
             // citation: res.data[0].dataScholar.citationCount,
             // Hindex: res.data[0].dataScholar.hindex,
@@ -488,7 +500,7 @@ export default {
       });
     },
     onSearch2(value) {//查找之后要结果
-      if (isNaN(Number(value)))
+      if(!(/^\d+$/.test(value)))
       {
         this.$message.error("输入非法！");
         return;
@@ -541,18 +553,22 @@ export default {
 .left-block1{
   width: 33%;
   height: 1350px;
+  border-right: 1px solid rgb(239, 239, 239);
   border: solid 1px white;
 }
 .middle-block1{
   width: 34%;
   height: 1350px;
   border: solid 1px white;
+  border-left: 1px solid rgb(239, 239, 239);
+  border-right: 1px solid rgb(239, 239, 239);
   margin: -1350px 0px 0px 33%;
 }
 .right-block1{
   width: 33%;
   height: 1350px;
   margin: -1350px 0px 0px 67%;
+  border-left: 1px solid rgb(239, 239, 239);
   border: solid 1px white;
 }
 .manager-result-main-scholar .topbar {
@@ -564,13 +580,11 @@ export default {
 .manager-result-list-scholar .card-list {
   /* border: solid 1px black; */
   width: 90%;
+  height: 1050px;
   margin: 20px auto;
+  overflow-y: auto;
 }
 .manager-result-list-scholar .card-list .card-avatar {
-  float: left;
-  width: 20%;
-}
-.manager-result-list-scholar .card-list .card-avatar-main {
   float: left;
   width: 20%;
 }
@@ -578,11 +592,6 @@ export default {
   float: left;
   margin-left: 5%;
   width: 65%;
-}
-.manager-result-list-scholar .card-list .card-info-main {
-  float: left;
-  margin-left: 5%;
-  width: 50%;
 }
 .manager-result-list-scholar .card-list .card-info span {
   display: inline-block;
@@ -595,16 +604,32 @@ export default {
   float: right;
   width: 10%;
 }
-
-.small-card-list{
-  border: solid 1px black;
-  width: 600px;
-  height: 1000px;
-  /* margin: auto; */
+.manager-result-list-scholar .card-list1 {
+  /* border: solid 1px black; */
+  width: 90%;
+  /* height: 1100px; */
+  margin: 20px auto;
+  overflow-y: auto;
 }
-.manager-result-list-scholar .manager-result-list-pagination {
-  margin: 10px 0 30px 0;
-  text-align: center;
+.manager-result-list-scholar .card-list1 .card-avatar {
+  float: left;
+  width: 20%;
+}
+.manager-result-list-scholar .card-list1 .card-info {
+  float: left;
+  margin-left: 5%;
+  width: 65%;
+}
+.manager-result-list-scholar .card-list1 .card-info span {
+  display: inline-block;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.manager-result-list-scholar .card-list1 .card-button {
+  float: right;
+  width: 10%;
 }
 .manager-content {
   width: 1280px;

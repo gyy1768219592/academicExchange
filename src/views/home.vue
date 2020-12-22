@@ -80,11 +80,6 @@
         </div>
       </div>
     </div>
-    <div class="home-footer">
-      <a-layout-footer style="text-align: center">
-        Copyright ©2020 NOsearch. All rights reserved
-      </a-layout-footer>
-    </div>
   </div>
 </template>
 
@@ -190,6 +185,7 @@ export default {
   width: 1280px;
   padding: 20px;
   margin: 60px auto;
+  margin-bottom: 0;
 }
 
 .homeIndex-search {

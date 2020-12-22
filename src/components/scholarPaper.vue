@@ -39,7 +39,8 @@ export default {
       console.log(this.currentPage);
     },
     toPaper(paperId) {
-      this.$router.push("/paperDisplay/" + paperId);
+      let url = this.$router.resolve("/paperDisplay/" + paperId);
+      window.open(url.href, "_blank");
     },
   },
 };

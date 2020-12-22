@@ -1,11 +1,14 @@
 <template>
   <div>
     <navSearch></navSearch>
+    <!-- <div><a-icon type="left" @click="goBack" /></div> -->
     <div class="main-block">
       <div class="up-block">
         <div class="user-info">
           <div class="avatar">
-            <a-avatar class="img" :size="100" icon="user" />
+            <a-avatar :size="100" :style="'backgroundColor: #c85554;font-size:26px'">{{
+              dataScholar.displayName.substring(0, 3)
+            }}</a-avatar>
             <h1 class="info-content-name">{{ dataScholar.displayName }}</h1>
             <h2 class="info-content-ins">{{ institution }}</h2>
             <ul class="index-table">
@@ -175,6 +178,9 @@ export default {
         }
       });
     },
+    goBack() {
+      this.$router.go(-1);
+    },
   },
   mounted() {
     this.authorid = this.$route.query.authorid;
@@ -189,7 +195,6 @@ export default {
 <style scoped>
 .main-block {
   width: 1280px;
-  height: 2000px;
   margin: auto;
   /* border: solid 1px grey; */
 }
@@ -225,11 +230,13 @@ export default {
 }
 .info-content-name {
   width: 500px;
+  text-overflow: ellipsis;
   /* border: solid 1px black; */
   margin: -100px auto 0 120px;
 }
 .info-content-ins {
-  width: 100px;
+  width: 500px;
+  text-overflow: ellipsis;
   /* border: solid 1px red; */
   margin: -5px auto 10px 120px;
 }
