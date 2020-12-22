@@ -337,8 +337,11 @@ export default {
   },
   mounted() {
     window.addEventListener('setItem', (e) => {
+      console.log(e.key);
       if(e.key === 'scholarId') {
+        console.log("personInfo的342行执行了吗");
         this.info.isScholar = true;
+        this.$router.go(0);
       }
     });
   }

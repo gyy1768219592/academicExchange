@@ -294,11 +294,11 @@ export default {
       visible: false,
       pageid: 0,
       isDelete: true,
-      scholarid: 13,
+      scholarid: 1,
       userid: 18,
       scholar: {
         scholarid: 13,
-        name: "路路路",
+        name: "",
         englishName: "lululu",
         title: "",
         organization: "",
@@ -370,7 +370,7 @@ export default {
       institution: [],
     };
   },
-  mounted() {
+  created() {
     this.scholarid = localStorage.getItem("scholarId");
     this.getInfoByUser();
     this.getDataPortal();
