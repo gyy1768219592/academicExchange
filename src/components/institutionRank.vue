@@ -5,6 +5,7 @@
       tab-position="left"
       @prevClick="callback"
       @nextClick="callback"
+      @change="changeTab"
       :tabBarGutter="0"
       :style="{ height: '580px' }"
     >
@@ -15,9 +16,9 @@
       <a-tab-pane
         v-for="(item, index) in arealist"
         :key="index"
-        :tab="item.areaname"
+        :tab="item.displayName"
       >
-        <div class="irank-orgtitle">{{ item.areaname }}领域</div>
+        <div class="irank-orgtitle">{{ item.displayName }}领域</div>
         <a-table
           class="irank-table"
           size="middle"
@@ -39,53 +40,7 @@ export default {
   data() {
     return {
       chart: null,
-      arealist: [
-        {
-          areaname: "高性能计算",
-        },
-        {
-          areaname: "分布式系统",
-        },
-        {
-          areaname: "人工智能",
-        },
-        {
-          areaname: "图像处理",
-        },
-        {
-          areaname: "数据挖掘",
-        },
-        {
-          areaname: "软件工程",
-        },
-        {
-          areaname: "计算机科学理论",
-        },
-        {
-          areaname: "计算机网络",
-        },
-        {
-          areaname: "分布式系统",
-        },
-        {
-          areaname: "人工智能",
-        },
-        {
-          areaname: "图像处理",
-        },
-        {
-          areaname: "数据挖掘",
-        },
-        {
-          areaname: "软件工程",
-        },
-        {
-          areaname: "计算机科学理论",
-        },
-        {
-          areaname: "计算机网络",
-        },
-      ],
+      arealist: [],
       ranklist: [
         {
           institution: "北京航空航天大学",
@@ -348,9 +303,43 @@ export default {
         }
       });
     },
+    getRank() {
+      const url = this.$urlPath.website.getTopInstitutionByField;
+      getData(url).then((res) => {
+        if (res.code === 1001) {
+          const names = [];
+          const natures = [];
+          res.data.forEach((item) => {
+            // console.log(item)
+            names.push(item.institutionName);
+            natures.push(item.natureIndex);
+          });
+          this.names = names;
+          this.natures = natures;
+          this.initChart();
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+    getArea() {
+      getData(this.$urlPath.website.getHotFields).then((res) => {
+        if (res.code === 1001) {
+          this.arealist = res.data;
+        } else {
+          this.$message.error(res.message);
+        }
+      });
+    },
+    changeTab(key) {
+      if (key != "all") {
+        console.log(this.arealist[key].displayName);
+      }
+    },
   },
   mounted() {
     this.get();
+    this.getArea();
   },
 };
 </script>
@@ -364,7 +353,7 @@ export default {
   padding-top: 0;
   padding-bottom: 0;
   height: 50px;
-  width: 130px;
+  width: 120px;
   line-height: 50px;
   text-align: left;
   overflow: hidden;

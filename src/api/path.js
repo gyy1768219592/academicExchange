@@ -36,6 +36,7 @@ let path = {
     getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
     getPaperById: Ip.productIP + "scholarship/getPaperByPaperId/",
     getTopInstitution: Ip.productIP + "scholarship/topInstitution",
+    getTopInstitutionByField: Ip.productIP + "scholarship/topInstitution/field",
 
     //获取学者门户下属数据库门户
     getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar",
@@ -87,8 +88,8 @@ let path = {
     subscribe: Ip.productIP + "scholar/subscribe",
     undoSubscribe: Ip.productIP + "scholar/subscribe",
     //消息
-    sendMessage: Ip.productIP + "/message/user/one",
-    getMessage: Ip.productIP + "/message/user/inbox",
+    sendMessage: Ip.productIP + "message/user/one",
+    getMessage: Ip.productIP + "message/user/inbox",
     delMessage: Ip.productIP + "message/user/one",
     //关注
     getConcern: Ip.productIP + "/scholar/subscribe",
