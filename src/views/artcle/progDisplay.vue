@@ -57,6 +57,12 @@
                           <div class="author" @click="gotoUser(item.scholarId)">
                             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
                               <a-avatar
+                                v-if="item.avatarUrl != null"
+                                :size="30"
+                                :src="item.avatarUrl"
+                              />
+                              <a-avatar
+                                v-else
                                 :size="30"
                                 :style="'backgroundColor: #B22222'"
                                 >{{ item.name.substring(0, 1)  }}

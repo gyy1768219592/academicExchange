@@ -26,6 +26,12 @@
                   >
                     <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                       <a-avatar
+                        v-if="item.AvatarUrl != null"
+                        :size="80"
+                        :src="item.AvatarUrl"
+                      />
+                      <a-avatar
+                        v-else
                         :size="80"
                         :style="'backgroundColor: #B22222'"
                         >{{ item.name.substring(0, 3)  }}
@@ -99,6 +105,12 @@
                 >
                   <div class="card-avatar" @click="gotoScholar(item.ScholarId)">
                     <a-avatar
+                      v-if="item.AvatarUrl != null"
+                      :size="80"
+                      :src="item.AvatarUrl"
+                    />
+                    <a-avatar
+                      v-else
                       :size="80"
                       :style="'backgroundColor: #B22222'"
                       >{{ item.name.substring(0, 3)  }}
@@ -381,7 +393,7 @@ export default {
             var newAuthor = {
               AuthorId: res.data.dataScholars[i].authorId,
               name: res.data.dataScholars[i].displayName,
-              src: /*res.data[i].avatarUrl!=null?res.data[i].avatarUrl:*/"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+              // AvatarUrl: res.data[i].AvatarUrl,
               institution: res.data.institution[i],
               paper: res.data.dataScholars[i].paperCount,
               citation: res.data.dataScholars[i].citationCount,
@@ -467,7 +479,7 @@ export default {
           var newAuthor = {
             ScholarId: res.data[0].ScholarId,
             name: res.data[0].Name,
-            src: res.data[0].AvatarUrl!=null?res.data[0].AvatarUrl:"https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            AvatarUrl: res.data[0].AvatarUrl,
             institution: res.data[0].Institution,
             // paper: res.data[0].dataScholar.paperCount,
             // citation: res.data[0].dataScholar.citationCount,
