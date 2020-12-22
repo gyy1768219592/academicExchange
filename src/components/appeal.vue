@@ -68,17 +68,11 @@
             >
             <a-list-item-meta
               :description="
-                '   申诉者UID: ' + 
-                item.senderUserid +
-                '   申诉学者SID: ' + 
-                item.scholarId +
-                '   相关数据ID: ' +
-                (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid))) +
                 '   申诉类型: ' +
                 (item.dataScholarId!=null?'申诉冒领数据库门户':(item.paperid!=null?'申诉论文':(item.patentid!=null?'申诉专利':'申诉项目'))) +
                 '   发送时间: ' +
                 item.sendtime
-                "
+              "
             >
               <a slot="title" >
                 <span class = "appeal_self">{{item.msgtitle}}（用户：{{item.senderUsername}}）</span>
@@ -87,7 +81,26 @@
             <div @click="Seek(item)">
               <a-collapse accordion >
                 <a-collapse-panel key="1" header= "打开查看申诉具体信息">
-                  <a-textarea class="appealText" disabled :defaultValue="item.msgcontent" auto-size />
+                  <a-textarea 
+                    class="appealText" 
+                    disabled 
+                    :defaultValue="
+                      '申诉者UID:  ' + 
+                      item.senderUserid +
+                      '\n申诉学者SID:  ' + 
+                      item.scholarId +
+                      '\n申诉类型:  ' +
+                      (item.dataScholarId!=null?'申诉冒领数据库门户':(item.paperid!=null?'申诉冒领论文':(item.patentid!=null?'申诉冒领专利':'申诉冒领项目'))) +
+                      '\n' + (item.dataScholarId!=null?'Author':(item.paperid!=null?'Paper':(item.patentid!=null?'Patent':'Project'))) + 'ID:  ' +
+                      (item.dataScholarId!=null?item.dataScholarId:(item.paperid!=null?item.paperid:(item.patentid!=null?item.patentid:item.projectid))) +
+                      '\n-------------------------------------------------------------------------------------\n' +
+                      item.msgcontent +
+                      '\n                                                                           -------------------------------------------------------------------------------------' +
+                      '\n                                                                                                                                发送时间: ' +
+                      item.sendtime 
+                    " 
+                    auto-size 
+                  />
                   <!-- <div class="appealText">{{ item.msgcontent }}</div> -->
                   <img v-if="item.complaintMaterialUrl!=''" :src="item.complaintMaterialUrl" style="width:100%; height:100%"/>
                   <div v-if="item.downloadurl!=''" class="url-frame">
@@ -237,7 +250,7 @@ export default {
       //调用封装的postData函数，获取服务器返回值 
       let url = this.$urlPath.website.getAppeal;
       getData(url, params).then(res => {
-        this.List.appealList = res.data;
+        this.List.appealList = res.data.reverse();
         console.log(res.data);
         for(var ii = 0; ii < this.List.appealList.length; ii ++){
           console.log(this.List.appealList[ii].complaintMaterialUrl);
