@@ -66,8 +66,7 @@ export default {
       let params = new URLSearchParams();
       params.append("messageTitle", _this.form.title);
       params.append("messageContent", _this.form.desc);
-      //params.append("sender_userid", 15);
-      params.append("receiver_userid", _this.$route.query.ScholarId);
+      params.append("receiver_userid", 18);
 
       postData(url,params).then(res => {
         console.log(res);
