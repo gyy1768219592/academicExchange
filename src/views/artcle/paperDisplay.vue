@@ -167,7 +167,7 @@ export default {
     // console.log(localStorage)
     this.getPaper();
     const token = localStorage.token
-    if (token !== ''){
+    if (typeof(token) !== 'undefined'){
       this.isLogin = true;
       this.getLikeStatus();
     } else {
