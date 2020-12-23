@@ -208,7 +208,7 @@ export default {
       getData(url,null).then(res => {
         console.log(res);
         if (res.code === 1001) {
-          console.log(res.data);
+          // console.log(res.data);
           for (let i = 0; i < res.data.total; i++) {
             let author = ''
             res.data.authors[i].forEach(auth => {
