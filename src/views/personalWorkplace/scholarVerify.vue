@@ -6,7 +6,7 @@
   >
     <template #extra>
       <a-button key="gotoClaimScholar" type="primary" v-if = 'show' @click = toClaimScholar()>
-        去认领门户
+        重新登录使学者身份生效
       </a-button>
       <a-button key="gotoPersonInfo" type="primary" v-if = '!show' @click = toPersonInfo()>
         重新认证
@@ -65,7 +65,7 @@ export default {
         this.timer = setInterval(() =>{
           if(this.count > 0 && this.count <= TIME_COUNT) {
             this.count--
-            this.sub_title = this.count + '秒后为您跳转到认领门户页面'
+            this.sub_title = this.count + '秒后为您跳转到登录页面'
           } else {
             clearInterval(this.timer)
             this.timer = null
@@ -76,6 +76,7 @@ export default {
       }
     },
     toClaimScholar(value) {
+      localStorage.setItem("beforeEdge","/user/claimScholar");
       this.$router.push({
           path: "/user/claimScholar",
           query: {

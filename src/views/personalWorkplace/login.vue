@@ -127,6 +127,7 @@ export default {
             console.log("this way");
             this.$router.push("/used");
           }*/
+          localStorage.setItem("beforeEdge","/login");
           this.$router.go(-1);
         /*} else if (res.code === "1" || res.code === "2") {
           this.$message.error("用户名或密码错误");*/
