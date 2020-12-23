@@ -111,7 +111,7 @@
                       '\n-------------------------------------------------------------------------------------\n' +
                       item.msgcontent +
                       '\n                                                                           -------------------------------------------------------------------------------------' +
-                      '\n                                                                                                                                发送时间: ' +
+                      '\n                                                                                                                                                     发送时间: ' +
                       item.sendtime 
                     " 
                     auto-size 
@@ -267,6 +267,7 @@ export default {
         this.List.appealList = res.data.reverse();
         console.log(res.data);
         for(var ii = 0; ii < this.List.appealList.length; ii ++){
+          this.List.appealList[ii].sendtime = this.format(new Date(this.List.appealList[ii].sendtime));
           if(this.List.appealList[ii].scholarId==null){
             this.List.appealList[ii].realtitle = this.List.appealList[ii].msgtitle;
             this.List.appealList[ii].msgtitle = "回复申诉处理结果";
@@ -418,8 +419,22 @@ export default {
         this.$set(this.List,"showList",temp);
         this.total = temp.length;
       }
-    }
-  },
+    },
+    format(date) {
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      m = m < 10 ? ('0' + m) : m;
+      var d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      var h = date.getHours();
+      h=h < 10 ? ('0' + h) : h;
+      var minute = date.getMinutes();
+      minute = minute < 10 ? ('0' + minute) : minute;
+      var second=date.getSeconds();
+      second=second < 10 ? ('0' + second) : second;
+      return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    },
+  }
 };
 </script>
 
@@ -474,17 +489,17 @@ export default {
   height: 4000px;
 }
 .maneger-main .maneger-list .maneger-list-button_l {
-  border: solid 1px blue;
+  border: solid 1px #696969	;
   margin-right: 5px;
-  padding: 0;
-  color: blue;
+  padding: 5px;
+  color:				#000001;
   background-color: #0000ff10;
 }
 .maneger-main .maneger-list .maneger-list-button_l_1 {
   /* border: solid 1px blue; */
   margin-left: 40px;
   padding: 0;
-  color: blue;
+  color: 	#000001;
   /* background-color: #0000ff10; */
 }
 .maneger-main .maneger-list .maneger-list-button_l_2 {
@@ -497,17 +512,17 @@ export default {
   /* background-color: #0000ff10; */
 }
 .maneger-main .maneger-list .maneger-list-button_r {
-  border: solid 1px red;
+  border: solid 1px 	#DC143C;
   margin-left: 5px;
-  padding: 0;
-  color: red;
+  padding: 5px;
+  color: 	#DC143C;
   background-color: #ff000010;
 }
 .maneger-main .maneger-list .maneger-list-button_r_1 {
   /* border: solid 1px red; */
   margin-left: 40px;
   padding: 0;
-  color: red;
+  color: 	#DC143C;
   /* background-color: #ff000010; */
 }
 .maneger-main .maneger-list .maneger-list-button_r_2 {
@@ -520,18 +535,18 @@ export default {
   background-color: #ff000010; */
 }
 .maneger-main .maneger-list .delete-button {
-  border: solid 1px red;
+  border: solid 1px 	#DC143C;
   margin-left: 5px;
-  padding: 0;
+  padding: 5px;
   color: white;
-  background-color: #ff0000e0;
+  background-color: 	#DC143C;
 }
 .maneger-main .maneger-list .delete-button2 {
-  border: solid 1px red;
+  border: solid 1px 	#DC143C;
   margin-left: 155px;
-  padding: 0;
+  padding: 5px;
   color: white;
-  background-color: #ff0000e0;
+  background-color: 	#DC143C;
 }
 .maneger-main .maneger-list .ant-list-item {
   padding-left: 10px;

@@ -51,6 +51,7 @@ export default {
   },
   mounted() {
     this.form.name = this.$route.query.name;
+    this.form.receiver_userid = this.$route.query.ScholarId
   },
   methods: {
     toBefore() {
@@ -67,7 +68,7 @@ export default {
       let params = new URLSearchParams();
       params.append("messageTitle", _this.form.title);
       params.append("messageContent", _this.form.desc);
-      params.append("receiver_userid", 18);
+      params.append("receiverScholarId", _this.form.receiver_userid);
 
       postData(url, params).then((res) => {
         console.log(res);

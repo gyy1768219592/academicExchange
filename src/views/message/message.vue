@@ -1,7 +1,7 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <h1 style="margin-left: 12%;margin-top:2%;">我的消息</h1>
+    <h1 style="margin-left: 12%;margin-top:1%;">我的消息</h1>
     <a-list item-layout="horizontal" 
     pagination = true
     :data-source="info">
@@ -13,9 +13,16 @@
           <a slot="title" @click="seeM(index)"
           >{{ item.msgtitle }}</a>
           <a-avatar
+            v-if="item.senderAvatar != null"
             slot="avatar"
-            :src= 'item.senderAvatar'
+            :src="item.senderAvatar"
           />
+          <a-avatar
+            v-else
+            slot="avatar"
+            :style="'backgroundColor: #B22222'"
+          >{{ item.senderUsername.substring(0, 3)  }}
+          </a-avatar>
         </a-list-item-meta>
       </a-list-item>
     </a-list>

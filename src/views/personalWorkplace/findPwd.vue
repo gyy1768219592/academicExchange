@@ -79,7 +79,7 @@ export default {
 </script>
 <style>
 .total {
-  /*background: url("../../assets/bg.jpeg");*/
+  background: url("../../assets/bg.jpeg");
   width: 100%;
   height: 1000px;
   background-size: cover;

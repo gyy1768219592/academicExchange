@@ -157,10 +157,10 @@ export default {
 </script>
 <style scoped>
 .total {
-  /*background: url("../../assets/bg.jpeg");*/
+  background: url("../../assets/bg.jpeg");
   width: 100%;
   height: 1000px;
-  /*background-size: cover;*/
+  background-size: cover;
 }
 .login_container {
   width: 350px;

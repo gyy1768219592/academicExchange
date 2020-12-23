@@ -42,11 +42,11 @@
                             <a-menu-item class="authors-down">
                               <div class="author-infor">
                                 <div class="author-infor-item1">
-                                  <span class="author-infor-item_cnt">{{ item.paperCount }}</span> 
+                                  <span class="author-infor-item_cnt">{{ item.paperCount }}</span>
                                   <span class="author-infor-item_cnt">论文</span>
                                 </div>
                                 <div class="author-infor-item2">
-                                  <span class="author-infor-item_cnt">{{ item.citationCount }}</span> 
+                                  <span class="author-infor-item_cnt">{{ item.citationCount }}</span>
                                   <span class="author-infor-item_cnt">被引</span>
                                 </div>
                               </div>
@@ -147,7 +147,7 @@ export default {
       DocType : "",
       CitationCount	:	0,
       date : "",
-      Journal	: "",          //期刊名	
+      Journal	: "",          //期刊名
       Conference :	"", //会议名
       Volume :	"",          //卷号
       Issue :	"",       //期号
@@ -164,12 +164,13 @@ export default {
   },
   mounted(){
     // this.initCharts();
+    // console.log(localStorage)
     this.getPaper();
-    if(localStorage.getItem("identification")==1){
+    const token = localStorage.token
+    if(token !== ''){
       this.isLogin = true;
       this.getLikeStatus();
-    }
-    else if(localStorage.getItem("identification")){
+    } else {
       this.isLogin = true;
     }
   },
@@ -202,7 +203,7 @@ export default {
       let params = new URLSearchParams();
       params.append("paperId", this.paperID);
       params.append("type", 0);
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
       console.log(url);
       getData(url, params).then(res => {
@@ -230,14 +231,14 @@ export default {
         "paperId": this.paperID,
         "type": 0,
       };
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
       console.log(url);
       putData(url,params).then(res => {
         if (res.code === 1001) {
           this.$message.success(res.message);
           console.log(res);
-          if(this.Like){ 
+          if(this.Like){
             this.LikeDisplay = "收藏";
             // this.$message.success("已取消收藏");
             this.Like = false;
@@ -269,7 +270,7 @@ export default {
     getPaper(){
       let params = new URLSearchParams();
       // params.append("paperId", this.paperID);
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getPaperById + this.paperID;
       console.log(url);
       getData(url, params).then(res => {
@@ -337,7 +338,7 @@ export default {
               scholarId: -1,
             }
             this.author_data.push(temp);
-          } 
+          }
           for(var j = 0; j < res.data.paperMap.scholarList.length; j ++){
             var temp1 = {
               name: res.data.paperMap.scholarList[j].name,
@@ -349,7 +350,7 @@ export default {
               scholarId: res.data.paperMap.scholarList[j].scholarId,
             }
             this.author_data.push(temp1);
-          } 
+          }
           //window.sessionStorage.setItem("UserId", res.data.userid);
           // const webAdrs = window.sessionStorage.getItem("WebAdrs");
         } else {

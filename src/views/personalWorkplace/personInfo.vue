@@ -258,15 +258,25 @@ export default {
         if(res.code === 1001) {
           this.$message.success("请求成功");
         } else if(res.code === 1002) {
-          this.$message.success("认证成功,稍后为您跳转到认领门户界面");
-          this.toClaimScholar();
+          this.$message.success("认证成功,稍后为您跳转到登录界面，重新登录以使学者身份生效");
+          this.toClaimScholar(values.englishname);
         } else {
           this.$message.error("这个邮箱被用过了");
         }
       });
     },
-    toClaimScholar() {
-      this.$router.push('/user/claimScholar');
+    toClaimScholar(value) {
+      localStorage.setItem("beforeEdge","/user/claimScholar");
+      this.$router.push({
+        path: "/user/claimScholar",
+        query: {
+          word: value,
+          institution: "",
+          author: "",
+          startDate: "",
+          endDate: "",
+        }
+      });
     },
     /*toLast() {
       console.log(this.$route.path);
