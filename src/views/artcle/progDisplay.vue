@@ -193,7 +193,7 @@ export default {
     this.getProg();
     this.getRenling();
     const token = localStorage.token
-    if (token !== ''){
+    if (typeof(token) !== 'undefined'){
       this.isLogin = true;
       this.isScholar = true;
       this.getRenlingStatus();
