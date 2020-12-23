@@ -365,36 +365,26 @@ export default {
           let high = 8;
           if (this.coAuthors.length / 2 < 8) high = this.coAuthors.length / 2;
           for (let i = 0; i <= high; i++) {
-            console.log(i);
             if (i == 0) {
-              debugger;
               let tmp = {
                 name: this.scholar.name,
                 symbolSize: 60,
-                id: i + 1,
+                id: 1,
               };
               this.coData[i] = tmp;
-              let link = {
-                value: "合作学者",
-                source: 1,
-                target: 1,
-              };
-              this.dataLink[0] = link;
-              console.log(this.dataLink);
             } else {
               let tmp = {
                 name: this.coAuthors[2 * (i - 1)],
                 symbolSize: this.coAuthors[2 * (i - 1) + 1] + 60,
                 id: i + 1,
               };
-              console.log(i + 1);
               this.coData[i] = tmp;
               let link = {
                 value: "合作学者",
-                source: 1,
-                target: i + 1,
+                source: 0,
+                target: i,
               };
-              this.dataLink[i] = link;
+              this.dataLink[i - 1] = link;
             }
           }
           console.log(this.coData);
