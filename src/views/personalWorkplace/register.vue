@@ -308,11 +308,11 @@ export default {
 </script>
 <style scoped>
 .total {
-  /*background: url("../../assets/bg.jpeg");*/
+  background: url("../../assets/bg.jpeg");
   width: 100%;
   height: 1000px;
-  /*background-size: cover;*/
-  /*background-color:#f7f7f7f7;*/
+  background-size: cover;
+
 }
 .register_container {
   width: 550px;
