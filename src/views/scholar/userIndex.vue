@@ -4,7 +4,8 @@
     <div class="main-block">
       <div class="up-block">
         <div class="user-info">
-          <div class="avatar">
+          <div class="avatar" v-if="!loading">
+            <a-spin :spinning="loading" />
             <uploadPhoto :imgUrl="scholar.avatarUrl"></uploadPhoto>
             <h1 class="info-content-name">{{ scholar.name }}</h1>
             <h4 class="info-content-ins">{{ scholar.organization }}</h4>
@@ -310,6 +311,7 @@ export default {
         avatarUrl: "",
         citations: 0,
       },
+      loading: true,
       coAuthors: new Map(),
       workExperience: [],
       crtexperience: {
@@ -373,13 +375,10 @@ export default {
   created() {
     this.scholarid = localStorage.getItem("scholarId");
     this.getInfoByUser();
-    this.getDataPortal();
-    this.getSameNameScholar();
+
     this.seriData[0].value = this.projectTotal;
     this.seriData[1].value = this.patentTotal;
     this.seriData[2].value = this.paperTotal;
-    let url = window.location.href;
-    console.log(url);
   },
   methods: {
     changePageTwo() {
@@ -663,9 +662,10 @@ export default {
           this.seriData[0].value = this.projectTotal;
           this.seriData[1].value = this.patentTotal;
           this.seriData[2].value = this.paperTotal;
-          console.log(this.scholar);
-          console.log(this.workExperience);
+          this.getDataPortal();
+          this.getSameNameScholar();
           this.drawLine();
+          this.loading = false;
         } else {
           this.$message.error(res.message);
         }
@@ -748,8 +748,8 @@ export default {
 .avatar {
   height: 120px;
   width: 500px;
+  /* border: solid 1px blue; */
   margin: 20px;
-  /* border: solid 5px white; */
 }
 .img {
   margin: auto;
@@ -759,7 +759,7 @@ export default {
   width: 500px;
   text-overflow: ellipsis;
   /* border: solid 1px black; */
-  margin: -100px auto 0 120px;
+  margin: -70px auto 0 120px;
 }
 .info-content-ins {
   width: 500px;

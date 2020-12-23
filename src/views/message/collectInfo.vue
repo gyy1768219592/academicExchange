@@ -64,7 +64,7 @@
         <template v-else >
           {{ text }}
         </template>
-        
+
       </a>
       <p slot="expandedRowRender" slot-scope="record" style="margin: 0">
         {{ record.description }}
@@ -208,22 +208,25 @@ export default {
       getData(url,null).then(res => {
         console.log(res);
         if (res.code === 1001) {
-          //console.log(res.data);
+          // console.log(res.data);
           for (let i = 0; i < res.data.total; i++) {
-            
+            let author = ''
+            res.data.authors[i].forEach(auth => {
+              author += auth.name + '; '
+            })
             _this.data.push({
                 key: i+1,
                 name: res.data.paperList[i].paperTitle,
-                author: "121212",
-                date:"12112",
+                author,
+                date: res.data.paperList[i].date.split('T')[0],
                 description: res.data.paperList[i].paper_abstract,
                 id: res.data.paperList[i].paperId,
 
             });
         }
           console.log("获取成功");
-        } 
-        else { 
+        }
+        else {
           _this.$message.error("获取数据失败");
         }
       });
@@ -246,8 +249,8 @@ export default {
             });
         }
           console.log("获取成功");
-        } 
-        else { 
+        }
+        else {
           _this.$message.error("获取数据失败");
         }
       });
@@ -269,8 +272,8 @@ export default {
             });
         }
           console.log("获取成功");
-        } 
-        else { 
+        }
+        else {
           _this.$message.error("获取数据失败");
         }
       });
@@ -289,7 +292,7 @@ export default {
         if (res.code === 1001) {
             console.log("取消成功");
         }
-        else { 
+        else {
           _this.$message.error("取消失败");
         }
         this.reload();

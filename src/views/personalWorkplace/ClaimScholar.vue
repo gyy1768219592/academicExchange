@@ -27,6 +27,10 @@ export default {
       alert(1);
     },
   },
+  created() {
+    if(localStorage.getItem("beforeEdge") != "/login")
+      this.$router.push("/login");
+  }
 };
 </script>
 

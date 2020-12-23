@@ -104,12 +104,20 @@ export default {
         //console.log(res);
         if (res.code === 1001) {
           this.$message.success("登录成功");
-          window.localStorage.setItem("avatarUrl",res.data.avatar);
+          if(res.data.avatar === ''){
+            if(res.data.scholarId === undefined)
+              window.localStorage.setItem("avatarUrl",require('../../assets/users.png'));
+            else 
+              window.localStorage.setItem("avatarUrl",require('../../assets/user.png'));
+          }
+          else
+            window.localStorage.setItem("avatarUrl",res.data.avatar);
           window.localStorage.setItem("identification",res.data.identification);
           if(res.data.scholarId != undefined)
             window.localStorage.setItem("scholarId",res.data.scholarId);
-          else 
+          else {
             window.localStorage.removeItem("scholarId");
+          }
           //window.sessionStorage.setItem("UserId", res.data.userid);
           //const webAdrs = window.sessionStorage.getItem("WebAdrs");
           /*if (webAdrs) {
@@ -119,6 +127,7 @@ export default {
             console.log("this way");
             this.$router.push("/used");
           }*/
+          localStorage.setItem("beforeEdge","/login");
           this.$router.go(-1);
         /*} else if (res.code === "1" || res.code === "2") {
           this.$message.error("用户名或密码错误");*/

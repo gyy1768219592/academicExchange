@@ -182,7 +182,7 @@ export default {
       this.$router.go(-1);
     },
   },
-  mounted() {
+  created() {
     this.authorid = this.$route.query.authorid;
     if (localStorage.getItem("scholarId")) {
       this.isLogin = true;
