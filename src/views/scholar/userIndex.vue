@@ -4,7 +4,8 @@
     <div class="main-block">
       <div class="up-block">
         <div class="user-info">
-          <div class="avatar">
+          <div class="avatar" v-if="!loading">
+            <a-spin :spinning="loading" />
             <uploadPhoto :imgUrl="scholar.avatarUrl"></uploadPhoto>
             <h1 class="info-content-name">{{ scholar.name }}</h1>
             <h4 class="info-content-ins">{{ scholar.organization }}</h4>
@@ -248,26 +249,26 @@ const columns = [
     title: "起始年份",
     dataIndex: "yearStart",
     key: "yearStart",
-    width: 60,
+    width: 70,
   },
   {
     title: "终止年份",
     dataIndex: "yearEnd",
     key: "yearEnd",
-    width: 60,
+    width: 70,
   },
   {
     title: "组织/机构",
     dataIndex: "organization",
     key: "organization",
-    width: 100,
+    width: 90,
     ellipsis: true,
   },
   {
     title: "职务/身份",
     dataIndex: "introduction",
     key: "introduction",
-    width: 100,
+    width: 90,
     ellipsis: true,
   },
   {
@@ -294,11 +295,11 @@ export default {
       visible: false,
       pageid: 0,
       isDelete: true,
-      scholarid: 13,
+      scholarid: 1,
       userid: 18,
       scholar: {
         scholarid: 13,
-        name: "路路路",
+        name: "",
         englishName: "lululu",
         title: "",
         organization: "",
@@ -310,6 +311,7 @@ export default {
         avatarUrl: "",
         citations: 0,
       },
+      loading: true,
       coAuthors: new Map(),
       workExperience: [],
       crtexperience: {
@@ -370,11 +372,10 @@ export default {
       institution: [],
     };
   },
-  mounted() {
+  created() {
     this.scholarid = localStorage.getItem("scholarId");
     this.getInfoByUser();
-    this.getDataPortal();
-    this.getSameNameScholar();
+
     this.seriData[0].value = this.projectTotal;
     this.seriData[1].value = this.patentTotal;
     this.seriData[2].value = this.paperTotal;
@@ -494,12 +495,13 @@ export default {
       });
     },
     toAuthorIndex(id) {
-      this.$router.push({
+      let url = this.$router.resolve({
         path: "/authorIndex",
         query: {
           authorid: id,
         },
       });
+      window.open(url.href, "_blank");
     },
     //待补充好多好多好多获取数据的函数接口调用
     //举个栗子：根据不同的条件检索，获取当前用户的各种学术成果，管理个人学术成果等
@@ -660,9 +662,10 @@ export default {
           this.seriData[0].value = this.projectTotal;
           this.seriData[1].value = this.patentTotal;
           this.seriData[2].value = this.paperTotal;
-          console.log(this.scholar);
-          console.log(this.workExperience);
+          this.getDataPortal();
+          this.getSameNameScholar();
           this.drawLine();
+          this.loading = false;
         } else {
           this.$message.error(res.message);
         }
@@ -719,7 +722,6 @@ export default {
 <style scoped>
 .main-block {
   width: 1280px;
-  height: 2500px;
   margin: auto;
   /* border: solid 1px grey; */
 }
@@ -746,8 +748,8 @@ export default {
 .avatar {
   height: 120px;
   width: 500px;
+  /* border: solid 1px blue; */
   margin: 20px;
-  /* border: solid 5px white; */
 }
 .img {
   margin: auto;
@@ -757,7 +759,7 @@ export default {
   width: 500px;
   text-overflow: ellipsis;
   /* border: solid 1px black; */
-  margin: -100px auto 0 120px;
+  margin: -70px auto 0 120px;
 }
 .info-content-ins {
   width: 500px;

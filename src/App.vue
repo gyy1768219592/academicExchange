@@ -1,6 +1,8 @@
 <template>
-  <div id="app">
-    <router-view v-if="isAlive"></router-view>
+  <div>
+    <div id="app" style="min-height: 900px">
+      <router-view v-if="isAlive"></router-view>
+    </div>
     <a-layout-footer style="padding: 15px 50px">
       <div class="app-footer">
         <p>

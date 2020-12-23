@@ -27,11 +27,6 @@
               </a-list-item>
             </a-list>
           </div>
-          <!-- <div class="actions">
-            <a-button v-if="isLogin&&isScholar" class="btn" @click="renling">{{renlingchar}}<a-icon type="heart" :theme="haveRen?'filled':'outlined'"/></a-button>
-            <a-button v-if="isLogin" class="btn" @click="shoucang">{{LikeDisplay}}<a-icon type="star" :theme="Like?'filled':'outlined'"/></a-button>
-            <a-button class="btn" type="primary" @click="fenxiang">分享<a-icon type="fire" theme="filled"/></a-button>
-          </div> -->
           <appeal-achievement :visible="visible" v-on:closeModal="closeModal" :type='type' :achievement_id="patentID"></appeal-achievement>
           <div v-if="patentData.mainClassificationNumber!=''" class="date">
             <span class="date-num">主分类号： {{patentData.mainClassificationNumber}}</span>
@@ -392,7 +387,12 @@ export default {
             return;
           }
           this.patentData = res.data.patent;
-          this.inventor_data = res.data.patent.inventor.split(";");
+          if(this.patentData.inventor_data!=""){
+            this.inventor_data = res.data.patent.inventor.split(/\s*,\s*|\s*;\s*|\s*，\s*|\s*；\s*/);
+          }
+          else{
+            this.inventor_data = [];
+          }
           console.log(res.data.patent);
           console.log(this.inventor_data);
           //this.$message.success(res.message);

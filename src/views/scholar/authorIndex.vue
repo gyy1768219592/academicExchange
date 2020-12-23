@@ -182,7 +182,7 @@ export default {
       this.$router.go(-1);
     },
   },
-  mounted() {
+  created() {
     this.authorid = this.$route.query.authorid;
     if (localStorage.getItem("scholarId")) {
       this.isLogin = true;
@@ -195,7 +195,6 @@ export default {
 <style scoped>
 .main-block {
   width: 1280px;
-  height: 2000px;
   margin: auto;
   /* border: solid 1px grey; */
 }

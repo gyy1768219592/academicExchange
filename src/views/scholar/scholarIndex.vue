@@ -5,7 +5,7 @@
       <div class="up-block">
         <div class="user-info">
           <div class="avatar">
-            <a-avatar v-if="scholar.avatarUrl != ''" :src="scholar.avatarUrl" :size="100" />
+            <a-avatar v-if="scholar.avatarUrl != null" :src="scholar.avatarUrl" :size="100" />
             <a-avatar v-else :size="100" :style="'backgroundColor: #c85554;font-size:26px'">{{
               scholar.name.substring(0, 3)
             }}</a-avatar>
@@ -438,7 +438,7 @@ export default {
       });
     },
   },
-  mounted() {
+  created() {
     this.scholarid = this.$route.query.scholarid;
     if (localStorage.getItem("identification")) this.isLogin = true;
     if (this.isLogin == true) {
@@ -452,7 +452,6 @@ export default {
 <style scoped>
 .main-block {
   width: 1280px;
-  height: 2000px;
   margin: auto;
   /* border: solid 1px grey; */
 }

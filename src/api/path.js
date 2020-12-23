@@ -36,6 +36,7 @@ let path = {
     getPatentById: Ip.productIP + "scholarship/getPatentByPatentId/",
     getPaperById: Ip.productIP + "scholarship/getPaperByPaperId/",
     getTopInstitution: Ip.productIP + "scholarship/topInstitution",
+    getTopInstitutionByField: Ip.productIP + "scholarship/topInstitution/field",
 
     //获取学者门户下属数据库门户
     getScholarBelong: Ip.productIP + "scholar/Scholar_DataScholar",
