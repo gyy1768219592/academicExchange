@@ -122,7 +122,7 @@ export default {
         {
           title: "作者",
           dataIndex: "author",
-          width: 300,
+          width: 200,
           ellipsis: true,
           key: "author",
           scopedSlots: {
@@ -215,7 +215,7 @@ export default {
           for (let i = 0; i < res.data.total; i++) {
             let author = ''
             res.data.authors[i].forEach(auth => {
-              author += auth.name + '; '
+              author += auth.name.replace(/\s/g,"") + '; '
             })
             _this.data.push({
                 key: i+1,
@@ -242,12 +242,12 @@ export default {
          if (res.code === 1001) {
          //console.log(res.data);
           for (let i = 0; i < res.data.total; i++) {
-            var date = res.data.patentList[i].applicationDate;
+           var date = res.data.patentList[i].applicationDate;
            date = this.format(date);
             _this.data.push({
                 key: i+1,
                 name: res.data.patentList[i].title,
-                author: res.data.patentList[i].inventor,
+                author: res.data.patentList[i].inventor.replace(/\s/g,""),
                 date:date,
                 description: res.data.patentList[i].abstract,
                 id: res.data.patentList[i].id,
@@ -270,7 +270,7 @@ export default {
             _this.data.push({
                 key: i+1,
                 name: res.data.projectList[i].fundProject,
-                author: res.data.projectList[i].authors,
+                author: res.data.projectList[i].authors.replace(/\s/g,""),
                 date: res.data.projectList[i].publishDate,
                 description: res.data.projectList[i].chineseTitle,
                 id: res.data.projectList[i].projectId,
