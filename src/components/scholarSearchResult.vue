@@ -290,27 +290,11 @@ export default {
       this.searchDataScholar();
     },
     toDataScholar(sid, aid) {
-      if (sid == -1) {
-        let url = this.$router.resolve({
-          path: "/authorIndex",
-          query: { authorid: aid },
-        });
-        window.open(url.href, "_blank");
-      } else {
-        if (sid == localStorage.getItem("scholarId")) {
-          let url = this.$router.resolve({
-            path: "/userIndex",
-            query: { scholarid: sid },
-          });
-          window.open(url.href, "_blank");
-        } else {
-          let url = this.$router.resolve({
-            path: "/scholarIndex",
-            query: { scholarid: sid },
-          });
-          window.open(url.href, "_blank");
-        }
-      }
+      let url = this.$router.resolve({
+        path: "/authorIndex",
+        query: { authorid: aid },
+      });
+      window.open(url.href, "_blank");
     },
     toScholar(sid) {
       if (sid == localStorage.getItem("scholarId")) {
