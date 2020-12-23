@@ -166,12 +166,11 @@ export default {
     // this.initCharts();
     // console.log(localStorage)
     this.getPaper();
-    const token = localStorage.token
-    if (typeof(token) !== 'undefined'){
+    if(localStorage.getItem("token")){
       this.isLogin = true;
       this.getLikeStatus();
     } else {
-      this.isLogin = true;
+      this.isLogin = false;
     }
   },
   methods: {
