@@ -111,7 +111,7 @@
                       '\n-------------------------------------------------------------------------------------\n' +
                       item.msgcontent +
                       '\n                                                                           -------------------------------------------------------------------------------------' +
-                      '\n                                                                                                                                发送时间: ' +
+                      '\n                                                                                                                                                     发送时间: ' +
                       item.sendtime 
                     " 
                     auto-size 
@@ -267,6 +267,7 @@ export default {
         this.List.appealList = res.data.reverse();
         console.log(res.data);
         for(var ii = 0; ii < this.List.appealList.length; ii ++){
+          this.List.appealList[ii].sendtime = this.format(new Date(this.List.appealList[ii].sendtime));
           if(this.List.appealList[ii].scholarId==null){
             this.List.appealList[ii].realtitle = this.List.appealList[ii].msgtitle;
             this.List.appealList[ii].msgtitle = "回复申诉处理结果";
@@ -418,8 +419,22 @@ export default {
         this.$set(this.List,"showList",temp);
         this.total = temp.length;
       }
-    }
-  },
+    },
+    format(date) {
+      var y = date.getFullYear();
+      var m = date.getMonth() + 1;
+      m = m < 10 ? ('0' + m) : m;
+      var d = date.getDate();
+      d = d < 10 ? ('0' + d) : d;
+      var h = date.getHours();
+      h=h < 10 ? ('0' + h) : h;
+      var minute = date.getMinutes();
+      minute = minute < 10 ? ('0' + minute) : minute;
+      var second=date.getSeconds();
+      second=second < 10 ? ('0' + second) : second;
+      return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
+    },
+  }
 };
 </script>
 
