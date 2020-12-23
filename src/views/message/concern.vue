@@ -9,9 +9,16 @@
         <a-list-item-meta :description="item.Institution">
           <a slot="title" @click="toPerson(item.ScholarId)">{{ item.Name }}</a>
           <a-avatar
+            v-if="item.AvatarUrl != null"
             slot="avatar"
-            :src= 'item.AvatarUrl'
+            :src="item.AvatarUrl"
           />
+          <a-avatar
+            v-else
+            slot="avatar"
+            :style="'backgroundColor: #B22222'"
+          >{{ item.Name.substring(0, 3)  }}
+          </a-avatar>
         </a-list-item-meta>
       </a-list-item>
     </a-list>
@@ -45,7 +52,7 @@ export default {
       getData(url+"/",null).then(res => {
         console.log(res.data);
         if (res.code === 1001) {
-          _this.info = res.data
+          _this.info = res.data.scholars
           console.log("获取成功");
         } 
         else {
