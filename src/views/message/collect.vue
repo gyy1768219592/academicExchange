@@ -2,8 +2,11 @@
   <div class="al">
     <Nav></Nav>
 
-    <h1 style="margin-left: 12%;margin-top:1%">我的收藏</h1>
-    <a-tabs style="margin-left: 12%;margin-top:1%;width:1280px" default-active-key="1">
+    <h1 style="margin: 0 auto; margin-top: 1%; width: 1200px">我的收藏</h1>
+    <a-tabs
+      style="margin: 0 auto; margin-top: 1%; width: 1200px"
+      default-active-key="1"
+    >
       <a-tab-pane key="1">
         <span slot="tab">
           <a-icon type="copy" />
@@ -29,35 +32,29 @@
   </div>
 </template>
 <script>
-
 import Nav from "../../components/navSearch.vue";
 import Collect from "./collectInfo.vue";
 export default {
   data() {
-    return {
-     
-    }
+    return {};
   },
   components: {
     Nav,
-    Collect
+    Collect,
   },
-  mounted() {
-    
-  },
+  mounted() {},
   methods: {
-    dataChange(){
-        this.choose = 1
-    }
-
-  }
+    dataChange() {
+      this.choose = 1;
+    },
+  },
 };
 </script>
 <style scoped>
-.al ::-webkit-scrollbar{
+.al ::-webkit-scrollbar {
   display: none;
 }
-.al{
+.al {
   scrollbar-width: none; /* firefox */
   -ms-overflow-style: none; /* IE 10+ */
   overflow-x: hidden;
