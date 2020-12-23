@@ -141,7 +141,7 @@
           </a-tabs>
         </div>
         <div class="down-right-block">
-          
+
         </div>
       </div>
     </div>
@@ -192,14 +192,14 @@ export default {
   mounted(){
     this.getProg();
     this.getRenling();
-    if(localStorage.getItem("identification")==1){
+    const token = localStorage.token
+    if (token !== ''){
       this.isLogin = true;
       this.isScholar = true;
       this.getRenlingStatus();
       this.checkrenling();
       this.getLikeStatus();
-    }
-    else if(localStorage.getItem("identification")){
+    } else {
       this.isLogin = true;
     }
   },
@@ -213,7 +213,7 @@ export default {
     getProg(){
       let params = new URLSearchParams();
       // params.append("projectId", this.progID);
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.getProjectById + this.progID;
       console.log(url);
       getData(url, params).then(res => {
@@ -282,7 +282,7 @@ export default {
     checkrenling(){
       let params = new URLSearchParams();
       params.append("projectId", this.progID);
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.checkNum + "1/" + this.progID;
       console.log(url);
       getData(url, params).then(res => {
@@ -301,7 +301,7 @@ export default {
     renling(){
       let params = new URLSearchParams();
       params.append("projectId", this.progID);
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       if(!this.haveRen){
         if(this.canClaim){
           let url = this.$urlPath.website.renlingProg + this.progID;
@@ -357,7 +357,7 @@ export default {
       let params = new URLSearchParams();
       params.append("paperId", this.progID);
       params.append("type", 2);
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
       console.log(url);
       getData(url, params).then(res => {
@@ -385,14 +385,14 @@ export default {
         "paperId": this.progID,
         "type": 2,
       };
-      //调用封装的postData函数，获取服务器返回值 
+      //调用封装的postData函数，获取服务器返回值
       let url = this.$urlPath.website.gcLikeStatus ;//+ "1/" + this.progID;
       console.log(url);
       putData(url,params).then(res => {
         if (res.code === 1001) {
           this.$message.success(res.message);
           console.log(res);
-          if(this.Like){ 
+          if(this.Like){
             this.LikeDisplay = "收藏";
             // this.$message.success("已取消收藏");
             this.Like = false;
@@ -426,7 +426,7 @@ export default {
     },
     getRenling(){
       let params = new URLSearchParams();
-      //调用封装的putData函数，获取服务器返回值 
+      //调用封装的putData函数，获取服务器返回值
       let url = this.$urlPath.website.getScholarByPaper + "1/" + this.progID;
       getData(url, params).then(res => {
         console.log(res.data);
