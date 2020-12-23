@@ -1,7 +1,7 @@
 <template>
   <div class="al">
     <Nav></Nav>
-    <h1 style="margin-left: 12%;margin-top:2%;">我的消息</h1>
+    <h1 style="margin-left: 12%;margin-top:1%;">我的消息</h1>
     <a-list item-layout="horizontal" 
     pagination = true
     :data-source="info">

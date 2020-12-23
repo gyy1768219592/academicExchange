@@ -474,17 +474,17 @@ export default {
   height: 4000px;
 }
 .maneger-main .maneger-list .maneger-list-button_l {
-  border: solid 1px blue;
+  border: solid 1px #696969	;
   margin-right: 5px;
-  padding: 0;
-  color: blue;
+  padding: 5px;
+  color:				#000001;
   background-color: #0000ff10;
 }
 .maneger-main .maneger-list .maneger-list-button_l_1 {
   /* border: solid 1px blue; */
   margin-left: 40px;
   padding: 0;
-  color: blue;
+  color: 	#000001;
   /* background-color: #0000ff10; */
 }
 .maneger-main .maneger-list .maneger-list-button_l_2 {
@@ -497,17 +497,17 @@ export default {
   /* background-color: #0000ff10; */
 }
 .maneger-main .maneger-list .maneger-list-button_r {
-  border: solid 1px red;
+  border: solid 1px 	#DC143C;
   margin-left: 5px;
-  padding: 0;
-  color: red;
+  padding: 5px;
+  color: 	#DC143C;
   background-color: #ff000010;
 }
 .maneger-main .maneger-list .maneger-list-button_r_1 {
   /* border: solid 1px red; */
   margin-left: 40px;
   padding: 0;
-  color: red;
+  color: 	#DC143C;
   /* background-color: #ff000010; */
 }
 .maneger-main .maneger-list .maneger-list-button_r_2 {
@@ -520,18 +520,18 @@ export default {
   background-color: #ff000010; */
 }
 .maneger-main .maneger-list .delete-button {
-  border: solid 1px red;
+  border: solid 1px 	#DC143C;
   margin-left: 5px;
-  padding: 0;
+  padding: 5px;
   color: white;
-  background-color: #ff0000e0;
+  background-color: 	#DC143C;
 }
 .maneger-main .maneger-list .delete-button2 {
-  border: solid 1px red;
+  border: solid 1px 	#DC143C;
   margin-left: 155px;
-  padding: 0;
+  padding: 5px;
   color: white;
-  background-color: #ff0000e0;
+  background-color: 	#DC143C;
 }
 .maneger-main .maneger-list .ant-list-item {
   padding-left: 10px;
