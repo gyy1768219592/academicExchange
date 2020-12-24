@@ -71,7 +71,7 @@ export default {
           sendtime: _this.info[index].sendtime,
           content: _this.info[index].msgcontent,
           receiverUserid: _this.info[index].receiverUserid,
-          senderUserid: _this.info[index].senderUserid,
+          senderUserid: _this.info[index].senderScholarId,
           senderUsername: _this.info[index].senderUsername,
           img: _this.info[index].complaintMaterialUrl
         }
