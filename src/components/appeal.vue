@@ -490,14 +490,14 @@ export default {
 }
 .maneger-main .maneger-list .maneger-list-button_l {
   border: solid 1px #696969	;
-  margin-right: 5px;
+  margin-right: 0px;
   padding: 5px;
   color:				#000001;
   background-color: #0000ff10;
 }
 .maneger-main .maneger-list .maneger-list-button_l_1 {
   /* border: solid 1px blue; */
-  margin-left: 40px;
+  margin-left: 35px;
   padding: 0;
   color: 	#000001;
   /* background-color: #0000ff10; */
@@ -513,14 +513,14 @@ export default {
 }
 .maneger-main .maneger-list .maneger-list-button_r {
   border: solid 1px 	#DC143C;
-  margin-left: 5px;
+  margin-left: 0px;
   padding: 5px;
   color: 	#DC143C;
   background-color: #ff000010;
 }
 .maneger-main .maneger-list .maneger-list-button_r_1 {
   /* border: solid 1px red; */
-  margin-left: 40px;
+  margin-left: 35px;
   padding: 0;
   color: 	#DC143C;
   /* background-color: #ff000010; */
