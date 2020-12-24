@@ -192,7 +192,7 @@ export default {
   mounted(){
     this.getProg();
     this.getRenling();
-    if(localStorage.getItem("identification")==1){
+    if(localStorage.getItem("identification")=="1"||localStorage.getItem("identification")==1){
       this.isLogin = true;
       this.isScholar = true;
       this.getRenlingStatus();
@@ -201,6 +201,7 @@ export default {
     }
     else if(localStorage.getItem("identification")){
       this.isLogin = true;
+      this.getLikeStatus();
     }
   },
   methods: {

@@ -10,7 +10,7 @@
       :style="{ height: '580px' }"
     >
       <a-tab-pane key="all" tab="总体排名">
-        <div class="irank-orgtitle">自然指数排名</div>
+        <div class="irank-orgtitle">被引量排名</div>
         <div id="echart-rankbar"></div>
       </a-tab-pane>
       <a-tab-pane
