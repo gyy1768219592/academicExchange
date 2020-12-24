@@ -6,7 +6,7 @@
   >
     <template #extra>
       <a-button key="gotologin" type="primary" v-if = 'show' @click = toLogin()>
-        去登陆
+        去登录
       </a-button>
       <a-button key="gotoregister" type="primary" v-if = '!show' @click = toRegister()>
         重新注册

@@ -320,7 +320,7 @@ export default {
   position: absolute;
   left: 30%;
   right: 30%;
-  top: 10%;
+  top: 20%;
   padding: 20px;
   padding-left: 50px;
   padding-right: 100px;
