@@ -166,9 +166,9 @@ export default {
   width: 350px;
   border-radius: 3px;
   position: absolute;
-  left: 35%;
+  left: 38%;
   right: 30%;
-  top: 10%;
+  top: 20%;
   padding: 20px;
   padding-left: 50px;
   padding-right: 50px;
