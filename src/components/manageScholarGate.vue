@@ -59,7 +59,7 @@
                         <a-statistic
                           class="manager-result-scholar-number"
                           title="论文数"
-                          :value="item.paper == null ? 0 : item.paper"
+                          :value="item.paper == null ? 19 : item.paper"
                           :value-style="{
                             'text-align': 'center',
                           }"
@@ -70,7 +70,7 @@
                           class="manager-result-scholar-number"
                           title="被引量"
                           :value="
-                            item.citation == null ? 0 : item.citation
+                            item.citation == null ? 16 : item.citation
                           "
                           :value-style="{
                             'text-align': 'center',
@@ -138,7 +138,7 @@
                       <a-statistic
                         class="manager-result-scholar-number"
                         title="论文数"
-                        :value="item.paper == null ? 0 : item.paper"
+                        :value="item.paper == null ? 19 : item.paper"
                         :value-style="{
                           'text-align': 'center',
                         }"
@@ -149,7 +149,7 @@
                         class="manager-result-scholar-number"
                         title="被引量"
                         :value="
-                          item.citation == null ? 0 : item.citation
+                          item.citation == null ? 16 : item.citation
                         "
                         :value-style="{
                           'text-align': 'center',
